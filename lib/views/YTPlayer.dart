@@ -34,7 +34,7 @@ class _YTPlayerState extends State<YTPlayer> {
         children: [
           Center(
             child: AspectRatio(
-              aspectRatio: 16 / 9,
+              aspectRatio: 16/9,
               child: YoutubePlayer(
                 showVideoProgressIndicator: true,
                 progressColors: ProgressBarColors(
@@ -53,14 +53,14 @@ class _YTPlayerState extends State<YTPlayer> {
               ),
             ),
           ),
-          RaisedButton(
-            onPressed: () {
-              // _controller.setVolume(100);
-              controller.load('gwWKnnCMQ5c');
-              print('position: ${controller.value.position}');
-            },
-            child: Text('Load another Video'),
-          ),
+          // RaisedButton(
+          //   onPressed: () {
+          //     // _controller.setVolume(100);
+          //     controller.load('gwWKnnCMQ5c');
+          //     print('position: ${controller.value.position}');
+          //   },
+          //   child: Text('Load another Video'),
+          // ),
         ],
       ),
     );
