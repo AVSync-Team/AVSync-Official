@@ -11,22 +11,22 @@ class YTPlayer extends StatefulWidget {
 }
 
 String url;
+YoutubePlayerController controller;
 
 class _YTPlayerState extends State<YTPlayer> {
   @override
   void didChangeDependencies() {
     url = widget.urled;
     print('sex: ${YoutubePlayer.convertUrlToId(widget.urled)}');
+    controller = YoutubePlayerController(
+      initialVideoId: url,
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        // hideControls: true,
+        mute: false,
+      ),
+    );
   }
-
-  YoutubePlayerController controller = YoutubePlayerController(
-    initialVideoId: 'gXPUXOl0qQ0',
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      // hideControls: true,
-      mute: false,
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
