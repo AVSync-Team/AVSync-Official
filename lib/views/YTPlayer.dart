@@ -3,30 +3,21 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YTPlayer extends StatefulWidget {
   final String urled;
-
-  YTPlayer({this.urled});
+  YTPlayer({Key key,this.urled}) : super(key: key);
 
   @override
   _YTPlayerState createState() => _YTPlayerState();
 }
 
-String url;
-YoutubePlayerController controller;
-
 class _YTPlayerState extends State<YTPlayer> {
-  @override
-  void didChangeDependencies() {
-    url = widget.urled;
-    print('sex: ${YoutubePlayer.convertUrlToId(widget.urled)}');
-    controller = YoutubePlayerController(
-      initialVideoId: url,
-      flags: YoutubePlayerFlags(
-        autoPlay: true,
-        // hideControls: true,
-        mute: false,
-      ),
-    );
-  }
+  YoutubePlayerController controller = YoutubePlayerController(
+    initialVideoId: 'gwWKnnCMQ5c',
+    flags: YoutubePlayerFlags(
+      autoPlay: true,
+      // hideControls: true,
+      mute: false,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
