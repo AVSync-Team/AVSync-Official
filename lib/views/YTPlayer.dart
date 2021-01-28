@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YTPlayer extends StatefulWidget {
-  YTPlayer({Key key}) : super(key: key);
+  final String urled;
+
+  YTPlayer({this.urled});
 
   @override
   _YTPlayerState createState() => _YTPlayerState();
 }
 
+String url;
+
 class _YTPlayerState extends State<YTPlayer> {
+  @override
+  void didChangeDependencies() {
+    url = widget.urled;
+    print('sex: ${YoutubePlayer.convertUrlToId(widget.urled)}');
+  }
+
   YoutubePlayerController controller = YoutubePlayerController(
-    initialVideoId: 'gwWKnnCMQ5c',
+    initialVideoId: 'gXPUXOl0qQ0',
     flags: YoutubePlayerFlags(
       autoPlay: true,
       // hideControls: true,
