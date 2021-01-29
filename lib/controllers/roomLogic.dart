@@ -13,6 +13,8 @@ class RoomLogicController extends GetxController {
   List<dynamic> roomNumbers = [];
   var randomNumber = 0.obs;
   List<dynamic> users = [];
+  String adminKaNaam;
+  String userName;
 
   String roomFireBaseId;
   var roomId = '0'.obs;
@@ -27,7 +29,7 @@ class RoomLogicController extends GetxController {
     this.roomId.value = randomGenerator().toString();
     final response = await http.post(roomUrl,
         body: json.encode({
-          "admin": adminName,
+          "admin": randomGenerator().toString(),
           "isPlayerPaused": false,
           "roomId": this.roomId,
           "timeStamp": 0,
@@ -35,6 +37,7 @@ class RoomLogicController extends GetxController {
             {"name": adminName},
           ]
         }));
+    userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
     print(roomFireBaseId);
@@ -52,6 +55,7 @@ class RoomLogicController extends GetxController {
       if (value['roomId'].toString() == roomId) {
         flag = true;
         roomFireBaseId = key.toString();
+
         roomUrl =
             'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
         final reponse2 = await http.get(roomUrl);
