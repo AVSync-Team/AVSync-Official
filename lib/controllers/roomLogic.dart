@@ -15,7 +15,7 @@ class RoomLogicController extends GetxController {
   List<dynamic> users = [];
 
   String roomFireBaseId;
-  String roomId;
+  var roomId = '0'.obs;
 
   int randomGenerator() {
     Random random = new Random();
@@ -24,7 +24,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<void> makeRoom({String adminName}) async {
-    this.roomId = randomGenerator().toString();
+    this.roomId.value = randomGenerator().toString();
     final response = await http.post(roomUrl,
         body: json.encode({
           "admin": adminName,
@@ -41,7 +41,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> joinRoom({String roomId, String name}) async {
-    this.roomId = roomId;
+    this.roomId.value = roomId;
     String roomIds =
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms.json';
     final response = await http.get(roomIds);
