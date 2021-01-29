@@ -29,8 +29,9 @@ class WelcomScreen extends StatelessWidget {
                       },
                       itemCount: snapshot.data.length,
                     );
+                  } else {
+                    return Text("wait");
                   }
-                  return Text('No data');
                 }),
             TextField(
               controller: yturl,
