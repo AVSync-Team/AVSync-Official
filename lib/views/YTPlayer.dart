@@ -25,7 +25,8 @@ class _YTPlayerState extends State<YTPlayer> {
     controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.urled),
       flags: YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
+
         // hideControls: true,
         mute: false,
       ),
@@ -43,7 +44,7 @@ class _YTPlayerState extends State<YTPlayer> {
 
       if (!(roomLogicController.adminKaNaam.obs.value ==
           roomLogicController.userName.obs.value))
-        controller.seekTo(Duration(seconds: data));
+        controller.seekTo(Duration(seconds: data), allowSeekAhead: false);
     });
     super.initState();
   }
