@@ -29,7 +29,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
       var data = await roomLogicController.loadDetails();
       _userController.add(data);
     });
+
+    
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _userController.done;
   }
 
   @override
