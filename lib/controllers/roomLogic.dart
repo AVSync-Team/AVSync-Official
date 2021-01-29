@@ -15,6 +15,7 @@ class RoomLogicController extends GetxController {
   List<dynamic> users = [];
   String adminKaNaam;
   String userName;
+  var ytURL = ''.obs;
 
   String roomFireBaseId;
   var roomId = '0'.obs;
