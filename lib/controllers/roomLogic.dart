@@ -70,15 +70,20 @@ class RoomLogicController extends GetxController {
     return users;
   }
 
-  Stream<List<dynamic>> getusersInRoom() async* {
-    print("heellool");
-    Future.delayed(Duration(seconds: 1));
+  Future<List<dynamic>> loadDetails() async {
     final response = await http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json');
     print('loda: ${response.body}');
     final decoded = json.decode(response.body);
-    yield decoded;
-
-    print('fid: $roomFireBaseId');
+    print(decoded);
+    return decoded;
   }
+
+  // Stream<List<dynamic>> getusersInRoom() async* {
+  //   print("heellool");
+  //   Future.delayed(Duration(seconds: 1));
+  //    Timer.periodic(Duration(seconds: 1), (_) => loadDetails());
+
+  //   print('fid: $roomFireBaseId');
+  // }
 }

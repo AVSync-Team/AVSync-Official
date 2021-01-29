@@ -57,7 +57,6 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
             ),
             RaisedButton(
               onPressed: () async {
-                roomLogicController.getusersInRoom();
                 // Get.to(WelcomScreen());
               },
               child: Text('Users'),

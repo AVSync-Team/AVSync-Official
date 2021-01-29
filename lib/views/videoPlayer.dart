@@ -13,7 +13,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+ 
     _controller = VideoPlayerController.network(
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
       ..initialize().then((_) {

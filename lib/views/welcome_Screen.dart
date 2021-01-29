@@ -1,14 +1,36 @@
+import 'dart:async';
+
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class WelcomScreen extends StatelessWidget {
+class WelcomScreen extends StatefulWidget {
+  @override
+  _WelcomScreenState createState() => _WelcomScreenState();
+}
+
+class _WelcomScreenState extends State<WelcomScreen> {
   bool ytPlayerclicked = false;
+
   bool localPlayerClicked = false;
+
   TextEditingController yturl = TextEditingController();
+
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
+
+  StreamController<List<dynamic>> _userController;
+
+  @override
+  void initState() {
+    _userController = new StreamController();
+    Timer.periodic(Duration(seconds: 1), (_) async {
+      var data = await roomLogicController.loadDetails();
+      _userController.add(data);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +41,19 @@ class WelcomScreen extends StatelessWidget {
           children: [
             Text('Users: '),
             StreamBuilder<List<dynamic>>(
-                stream: roomLogicController.getusersInRoom(),
+                stream: _userController.stream,
                 builder: (ctx, snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemBuilder: (ctx, i) {
-                        print(snapshot.data);
-                        return Text('${snapshot.data[i]['name']}');
-                      },
-                      itemCount: snapshot.data.length,
+                    return Container(
+                      height: 200,
+                      width: 200,
+                      child: ListView.builder(
+                        itemBuilder: (ctx, i) {
+                          print(snapshot.data);
+                          return Text('${snapshot.data[i]['name']}');
+                        },
+                        itemCount: snapshot.data.length,
+                      ),
                     );
                   } else {
                     return Text("wait");
