@@ -79,6 +79,18 @@ class RoomLogicController extends GetxController {
     return decoded;
   }
 
+  Future<void> changeTimeStamp({int timestamp}) async {
+    final response = await http.patch(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+        body: json.encode({"timeStamp": timestamp}));
+  }
+
+  Future<int> getTimeStamp() async {
+    final response = await http.get(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/timeStamp.json');
+    return json.decode(response.body);
+  }
+
   // Stream<List<dynamic>> getusersInRoom() async* {
   //   print("heellool");
   //   Future.delayed(Duration(seconds: 1));

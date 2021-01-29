@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YTPlayer extends StatefulWidget {
@@ -12,6 +16,8 @@ class YTPlayer extends StatefulWidget {
 
 String url;
 YoutubePlayerController controller;
+RoomLogicController roomLogicController = Get.put(RoomLogicController());
+StreamController<int> _ytController;
 
 class _YTPlayerState extends State<YTPlayer> {
   @override
@@ -27,6 +33,17 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   @override
+  void initState() {
+    _ytController = new StreamController();
+    Timer.periodic(Duration(milliseconds: 1), (_) async {
+      var data = await roomLogicController.getTimeStamp();
+      _ytController.add(data);
+     
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -34,24 +51,38 @@ class _YTPlayerState extends State<YTPlayer> {
         children: [
           Center(
             child: AspectRatio(
-              aspectRatio: 16/9,
-              child: YoutubePlayer(
-                showVideoProgressIndicator: true,
-                progressColors: ProgressBarColors(
-                    playedColor: Colors.amber, handleColor: Colors.amberAccent),
-                onReady: () {
-                  controller.addListener(() {
-                    print('posRED: ${controller.value.position}');
-                    print('isDragging: ${controller.value.isDragging}');
-                  });
-                },
-                controller: controller,
-                // bottomActions: [
-                //   CurrentPosition(),
-                //   ProgressBar(isExpanded: true),
-                // ],
-              ),
-            ),
+                aspectRatio: 16 / 9,
+                child: StreamBuilder(
+                  stream: _ytController.stream,
+                  builder: (ctx, snapshot) {
+                    if (snapshot.hasData) {
+                      return YoutubePlayer(
+                        showVideoProgressIndicator: true,
+                        progressColors: ProgressBarColors(
+                            playedColor: Colors.amber,
+                            handleColor: Colors.amberAccent),
+                        onReady: () {
+                          controller.addListener(() {
+                            roomLogicController.changeTimeStamp(
+                                timestamp: controller.value.position.inSeconds);
+                            print('posRED: ${controller.value.position}');
+                            print('isDragging: ${controller.value.isDragging}');
+                          });
+                        },
+
+                        controller: controller,
+                        // bottomActions: [
+                        //   CurrentPosition(),
+                        //   ProgressBar(isExpanded: true),
+                        // ],
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                )),
           ),
           // RaisedButton(
           //   onPressed: () {
