@@ -27,9 +27,11 @@ class RoomLogicController extends GetxController {
 
   Future<void> makeRoom({String adminName}) async {
     this.roomId.value = randomGenerator().toString();
+    adminKaNaam = randomGenerator().toString();
+    userName = adminKaNaam;
     final response = await http.post(roomUrl,
         body: json.encode({
-          "admin": randomGenerator().toString(),
+          "admin": adminKaNaam,
           "isPlayerPaused": false,
           "roomId": this.roomId,
           "timeStamp": 0,
@@ -44,6 +46,8 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> joinRoom({String roomId, String name}) async {
+    userName = name;
+    adminKaNaam = "1234434";
     this.roomId.value = roomId;
     String roomIds =
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms.json';
