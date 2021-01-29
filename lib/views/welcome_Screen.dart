@@ -48,7 +48,7 @@ class WelcomScreen extends StatelessWidget {
             ),
             GetX<RoomLogicController>(
               builder: (controller) {
-                return Text('Your room id is: ${controller.roomId}');
+                return Text('Your room id is: ${controller.roomId.obs.value}');
               },
             )
           ],
