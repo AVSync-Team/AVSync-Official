@@ -119,8 +119,15 @@ class RoomLogicController extends GetxController {
   Future<void> sendPlayerStatus({bool status}) async {
     final response = await http.patch(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        body: json.encode({"isPlayerPaused" : status}));
+        body: json.encode({"isPlayerPaused": status}));
     print('status sent: ${response.statusCode}');
+  }
+
+  Future<bool> sendIsDraggingStatus({bool status}) async {
+    final response = await http.patch(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+        body: json.encode({"isDragging": status}));
+    return json.decode(response.body);
   }
 
   // Stream<List<dynamic>> getusersInRoom() async* {

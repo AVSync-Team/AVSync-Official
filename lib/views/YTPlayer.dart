@@ -46,6 +46,12 @@ class _YTPlayerState extends State<YTPlayer> {
         } else {
           controller.play();
         }
+
+        bool isDragging = await roomLogicController.isDraggingStatus();
+
+        if (isDragging) {
+          controller.seekTo(Duration(seconds: data));
+        }
       }
 
       // if (!(roomLogicController.adminKaNaam.obs.value ==
@@ -88,6 +94,13 @@ class _YTPlayerState extends State<YTPlayer> {
                               } else {
                                 roomLogicController.sendPlayerStatus(
                                     status: true);
+                              }
+                              if (controller.value.isDragging) {
+                                roomLogicController.sendIsDraggingStatus(
+                                    status: true);
+                              } else {
+                                roomLogicController.sendIsDraggingStatus(
+                                    status: false);
                               }
                             }
                           });
