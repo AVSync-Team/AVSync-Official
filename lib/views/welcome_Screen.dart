@@ -21,7 +21,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
 
   StreamController<List<dynamic>> _userController;
-
   @override
   void initState() {
     _userController = new StreamController();
@@ -30,12 +29,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
       _userController.add(data);
     });
 
-    
     super.initState();
   }
-
-  
-
 
   @override
   void dispose() {
@@ -76,7 +71,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             RaisedButton(
               onPressed: () {
                 ytPlayerclicked = true;
-
+                roomLogicController.ytURL.value = yturl.text;
                 Get.to(YTPlayer(
                   urled: yturl.text,
                 ));

@@ -15,23 +15,20 @@ class YTPlayer extends StatefulWidget {
 }
 
 String url;
-YoutubePlayerController controller;
+
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 StreamController<int> _ytController;
 
 class _YTPlayerState extends State<YTPlayer> {
-  @override
-  void didChangeDependencies() {
-    controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.urled),
-      flags: YoutubePlayerFlags(
-        autoPlay: false,
-
-        // hideControls: true,
-        mute: false,
-      ),
-    );
-  }
+  YoutubePlayerController controller = YoutubePlayerController(
+    initialVideoId:
+        YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value),
+    flags: YoutubePlayerFlags(
+      autoPlay: false,
+      // hideControls: true,
+      mute: false,
+    ),
+  );
 
   @override
   void initState() {
