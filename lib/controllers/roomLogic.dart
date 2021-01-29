@@ -39,7 +39,7 @@ class RoomLogicController extends GetxController {
             {"name": adminName},
           ]
         }));
-    userName = randomGenerator().toString();
+    // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
     print(roomFireBaseId);

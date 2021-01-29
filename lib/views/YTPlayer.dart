@@ -38,7 +38,12 @@ class _YTPlayerState extends State<YTPlayer> {
     Timer.periodic(Duration(milliseconds: 1), (_) async {
       var data = await roomLogicController.getTimeStamp();
       _ytController.add(data);
-      controller.seekTo(Duration(seconds: data));
+      print(roomLogicController.adminKaNaam.obs.value);
+      print(roomLogicController.userName.obs.value);
+
+      if (!(roomLogicController.adminKaNaam.obs.value ==
+          roomLogicController.userName.obs.value))
+        controller.seekTo(Duration(seconds: data));
     });
     super.initState();
   }
