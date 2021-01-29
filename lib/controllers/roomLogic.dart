@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
@@ -33,9 +34,10 @@ class RoomLogicController extends GetxController {
     final response = await http.post(roomUrl,
         body: json.encode({
           "admin": adminKaNaam,
-          "isPlayerPaused": false,
+          "isPlayerPaused": true,
           "roomId": this.roomId,
           "timeStamp": 0,
+          "isDragging": false,
           "users": [
             {"name": adminName},
           ]
@@ -98,6 +100,24 @@ class RoomLogicController extends GetxController {
     final response = await http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/timeStamp.json');
     return json.decode(response.body);
+  }
+
+  Future<bool> isDraggingStatus() async {
+    final response = await http.get(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isDragging.json');
+    return json.decode(response.body);
+  }
+
+  Future<bool> isPlayerPaused() async {
+    final response = await http.get(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isPlayerPaused.json');
+    return json.decode(response.body);
+  }
+
+  Future<void> sendPlayerStatus({bool status}) async {
+    final response = await http.patch(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isPlayerPaused.json',
+        body: json.encode(status));
   }
 
   // Stream<List<dynamic>> getusersInRoom() async* {
