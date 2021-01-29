@@ -24,7 +24,7 @@ class WelcomScreen extends StatelessWidget {
                   if (snapshot.hasData) {
                     return Text('It has');
                   }
-                 return Container();
+                  return Container();
                 }),
             TextField(
               controller: yturl,
@@ -48,7 +48,7 @@ class WelcomScreen extends StatelessWidget {
             ),
             GetX<RoomLogicController>(
               builder: (controller) {
-                return Text('Your room id is: ${controller.randomNumber}');
+                return Text('Your room id is: ${controller.roomId}');
               },
             )
           ],
