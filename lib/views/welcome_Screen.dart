@@ -18,13 +18,19 @@ class WelcomScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Users: '),
-            FutureBuilder<dynamic>(
-                future: roomLogicController.getusersInRoom(),
+            StreamBuilder<List<dynamic>>(
+                stream: roomLogicController.getusersInRoom(),
                 builder: (ctx, snapshot) {
                   if (snapshot.hasData) {
-                    return Text('It has');
+                    return ListView.builder(
+                      itemBuilder: (ctx, i) {
+                        print(snapshot.data);
+                        return Text('${snapshot.data[i]['name']}');
+                      },
+                      itemCount: snapshot.data.length,
+                    );
                   }
-                  return Container();
+                  return Text('No data');
                 }),
             TextField(
               controller: yturl,
