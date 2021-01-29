@@ -21,7 +21,10 @@ class _YTPlayerState extends State<YTPlayer> {
         YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value),
     flags: YoutubePlayerFlags(
       autoPlay: false,
-      // hideControls: true,
+      hideControls: !(roomLogicController.adminKaNaam.obs.value ==
+              roomLogicController.userName.obs.value)
+          ? true
+          : false,
       mute: false,
     ),
   );
@@ -35,7 +38,7 @@ class _YTPlayerState extends State<YTPlayer> {
       // print(roomLogicController.adminKaNaam.obs.value);
       // print(roomLogicController.userName.obs.value);
 
-      //non admin 
+      //non admin
       if (!(roomLogicController.adminKaNaam.obs.value ==
           roomLogicController.userName.obs.value)) {
         if (await roomLogicController.isPlayerPaused()) {
@@ -72,7 +75,7 @@ class _YTPlayerState extends State<YTPlayer> {
                             handleColor: Colors.amberAccent),
                         onReady: () {
                           controller.addListener(() {
-                            //admin 
+                            //admin
                             //will send timestamp and control video playback
                             if (roomLogicController.adminKaNaam.obs.value ==
                                 roomLogicController.userName.obs.value) {
