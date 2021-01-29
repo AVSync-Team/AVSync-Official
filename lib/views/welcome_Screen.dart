@@ -5,6 +5,7 @@ import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:VideoSync/views/createRoom.dart';
 
 class WelcomScreen extends StatefulWidget {
   @override
@@ -21,10 +22,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
 
   StreamController<List<dynamic>> _userController;
+  Timer timer;
+
   @override
   void initState() {
     _userController = new StreamController();
-    Timer.periodic(Duration(seconds: 1), (_) async {
+    timer = Timer.periodic(Duration(seconds: 1), (_) async {
       var data = await roomLogicController.loadDetails();
       _userController.add(data);
     });
@@ -35,6 +38,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   void dispose() {
     _userController.done;
+    timer.cancel();
   }
 
   @override
@@ -72,9 +76,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               onPressed: () {
                 ytPlayerclicked = true;
                 roomLogicController.ytURL.value = yturl.text;
-                Get.to(YTPlayer(
-                  urled: yturl.text,
-                ));
+                Get.to(YTPlayer());
               },
               child: Text('Yotube Video'),
             ),
@@ -83,6 +85,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 Get.to(NiceVideoPlayer());
               },
               child: Text('Local Video'),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Get.off(CreateRoomScreen());
+              },
+              child: Text('Delete Room'),
             ),
             GetX<RoomLogicController>(
               builder: (controller) {

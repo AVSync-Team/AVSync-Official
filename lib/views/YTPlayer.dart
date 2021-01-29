@@ -6,10 +6,6 @@ import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YTPlayer extends StatefulWidget {
-  final String urled;
-
-  YTPlayer({this.urled});
-
   @override
   _YTPlayerState createState() => _YTPlayerState();
 }
@@ -33,15 +29,25 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   void initState() {
     _ytController = new StreamController();
-    Timer.periodic(Duration(milliseconds: 1), (_) async {
+    Timer.periodic(Duration(seconds: 1), (_) async {
       var data = await roomLogicController.getTimeStamp();
       _ytController.add(data);
-      print(roomLogicController.adminKaNaam.obs.value);
-      print(roomLogicController.userName.obs.value);
+      // print(roomLogicController.adminKaNaam.obs.value);
+      // print(roomLogicController.userName.obs.value);
 
+      //non admin 
       if (!(roomLogicController.adminKaNaam.obs.value ==
-          roomLogicController.userName.obs.value))
-        controller.seekTo(Duration(seconds: data), allowSeekAhead: false);
+          roomLogicController.userName.obs.value)) {
+        if (await roomLogicController.isPlayerPaused()) {
+          controller.pause();
+        } else {
+          controller.play();
+        }
+      }
+
+      // if (!(roomLogicController.adminKaNaam.obs.value ==
+      //     roomLogicController.userName.obs.value))
+      //   controller.seekTo(Duration(seconds: data),allowSeekAhead: false);
     });
     super.initState();
   }
@@ -66,11 +72,20 @@ class _YTPlayerState extends State<YTPlayer> {
                             handleColor: Colors.amberAccent),
                         onReady: () {
                           controller.addListener(() {
+                            //admin 
+                            //will send timestamp and control video playback
                             if (roomLogicController.adminKaNaam.obs.value ==
                                 roomLogicController.userName.obs.value) {
                               roomLogicController.changeTimeStamp(
                                   timestamp:
                                       controller.value.position.inSeconds);
+                              if (controller.value.isPlaying) {
+                                roomLogicController.sendPlayerStatus(
+                                    status: false);
+                              } else {
+                                roomLogicController.sendPlayerStatus(
+                                    status: true);
+                              }
                             }
                           });
                         },
