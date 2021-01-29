@@ -38,7 +38,6 @@ class _YTPlayerState extends State<YTPlayer> {
     Timer.periodic(Duration(milliseconds: 1), (_) async {
       var data = await roomLogicController.getTimeStamp();
       _ytController.add(data);
-     
     });
     super.initState();
   }
@@ -63,10 +62,13 @@ class _YTPlayerState extends State<YTPlayer> {
                             handleColor: Colors.amberAccent),
                         onReady: () {
                           controller.addListener(() {
-                            roomLogicController.changeTimeStamp(
-                                timestamp: controller.value.position.inSeconds);
                             print('posRED: ${controller.value.position}');
                             print('isDragging: ${controller.value.isDragging}');
+                            if (controller.value.isDragging) {
+                              roomLogicController.changeTimeStamp(
+                                  timestamp:
+                                      controller.value.position.inSeconds);
+                            }
                           });
                         },
 
