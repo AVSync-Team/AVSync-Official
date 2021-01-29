@@ -1,3 +1,4 @@
+import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: WelcomScreen(),
+      home: CreateRoomScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

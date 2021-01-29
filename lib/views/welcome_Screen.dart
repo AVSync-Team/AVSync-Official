@@ -1,3 +1,4 @@
+import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ class WelcomScreen extends StatelessWidget {
   bool ytPlayerclicked = false;
   bool localPlayerClicked = false;
   TextEditingController yturl = TextEditingController();
+  RoomLogicController roomLogicController = Get.put(RoomLogicController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,15 @@ class WelcomScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text('Users: '),
+            FutureBuilder<dynamic>(
+                future: roomLogicController.getusersInRoom(),
+                builder: (ctx, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text('It has');
+                  }
+                 return Container();
+                }),
             TextField(
               controller: yturl,
               decoration: InputDecoration(hintText: 'Enter URL'),
@@ -29,11 +40,16 @@ class WelcomScreen extends StatelessWidget {
               },
               child: Text('Yotube Video'),
             ),
-            RaisedButton(     
-              onPressed:  () {
+            RaisedButton(
+              onPressed: () {
                 Get.to(NiceVideoPlayer());
               },
               child: Text('Local Video'),
+            ),
+            GetX<RoomLogicController>(
+              builder: (controller) {
+                return Text('Your room id is: ${controller.randomNumber}');
+              },
             )
           ],
         ),
