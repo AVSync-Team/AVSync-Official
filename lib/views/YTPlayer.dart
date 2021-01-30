@@ -20,6 +20,7 @@ class _YTPlayerState extends State<YTPlayer> {
     initialVideoId:
         YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value),
     flags: YoutubePlayerFlags(
+      hideThumbnail: true,
       autoPlay: false,
       hideControls: !(roomLogicController.adminKaNaam.obs.value ==
               roomLogicController.userName.obs.value)
