@@ -28,12 +28,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               ),
             )),
             Container(
-                child: TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                hintText: "Enter your name",
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: "Enter your name",
+                ),
               ),
-            )),
+            ),
             RaisedButton(
               onPressed: () async {
                 bool canJoin = await roomLogicController.joinRoom(
