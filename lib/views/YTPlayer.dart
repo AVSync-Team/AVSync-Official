@@ -173,21 +173,36 @@ class _YTPlayerState extends State<YTPlayer> {
                 //     ),
                 //   ),
                 // ),
-                Container(
-                  height: 5,
-                  width: double.infinity,
-                  child: Obx(() {
-                    return Slider(
-                      value: ytStateController.videoPosition.value,
-                      max: controller.metadata.duration.inSeconds.toDouble(),
-                      min: 0.0,
-                      onChanged: (value) {
-                        ytStateController.videoPosition.value = value;
-                        controller.seekTo(Duration(seconds: value.toInt()));
+                Positioned(
+                  bottom: 5,
+                  child: Container(
+                    height: 5,
+                    width: double.infinity,
+                    child: Obx(() {
+                      return Slider(
+                        value: ytStateController.videoPosition.value,
+                        max: controller.metadata.duration.inSeconds.toDouble(),
+                        min: 0.0,
+                        onChanged: (value) {
+                          ytStateController.videoPosition.value = value;
+                          controller.seekTo(Duration(seconds: value.toInt()));
+                        },
+                      );
+                    }),
+                  ),
+                ),
+
+                Positioned(
+                    bottom: 20,
+                    child: RaisedButton(
+                      onPressed: () {
+                        controller.value.isPlaying
+                            ? controller.pause()
+                            : controller.play();
                       },
-                    );
-                  }),
-                )
+                      child:
+                          Text(controller.value.isPlaying ? 'Pause' : 'Play'),
+                    ))
               ],
             ),
           ),
