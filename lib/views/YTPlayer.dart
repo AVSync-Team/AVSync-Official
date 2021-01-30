@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:seekbar/seekbar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YTPlayer extends StatefulWidget {
@@ -13,6 +15,7 @@ class YTPlayer extends StatefulWidget {
 String url;
 
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
+YTStateController ytStateController = Get.put(YTStateController());
 StreamController<int> _ytController;
 int position = 0;
 Timer timer;
@@ -103,8 +106,9 @@ class _YTPlayerState extends State<YTPlayer> {
                               handleColor: Colors.amberAccent),
                           onReady: () {
                             controller.addListener(() {
-                              position = controller.value.position.inSeconds;
-
+                              ytStateController.videoPosition.value = controller
+                                  .value.position.inSeconds
+                                  .toDouble();
                               //admin
                               //will send timestamp and control video playback
                               if (roomLogicController.adminKaNaam.obs.value ==
@@ -172,17 +176,17 @@ class _YTPlayerState extends State<YTPlayer> {
                 Container(
                   height: 5,
                   width: double.infinity,
-                  child: Slider(
-                    value: position.toDouble(),
-                    max: controller.metadata.duration.inSeconds.toDouble(),
-                    min: 0.0,
-                    onChanged: (value) {
-                      setState(() {
-                        print('position: $position');
-                        position = value.toInt();
-                      });
-                    },
-                  ),
+                  child: Obx(() {
+                    return Slider(
+                      value: ytStateController.videoPosition.value,
+                      max: controller.metadata.duration.inSeconds.toDouble(),
+                      min: 0.0,
+                      onChanged: (value) {
+                        ytStateController.videoPosition.value = value;
+                        controller.seekTo(Duration(seconds: value.toInt()));
+                      },
+                    );
+                  }),
                 )
               ],
             ),
