@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,19 +25,20 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
   @override
   void initState() {
+    super.initState();
     _userController = new StreamController();
     timer = Timer.periodic(Duration(seconds: 1), (_) async {
       var data = await roomLogicController.loadDetails();
       _userController.add(data);
     });
-
-    super.initState();
   }
 
   @override
   void dispose() {
-    _userController.done;
+    _userController.close();
+    // _userController.done;
     timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -76,7 +76,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               onPressed: () {
                 ytPlayerclicked = true;
                 roomLogicController.ytURL.value = yturl.text;
-                Get.to(YTPlayer());
+                Get.off(YTPlayer());
               },
               child: Text('Yotube Video'),
             ),
