@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -13,6 +14,7 @@ class YTPlayer extends StatefulWidget {
 String url;
 
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
+YTStateController ytStateController = Get.put(YTStateController());
 StreamController<int> _ytController;
 
 class _YTPlayerState extends State<YTPlayer> {
@@ -68,57 +70,116 @@ class _YTPlayerState extends State<YTPlayer> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: StreamBuilder(
-                  stream: _ytController.stream,
-                  builder: (ctx, snapshot) {
-                    if (snapshot.hasData) {
-                      return YoutubePlayer(
-                        showVideoProgressIndicator: true,
-                        progressColors: ProgressBarColors(
-                            playedColor: Colors.amber,
-                            handleColor: Colors.amberAccent),
-                        onReady: () {
-                          controller.addListener(() {
-                            //admin
-                            //will send timestamp and control video playback
-                            if (roomLogicController.adminKaNaam.obs.value ==
-                                roomLogicController.userName.obs.value) {
-                              roomLogicController.changeTimeStamp(
-                                  timestamp:
-                                      controller.value.position.inSeconds);
-                              if (controller.value.isPlaying) {
-                                roomLogicController.sendPlayerStatus(
-                                    status: false);
-                              } else {
-                                roomLogicController.sendPlayerStatus(
-                                    status: true);
-                              }
-                              if (controller.value.isDragging) {
-                                roomLogicController.sendIsDraggingStatus(
-                                    status: true);
-                              } else {
-                                roomLogicController.sendIsDraggingStatus(
-                                    status: false);
+            child: Stack(
+              children: [
+                Container(
+                  height: 300,
+                  // width: double.infinity,
+                  child: StreamBuilder(
+                    stream: _ytController.stream,
+                    builder: (ctx, snapshot) {
+                      if (snapshot.hasData) {
+                        return YoutubePlayer(
+                          // topActions: [],
+                          // bottomActions: [
+                          //   Container(
+                          //     width: 50,
+                          //     height: 50,
+                          //     color: Colors.red,
+                          //   )
+                          // ],
+                          aspectRatio: 16 / 9,
+                          showVideoProgressIndicator: true,
+                          progressColors: ProgressBarColors(
+                              playedColor: Colors.amber,
+                              handleColor: Colors.amberAccent),
+                          onReady: () {
+                            controller.addListener(() {
+                              ytStateController.videoPosition.value = controller
+                                  .value.position.inSeconds
+                                  .toDouble();
+                              //admin
+                              //will send timestamp and control video playback
+                              if (roomLogicController.adminKaNaam.obs.value ==
+                                  roomLogicController.userName.obs.value) {
+                                roomLogicController.changeTimeStamp(
+                                    timestamp:
+                                        controller.value.position.inSeconds);
+                                if (controller.value.isPlaying) {
+                                  roomLogicController.sendPlayerStatus(
+                                      status: false);
+                                } else {
+                                  roomLogicController.sendPlayerStatus(
+                                      status: true);
+                                }
+                                if (controller.value.isDragging) {
+                                  roomLogicController.sendIsDraggingStatus(
+                                      status: true);
+                                  roomLogicController.sendPlayerStatus(
+                                      status: true);
+                                } else {
+                                  roomLogicController.sendIsDraggingStatus(
+                                      status: false);
+                                  roomLogicController.sendPlayerStatus(
+                                      status: false);
+                                }
                               }
                             }
-                          });
+                          );
                         },
 
-                        controller: controller,
-                        // bottomActions: [
-                        //   CurrentPosition(),
-                        //   ProgressBar(isExpanded: true),
-                        // ],
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                )),
+                          controller: controller,
+                          // bottomActions: [
+                          //   CurrentPosition(),
+                          //   ProgressBar(isExpanded: true),
+                          // ],
+                        );
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                // AspectRatio(
+                //   aspectRatio: 16 / 9,
+                //   child: Container(
+                //     // width: double.infinity,
+                //     // height: 100,
+                //     decoration:
+                //         BoxDecoration(border: Border.all(color: Colors.cyan)),
+                //     child: GestureDetector(
+                //       onDoubleTap: () {
+                //         print('tapped');
+                //         if (controller.value.isPlaying) {
+                //           controller.pause();
+                //           print('player paused');
+                //         } else if (!controller.value.isPlaying) {
+                //           controller.play();
+                //           print('player unpaused');
+                //         }
+                //       },
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  height: 5,
+                  width: double.infinity,
+                  child: Obx(() {
+                    return Slider(
+                      value: ytStateController.videoPosition.value,
+                      max: controller.metadata.duration.inSeconds.toDouble(),
+                      min: 0.0,
+                      onChanged: (value) {
+                        ytStateController.videoPosition.value = value;
+                        controller.seekTo(Duration(seconds: value.toInt()));
+                      },
+                    );
+                  }),
+                )
+              ],
+            ),
           ),
           // RaisedButton(
           //   onPressed: () {
