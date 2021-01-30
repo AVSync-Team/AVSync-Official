@@ -103,7 +103,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> isDraggingStatus() async {
-    final response = await http.get(
+    final response = await  http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isDragging.json');
     return json.decode(response.body);
   }
