@@ -36,7 +36,7 @@ class _YTPlayerState extends State<YTPlayer> {
         // hideControls: true,
         hideThumbnail: true),
   );
-
+  int timestamp = 0;
   @override
   void initState() {
     _ytController = new StreamController();
@@ -47,7 +47,9 @@ class _YTPlayerState extends State<YTPlayer> {
         .child(roomLogicController.roomFireBaseId.obs.value)
         .child('timeStamp')
         .onValue
-        .listen((event) {});
+        .listen((event) {
+      timestamp = event.snapshot.value;
+    });
 
     firebaseDatabase
         .child('Rooms')
@@ -58,7 +60,7 @@ class _YTPlayerState extends State<YTPlayer> {
       if (event.snapshot.value) {
         if (!(roomLogicController.adminKaNaam.obs.value ==
             roomLogicController.userName.obs.value)) {
-          controller.seekTo(Duration(seconds: event.snapshot.value));
+          controller.seekTo(Duration(seconds: timestamp));
         }
       }
     });
