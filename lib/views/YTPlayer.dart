@@ -47,19 +47,19 @@ class _YTPlayerState extends State<YTPlayer> {
         .child(roomLogicController.roomFireBaseId.obs.value)
         .child('timeStamp')
         .onValue
+        .listen((event) {});
+
+    firebaseDatabase
+        .child('Rooms')
+        .child(roomLogicController.roomFireBaseId.obs.value)
+        .child('isDragging')
+        .onValue
         .listen((event) {
-      if (!(roomLogicController.adminKaNaam.obs.value ==
-          roomLogicController.userName.obs.value)) {
-        firebaseDatabase
-            .child('Rooms')
-            .child(roomLogicController.roomFireBaseId.obs.value)
-            .child('isDragging')
-            .onValue
-            .listen((event) {
-          if (event.snapshot.value) {
-            controller.seekTo(Duration(seconds: event.snapshot.value));
-          }
-        });
+      if (event.snapshot.value) {
+        if (!(roomLogicController.adminKaNaam.obs.value ==
+            roomLogicController.userName.obs.value)) {
+          controller.seekTo(Duration(seconds: event.snapshot.value));
+        }
       }
     });
 
