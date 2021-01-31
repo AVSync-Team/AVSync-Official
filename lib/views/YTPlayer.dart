@@ -164,15 +164,25 @@ class _YTPlayerState extends State<YTPlayer> {
                                   firebaseId:
                                       roomLogicController.roomFireBaseId);
                             }
-                            // if (controller.value.isDragging) {
-                            //   roomLogicController.sendIsDraggingStatus(
-                            //       status: true);
-                            //   roomLogicController.sendPlayerStatus(status: true);
-                            // } else {
-                            //   roomLogicController.sendIsDraggingStatus(
-                            //       status: false);
-                            //   roomLogicController.sendPlayerStatus(status: false);
-                            // }
+                            if (controller.value.isDragging) {
+                              // roomLogicController.sendIsDraggingStatus(
+                              //     status: true);
+                              rishabhController.sendIsDraggingStatus(
+                                  draggingStatus: true,
+                                  firebaseId:
+                                      roomLogicController.roomFireBaseId);
+                              // roomLogicController.sendPlayerStatus(
+                              //     status: true);
+                            } else {
+                              // roomLogicController.sendIsDraggingStatus(
+                              //     status: false);
+                              rishabhController.sendIsDraggingStatus(
+                                  draggingStatus: false,
+                                  firebaseId:
+                                      roomLogicController.roomFireBaseId);
+                              // roomLogicController.sendPlayerStatus(
+                              //     status: false);
+                            }
                           }
                         });
                       },

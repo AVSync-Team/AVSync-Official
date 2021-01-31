@@ -42,13 +42,21 @@ class RishabhController extends GetxController {
         .set(status);
   }
 
-  void sendTimeStamp({int timeStamp,String firebaseId}) {
+  void sendTimeStamp({int timeStamp, String firebaseId}) {
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     firebaseDatabase
         .child('Rooms')
         .child('$firebaseId')
         .child('timeStamp')
         .set(timeStamp);
+  }
 
+  void sendIsDraggingStatus({bool draggingStatus, String firebaseId}) {
+    var firebaseDatabase = FirebaseDatabase.instance.reference();
+    firebaseDatabase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('isDragging')
+        .set(draggingStatus);
   }
 }
