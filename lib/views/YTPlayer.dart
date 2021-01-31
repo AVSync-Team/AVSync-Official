@@ -13,14 +13,12 @@ class YTPlayer extends StatefulWidget {
   _YTPlayerState createState() => _YTPlayerState();
 }
 
-String url;
+// String url;
 
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 YTStateController ytStateController = Get.put(YTStateController());
-StreamController<int> _ytController;
 RishabhController rishabhController = Get.put(RishabhController());
-int position = 0;
-Timer timer;
+// int position = 0;
 
 class _YTPlayerState extends State<YTPlayer> {
   YoutubePlayerController controller = YoutubePlayerController(
@@ -39,8 +37,6 @@ class _YTPlayerState extends State<YTPlayer> {
   int timestamp = 0;
   @override
   void initState() {
-    _ytController = new StreamController();
-
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     var data = firebaseDatabase
         .child('Rooms')
@@ -111,98 +107,85 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _ytController.close();
-    timer.cancel();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Stack(
-              children: [
-                Container(
-                  height: 300,
-                  // width: double.infinity,
-                  child: YoutubePlayer(
-                    // topActions: [],
-                    // bottomActions: [
-                    //   Container(
-                    //     width: 50,
-                    //     height: 50,
-                    //     color: Colors.red,
-                    //   )
-                    // ],
-                    aspectRatio: 16 / 9,
-                    showVideoProgressIndicator: true,
-                    progressColors: ProgressBarColors(
-                        playedColor: Colors.amber,
-                        handleColor: Colors.amberAccent),
-                    onReady: () {
-                      controller.addListener(() {
-                        ytStateController.videoPosition.value =
-                            controller.value.position.inSeconds.toDouble();
-                        //admin
-                        //will send timestamp and control video playback
-                        if (roomLogicController.adminKaNaam.obs.value ==
-                            roomLogicController.userName.obs.value) {
-                          roomLogicController.changeTimeStamp(
-                              timestamp: controller.value.position.inSeconds);
-                          if (controller.value.isPlaying) {
-                            roomLogicController.sendPlayerStatus(status: false);
-                          } else {
-                            roomLogicController.sendPlayerStatus(status: true);
-                          }
-                          if (controller.value.isDragging) {
-                            roomLogicController.sendIsDraggingStatus(
-                                status: true);
-                            roomLogicController.sendPlayerStatus(status: true);
-                          } else {
-                            roomLogicController.sendIsDraggingStatus(
-                                status: false);
-                            roomLogicController.sendPlayerStatus(status: false);
-                          }
-                        }
-                      });
-                    },
+            child: Container(
+              height: 600,
+              width: Get.width,
+              child: Column(
+                children: [
+                  Container(
+                    height: 300,
+                    // width: double.infinity,
+                    child: YoutubePlayer(
+                      // topActions: [],
+                      // bottomActions: [
+                      //   Container(
+                      //     width: 50,
+                      //     height: 50,
+                      //     color: Colors.red,
+                      //   )
+                      // ],
+                      aspectRatio: 16 / 9,
+                      showVideoProgressIndicator: true,
+                      progressColors: ProgressBarColors(
+                          playedColor: Colors.amber,
+                          handleColor: Colors.amberAccent),
+                      onReady: () {
+                        controller.addListener(() {
+                          ytStateController.videoPosition.value =
+                              controller.value.position.inSeconds.toDouble();
+                          //admin
+                          //will send timestamp and control video playback
+                          if (roomLogicController.adminKaNaam.obs.value ==
+                              roomLogicController.userName.obs.value) {
+                            // roomLogicController.changeTimeStamp(
+                            //     timestamp: controller.value.position.inSeconds);
 
-                    controller: controller,
-                    // bottomActions: [
-                    //   CurrentPosition(),
-                    //   ProgressBar(isExpanded: true),
-                    // ],
+                            rishabhController.sendTimeStamp(
+                                firebaseId: roomLogicController.roomFireBaseId,
+                                timeStamp: controller.value.position.inSeconds);
+                            if (controller.value.isPlaying) {
+                              // roomLogicController.sendPlayerStatus(status: false);
+
+                              rishabhController.sendPlayerStatus(
+                                  status: false,
+                                  firebaseId:
+                                      roomLogicController.roomFireBaseId);
+                            } else if (!controller.value.isPlaying) {
+                              // roomLogicController.sendPlayerStatus(status: true);
+
+                              rishabhController.sendPlayerStatus(
+                                  status: true,
+                                  firebaseId:
+                                      roomLogicController.roomFireBaseId);
+                            }
+                            // if (controller.value.isDragging) {
+                            //   roomLogicController.sendIsDraggingStatus(
+                            //       status: true);
+                            //   roomLogicController.sendPlayerStatus(status: true);
+                            // } else {
+                            //   roomLogicController.sendIsDraggingStatus(
+                            //       status: false);
+                            //   roomLogicController.sendPlayerStatus(status: false);
+                            // }
+                          }
+                        });
+                      },
+
+                      controller: controller,
+                      // bottomActions: [
+                      //   CurrentPosition(),
+                      //   ProgressBar(isExpanded: true),
+                      // ],
+                    ),
                   ),
-                ),
-                // AspectRatio(
-                //   aspectRatio: 16 / 9,
-                //   child: Container(
-                //     // width: double.infinity,
-                //     // height: 100,
-                //     decoration:
-                //         BoxDecoration(border: Border.all(color: Colors.cyan)),
-                //     child: GestureDetector(
-                //       onDoubleTap: () {
-                //         print('tapped');
-                //         if (controller.value.isPlaying) {
-                //           controller.pause();
-                //           print('player paused');
-                //         } else if (!controller.value.isPlaying) {
-                //           controller.play();
-                //           print('player unpaused');
-                //         }
-                //       },
-                //     ),
-                //   ),
-                // ),
-                Positioned(
-                  bottom: 5,
-                  child: Container(
+                  SizedBox(height: 20),
+                  Container(
                     height: 5,
                     width: double.infinity,
                     child: Obx(() {
@@ -217,11 +200,8 @@ class _YTPlayerState extends State<YTPlayer> {
                       );
                     }),
                   ),
-                ),
-
-                Positioned(
-                  bottom: 20,
-                  child: RaisedButton(
+                  SizedBox(height: 20),
+                  RaisedButton(
                     onPressed: () {
                       controller.value.isPlaying
                           ? controller.pause()
@@ -229,11 +209,8 @@ class _YTPlayerState extends State<YTPlayer> {
                     },
                     child: Text(controller.value.isPlaying ? 'Pause' : 'Play'),
                   ),
-                ),
-                RaisedButton(onPressed: () {
-                  ytStateController.getInfo();
-                })
-              ],
+                ],
+              ),
             ),
           ),
           // RaisedButton(

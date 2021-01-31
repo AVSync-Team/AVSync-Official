@@ -33,11 +33,22 @@ class RishabhController extends GetxController {
     });
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    isDraggingStatus();
-    timestampFromDB();
+  void sendPlayerStatus({bool status, String firebaseId}) {
+    var firebaseDatabase = FirebaseDatabase.instance.reference();
+    firebaseDatabase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('isPlayerPaused')
+        .set(status);
+  }
+
+  void sendTimeStamp({int timeStamp,String firebaseId}) {
+    var firebaseDatabase = FirebaseDatabase.instance.reference();
+    firebaseDatabase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('timeStamp')
+        .set(timeStamp);
+
   }
 }

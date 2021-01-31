@@ -67,8 +67,11 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
             RaisedButton(
               onPressed: () async {
                 // Get.to(WelcomScreen());
-                rishabhController.timestampFromDB();
-                rishabhController.isDraggingStatus();
+                // rishabhController.timestampFromDB();
+                // rishabhController.isDraggingStatus();
+
+                rishabhController.sendPlayerStatus(
+                    status: true, firebaseId: '-MSPN-uaUOs908rvqaYY');
               },
               child: Text('Rishabh'),
             ),
