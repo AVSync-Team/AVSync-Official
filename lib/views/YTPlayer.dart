@@ -4,7 +4,6 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:seekbar/seekbar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YTPlayer extends StatefulWidget {
@@ -193,16 +192,19 @@ class _YTPlayerState extends State<YTPlayer> {
                 ),
 
                 Positioned(
-                    bottom: 20,
-                    child: RaisedButton(
-                      onPressed: () {
-                        controller.value.isPlaying
-                            ? controller.pause()
-                            : controller.play();
-                      },
-                      child:
-                          Text(controller.value.isPlaying ? 'Pause' : 'Play'),
-                    ))
+                  bottom: 20,
+                  child: RaisedButton(
+                    onPressed: () {
+                      controller.value.isPlaying
+                          ? controller.pause()
+                          : controller.play();
+                    },
+                    child: Text(controller.value.isPlaying ? 'Pause' : 'Play'),
+                  ),
+                ),
+                RaisedButton(onPressed: () {
+                  ytStateController.getInfo();
+                })
               ],
             ),
           ),

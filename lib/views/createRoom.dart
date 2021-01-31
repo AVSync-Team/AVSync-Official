@@ -1,3 +1,4 @@
+import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   TextEditingController nameController = TextEditingController();
   TextEditingController roomId = TextEditingController();
+  RishabhController rishabhController = Get.put(RishabhController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 // Get.to(WelcomScreen());
               },
               child: Text('Users'),
+            ),
+            RaisedButton(
+              onPressed: () async {
+                // Get.to(WelcomScreen());
+                rishabhController.rishabhTry();
+              },
+              child: Text('Rishabh'),
             ),
           ],
         ),
