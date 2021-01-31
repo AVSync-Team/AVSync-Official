@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -16,6 +18,7 @@ String url;
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 YTStateController ytStateController = Get.put(YTStateController());
 StreamController<int> _ytController;
+RishabhController rishabhController = Get.put(RishabhController());
 int position = 0;
 Timer timer;
 
@@ -37,31 +40,46 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   void initState() {
     _ytController = new StreamController();
-    timer = Timer.periodic(Duration(seconds: 1), (_) async {
-      var data = await roomLogicController.getTimeStamp();
-      _ytController.add(data);
-      // print(roomLogicController.adminKaNaam.obs.value);
-      // print(roomLogicController.userName.obs.value);
 
-      //non admin
-      if (!(roomLogicController.adminKaNaam.obs.value ==
-          roomLogicController.userName.obs.value)) {
-        if (await roomLogicController.isPlayerPaused()) {
-          controller.pause();
-        } else {
-          controller.play();
-        }
+    //  if (!(roomLogicController.adminKaNaam.obs.value ==
+    //   roomLogicController.userName.obs.value))
 
-        bool isDragging = await roomLogicController.isDraggingStatus();
-
-        if (isDragging) {
-          controller.seekTo(Duration(seconds: data));
-        }
-      }
-      // if (!(roomLogicController.adminKaNaam.obs.value ==
-      //     roomLogicController.userName.obs.value))
-      //   controller.seekTo(Duration(seconds: data),allowSeekAhead: false);
+    var firebaseDatabase = FirebaseDatabase.instance.reference();
+    var data = firebaseDatabase
+        .child('Rooms')
+        .child('-MSIdyAkrq0f_r7ymlCD')
+        .child('timeStamp')
+        .onValue
+        .listen((event) {
+      // print('anthonio: ${event.snapshot.value}');
+      controller.seekTo(Duration(seconds: event.snapshot.value));
     });
+
+    // timer = Timer.periodic(Duration(seconds: 1), (_) async {
+    //   var data = await roomLogicController.getTimeStamp();
+    //   _ytController.add(data);
+    //   // print(roomLogicController.adminKaNaam.obs.value);
+    //   // print(roomLogicController.userName.obs.value);
+
+    //   //non admin
+    //   if (!(roomLogicController.adminKaNaam.obs.value ==
+    //       roomLogicController.userName.obs.value)) {
+    //     if (await roomLogicController.isPlayerPaused()) {
+    //       controller.pause();
+    //     } else {
+    //       controller.play();
+    //     }
+
+    //     bool isDragging = await roomLogicController.isDraggingStatus();
+
+    //     if (isDragging) {
+    //       controller.seekTo(Duration(seconds: data));
+    //     }
+    //   }
+    //   // if (!(roomLogicController.adminKaNaam.obs.value ==
+    //   //     roomLogicController.userName.obs.value))
+    //   //   controller.seekTo(Duration(seconds: data),allowSeekAhead: false);
+    // });
     super.initState();
   }
 

@@ -67,7 +67,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
             RaisedButton(
               onPressed: () async {
                 // Get.to(WelcomScreen());
-                rishabhController.rishabhTry();
+                rishabhController.timestampFromDB();
+                rishabhController.isDraggingStatus();
               },
               child: Text('Rishabh'),
             ),
