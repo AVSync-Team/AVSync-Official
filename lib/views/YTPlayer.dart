@@ -31,6 +31,8 @@ class _YTPlayerState extends State<YTPlayer> {
             ? true
             : false,
         mute: false,
+        disableDragSeek: false,
+
         // hideControls: true,
         hideThumbnail: true),
   );
@@ -182,28 +184,27 @@ class _YTPlayerState extends State<YTPlayer> {
                       },
 
                       controller: controller,
-                      // bottomActions: [
-                      //   CurrentPosition(),
-                      //   ProgressBar(isExpanded: true),
-                      // ],
+                      bottomActions: [
+                        CurrentPosition(),
+                      ],
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    height: 5,
-                    width: double.infinity,
-                    child: Obx(() {
-                      return Slider(
-                        value: ytStateController.videoPosition.value,
-                        max: controller.metadata.duration.inSeconds.toDouble(),
-                        min: 0.0,
-                        onChanged: (value) {
-                          ytStateController.videoPosition.value = value;
-                          controller.seekTo(Duration(seconds: value.toInt()));
-                        },
-                      );
-                    }),
-                  ),
+                  // Container(
+                  //   height: 5,
+                  //   width: double.infinity,
+                  //   child: Obx(() {
+                  //     return Slider(
+                  //       value: ytStateController.videoPosition.value,
+                  //       max: controller.metadata.duration.inSeconds.toDouble(),
+                  //       min: 0.0,
+                  //       onChanged: (value) {
+                  //         ytStateController.videoPosition.value = value;
+                  //         controller.seekTo(Duration(seconds: value.toInt()));
+                  //       },
+                  //     );
+                  //   }),
+                  // ),
                   SizedBox(height: 20),
                   RaisedButton(
                     onPressed: () {
