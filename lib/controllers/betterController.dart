@@ -59,4 +59,13 @@ class RishabhController extends GetxController {
         .child('isDragging')
         .set(draggingStatus);
   }
+
+  Stream<Event> getUsersList({String firebaseId}) {
+    final firebasedatbase = FirebaseDatabase.instance.reference();
+    return firebasedatbase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('users')
+        .onValue;
+  }
 }
