@@ -34,7 +34,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   height: 200,
                   child: ListView.builder(
                     itemBuilder: (ctx, i) {
-                      return Text(messages[i]["message"]);
+                      return Text(messages[0]["message"]);
                     },
                     itemCount: messages.length,
                   ),

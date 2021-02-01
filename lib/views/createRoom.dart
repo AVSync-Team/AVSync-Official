@@ -1,4 +1,5 @@
 import 'package:VideoSync/controllers/betterController.dart';
+import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController roomId = TextEditingController();
   RishabhController rishabhController = Get.put(RishabhController());
+  ChatController chatController = Get.put(ChatController());
+  var messages;
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +72,42 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 // Get.to(WelcomScreen());
                 // rishabhController.timestampFromDB();
                 // rishabhController.isDraggingStatus();
-
+                chatController.message();
                 rishabhController.sendPlayerStatus(
                     status: true, firebaseId: '-MSPN-uaUOs908rvqaYY');
               },
               child: Text('Rishabh'),
             ),
+            StreamBuilder(
+              stream:
+                  chatController.message(firebaseId: '-MSTkHEhCDHKWKCfslOa'),
+              builder: (ctx, event) {
+                // if (event.hasData) {
+                //   return Container(
+                //     height: 200,
+                //     child: ListView.builder(
+                //       itemBuilder: (ctx, i) {
+                //         return Text('Rishabh');
+                //       },
+                //       itemCount: 3,
+                //     ),
+                //   );
+                // }
+                // if (event.hasData) {
+                //   // print('sexy_choot: ${event.data.snapshot.value}');
+                //   // event.data.snapshot.value.forEach((key, value) {
+                //   //   // print(value);
+                //   // });
+                //   // print(event.data.snapshot.value['1']);
+                //   event.data.snapshot.value.forEach((key, value) {
+                //     // print(value['message']);
+                //     messages.add({value});
+                //   });
+                // }
+
+                return Text('dekh mera lund');
+              },
+            )
           ],
         ),
       ),

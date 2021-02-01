@@ -8,7 +8,7 @@ class ChatController extends GetxController {
         .child('Rooms')
         .child('$firebaseId')
         .child('chat')
-        .push()
+        .child('1')
         .set({"message": message, "userId": userId});
   }
 
