@@ -8,10 +8,9 @@ class ChatController extends GetxController {
         .child('Rooms')
         .child('$firebaseId')
         .child('chat')
-        .update({"message": message, "userId": userId});
+        .push()
+        .set({"message": message, "userId": userId});
   }
-
-
 
   Stream message({String firebaseId}) {
     final firebasedatbase = FirebaseDatabase.instance.reference();
