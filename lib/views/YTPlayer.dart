@@ -44,19 +44,12 @@ class _YTPlayerState extends State<YTPlayer> {
         .child('timeStamp')
         .onValue
         .listen((event) {
-      timestamp = event.snapshot.value;
-    });
-
-    firebaseDatabase
-        .child('Rooms')
-        .child(roomLogicController.roomFireBaseId.obs.value)
-        .child('isDragging')
-        .onValue
-        .listen((event) {
-      if (event.snapshot.value) {
-        if (!(roomLogicController.adminKaNaam.obs.value ==
-            roomLogicController.userName.obs.value)) {
-          controller.seekTo(Duration(seconds: timestamp));
+      if (!(roomLogicController.adminKaNaam.obs.value ==
+          roomLogicController.userName.obs.value)) {
+        if ((controller.value.position.inSeconds - event.snapshot.value)
+                .abs() >=
+            5) {
+          controller.seekTo(Duration(seconds: event.snapshot.value));
         }
       }
     });
@@ -164,25 +157,26 @@ class _YTPlayerState extends State<YTPlayer> {
                                   firebaseId:
                                       roomLogicController.roomFireBaseId);
                             }
-                            if (controller.value.isDragging) {
-                              // roomLogicController.sendIsDraggingStatus(
-                              //     status: true);
-                              rishabhController.sendIsDraggingStatus(
-                                  draggingStatus: true,
-                                  firebaseId:
-                                      roomLogicController.roomFireBaseId);
-                              // roomLogicController.sendPlayerStatus(
-                              //     status: true);
-                            } else {
-                              // roomLogicController.sendIsDraggingStatus(
-                              //     status: false);
-                              rishabhController.sendIsDraggingStatus(
-                                  draggingStatus: false,
-                                  firebaseId:
-                                      roomLogicController.roomFireBaseId);
-                              // roomLogicController.sendPlayerStatus(
-                              //     status: false);
-                            }
+                            //   if (controller.value.isDragging) {
+                            //     // roomLogicController.sendIsDraggingStatus(
+                            //     //     status: true);
+                            //     rishabhController.sendIsDraggingStatus(
+                            //         draggingStatus: true,
+                            //         firebaseId:
+                            //             roomLogicController.roomFireBaseId);
+                            //     // roomLogicController.sendPlayerStatus(
+                            //     //     status: true);
+                            //   } else {
+                            //     // roomLogicController.sendIsDraggingStatus(
+                            //     //     status: false);
+                            //     rishabhController.sendIsDraggingStatus(
+                            //         draggingStatus: false,
+                            //         firebaseId:
+                            //             roomLogicController.roomFireBaseId);
+                            //     // roomLogicController.sendPlayerStatus(
+                            //     //     status: false);
+                            //   }
+                            // }
                           }
                         });
                       },
