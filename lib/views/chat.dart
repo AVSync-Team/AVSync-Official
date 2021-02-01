@@ -33,14 +33,16 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   itemCount: snapshot.data.snapshot.value.length,
                 );
               } else {
-               return  Text("Getting your Chat");
+                return Text("Getting your Chat");
               }
             },
           ),
           Row(
             children: [
-              TextField(
-                controller: message,
+              Expanded(
+                child: TextField(
+                  controller: message,
+                ),
               ),
               RaisedButton(
                 onPressed: () {
