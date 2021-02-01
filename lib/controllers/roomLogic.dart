@@ -43,9 +43,9 @@ class RoomLogicController extends GetxController {
           "users": [
             {"name": adminName, "id": this.userId},
           ],
-          "chat": [
-            {"name": "Bot", "id": "123456", "message": "Welcome!"}
-          ],
+          "chat": {
+            "341241": {"message": "Welcome", "userId": "231312"}
+          }
         }));
     // userName = randomGenerator().toString();
 

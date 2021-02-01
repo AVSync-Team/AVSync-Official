@@ -12,6 +12,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   ChatController chatController = Get.put(ChatController());
   TextEditingController message = TextEditingController();
+  // List messages
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +24,11 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 firebaseId: roomLogicController.roomFireBaseId),
             builder: (BuildContext ctx, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return Container(
-                  height: 100,
-                  child: ListView.builder(
-                    itemBuilder: (ctx, i) {
-                      return snapshot.data.snapshot.value[i]["userId"] ==
-                              roomLogicController.userId
-                          ? Text(snapshot.data.snapshot.value[i]["message"])
-                          : Text(snapshot.data.snapshot.value[i]["message"]);
-                    },
-                    itemCount: snapshot.data.snapshot.value.length,
-                  ),
-                );
+                snapshot.data.snapshot.value.forEach((key, value) {
+
+                  return Text(value["message"]);
+                });
+                return Container();
               } else {
                 return Text("Getting your Chat");
               }
