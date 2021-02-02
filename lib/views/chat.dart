@@ -27,6 +27,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   List messages = [];
   List text = [];
 
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,7 +42,6 @@ class _ChattingPlaceState extends State<ChattingPlace> {
             builder: (BuildContext ctx, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 List<M> check = [];
-                int count = 0;
 
                 snapshot.data.snapshot.value.forEach((key, value) {
                   text = [];
