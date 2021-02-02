@@ -39,8 +39,20 @@ class RoomLogicController extends GetxController {
           "timeStamp": 0,
           "isDragging": false,
           "users": [
+<<<<<<< Updated upstream
             {"name": adminName},
           ]
+=======
+            {"name": adminName, "id": this.userId},
+          ],
+          "chat": {
+            "341241": {
+              "message": "Welcome",
+              "userId": "231312",
+              "messageId": DateTime.now().toIso8601String()
+            }
+          }
+>>>>>>> Stashed changes
         }));
     // userName = randomGenerator().toString();
 
