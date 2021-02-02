@@ -2,6 +2,7 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:neumorphic/neumorphic.dart';
 
 class ChattingPlace extends StatefulWidget {
   @override
@@ -28,6 +29,9 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Color(0x11ffffff),
+      height: 500,
+      width: 100,
       child: Column(
         children: [
           StreamBuilder(
@@ -68,34 +72,74 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 print(check);
 
                 return Container(
-                  height: 200,
+                  height: 400,
                   child: ListView.builder(
                       itemBuilder: (ctx, i) {
                         return roomLogicController.userId == check[i].userId
-                            ? Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    check[i].username ==
-                                            roomLogicController
-                                                .adminKaNaam.obs.value
-                                        ? Text("Admin")
-                                        : Text(check[i].username),
-                                    Text(check[i].mesage)
-                                  ],
-                                ),
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Spacer(),
+                                  Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Card(
+                                      elevation: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            check[i].username ==
+                                                    roomLogicController
+                                                        .adminKaNaam.obs.value
+                                                ? Text("Admin",
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.cyan))
+                                                : Text(check[i].username),
+                                            SizedBox(height: 5),
+                                            Text(check[i].mesage),
+                                            SizedBox(height: 5)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
-                            : Container(
-                                child: Column(
-                                  children: [
-                                    check[i].username ==
-                                            roomLogicController
-                                                .adminKaNaam.obs.value
-                                        ? Text("Admin")
-                                        : Text(check[i].username),
-                                    Text(check[i].mesage)
-                                  ],
-                                ),
+                            : Row(
+                                children: [
+                                  Container(
+                                    // decoration:
+                                    //     BoxDecoration(color: Colors.cyan),
+                                    padding: EdgeInsets.only(right: 20),
+                                    child: Card(
+                                      elevation: 1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            check[i].username ==
+                                                    roomLogicController
+                                                        .adminKaNaam.obs.value
+                                                ? Text("Admin")
+                                                : Text(check[i].username,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.red)),
+                                            Text(check[i].mesage),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer()
+                                ],
                               );
                       },
                       itemCount: check.length),
@@ -110,8 +154,12 @@ class _ChattingPlaceState extends State<ChattingPlace> {
               Expanded(
                 child: TextField(
                   controller: message,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
                 ),
               ),
+              SizedBox(width: 5),
               RaisedButton(
                 onPressed: () {
                   chatController.sendMessage(

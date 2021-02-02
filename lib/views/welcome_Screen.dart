@@ -49,8 +49,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ChattingPlace(),
+      // appBar: AppBar(),
+      drawer: Container(
+        width: 300,
+        child: Drawer(
+          child: ChattingPlace(),
+        ),
       ),
       backgroundColor: Color(0xff247D7D),
       body: Center(
@@ -174,11 +178,11 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     }
                   }),
             ),
-            GetX<RoomLogicController>(
-              builder: (controller) {
-                return Text('Your room id is: ${controller.roomId.obs.value}');
-              },
-            ),
+            // GetX<RoomLogicController>(
+            //   builder: (controller) {
+            //     return Text('Your room id is: ${controller.roomId.obs.value}');
+            //   },
+            // ),
             // ChattingPlace(),
           ],
         ),
