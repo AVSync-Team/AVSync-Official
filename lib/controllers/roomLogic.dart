@@ -17,6 +17,7 @@ class RoomLogicController extends GetxController {
   String adminKaNaam;
   String userName;
   var ytURL = ''.obs;
+  String userId;
 
   String roomFireBaseId;
   var roomId = '0'.obs;
@@ -39,10 +40,6 @@ class RoomLogicController extends GetxController {
           "timeStamp": 0,
           "isDragging": false,
           "users": [
-<<<<<<< Updated upstream
-            {"name": adminName},
-          ]
-=======
             {"name": adminName, "id": this.userId},
           ],
           "chat": {
@@ -52,7 +49,6 @@ class RoomLogicController extends GetxController {
               "messageId": DateTime.now().toIso8601String()
             }
           }
->>>>>>> Stashed changes
         }));
     // userName = randomGenerator().toString();
 
@@ -69,6 +65,9 @@ class RoomLogicController extends GetxController {
     final response = await http.get(roomIds);
     bool flag = false;
     String roomUrl;
+
+    this.userId = randomGenerator().toString();
+
     rooms = json.decode(response.body);
     rooms.forEach((key, value) async {
       if (value['roomId'].toString() == roomId) {
@@ -79,7 +78,7 @@ class RoomLogicController extends GetxController {
             'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
         final reponse2 = await http.get(roomUrl);
         users = json.decode(reponse2.body);
-        users.add({"name": name});
+        users.add({"name": name, "id": this.userId});
         await http.patch(
             'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
             body: json.encode({"users": users}));
@@ -115,7 +114,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> isDraggingStatus() async {
-    final response = await  http.get(
+    final response = await http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isDragging.json');
     return json.decode(response.body);
   }
@@ -141,8 +140,6 @@ class RoomLogicController extends GetxController {
         body: json.encode({"isDragging": status}));
     return json.decode(response.body);
   }
-
-  
 
   // Stream<List<dynamic>> getusersInRoom() async* {
   //   print("heellool");

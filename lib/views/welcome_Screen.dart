@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
+import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
               builder: (controller) {
                 return Text('Your room id is: ${controller.roomId.obs.value}');
               },
-            )
+            ),
+            ChattingPlace(),
           ],
         ),
       ),
