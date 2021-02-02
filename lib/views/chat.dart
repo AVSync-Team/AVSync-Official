@@ -37,10 +37,11 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff292727),
       resizeToAvoidBottomInset: true,
       body: Container(
-        color: Color(0x11ffffff),
-        height: 500,
+        color: Color.fromARGB(0, 200, 100, 50),
+        // height: 500,
         width: double.infinity,
         child: Column(
           children: [
@@ -90,79 +91,91 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   // }
 
                   return Container(
-                    height: 400,
+                    height: Get.height * 0.6,
                     child: ListView.builder(
                         controller: chatScroll,
                         itemBuilder: (ctx, i) {
                           return roomLogicController.userId == check[i].userId
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Spacer(),
-                                    Container(
-                                      width: 150,
-                                      padding: EdgeInsets.all(8),
-                                      child: Card(
-                                        elevation: 2,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              check[i].username ==
-                                                      roomLogicController
-                                                          .adminKaNaam.obs.value
-                                                  ? Text("Admin",
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          color: Colors.cyan))
-                                                  : Text(check[i].username),
-                                              SizedBox(height: 5),
-                                              Text(check[i].mesage),
-                                              SizedBox(height: 5)
-                                            ],
+                              //Self user
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Spacer(),
+                                      Container(
+                                        width: 150,
+                                        padding: EdgeInsets.all(8),
+                                        child: Card(
+                                          elevation: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                check[i].username ==
+                                                        roomLogicController
+                                                            .adminKaNaam
+                                                            .obs
+                                                            .value
+                                                    ? Text("Admin",
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.cyan))
+                                                    : Text(check[i].username),
+                                                SizedBox(height: 5),
+                                                Text(check[i].mesage),
+                                                SizedBox(height: 5)
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 )
-                              : Row(
-                                  children: [
-                                    Container(
-                                      // decoration:
-                                      //     BoxDecoration(color: Colors.cyan),
-                                      width: 150,
-                                      padding: EdgeInsets.only(right: 20),
-                                      child: Card(
-                                        elevation: 1,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              check[i].username ==
-                                                      roomLogicController
-                                                          .adminKaNaam.obs.value
-                                                  ? Text("Admin")
-                                                  : Text(check[i].username,
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          color: Colors.red)),
-                                              Text(
-                                                check[i].mesage,
-                                              ),
-                                            ],
+                              //Sending user
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        // decoration:
+                                        //     BoxDecoration(color: Colors.cyan),
+                                        width: 150,
+                                        padding: EdgeInsets.only(right: 20),
+                                        child: Card(
+                                          elevation: 1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                check[i].username ==
+                                                        roomLogicController
+                                                            .adminKaNaam
+                                                            .obs
+                                                            .value
+                                                    ? Text("Admin")
+                                                    : Text(check[i].username,
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.red)),
+                                                Text(
+                                                  check[i].mesage,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Spacer()
-                                  ],
+                                      Spacer()
+                                    ],
+                                  ),
                                 );
                         },
                         itemCount: check.length),
@@ -175,26 +188,36 @@ class _ChattingPlaceState extends State<ChattingPlace> {
             Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: message,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20))),
+                  child: Container(
+                    height: 40,
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: TextField(
+                      controller: message,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                    ),
                   ),
                 ),
                 SizedBox(width: 5),
                 RaisedButton(
+                  color: Colors.grey,
+                  shape: StadiumBorder(),
                   onPressed: () {
-                    chatController.sendMessage(
-                        firebaseId: roomLogicController.roomFireBaseId,
-                        message: message.text,
-                        userId: roomLogicController.userId,
-                        username: roomLogicController.userName.obs.value);
-                    message.clear();
-                    messages = [];
+                    if (message.text != "") {
+                      chatController.sendMessage(
+                          firebaseId: roomLogicController.roomFireBaseId,
+                          message: message.text,
+                          userId: roomLogicController.userId,
+                          username: roomLogicController.userName.obs.value);
+                      message.clear();
+                      messages = [];
+                    }
                   },
-                  child: Text("Send"),
-                )
+                  child: Text("Send",
+                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                ),
+                SizedBox(width: 10)
               ],
             )
           ],

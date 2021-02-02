@@ -32,9 +32,10 @@ class _YTPlayerState extends State<YTPlayer> {
         //         roomLogicController.userName.obs.value)
         //     ? true
         //     : false,
-        hideControls: true,
+        hideControls: false,
         mute: false,
         disableDragSeek: false,
+        
 
         // hideControls: true,
         hideThumbnail: true),
@@ -87,6 +88,7 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff292727),
       body: Center(
         child: Container(
           decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),

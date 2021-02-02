@@ -23,6 +23,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   RishabhController rishabhController = Get.put(RishabhController());
 
+  final double heightRatio = Get.height / 823;
+  final double widthRatio = Get.width / 411;
+
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
@@ -50,32 +53,32 @@ class _WelcomScreenState extends State<WelcomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff247D7D),
+        backgroundColor: Color(0xff292727),
       ),
       // appBar: AppBar(),
       drawer: Container(
-        width: 300,
+        width: 380 * widthRatio,
         child: Drawer(
           child: ChattingPlace(),
         ),
       ),
-      backgroundColor: Color(0xff247D7D),
+      backgroundColor: Color(0xff292727),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Text('Users: '),
-            SizedBox(height: 40),
+            // SizedBox(height: 40),
             Text(
               'Room',
               style: TextStyle(color: Colors.white, fontSize: 50),
             ),
             SizedBox(
-              height: 90,
+              height: 40 * heightRatio,
             ),
             Container(
-              height: 320,
-              width: 250,
+              height: 320 * heightRatio,
+              width: 300 * widthRatio,
               // decoration:
               //     BoxDecoration(border: Border.all(color: Colors.black)),
               child: Stack(
@@ -83,26 +86,107 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: 250,
-                      width: 250,
+                      height: 250 * heightRatio,
+                      width: 280 * widthRatio,
                       child: Card(
                         elevation: 8,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(25 * widthRatio),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 70, left: 85),
-                              child: SvgPicture.asset(
-                                  'lib/assets/svgs/neomo.svg',
-                                  width: 70,
-                                  height: 70,
-                                  color: Colors.black),
+                              padding: const EdgeInsets.only(top: 20, left: 30),
+                              child: InkWell(
+                                onTap: () {
+                                  // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                  Get.bottomSheet(
+                                    Container(
+                                      color: Colors.white,
+                                      width: double.infinity,
+                                      height: heightRatio * 250,
+                                      child: Card(
+                                        elevation: 10,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(height: 20),
+                                            Text('Enter the Youtube Link',
+                                                style: TextStyle(fontSize: 20)),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: heightRatio * 20),
+                                              height: heightRatio * 80,
+                                              width: widthRatio * 300,
+                                              child: TextField(
+                                                controller: yturl,
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: heightRatio * 10),
+                                              child: RaisedButton(
+                                                shape: StadiumBorder(),
+                                                onPressed: () {
+                                                  roomLogicController
+                                                      .ytURL.value = yturl.text;
+                                                  Get.to(YTPlayer());
+                                                },
+                                                child: Text('Play'),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'lib/assets/svgs/youtubeplayer.svg',
+                                      width: 70 * heightRatio,
+                                      height: 70 * widthRatio,
+                                    ),
+                                    SizedBox(width: 10 * widthRatio),
+                                    Text(
+                                      'Youtube',
+                                      style: TextStyle(fontSize: 20),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                            SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 42.5),
+                              child: InkWell(
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'lib/assets/svgs/localplayer.svg',
+                                      width: 40 * widthRatio,
+                                      height: 40 * heightRatio,
+                                    ),
+                                    SizedBox(width: 25 * widthRatio),
+                                    Text(
+                                      'Local Media',
+                                      style: TextStyle(fontSize: 20),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20 * heightRatio),
                             Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: Row(
@@ -111,21 +195,23 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
                                 children: [
                                   Text(
-                                    'Rishabh',
+                                    'Rish',
                                     style: TextStyle(fontSize: 30),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 10, bottom: 0),
                                     child: SvgPicture.asset(
-                                        'lib/assets/svgs/crown.svg',
-                                        height: 25,
-                                        width: 25),
+                                      'lib/assets/svgs/crown.svg',
+                                      height: 25 * heightRatio,
+                                      width: 25 * widthRatio,
+                                      color: Colors.orange,
+                                    ),
                                   )
                                 ],
                               ),
                             ),
-                            SizedBox(height: 5),
+                            SizedBox(height: 10 * heightRatio),
                             Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: GetX<RoomLogicController>(
@@ -143,12 +229,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                        width: 120, height: 120),
+                        width: 120 * widthRatio, height: 120 * heightRatio),
                   )
                 ],
               ),
             ),
-            // SizedBox(height: 80),
+            SizedBox(height: 40 * heightRatio),
             Expanded(
               child: StreamBuilder(
                   stream: rishabhController.getUsersList(
@@ -157,7 +243,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     if (event.hasData) {
                       return Container(
                         // height: 100,
-                        width: 300,
+                        width: 300 * widthRatio,
                         child: NotificationListener<
                                 OverscrollIndicatorNotification>(
                             onNotification: (overscroll) {
@@ -166,13 +252,17 @@ class _WelcomScreenState extends State<WelcomScreen> {
                             child: ListView.separated(
                                 separatorBuilder: (ctx, i) {
                                   return SizedBox(
-                                    height: 20,
+                                    height: 20 * heightRatio,
                                   );
                                 },
                                 itemBuilder: (ctx, i) {
                                   print('chut: ${event.data.snapshot.value}');
 
-                                  return CustomNameBar(event: event, index: i);
+                                  return CustomNameBar(
+                                      event: event,
+                                      index: i,
+                                      widthRatio: widthRatio,
+                                      heightRatio: heightRatio);
                                 },
                                 itemCount: event.data.snapshot.value.length)),
                       );
@@ -197,9 +287,13 @@ class _WelcomScreenState extends State<WelcomScreen> {
 class CustomNameBar extends StatelessWidget {
   final AsyncSnapshot event;
   final int index;
+  final double heightRatio;
+  final double widthRatio;
   CustomNameBar({
     this.event,
     this.index,
+    this.heightRatio,
+    this.widthRatio,
     Key key,
   }) : super(key: key);
 
@@ -208,6 +302,7 @@ class CustomNameBar extends StatelessWidget {
     return Container(
       height: 80,
       child: Card(
+        elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         // width: 20,
         // height: 70,
@@ -223,13 +318,22 @@ class CustomNameBar extends StatelessWidget {
                 style: TextStyle(fontSize: 30),
               ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: SvgPicture.asset(
-                  'lib/assets/svgs/emoji.svg',
-                  width: 30,
-                  height: 30,
-                  color: Color(0xffF15757),
+              InkWell(
+                onTap: () {
+                  Get.showSnackbar(GetBar(
+                    title: 'Rishabh',
+                    message: 'Hi I am Rishabh',
+                    duration: Duration(seconds: 2),
+                  ));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: SvgPicture.asset(
+                    'lib/assets/svgs/emoji.svg',
+                    width: 30 * widthRatio,
+                    height: 30 * heightRatio,
+                    color: Color(0xffF15757),
+                  ),
                 ),
               )
             ],
