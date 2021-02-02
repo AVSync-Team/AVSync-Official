@@ -109,7 +109,22 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25)),
-                              onPressed: () {},
+                              onPressed: () async {
+                                bool canJoin =
+                                    await roomLogicController.joinRoom(
+                                  roomId: roomId.text,
+                                  name: nameController.text,
+                                );
+                                if (canJoin) {
+                                  Get.to(WelcomScreen());
+                                } else if (!canJoin) {
+                                  // print("No Such Room exsist");
+                                  return Get.snackbar(
+                                    'Room not found',
+                                    'The Room ID you entered was not found :(',
+                                  );
+                                }
+                              },
                               child: Text(
                                 'Join',
                                 style: TextStyle(fontSize: 25),
@@ -136,8 +151,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   // }
                 },
                 child: Text('Join Room',
-                    style:
-                        TextStyle(fontSize: 40, fontWeight: FontWeight.normal)),
+                    style: TextStyle(
+                        fontSize: 40 * widthRatio,
+                        fontWeight: FontWeight.normal)),
               ),
             ),
             SizedBox(height: 30 * heightRatio),
@@ -155,7 +171,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   },
                   child: Text('Create Room',
                       style: TextStyle(
-                          fontSize: 35, fontWeight: FontWeight.normal))),
+                          fontSize: 35 * widthRatio,
+                          fontWeight: FontWeight.normal))),
             ),
             // RaisedButton(
             //   onPressed: () async {

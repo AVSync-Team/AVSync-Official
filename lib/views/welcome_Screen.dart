@@ -267,7 +267,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 itemCount: event.data.snapshot.value.length)),
                       );
                     } else {
-                      return CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
                     }
                   }),
             ),
