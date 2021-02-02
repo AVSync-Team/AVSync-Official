@@ -49,6 +49,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ChattingPlace(),
+      ),
       backgroundColor: Color(0xff247D7D),
       body: Center(
         child: Column(
@@ -176,7 +179,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 return Text('Your room id is: ${controller.roomId.obs.value}');
               },
             ),
-            ChattingPlace(),
+            // ChattingPlace(),
           ],
         ),
       ),
