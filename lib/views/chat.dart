@@ -116,7 +116,8 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                                 FlutterClipboard.copy(
                                                         check[i].mesage)
                                                     .then((value) =>
-                                                        print('copied'));
+                                                        Get.snackbar("Done!",
+                                                            "Message Copied!"));
                                               },
                                               child: Column(
                                                 crossAxisAlignment:
@@ -164,7 +165,8 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                                 FlutterClipboard.copy(
                                                         check[i].mesage)
                                                     .then((value) =>
-                                                        print('copied'));
+                                                        Get.snackbar("Done!",
+                                                            "Message Copied!"));
                                               },
                                               child: Column(
                                                 mainAxisAlignment:
