@@ -58,7 +58,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             SizedBox(height: 40),
             Text(
               'Room',
-              style: TextStyle(color: Colors.white, fontSize: 40),
+              style: TextStyle(color: Colors.white, fontSize: 50),
             ),
             SizedBox(
               height: 90,
