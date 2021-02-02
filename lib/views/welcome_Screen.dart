@@ -171,37 +171,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     }
                   }),
             ),
-
-            // TextField(
-            //   controller: yturl,
-            //   decoration: InputDecoration(hintText: 'Enter URL'),
-            // ),
-            // RaisedButton(
-            //   onPressed: () {
-            //     ytPlayerclicked = true;
-            //     roomLogicController.ytURL.value = yturl.text;
-            //     Get.off(YTPlayer());
-            //   },
-            //   child: Text('Yotube Video'),
-            // ),
-            // RaisedButton(
-            //   onPressed: () {
-            //     Get.to(NiceVideoPlayer());
-            //   },
-            //   child: Text('Local Video'),
-            // ),
-            // RaisedButton(
-            //   onPressed: () {
-            //     Get.off(CreateRoomScreen());
-            //   },
-            //   child: Text('Delete Room'),
-            // ),
-            // GetX<RoomLogicController>(
-            //   builder: (controller) {
-            //     return Text('Your room id is: ${controller.roomId.obs.value}');
-            //   },
-            // ),
-            // ChattingPlace()
+            GetX<RoomLogicController>(
+              builder: (controller) {
+                return Text('Your room id is: ${controller.roomId.obs.value}');
+              },
+            ),
+            ChattingPlace(),
           ],
         ),
       ),
