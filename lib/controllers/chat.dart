@@ -13,18 +13,19 @@ int randomGenerator() {
 }
 
 class ChatController extends GetxController {
-  void sendMessage({String firebaseId, String message, String userId}) {
+  void sendMessage({String firebaseId, String message, String userId,String username}) {
     Timestamp stamp = Timestamp.now();
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     firebaseDatabase
         .child('Rooms')
         .child('$firebaseId')
         .child('chat')
-        .child(stamp.seconds.toString())
+        .push()
         .set({
       "message": message,
       "userId": userId,
-      "messageId": DateTime.now().toIso8601String()
+      "messageId": DateTime.now().toIso8601String(),
+      "username":username
     });
   }
 

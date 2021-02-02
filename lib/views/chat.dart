@@ -10,8 +10,11 @@ class ChattingPlace extends StatefulWidget {
 
 class M {
   DateTime id;
-  String meesage;
-  M({this.id, this.meesage});
+  String mesage;
+  String userId;
+  String username;
+
+  M({this.id, this.mesage, this.userId, this.username});
 }
 
 class _ChattingPlaceState extends State<ChattingPlace> {
@@ -33,16 +36,17 @@ class _ChattingPlaceState extends State<ChattingPlace> {
             builder: (BuildContext ctx, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 List<M> check = [];
-                List temp = [];
+
                 snapshot.data.snapshot.value.forEach((key, value) {
                   text = [];
                   messages.add(
                       {"userId": value["userId"], "message": value["message"]});
                   check.add(M(
                       id: DateTime.parse(value["messageId"]),
-                      meesage: value["message"]));
+                      mesage: value["message"],
+                      userId: value["userId"],
+                      username: value["username"]));
                 });
-                temp = check;
 
                 check.sort((a, b) => (a.id).compareTo(b.id));
 
@@ -67,7 +71,32 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   height: 200,
                   child: ListView.builder(
                       itemBuilder: (ctx, i) {
-                        return Text(check[i].meesage);
+                        return roomLogicController.userId == check[i].userId
+                            ? Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    check[i].username ==
+                                            roomLogicController
+                                                .adminKaNaam.obs.value
+                                        ? Text("Admin")
+                                        : Text(check[i].username),
+                                    Text(check[i].mesage)
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                child: Column(
+                                  children: [
+                                    check[i].username ==
+                                            roomLogicController
+                                                .adminKaNaam.obs.value
+                                        ? Text("Admin")
+                                        : Text(check[i].username),
+                                    Text(check[i].mesage)
+                                  ],
+                                ),
+                              );
                       },
                       itemCount: check.length),
                 );
@@ -88,7 +117,8 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   chatController.sendMessage(
                       firebaseId: roomLogicController.roomFireBaseId,
                       message: message.text,
-                      userId: roomLogicController.userId);
+                      userId: roomLogicController.userId,
+                      username: roomLogicController.userName.obs.value);
                   messages = [];
                 },
                 child: Text("Send"),
