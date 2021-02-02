@@ -56,7 +56,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
 
                 check.sort((a, b) => (a.id).compareTo(b.id));
 
-                if (count != 1)
+                if (count != 0)
                   chatScroll.animateTo(
                     chatScroll.position.maxScrollExtent,
                     duration: Duration(seconds: 1),
