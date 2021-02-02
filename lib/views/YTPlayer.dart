@@ -7,6 +7,7 @@ import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -22,6 +23,7 @@ class YTPlayer extends StatefulWidget {
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 YTStateController ytStateController = Get.put(YTStateController());
 RishabhController rishabhController = Get.put(RishabhController());
+AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
 // int position = 0;
@@ -91,9 +93,11 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff292727),
-      ),
+      appBar: Get.context.orientation == Orientation.portrait
+          ? AppBar(
+              backgroundColor: Color(0xff292727),
+            )
+          : null,
       drawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
@@ -103,7 +107,7 @@ class _YTPlayerState extends State<YTPlayer> {
       backgroundColor: Color(0xff292727),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
+          // decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
           // height: Get.context.isPortrait ? Get.height : Get.height,
           // width: Get.context.isPortrait ? Get.width : Get.width,
           child: Stack(
@@ -114,9 +118,9 @@ class _YTPlayerState extends State<YTPlayer> {
                   aspectRatio: 16 / 9,
                   // width: double.infinity,
                   child: YoutubePlayer(
-                    onEnded: (_) {
-                      Get.off(WelcomScreen());
-                    },
+                    // onEnded: (_) {
+                    //   Get.off(WelcomScreen());
+                    // },
                     aspectRatio: 16 / 9,
                     controller: controller,
                     showVideoProgressIndicator: true,
@@ -159,20 +163,25 @@ class _YTPlayerState extends State<YTPlayer> {
                   // aspectRatio: 16 / 9,
                   width: Get.width,
                   height: Get.height,
+                  // decoration: BoxDecoration(color: Colors.blue),
 
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red)),
+                          // decoration: BoxDecoration(
+                          //     border: Border.all(color: Colors.red)),
                           child: GestureDetector(
-                            onDoubleTap: () {
+                            onTap: () {
                               controller.seekTo(Duration(
                                   seconds: controller.value.position.inSeconds -
                                       10));
                             },
+                            child: SvgPicture.asset(
+                                'lib/assets/svgs/back10.svg',
+                                width: 40 * widthRatio,
+                                height: 40 * heightRatio),
                           ),
                         ),
                       ),
@@ -180,8 +189,8 @@ class _YTPlayerState extends State<YTPlayer> {
                         // width: Get.width * 0.4,
                         // color: Colors.blue.shade100,
                         child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.cyan)),
+                          // decoration: BoxDecoration(
+                          //     border: Border.all(color: Colors.cyan)),
                           child: GestureDetector(
                             onTap: () {
                               if (controller.value.isPlaying) {
@@ -197,10 +206,13 @@ class _YTPlayerState extends State<YTPlayer> {
                         // width: Get.width * 0.3,
                         // color: Colors.yellow.shade100,
                         child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.yellow)),
+                          // decoration: BoxDecoration(
+                          //     border: Border.all(color: Colors.yellow)),
                           child: GestureDetector(
-                            onDoubleTap: () {
+                            child: SvgPicture.asset('lib/assets/svgs/go10.svg',
+                                width: 40 * widthRatio,
+                                height: 40 * heightRatio),
+                            onTap: () {
                               controller.seekTo(Duration(
                                   seconds: controller.value.position.inSeconds +
                                       10));
@@ -213,8 +225,11 @@ class _YTPlayerState extends State<YTPlayer> {
                 ),
               ),
               Positioned(
-                bottom: 20,
-                top: 20,
+                bottom: Get.context.isPortrait
+                    ? 270 * heightRatio
+                    : 20 * heightRatio,
+                right:
+                    Get.context.isPortrait ? 10 * widthRatio : 30 * widthRatio,
                 child: Container(
                   // margin: EdgeInsets.only(left: 40),
                   child: IconButton(

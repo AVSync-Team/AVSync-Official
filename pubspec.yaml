@@ -65,6 +65,8 @@ flutter:
     - lib/assets/svgs/neomo.svg
     - lib/assets/svgs/localplayer.svg
     - lib/assets/svgs/youtubeplayer.svg
+    - lib/assets/svgs/back10.svg
+    - lib/assets/svgs/go10.svg
 
 
   #   - images/a_dot_ham.jpeg
