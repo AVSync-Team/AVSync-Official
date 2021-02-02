@@ -1,5 +1,6 @@
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:neumorphic/neumorphic.dart';
@@ -110,24 +111,33 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                           elevation: 2,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                check[i].username ==
-                                                        roomLogicController
-                                                            .adminKaNaam
-                                                            .obs
-                                                            .value
-                                                    ? Text("Admin",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            color: Colors.cyan))
-                                                    : Text(check[i].username),
-                                                SizedBox(height: 5),
-                                                Text(check[i].mesage),
-                                                SizedBox(height: 5)
-                                              ],
+                                            child: GestureDetector(
+                                              onLongPress: () {
+                                                FlutterClipboard.copy(
+                                                        check[i].mesage)
+                                                    .then((value) =>
+                                                        print('copied'));
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  check[i].username ==
+                                                          roomLogicController
+                                                              .adminKaNaam
+                                                              .obs
+                                                              .value
+                                                      ? Text("Admin",
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              color:
+                                                                  Colors.cyan))
+                                                      : Text(check[i].username),
+                                                  SizedBox(height: 5),
+                                                  Text(check[i].mesage),
+                                                  SizedBox(height: 5)
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -149,26 +159,35 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                           elevation: 1,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                check[i].username ==
-                                                        roomLogicController
-                                                            .adminKaNaam
-                                                            .obs
-                                                            .value
-                                                    ? Text("Admin")
-                                                    : Text(check[i].username,
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            color: Colors.red)),
-                                                Text(
-                                                  check[i].mesage,
-                                                ),
-                                              ],
+                                            child: GestureDetector(
+                                              onLongPress: () {
+                                                FlutterClipboard.copy(
+                                                        check[i].mesage)
+                                                    .then((value) =>
+                                                        print('copied'));
+                                              },
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  check[i].username ==
+                                                          roomLogicController
+                                                              .adminKaNaam
+                                                              .obs
+                                                              .value
+                                                      ? Text("Admin")
+                                                      : Text(check[i].username,
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              color:
+                                                                  Colors.red)),
+                                                  Text(
+                                                    check[i].mesage,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
