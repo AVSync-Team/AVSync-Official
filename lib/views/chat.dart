@@ -96,6 +96,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                 children: [
                                   Spacer(),
                                   Container(
+                                    width: 150,
                                     padding: EdgeInsets.all(8),
                                     child: Card(
                                       elevation: 2,
@@ -128,6 +129,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                   Container(
                                     // decoration:
                                     //     BoxDecoration(color: Colors.cyan),
+                                    width: 150,
                                     padding: EdgeInsets.only(right: 20),
                                     child: Card(
                                       elevation: 1,
@@ -147,7 +149,9 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         color: Colors.red)),
-                                            Text(check[i].mesage),
+                                            Text(
+                                              check[i].mesage,
+                                            ),
                                           ],
                                         ),
                                       ),
