@@ -49,6 +49,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff247D7D),
+      ),
       // appBar: AppBar(),
       drawer: Container(
         width: 300,

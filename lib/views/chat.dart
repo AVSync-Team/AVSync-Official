@@ -22,6 +22,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   ChatController chatController = Get.put(ChatController());
   TextEditingController message = TextEditingController();
+  ScrollController chatScroll = ScrollController();
   // List messages
   List messages = [];
   List text = [];
@@ -54,7 +55,12 @@ class _ChattingPlaceState extends State<ChattingPlace> {
 
                 check.sort((a, b) => (a.id).compareTo(b.id));
 
-                print(check[0].id);
+                if (check.length != 1)
+                  chatScroll.animateTo(
+                    chatScroll.position.maxScrollExtent,
+                    duration: Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn,
+                  );
 
                 // if (text == []) {
                 //   text = check;
@@ -74,6 +80,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 return Container(
                   height: 400,
                   child: ListView.builder(
+                      controller: chatScroll,
                       itemBuilder: (ctx, i) {
                         return roomLogicController.userId == check[i].userId
                             ? Row(
