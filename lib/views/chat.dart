@@ -29,6 +29,12 @@ class _ChattingPlaceState extends State<ChattingPlace> {
 
   int count = 0;
   @override
+  void dispose() {
+    super.dispose();
+    count = 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Color(0x11ffffff),
@@ -59,8 +65,8 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 if (count != 0)
                   chatScroll.animateTo(
                     chatScroll.position.maxScrollExtent,
-                    duration: Duration(seconds: 1),
-                    curve: Curves.fastOutSlowIn,
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.bounceIn,
                   );
 
                 count++;
