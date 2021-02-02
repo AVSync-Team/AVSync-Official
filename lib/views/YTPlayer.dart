@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'chat.dart';
+
 class YTPlayer extends StatefulWidget {
   @override
   _YTPlayerState createState() => _YTPlayerState();
@@ -20,6 +22,8 @@ class YTPlayer extends StatefulWidget {
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 YTStateController ytStateController = Get.put(YTStateController());
 RishabhController rishabhController = Get.put(RishabhController());
+final double heightRatio = Get.height / 823;
+final double widthRatio = Get.width / 411;
 // int position = 0;
 
 class _YTPlayerState extends State<YTPlayer> {
@@ -35,7 +39,6 @@ class _YTPlayerState extends State<YTPlayer> {
         hideControls: false,
         mute: false,
         disableDragSeek: false,
-        
 
         // hideControls: true,
         hideThumbnail: true),
@@ -88,6 +91,15 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff292727),
+      ),
+      drawer: Container(
+        width: 380 * widthRatio,
+        child: Drawer(
+          child: ChattingPlace(),
+        ),
+      ),
       backgroundColor: Color(0xff292727),
       body: Center(
         child: Container(
