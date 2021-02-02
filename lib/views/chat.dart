@@ -26,7 +26,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   // List messages
   List messages = [];
   List text = [];
-
+  int a;
   int count = 0;
   @override
   void dispose() {
@@ -74,7 +74,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                     );
 
                   count++;
-
+////s
                   // if (text == []) {
                   //   text = check;
                   // } else {
