@@ -41,6 +41,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
             builder: (BuildContext ctx, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 List<M> check = [];
+                int count = 0;
 
                 snapshot.data.snapshot.value.forEach((key, value) {
                   text = [];
@@ -55,12 +56,14 @@ class _ChattingPlaceState extends State<ChattingPlace> {
 
                 check.sort((a, b) => (a.id).compareTo(b.id));
 
-                if (check.length != 1)
+                if (count != 1)
                   chatScroll.animateTo(
                     chatScroll.position.maxScrollExtent,
                     duration: Duration(seconds: 1),
                     curve: Curves.fastOutSlowIn,
                   );
+
+                count++;
 
                 // if (text == []) {
                 //   text = check;
@@ -75,7 +78,6 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 //   });
                 //   text = temp;
                 // }
-                print(check);
 
                 return Container(
                   height: 400,
