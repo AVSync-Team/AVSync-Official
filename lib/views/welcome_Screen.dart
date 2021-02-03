@@ -115,8 +115,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
         backgroundColor: Color(0xff292727),
       ),
       // appBar: AppBar(),
-      endDrawer: Container(
-        alignment: Alignment.topRight,
+      drawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
           child: ChattingPlace(),
