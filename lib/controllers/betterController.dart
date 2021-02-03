@@ -68,4 +68,35 @@ class RishabhController extends GetxController {
         .child('users')
         .onValue;
   }
+
+  void userLeaveRoom({String firebaseId, String userId}) async {
+    final firebaseDatabase = FirebaseDatabase.instance.reference();
+    final userRef =
+        firebaseDatabase.child('Rooms').child('$firebaseId').child('users');
+
+    var usersList = [];
+    var index = 0;
+
+    userRef.once().then((value) {
+      value.value.forEach((value) {
+        print(index);
+        print(value);
+        if (userId == value['id']) {
+          print('locked');
+          // userRef.child('$index').remove();
+        }
+
+        // index++;
+      });
+    });
+  }
+
+  Stream<Event> tester({String firebaseId}) {
+    final firebasedatbase = FirebaseDatabase.instance.reference();
+    return firebasedatbase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('users')
+        .onValue;
+  }
 }

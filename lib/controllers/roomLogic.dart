@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
@@ -62,6 +63,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> joinRoom({String roomId, String name}) async {
+    final firebaseDatabase 
     userName = name;
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
@@ -92,6 +94,7 @@ class RoomLogicController extends GetxController {
     });
     return true;
   }
+
 
   List<dynamic> getUsersList() {
     return users;
