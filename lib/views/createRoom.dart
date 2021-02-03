@@ -50,6 +50,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               Container(
                 width: Get.width * 0.8,
                 child: TextField(
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.normal),
                   controller: nameController,
