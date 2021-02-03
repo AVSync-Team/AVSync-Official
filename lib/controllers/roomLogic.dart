@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +18,9 @@ class RoomLogicController extends GetxController {
   String adminKaNaam;
   String userName;
   var ytURL = ''.obs;
+  String localUrl = ''.obs.value;
   String userId;
+  Uint8List bytes;
 
   String roomFireBaseId;
   var roomId = '0'.obs;

@@ -1,11 +1,15 @@
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:neumorphic/neumorphic.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ChattingPlace extends StatefulWidget {
+  final YoutubePlayerController controller;
+  ChattingPlace({this.controller});
   @override
   _ChattingPlaceState createState() => _ChattingPlaceState();
 }
@@ -213,6 +217,11 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                     height: 40,
                     margin: EdgeInsets.only(left: 10, right: 10),
                     child: TextField(
+                      onTap: () {
+                        if (widget.controller != null) {
+                          widget.controller.play();
+                        }
+                      },
                       controller: message,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(

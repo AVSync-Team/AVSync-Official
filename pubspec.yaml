@@ -35,6 +35,7 @@ dependencies:
   flutter_svg: ^0.18.0
   neumorphic: ^0.4.0
   clipboard: ^0.1.2+8
+  file_picker: ^2.1.6
 
 
   # The following adds the Cupertino Icons font to your application.
