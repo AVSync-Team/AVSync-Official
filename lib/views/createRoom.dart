@@ -59,6 +59,11 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     focusColor: Colors.yellow,
                     // fillColor: Colors.red,
                     border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey,
+                        style: BorderStyle.solid,
+                        width: 6,
+                      ),
                       borderRadius: BorderRadius.circular(25),
                     ),
                     hintText: "Enter your name",
