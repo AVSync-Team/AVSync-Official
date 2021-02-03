@@ -20,6 +20,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   var messages;
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
+  bool joinLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -146,25 +147,43 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
-                                  onPressed: () async {
-                                    roomLogicController.joinRoom(
-                                        roomId: roomId.text,
-                                        name: nameController.text);
-                                    // bool canJoin =
-                                    //     await roomLogicController.joinRoom(
-                                    //   roomId: roomId.text,
-                                    //   name: nameController.text,
-                                    // );
-                                    // if (canJoin) {
-                                    //   Get.to(WelcomScreen());
-                                    // } else if (!canJoin) {
-                                    //   // print("No Such Room exsist");
-                                    //   return Get.snackbar(
-                                    //     'Room not found',
-                                    //     'The Room ID you entered was not found :(',
-                                    //   );
-                                    // }
-                                  },
+                                  onPressed: joinLoading && roomId.text == null
+                                      ? null
+                                      : () async {
+                                          setState(() {
+                                            joinLoading = true;
+                                          });
+                                          bool flag = await roomLogicController
+                                              .joinRoom(
+                                                  roomId: roomId.text,
+                                                  name: nameController.text);
+                                          setState(() {
+                                            joinLoading = false;
+                                          });
+
+                                          if (flag) {
+                                            Get.to(WelcomScreen());
+                                          } else {
+                                            Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        "Wrong Room Id!")));
+                                          }
+                                          // bool canJoin =
+                                          //     await roomLogicController.joinRoom(
+                                          //   roomId: roomId.text,
+                                          //   name: nameController.text,
+                                          // );
+                                          // if (canJoin) {
+
+                                          // } else if (!canJoin) {
+                                          //   // print("No Such Room exsist");
+                                          //   return Get.snackbar(
+                                          //     'Room not found',
+                                          //     'The Room ID you entered was not found :(',
+                                          //   );
+                                          // }
+                                        },
                                   child: Text(
                                     'Join',
                                     style: TextStyle(fontSize: 25),
