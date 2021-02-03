@@ -109,7 +109,7 @@ class RoomLogicController extends GetxController {
         return true;
       }
     });
-    return true;
+    return false;
   }
 
   Stream<Event> adminBsdkKaNaam({String firebaseId}) {
