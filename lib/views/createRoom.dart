@@ -45,7 +45,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
             //     ),
             //   ),
             // ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Container(
               width: Get.width * 0.8,
               child: TextField(
@@ -61,7 +61,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     hintStyle: TextStyle(color: Colors.grey)),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 60),
             Container(
               width: 300 * widthRatio,
               height: 80 * heightRatio,
@@ -71,8 +71,14 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     borderRadius: BorderRadius.circular(25)),
                 onPressed: () async {
                   Get.bottomSheet(Container(
-                    color: Colors.white,
                     width: Get.width,
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.only(
+                        topLeft: const Radius.circular(20.0),
+                        topRight: const Radius.circular(20.0),
+                      ),
+                    ),
                     height: 270 * heightRatio,
                     child: Center(
                       child: Column(
