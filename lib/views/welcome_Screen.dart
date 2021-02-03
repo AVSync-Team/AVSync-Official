@@ -400,35 +400,31 @@ class CustomNameBar extends StatelessWidget {
         // color: Colors.white,
         // decoration: BoxDecoration(
         //     borderRadius: BorderRadius.circular(25), color: Colors.white),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 50),
-          child: Row(
-            children: [
-              Text(
-                '${event.data.snapshot.value[index]['name']}',
-                style: TextStyle(fontSize: 30),
-              ),
-              Spacer(),
-              // InkWell(
-              //   onTap: () {
-              //     Get.showSnackbar(GetBar(
-              //       title: 'Rishabh',
-              //       message: 'Hi I am Rishabh',
-              //       duration: Duration(seconds: 2),
-              //     ));
-              //   },
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(right: 30),
-              //     child: SvgPicture.asset(
-              //       'lib/assets/svgs/emoji.svg',
-              //       width: 30 * widthRatio,
-              //       height: 30 * heightRatio,
-              //       color: Color(0xffF15757),
-              //     ),
-              //   ),
-              //)
-            ],
+
+        child: Center(
+          child: Text(
+            '${event.data.snapshot.value[index]['name']}',
+            style: TextStyle(fontSize: 30),
           ),
+
+          // InkWell(
+          //   onTap: () {
+          //     Get.showSnackbar(GetBar(
+          //       title: 'Rishabh',
+          //       message: 'Hi I am Rishabh',
+          //       duration: Duration(seconds: 2),
+          //     ));
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(right: 30),
+          //     child: SvgPicture.asset(
+          //       'lib/assets/svgs/emoji.svg',
+          //       width: 30 * widthRatio,
+          //       height: 30 * heightRatio,
+          //       color: Color(0xffF15757),
+          //     ),
+          //   ),
+          //)
         ),
       ),
     );
