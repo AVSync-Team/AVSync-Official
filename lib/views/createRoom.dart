@@ -57,19 +57,37 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   maxLength: 12,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.normal),
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                   controller: nameController,
                   decoration: InputDecoration(
+                    //filled: true,
+                    //fillColor: Colors.blueGrey,
                     focusColor: Colors.yellow,
                     // fillColor: Colors.red,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blueGrey,
-                        style: BorderStyle.solid,
-                        width: 6,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: new BorderSide(
+                        color: Colors.white,
+                        width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: new BorderRadius.circular(25),
                     ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.grey, width: 6),
+                      borderRadius: new BorderRadius.circular(25),
+                    ),
+
+                    //  border: OutlineInputBorder(
+                    //
+                    //    borderSide: BorderSide(
+                    //      color: Colors.blueGrey,
+                    //      style: BorderStyle.solid,
+                    //      width: 6.0,
+                    //    ),
+                    //    borderRadius: BorderRadius.circular(25),
+                    //  ),
                     hintText: "Enter your name",
                     hintStyle: TextStyle(color: Colors.grey),
                   ),
