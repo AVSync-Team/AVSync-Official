@@ -46,10 +46,11 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               //     ),
               //   ),
               // ),
-              SizedBox(height: 15),
+              SizedBox(height: 30),
               Container(
                 width: Get.width * 0.8,
                 child: TextField(
+                  maxLength: 12,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.normal),
