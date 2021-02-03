@@ -63,7 +63,8 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> joinRoom({String roomId, String name}) async {
-    final firebaseDatabase 
+    final firebaseDatabase = FirebaseDatabase.instance.reference();
+    
     userName = name;
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
@@ -94,7 +95,6 @@ class RoomLogicController extends GetxController {
     });
     return true;
   }
-
 
   List<dynamic> getUsersList() {
     return users;
