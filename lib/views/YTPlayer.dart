@@ -1,12 +1,12 @@
-import 'dart:async';
+// import 'dart:async';
 
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
-import 'package:VideoSync/views/welcome_Screen.dart';
+// import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -96,12 +96,13 @@ class _YTPlayerState extends State<YTPlayer> {
       appBar: Get.context.orientation == Orientation.portrait
           ? AppBar(
               backgroundColor: Color(0xff292727),
+              elevation: 0,
             )
           : null,
       drawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
-          child: ChattingPlace(),
+          child: ChattingPlace(controller: controller),
         ),
       ),
       backgroundColor: Color(0xff292727),

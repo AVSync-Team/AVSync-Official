@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'dart:async';
+// import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
@@ -17,7 +19,22 @@ class RoomLogicController extends GetxController {
   String adminKaNaam;
   String userName;
   var ytURL = ''.obs;
+  String localUrl = ''.obs.value;
   String userId;
+  String userKaId;
+  Uint8List bytes;
+  var adminKaNameFromDb = ''.obs;
+  var roomIdText = "".obs.value;
+  var joinLoading = false.obs;
+
+
+  void roomText(text) {
+    roomIdText = text;
+  }
+
+  void joinstatus(status) {
+    joinLoading = status;
+  }
 
   String roomFireBaseId;
   var roomId = '0'.obs;
@@ -39,10 +56,11 @@ class RoomLogicController extends GetxController {
           "isPlayerPaused": true,
           "roomId": this.roomId,
           "timeStamp": 0,
+          "adminName": adminName,
           "isDragging": false,
-          "users": [
-            {"name": adminName, "id": this.userId},
-          ],
+          "users": {
+            "admin": {"name": adminName, "id": this.userId},
+          },
           "chat": {
             "341241": {
               "message": "Welcome",
@@ -52,13 +70,20 @@ class RoomLogicController extends GetxController {
             }
           }
         }));
+
     // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
     print(roomFireBaseId);
   }
 
+  String get getUserId {
+    return userKaId;
+  }
+
   Future<bool> joinRoom({String roomId, String name}) async {
+    final firebaseDatabase = FirebaseDatabase.instance.reference();
+
     userName = name;
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
@@ -69,6 +94,7 @@ class RoomLogicController extends GetxController {
     String roomUrl;
 
     this.userId = randomGenerator().toString();
+    userKaId = this.userId;
 
     rooms = json.decode(response.body);
     rooms.forEach((key, value) async {
@@ -76,18 +102,33 @@ class RoomLogicController extends GetxController {
         flag = true;
         roomFireBaseId = key.toString();
 
-        roomUrl =
-            'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
-        final reponse2 = await http.get(roomUrl);
-        users = json.decode(reponse2.body);
-        users.add({"name": name, "id": this.userId});
-        await http.patch(
-            'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-            body: json.encode({"users": users}));
-        return true;
+        firebaseDatabase
+            .child('Rooms')
+            .child('$roomFireBaseId')
+            .child('users')
+            .push()
+            .set({"id": this.userId, "name": name});
+
+        // roomUrl =
+        //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
+        // final reponse2 = await http.get(roomUrl);
+        // users = json.decode(reponse2.body);
+        // users.add({"name": name, "id": this.userId});
+        // await http.patch(
+        //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+        flag = true;
       }
     });
-    return true;
+    return flag;
+  }
+
+  Stream<Event> adminBsdkKaNaam({String firebaseId}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    return firebase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('adminName')
+        .onValue;
   }
 
   List<dynamic> getUsersList() {

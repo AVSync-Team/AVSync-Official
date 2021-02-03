@@ -1,15 +1,18 @@
 import 'dart:async';
 
 import 'package:VideoSync/controllers/betterController.dart';
+import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
-import 'package:VideoSync/views/videoPlayer.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:VideoSync/views/createRoom.dart';
+// import 'package:VideoSync/views/videoPlayer.dart';
+// import 'package:file_picker/file_picker.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:VideoSync/views/createRoom.dart';
+// import 'package:VideoSync/views/createRoom.dart';
 
 class WelcomScreen extends StatefulWidget {
   @override
@@ -22,24 +25,45 @@ class _WelcomScreenState extends State<WelcomScreen> {
   TextEditingController yturl = TextEditingController();
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   RishabhController rishabhController = Get.put(RishabhController());
+  ChatController chatController = Get.put(ChatController());
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
+  bool isLoading = false;
+  bool picking;
 
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //   _userController = new StreamController();
+  @override
+  void initState() {
+    super.initState();
+    chatController
+        .message(firebaseId: roomLogicController.roomFireBaseId)
+        .listen((event) {
+      List<M> check = [];
 
-  //   //   timer = Timer.periodic(Duration(seconds: 3), (_) async {
-  //   //     var data = await roomLogicController.loadDetails();
-  //   //     _userController.add(data);
-  //   //   });
-  //   //
-  // }
+      event.snapshot.value.forEach((key, value) {
+        check.add(M(
+            id: DateTime.parse(value["messageId"]),
+            mesage: value["message"],
+            userId: value["userId"],
+            username: value["username"]));
+      });
+
+      check.sort((a, b) => (a.id).compareTo(b.id));
+
+      Get.snackbar(
+          check[check.length - 1].username, check[check.length - 1].mesage);
+    });
+    //   _userController = new StreamController();
+
+    //   timer = Timer.periodic(Duration(seconds: 3), (_) async {
+    //     var data = await roomLogicController.loadDetails();
+    //     _userController.add(data);
+    //   });
+    //
+  }
 
   // @override
   // void dispose() {
@@ -49,17 +73,97 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //   super.dispose();
   // }
 
+  // Future<void> filePick() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+
+  //   FilePickerResult result = await FilePicker.platform.pickFiles(
+  //       // type: FileType.media,
+  //       // allowMultiple: false,
+  //       // allowedExtensions: ['.mp4'],
+  //       withData: false,
+  //       // allowCompression: true,
+  //       withReadStream: true,
+  //       onFileLoading: (status) {
+  //         if (status.toString() == "FilePickerStatus.picking") {
+  //           setState(() {
+  //             picking = true;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             picking = false;
+  //           });
+  //         }
+  //       });
+
+  //   // roomLogicController.bytes.obs.value = result.files[0];
+  //   roomLogicController.localUrl = result.files[0].path;
+
+  //   // print('testUrl: $testUrl');
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
+
+  // void bottomSheet() {
+  //   Get.bottomSheet(Container(
+  //     color: Colors.white,
+  //     height: 200,
+  //     width: 200,
+  //     child: isLoading
+  //         ? RaisedButton(
+  //             onPressed: () async {
+  //               await filePick();
+  //               Get.to(NiceVideoPlayer());
+  //             },
+  //             child: Text("Pick Video"),
+  //           )
+  //         : Center(
+  //             child: Center(
+  //               child: CircularProgressIndicator(),
+  //             ),
+  //           ),
+  //   ));
+  // }
+  void snackbar(String name, String message) {
+    Get.snackbar(name, message);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.exit_to_app_rounded),
+          onPressed: () {
+            Get.defaultDialog(
+                title: 'Leave Room',
+                confirm: RaisedButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      rishabhController.userLeaveRoom(
+                        firebaseId: roomLogicController.roomFireBaseId,
+                        userId: roomLogicController.userId,
+                      );
+                      Get.off(CreateRoomScreen());
+                    }),
+                cancel: RaisedButton(
+                    child: Text('No'),
+                    onPressed: () {
+                      Get.back();
+                    }),
+                content: Text('Do you want to leave the room ? '));
+          },
+        ),
         backgroundColor: Color(0xff292727),
       ),
       // appBar: AppBar(),
-      drawer: Container(
+      endDrawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
-          child: ChattingPlace(),
+          child: ChattingPlace(snackbar: snackbar),
         ),
       ),
       backgroundColor: Color(0xff292727),
@@ -73,6 +177,28 @@ class _WelcomScreenState extends State<WelcomScreen> {
               'Room',
               style: TextStyle(color: Colors.white, fontSize: 50),
             ),
+            // StreamBuilder(
+            //   stream: rishabhController.tester(
+            //       firebaseId: roomLogicController.roomFireBaseId),
+            //   builder: (context, snapshot) {
+            //     return Container(
+            //       height: 100,
+            //       child: ListView.builder(
+            //         itemBuilder: (ctx, i) {
+            //           return Text('Rishabh');
+            //         },
+            //         itemCount:
+            //             snapshot.data.snapshot.value.values.toList().length,
+            //       ),
+            //     );
+
+            //     // return RaisedButton(onPressed: () {
+            //     //   print(snapshot.data.snapshot.value.values.toList());
+
+            //     //   rishabhController.userLeaveRoom(
+            //     //       firebaseId: '-MScDAopj96DypuMqyNh', userId: '2312312');
+            //   },
+            // ),
             SizedBox(
               height: 40 * heightRatio,
             ),
@@ -194,10 +320,21 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 //     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
                                 children: [
-                                  Text(
-                                    'Rish',
-                                    style: TextStyle(fontSize: 30),
-                                  ),
+                                  StreamBuilder(
+                                      stream:
+                                          roomLogicController.adminBsdkKaNaam(
+                                              firebaseId: roomLogicController
+                                                  .roomFireBaseId),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasError) {
+                                          return Text(
+                                            '${snapshot.data.snapshot.value}',
+                                            style: TextStyle(fontSize: 30),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Text('Error');
+                                        }
+                                      }),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 10, bottom: 0),
@@ -237,19 +374,30 @@ class _WelcomScreenState extends State<WelcomScreen> {
             SizedBox(height: 40 * heightRatio),
             Expanded(
               child: StreamBuilder(
-                  stream: rishabhController.getUsersList(
-                      firebaseId: roomLogicController.roomFireBaseId),
-                  builder: (ctx, event) {
-                    if (event.hasData) {
-                      return Container(
-                        // height: 100,
-                        width: 300 * widthRatio,
-                        child: NotificationListener<
-                                OverscrollIndicatorNotification>(
-                            onNotification: (overscroll) {
-                              overscroll.disallowGlow();
-                            },
-                            child: ListView.separated(
+                stream: rishabhController.tester(
+                    firebaseId: roomLogicController.roomFireBaseId),
+                builder: (ctx, event) {
+                  if (event.hasData) {
+                    Future.delayed(
+                        Duration(seconds: 2),
+                        () => {
+                              Get.snackbar(
+                                  "",
+                                  event.data.snapshot.value[
+                                          event.data.snapshot.value.length -
+                                              1]['name'] +
+                                      "joined!")
+                            });
+
+                    return Container(
+                      // height: 100,
+                      width: 300 * widthRatio,
+                      child:
+                          NotificationListener<OverscrollIndicatorNotification>(
+                              onNotification: (overscroll) {
+                                overscroll.disallowGlow();
+                              },
+                              child: ListView.separated(
                                 separatorBuilder: (ctx, i) {
                                   return SizedBox(
                                     height: 20 * heightRatio,
@@ -264,19 +412,17 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       widthRatio: widthRatio,
                                       heightRatio: heightRatio);
                                 },
-                                itemCount: event.data.snapshot.value.length)),
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  }),
+                                itemCount: event.data.snapshot.value.values
+                                    .toList()
+                                    .length,
+                              )),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ),
-            // GetX<RoomLogicController>(
-            //   builder: (controller) {
-            //     return Text('Your room id is: ${controller.roomId.obs.value}');
-            //   },
-            // ),
-            // ChattingPlace(),
           ],
         ),
       ),
@@ -309,43 +455,33 @@ class CustomNameBar extends StatelessWidget {
         // color: Colors.white,
         // decoration: BoxDecoration(
         //     borderRadius: BorderRadius.circular(25), color: Colors.white),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 50),
-          child: Row(
-            children: [
-              Text(
-                '${event.data.snapshot.value[index]['name']}',
-                style: TextStyle(fontSize: 30),
-              ),
-              Spacer(),
-              InkWell(
-                onTap: () {
-                  Get.showSnackbar(GetBar(
-                    title: 'Rishabh',
-                    message: 'Hi I am Rishabh',
-                    duration: Duration(seconds: 2),
-                  ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: SvgPicture.asset(
-                    'lib/assets/svgs/emoji.svg',
-                    width: 30 * widthRatio,
-                    height: 30 * heightRatio,
-                    color: Color(0xffF15757),
-                  ),
-                ),
-              )
-            ],
+
+        child: Center(
+          child: Text(
+            '${event.data.snapshot.value.values.toList()[index]['name']}',
+            style: TextStyle(fontSize: 30),
           ),
+
+          // InkWell(
+          //   onTap: () {
+          //     Get.showSnackbar(GetBar(
+          //       title: 'Rishabh',
+          //       message: 'Hi I am Rishabh',
+          //       duration: Duration(seconds: 2),
+          //     ));
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(right: 30),
+          //     child: SvgPicture.asset(
+          //       'lib/assets/svgs/emoji.svg',
+          //       width: 30 * widthRatio,
+          //       height: 30 * heightRatio,
+          //       color: Color(0xffF15757),
+          //     ),
+          //   ),
+          //)
         ),
       ),
     );
-
-    // ListTile(
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    //   tileColor: Colors.white,
-    //   title: Text('${event.data.snapshot.value[index]['name']}'),
-    // );
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'package:get/get.dart';
@@ -13,8 +13,8 @@ int randomGenerator() {
 }
 
 class ChatController extends GetxController {
-  void sendMessage({String firebaseId, String message, String userId,String username}) {
-    Timestamp stamp = Timestamp.now();
+  void sendMessage(
+      {String firebaseId, String message, String userId, String username}) {
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     firebaseDatabase
         .child('Rooms')
@@ -25,7 +25,7 @@ class ChatController extends GetxController {
       "message": message,
       "userId": userId,
       "messageId": DateTime.now().toIso8601String(),
-      "username":username
+      "username": username
     });
   }
 
