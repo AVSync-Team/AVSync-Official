@@ -101,7 +101,7 @@ class _YTPlayerState extends State<YTPlayer> {
       drawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
-          child: ChattingPlace(),
+          child: ChattingPlace(controller:controller),
         ),
       ),
       backgroundColor: Color(0xff292727),

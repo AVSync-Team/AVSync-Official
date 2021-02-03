@@ -1,4 +1,10 @@
+import 'dart:io';
+
+import 'package:VideoSync/controllers/betterController.dart';
+import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class NiceVideoPlayer extends StatefulWidget {
@@ -9,18 +15,22 @@ class NiceVideoPlayer extends StatefulWidget {
 class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
   VideoPlayerController _controller;
   Duration videoLength;
+  RoomLogicController roomLogicController = Get.put(RoomLogicController());
+  YTStateController ytStateController = Get.put(YTStateController());
+  RishabhController rishabhController = Get.put(RishabhController());
 
   @override
   void initState() {
     // TODO: implement initState
- 
-    _controller = VideoPlayerController.network(
-        'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+
+    _controller = VideoPlayerController.file(File(roomLogicController.localUrl))
       ..initialize().then((_) {
         setState(() {
           videoLength = _controller.value.duration;
         });
       });
+
+    _controller.addListener(() {});
   }
 
   @override

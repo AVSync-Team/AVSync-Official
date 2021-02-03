@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:html';
+import 'dart:typed_data';
 
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,6 +28,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
+  bool isLoading = false;
+  bool picking;
 
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
@@ -48,6 +53,60 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //   timer.cancel();
   //   super.dispose();
   // }
+
+  Future<void> filePick() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+        // type: FileType.media,
+        // allowMultiple: false,
+        // allowedExtensions: ['.mp4'],
+        withData: false,
+        // allowCompression: true,
+        withReadStream: true,
+        onFileLoading: (status) {
+          if (status.toString() == "FilePickerStatus.picking") {
+            setState(() {
+              picking = true;
+            });
+          } else {
+            setState(() {
+              picking = false;
+            });
+          }
+        });
+
+    // roomLogicController.bytes.obs.value = result.files[0];
+    roomLogicController.localUrl = result.files[0].path;
+
+    // print('testUrl: $testUrl');
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void bottomSheet() {
+    Get.bottomSheet(Container(
+      color: Colors.white,
+      height: 200,
+      width: 200,
+      child: isLoading
+          ? RaisedButton(
+              onPressed: () async {
+                await filePick();
+                Get.to(NiceVideoPlayer());
+              },
+              child: Text("Pick Video"),
+            )
+          : Center(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
