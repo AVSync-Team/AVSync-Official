@@ -24,6 +24,16 @@ class RoomLogicController extends GetxController {
   String userKaId;
   Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
+  String roomIdText = "".obs.value;
+  bool joinLoading = false.obs.value;
+
+  void roomText(text) {
+    roomIdText = text;
+  }
+
+  void joinstatus(status) {
+    joinLoading = status;
+  }
 
   String roomFireBaseId;
   var roomId = '0'.obs;
@@ -105,11 +115,10 @@ class RoomLogicController extends GetxController {
         // users.add({"name": name, "id": this.userId});
         // await http.patch(
         //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        //     body: json.encode({"users": users}));
-        return true;
+        flag = true;
       }
     });
-    return false;
+    return flag;
   }
 
   Stream<Event> adminBsdkKaNaam({String firebaseId}) {
