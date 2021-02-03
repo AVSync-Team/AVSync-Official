@@ -17,14 +17,17 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   TextEditingController roomId = TextEditingController();
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
+  GlobalKey<ScaffoldState> c = new GlobalKey();
   var messages;
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
   bool joinLoading = false;
+  String roomIdText = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: c,
       backgroundColor: Color(0xff292727),
       body: Center(
         child: SingleChildScrollView(
@@ -99,116 +102,137 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
                   onPressed: () async {
-                    Get.bottomSheet(
-                      Container(
-                        width: Get.width,
-                        decoration: new BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: new BorderRadius.only(
-                            topLeft: const Radius.circular(20.0),
-                            topRight: const Radius.circular(20.0),
-                          ),
-                        ),
-                        height: 270 * heightRatio,
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 40 * heightRatio),
-                                width: 270 * widthRatio,
-                                height: 70 * heightRatio,
-                                child: TextField(
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal),
-                                  controller: roomId,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    // enabledBorder: OutlineInputBorder(
-                                    //   borderSide: const BorderSide(
-                                    //       color: Colors.white, width: 2.0),
-                                    //   borderRadius: BorderRadius.circular(25.0),
-                                    // ),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    hintText: "Room ID",
-                                    hintStyle:
-                                        TextStyle(color: Color(0xff7B7171)),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30 * heightRatio,
-                              ),
-                              Container(
-                                height: 50 * heightRatio,
-                                width: 150 * widthRatio,
-                                child: RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25)),
-                                  onPressed: joinLoading && roomId.text == null
-                                      ? null
-                                      : () async {
-                                          setState(() {
-                                            joinLoading = true;
-                                          });
-                                          bool flag = await roomLogicController
-                                              .joinRoom(
-                                                  roomId: roomId.text,
-                                                  name: nameController.text);
-                                          setState(() {
-                                            joinLoading = false;
-                                          });
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (ctx) {
+                          return Text('Rishabh');
+                        });
 
-                                          if (flag) {
-                                            Get.to(WelcomScreen());
-                                          } else {
-                                            Scaffold.of(context).showSnackBar(
-                                                SnackBar(
-                                                    content: Text(
-                                                        "Wrong Room Id!")));
-                                          }
-                                          // bool canJoin =
-                                          //     await roomLogicController.joinRoom(
-                                          //   roomId: roomId.text,
-                                          //   name: nameController.text,
-                                          // );
-                                          // if (canJoin) {
+                    // Get.bottomSheet(
+                    //     Container(
+                    //       width: Get.width,
+                    //       decoration: new BoxDecoration(
+                    //         color: Colors.white,
+                    //         borderRadius: new BorderRadius.only(
+                    //           topLeft: const Radius.circular(20.0),
+                    //           topRight: const Radius.circular(20.0),
+                    //         ),
+                    //       ),
+                    //       height: 270 * heightRatio,
+                    //       child: Center(
+                    //         child: Column(
+                    //           children: [
+                    //             Container(
+                    //               margin:
+                    //                   EdgeInsets.only(top: 40 * heightRatio),
+                    //               width: 270 * widthRatio,
+                    //               height: 70 * heightRatio,
+                    //               child: TextField(
+                    //                 style: TextStyle(
+                    //                     color: Colors.black,
+                    //                     fontWeight: FontWeight.normal),
+                    //                 controller: roomId,
+                    //                 onChanged: (value) {
+                    //                   roomLogicController.roomText(value);
+                    //                 },
+                    //                 keyboardType: TextInputType.number,
+                    //                 decoration: InputDecoration(
+                    //                   // enabledBorder: OutlineInputBorder(
+                    //                   //   borderSide: const BorderSide(
+                    //                   //       color: Colors.white, width: 2.0),
+                    //                   //   borderRadius: BorderRadius.circular(25.0),
+                    //                   // ),
+                    //                   border: OutlineInputBorder(
+                    //                       borderRadius:
+                    //                           BorderRadius.circular(25)),
+                    //                   hintText: "Room ID",
+                    //                   hintStyle:
+                    //                       TextStyle(color: Color(0xff7B7171)),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             SizedBox(
+                    //               height: 30 * heightRatio,
+                    //             ),
+                    //             GetBuilder<RoomLogicController>(
+                    //                 builder: (controller) {
+                    //               return Container(
+                    //                 height: 50 * heightRatio,
+                    //                 width: 150 * widthRatio,
+                    //                 child: RaisedButton(
+                    //                   color: controller.joinLoading.value
+                    //                       ? Colors.blue
+                    //                       : Colors.green,
+                    //                   shape: RoundedRectangleBorder(
+                    //                       borderRadius:
+                    //                           BorderRadius.circular(25)),
+                    //                   onPressed:
 
-                                          // } else if (!canJoin) {
-                                          //   // print("No Such Room exsist");
-                                          //   return Get.snackbar(
-                                          //     'Room not found',
-                                          //     'The Room ID you entered was not found :(',
-                                          //   );
-                                          // }
-                                        },
-                                  child: Text(
-                                    'Join',
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                    //                       // controller.joinLoading.value ||
+                    //                       //         controller.roomIdText == ""
+                    //                       //     ? null
+                    //                       //     :
+
+                    //                       () async {
+                    //                     roomLogicController.joinstatus(true);
+                    //                     bool flag =
+                    //                         await roomLogicController.joinRoom(
+                    //                             roomId: roomId.text,
+                    //                             name: nameController.text);
+                    //                     roomLogicController.joinstatus(false);
+                    //                     print(flag);
+
+                    //                     if (flag) {
+                    //                       Get.to(WelcomScreen());
+                    //                     } else {
+                    //                       Get.snackbar('Wrong Room Id',
+                    //                           'The room id you entered is wrong');
+                    //                       // Scaffold.of(context).showSnackBar(
+                    //                       //     SnackBar(
+                    //                       //         content: Text(
+                    //                       //             "Wrong Room Id!")));
+                    //                     }
+                    //                     // bool canJoin =
+                    //                     //     await roomLogicController.joinRoom(
+                    //                     //   roomId: roomId.text,
+                    //                     //   name: nameController.text,
+                    //                     // );
+                    //                     // if (canJoin) {
+
+                    //                     // } else if (!canJoin) {
+                    //                     //   // print("No Such Room exsist");
+                    //                     //   return Get.snackbar(
+                    //                     //     'Room not found',
+                    //                     //     'The Room ID you entered was not found :(',
+                    //                     //   );
+                    //                     // }
+                    //                   },
+                    //                   child: Text(
+                    //                     'Join',
+                    //                     style: TextStyle(fontSize: 25),
+                    //                   ),
+                    //                 ),
+                    //               );
+                    //             })
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     persistent: false);
+
+                    bool canJoin = await roomLogicController.joinRoom(
+                      roomId: roomId.text,
+                      name: nameController.text,
                     );
-
-                    // bool canJoin = await roomLogicController.joinRoom(
-                    //   roomId: roomId.text,
-                    //   name: nameController.text,
-                    // );
-                    // if (canJoin) {
-                    //   Get.to(WelcomScreen());
-                    // } else if (!canJoin) {
-                    //   // print("No Such Room exsist");
-                    //   return Get.snackbar(
-                    //     'Room not found',
-                    //     'The Room ID you entered was not found :(',
-                    //   );
-                    // }
+                    if (canJoin) {
+                      Get.to(WelcomScreen());
+                    } else if (!canJoin) {
+                      // print("No Such Room exsist");
+                      return Get.snackbar(
+                        'Room not found',
+                        'The Room ID you entered was not found :(',
+                      );
+                    }
                   },
                   child: Text('Join Room',
                       style: TextStyle(
