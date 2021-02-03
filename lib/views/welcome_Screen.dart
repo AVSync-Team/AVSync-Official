@@ -300,10 +300,21 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 //     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
                                 children: [
-                                  Text(
-                                    'Rish',
-                                    style: TextStyle(fontSize: 30),
-                                  ),
+                                  StreamBuilder(
+                                      stream:
+                                          roomLogicController.adminBsdkKaNaam(
+                                              firebaseId: roomLogicController
+                                                  .roomFireBaseId),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasError) {
+                                          return Text(
+                                            '${snapshot.data.snapshot.value}',
+                                            style: TextStyle(fontSize: 30),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Text('Error');
+                                        }
+                                      }),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 10, bottom: 0),
@@ -348,7 +359,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 builder: (ctx, event) {
                   if (event.hasData) {
                     Future.delayed(
-                        Duration(seconds: 1),
+                        Duration(seconds: 2),
                         () => {
                               Get.snackbar(
                                   "",

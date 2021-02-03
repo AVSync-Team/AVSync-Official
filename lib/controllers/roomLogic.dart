@@ -22,6 +22,7 @@ class RoomLogicController extends GetxController {
   String localUrl = ''.obs.value;
   String userId;
   Uint8List bytes;
+  var adminKaNameFromDb = ''.obs;
 
   String roomFireBaseId;
   var roomId = '0'.obs;
@@ -43,6 +44,7 @@ class RoomLogicController extends GetxController {
           "isPlayerPaused": true,
           "roomId": this.roomId,
           "timeStamp": 0,
+          "adminName": adminName,
           "isDragging": false,
           "users": {
             "admin": {"name": adminName, "id": this.userId},
@@ -56,6 +58,7 @@ class RoomLogicController extends GetxController {
             }
           }
         }));
+
     // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
@@ -101,6 +104,11 @@ class RoomLogicController extends GetxController {
       }
     });
     return true;
+  }
+
+  Stream<Event> adminBsdkKaNaam({String firebaseId}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    return firebase.child('Rooms').child('$firebaseId').child('adminName').onValue;
   }
 
   List<dynamic> getUsersList() {
