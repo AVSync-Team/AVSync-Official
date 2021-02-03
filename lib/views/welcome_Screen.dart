@@ -134,6 +134,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.exit_to_app_rounded),
           onPressed: () {

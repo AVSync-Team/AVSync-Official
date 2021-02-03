@@ -96,12 +96,13 @@ class _YTPlayerState extends State<YTPlayer> {
       appBar: Get.context.orientation == Orientation.portrait
           ? AppBar(
               backgroundColor: Color(0xff292727),
+              elevation: 0,
             )
           : null,
       drawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
-          child: ChattingPlace(controller:controller),
+          child: ChattingPlace(controller: controller),
         ),
       ),
       backgroundColor: Color(0xff292727),
