@@ -17,14 +17,17 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   TextEditingController roomId = TextEditingController();
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
+  GlobalKey<ScaffoldState> c = new GlobalKey();
   var messages;
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
   bool joinLoading = false;
+  String roomIdText = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: c,
       backgroundColor: Color(0xff292727),
       body: Center(
         child: SingleChildScrollView(
@@ -122,6 +125,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   controller: roomId,
+                                  onChanged: (value) {
+                                    roomLogicController.roomText(value);
+                                  },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     // enabledBorder: OutlineInputBorder(
@@ -147,19 +153,17 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
-                                  onPressed: joinLoading && roomId.text == null
+                                  onPressed: roomLogicController.joinLoading ||
+                                          roomLogicController.roomIdText == ""
                                       ? null
                                       : () async {
-                                          setState(() {
-                                            joinLoading = true;
-                                          });
+                                          roomLogicController.joinstatus(true);
                                           bool flag = await roomLogicController
                                               .joinRoom(
                                                   roomId: roomId.text,
                                                   name: nameController.text);
-                                          setState(() {
-                                            joinLoading = false;
-                                          });
+                                          roomLogicController.joinstatus(false);
+                                          print(flag);
 
                                           if (flag) {
                                             Get.to(WelcomScreen());
