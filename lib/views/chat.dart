@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
@@ -9,7 +11,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ChattingPlace extends StatefulWidget {
   final YoutubePlayerController controller;
-  ChattingPlace({this.controller});
+  final Function snackbar;
+  ChattingPlace({this.controller, this.snackbar});
   @override
   _ChattingPlaceState createState() => _ChattingPlaceState();
 }
@@ -72,12 +75,22 @@ class _ChattingPlaceState extends State<ChattingPlace> {
 
                   check.sort((a, b) => (a.id).compareTo(b.id));
 
-                  if (count != 0)
+                  if (count != 0) {
                     chatScroll.animateTo(
                       chatScroll.position.maxScrollExtent,
                       duration: Duration(milliseconds: 200),
                       curve: Curves.bounceIn,
                     );
+                    check[check.length - 1].userId != roomLogicController.userId
+                        ? Future.delayed(
+                            Duration(seconds: 1),
+                            () => {
+                                  widget.snackbar(
+                                      check[check.length - 1].username,
+                                      check[check.length - 1].mesage)
+                                })
+                        : {};
+                  }
 
                   count++;
 ////s

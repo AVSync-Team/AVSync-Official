@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:html';
-import 'dart:typed_data';
 
 import 'package:VideoSync/controllers/betterController.dart';
+import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,6 +24,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   TextEditingController yturl = TextEditingController();
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   RishabhController rishabhController = Get.put(RishabhController());
+  ChatController chatController = Get.put(ChatController());
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -34,17 +34,35 @@ class _WelcomScreenState extends State<WelcomScreen> {
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //   _userController = new StreamController();
+  @override
+  void initState() {
+    super.initState();
+    chatController
+        .message(firebaseId: roomLogicController.roomFireBaseId)
+        .listen((event) {
+      List<M> check = [];
 
-  //   //   timer = Timer.periodic(Duration(seconds: 3), (_) async {
-  //   //     var data = await roomLogicController.loadDetails();
-  //   //     _userController.add(data);
-  //   //   });
-  //   //
-  // }
+      event.snapshot.value.forEach((key, value) {
+        check.add(M(
+            id: DateTime.parse(value["messageId"]),
+            mesage: value["message"],
+            userId: value["userId"],
+            username: value["username"]));
+      });
+
+      check.sort((a, b) => (a.id).compareTo(b.id));
+
+      Get.snackbar(
+          check[check.length - 1].username, check[check.length - 1].mesage);
+    });
+    //   _userController = new StreamController();
+
+    //   timer = Timer.periodic(Duration(seconds: 3), (_) async {
+    //     var data = await roomLogicController.loadDetails();
+    //     _userController.add(data);
+    //   });
+    //
+  }
 
   // @override
   // void dispose() {
@@ -54,58 +72,61 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //   super.dispose();
   // }
 
-  Future<void> filePick() async {
-    setState(() {
-      isLoading = true;
-    });
+  // Future<void> filePick() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
 
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-        // type: FileType.media,
-        // allowMultiple: false,
-        // allowedExtensions: ['.mp4'],
-        withData: false,
-        // allowCompression: true,
-        withReadStream: true,
-        onFileLoading: (status) {
-          if (status.toString() == "FilePickerStatus.picking") {
-            setState(() {
-              picking = true;
-            });
-          } else {
-            setState(() {
-              picking = false;
-            });
-          }
-        });
+  //   FilePickerResult result = await FilePicker.platform.pickFiles(
+  //       // type: FileType.media,
+  //       // allowMultiple: false,
+  //       // allowedExtensions: ['.mp4'],
+  //       withData: false,
+  //       // allowCompression: true,
+  //       withReadStream: true,
+  //       onFileLoading: (status) {
+  //         if (status.toString() == "FilePickerStatus.picking") {
+  //           setState(() {
+  //             picking = true;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             picking = false;
+  //           });
+  //         }
+  //       });
 
-    // roomLogicController.bytes.obs.value = result.files[0];
-    roomLogicController.localUrl = result.files[0].path;
+  //   // roomLogicController.bytes.obs.value = result.files[0];
+  //   roomLogicController.localUrl = result.files[0].path;
 
-    // print('testUrl: $testUrl');
-    setState(() {
-      isLoading = false;
-    });
-  }
+  //   // print('testUrl: $testUrl');
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 
-  void bottomSheet() {
-    Get.bottomSheet(Container(
-      color: Colors.white,
-      height: 200,
-      width: 200,
-      child: isLoading
-          ? RaisedButton(
-              onPressed: () async {
-                await filePick();
-                Get.to(NiceVideoPlayer());
-              },
-              child: Text("Pick Video"),
-            )
-          : Center(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-    ));
+  // void bottomSheet() {
+  //   Get.bottomSheet(Container(
+  //     color: Colors.white,
+  //     height: 200,
+  //     width: 200,
+  //     child: isLoading
+  //         ? RaisedButton(
+  //             onPressed: () async {
+  //               await filePick();
+  //               Get.to(NiceVideoPlayer());
+  //             },
+  //             child: Text("Pick Video"),
+  //           )
+  //         : Center(
+  //             child: Center(
+  //               child: CircularProgressIndicator(),
+  //             ),
+  //           ),
+  //   ));
+  // }
+  void snackbar(String name, String message) {
+    Get.snackbar(name, message);
   }
 
   @override
@@ -118,7 +139,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
       drawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
-          child: ChattingPlace(),
+          child: ChattingPlace(snackbar: snackbar),
         ),
       ),
       backgroundColor: Color(0xff292727),
@@ -300,6 +321,17 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       firebaseId: roomLogicController.roomFireBaseId),
                   builder: (ctx, event) {
                     if (event.hasData) {
+                      Future.delayed(
+                          Duration(seconds: 1),
+                          () => {
+                                Get.snackbar(
+                                    "",
+                                    event.data.snapshot.value[
+                                            event.data.snapshot.value.length -
+                                                1]['name'] +
+                                        "joined!")
+                              });
+
                       return Container(
                         // height: 100,
                         width: 300 * widthRatio,
