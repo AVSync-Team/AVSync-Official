@@ -409,24 +409,24 @@ class CustomNameBar extends StatelessWidget {
                 style: TextStyle(fontSize: 30),
               ),
               Spacer(),
-              InkWell(
-                onTap: () {
-                  Get.showSnackbar(GetBar(
-                    title: 'Rishabh',
-                    message: 'Hi I am Rishabh',
-                    duration: Duration(seconds: 2),
-                  ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: SvgPicture.asset(
-                    'lib/assets/svgs/emoji.svg',
-                    width: 30 * widthRatio,
-                    height: 30 * heightRatio,
-                    color: Color(0xffF15757),
-                  ),
-                ),
-              )
+              // InkWell(
+              //   onTap: () {
+              //     Get.showSnackbar(GetBar(
+              //       title: 'Rishabh',
+              //       message: 'Hi I am Rishabh',
+              //       duration: Duration(seconds: 2),
+              //     ));
+              //   },
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(right: 30),
+              //     child: SvgPicture.asset(
+              //       'lib/assets/svgs/emoji.svg',
+              //       width: 30 * widthRatio,
+              //       height: 30 * heightRatio,
+              //       color: Color(0xffF15757),
+              //     ),
+              //   ),
+              //)
             ],
           ),
         ),
