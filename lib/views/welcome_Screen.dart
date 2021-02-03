@@ -7,7 +7,7 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,38 +54,38 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //   super.dispose();
   // }
 
-  Future<void> filePick() async {
-    setState(() {
-      isLoading = true;
-    });
+  // Future<void> filePick() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
 
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-        // type: FileType.media,
-        // allowMultiple: false,
-        // allowedExtensions: ['.mp4'],
-        withData: false,
-        // allowCompression: true,
-        withReadStream: true,
-        onFileLoading: (status) {
-          if (status.toString() == "FilePickerStatus.picking") {
-            setState(() {
-              picking = true;
-            });
-          } else {
-            setState(() {
-              picking = false;
-            });
-          }
-        });
+  //   FilePickerResult result = await FilePicker.platform.pickFiles(
+  //       // type: FileType.media,
+  //       // allowMultiple: false,
+  //       // allowedExtensions: ['.mp4'],
+  //       withData: false,
+  //       // allowCompression: true,
+  //       withReadStream: true,
+  //       onFileLoading: (status) {
+  //         if (status.toString() == "FilePickerStatus.picking") {
+  //           setState(() {
+  //             picking = true;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             picking = false;
+  //           });
+  //         }
+  //       });
 
-    // roomLogicController.bytes.obs.value = result.files[0];
-    roomLogicController.localUrl = result.files[0].path;
+  //   // roomLogicController.bytes.obs.value = result.files[0];
+  //   roomLogicController.localUrl = result.files[0].path;
 
-    // print('testUrl: $testUrl');
-    setState(() {
-      isLoading = false;
-    });
-  }
+  //   // print('testUrl: $testUrl');
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 
   void bottomSheet() {
     Get.bottomSheet(Container(
@@ -95,8 +95,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
       child: isLoading
           ? RaisedButton(
               onPressed: () async {
-                await filePick();
-                Get.to(NiceVideoPlayer());
+                // // await filePick();
+                // Get.to(NiceVideoPlayer());
               },
               child: Text("Pick Video"),
             )
