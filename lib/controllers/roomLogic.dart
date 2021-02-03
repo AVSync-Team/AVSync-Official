@@ -24,8 +24,9 @@ class RoomLogicController extends GetxController {
   String userKaId;
   Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
-  String roomIdText = "".obs.value;
-  bool joinLoading = false.obs.value;
+  var roomIdText = "".obs.value;
+  var joinLoading = false.obs;
+
 
   void roomText(text) {
     roomIdText = text;
