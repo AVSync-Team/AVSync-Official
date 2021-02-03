@@ -46,24 +46,23 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               //     ),
               //   ),
               // ),
-              SizedBox(height: 30),
+              SizedBox(height: 15),
               Container(
                 width: Get.width * 0.8,
                 child: TextField(
-                  maxLength: 12,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.normal),
                   controller: nameController,
-                  //    decoration: InputDecoration(
-                  //      focusColor: Colors.yellow,
-                  //      // fillColor: Colors.red,
-                  //      border: OutlineInputBorder(
-                  //        borderRadius: BorderRadius.circular(25),
-                  //      ),
-                  //      hintText: "Enter your name",
-                  //      hintStyle: TextStyle(color: Colors.grey),
-                  //    ),
+                  decoration: InputDecoration(
+                    focusColor: Colors.yellow,
+                    // fillColor: Colors.red,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    hintText: "Enter your name",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
               SizedBox(height: 60),

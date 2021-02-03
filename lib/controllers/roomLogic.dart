@@ -21,6 +21,7 @@ class RoomLogicController extends GetxController {
   var ytURL = ''.obs;
   String localUrl = ''.obs.value;
   String userId;
+  String userKaId;
   Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
 
@@ -65,6 +66,10 @@ class RoomLogicController extends GetxController {
     print(roomFireBaseId);
   }
 
+  String get getUserId {
+    return userKaId;
+  }
+
   Future<bool> joinRoom({String roomId, String name}) async {
     final firebaseDatabase = FirebaseDatabase.instance.reference();
 
@@ -78,6 +83,7 @@ class RoomLogicController extends GetxController {
     String roomUrl;
 
     this.userId = randomGenerator().toString();
+    userKaId = this.userId;
 
     rooms = json.decode(response.body);
     rooms.forEach((key, value) async {
@@ -108,7 +114,11 @@ class RoomLogicController extends GetxController {
 
   Stream<Event> adminBsdkKaNaam({String firebaseId}) {
     final firebase = FirebaseDatabase.instance.reference();
-    return firebase.child('Rooms').child('$firebaseId').child('adminName').onValue;
+    return firebase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('adminName')
+        .onValue;
   }
 
   List<dynamic> getUsersList() {

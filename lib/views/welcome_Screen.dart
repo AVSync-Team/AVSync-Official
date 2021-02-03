@@ -5,6 +5,7 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
+import 'package:VideoSync/views/createRoom.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
@@ -135,7 +136,25 @@ class _WelcomScreenState extends State<WelcomScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.exit_to_app_rounded),
-          onPressed: () {},
+          onPressed: () {
+            Get.defaultDialog(
+                title: 'Leave Room',
+                confirm: RaisedButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      rishabhController.userLeaveRoom(
+                        firebaseId: roomLogicController.roomFireBaseId,
+                        userId: roomLogicController.userId,
+                      );
+                      Get.off(CreateRoomScreen());
+                    }),
+                cancel: RaisedButton(
+                    child: Text('No'),
+                    onPressed: () {
+                      Get.back();
+                    }),
+                content: Text('Do you want to leave the room ? '));
+          },
         ),
         backgroundColor: Color(0xff292727),
       ),
