@@ -74,21 +74,23 @@ class RishabhController extends GetxController {
     final userRef =
         firebaseDatabase.child('Rooms').child('$firebaseId').child('users');
 
-    var usersList = [];
-    var index = 0;
+    // var usersList = [];
+    // var index = 0;
 
     userRef.once().then((value) {
-      value.value.forEach((value) {
-        print(index);
-        print(value);
+      value.value.forEach((key, value) {
+        // print(index);
+        print(key);
+        print(value['id']);
         if (userId == value['id']) {
-          print('locked');
-          // userRef.child('$index').remove();
+          print(userId);
+          userRef.child(key).remove();
         }
-
         // index++;
       });
     });
+    // print('sext: $userId');
+    // print('room: $firebaseId');
   }
 
   Stream<Event> tester({String firebaseId}) {

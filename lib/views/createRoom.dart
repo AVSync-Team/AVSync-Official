@@ -121,17 +121,18 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
                                   onPressed: () async {
-                                    roomLogicController.joinRoom(
-                                      roomId: roomId.text,
-                                      name: nameController.text
-                                    );
+                                    await roomLogicController.joinRoom(
+                                        roomId: roomId.text,
+                                        name: nameController.text);
+
+                                    Get.to(WelcomScreen());
                                     // bool canJoin =
                                     //     await roomLogicController.joinRoom(
                                     //   roomId: roomId.text,
                                     //   name: nameController.text,
                                     // );
                                     // if (canJoin) {
-                                    //   Get.to(WelcomScreen());
+
                                     // } else if (!canJoin) {
                                     //   // print("No Such Room exsist");
                                     //   return Get.snackbar(
