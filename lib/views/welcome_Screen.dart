@@ -5,13 +5,13 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
-import 'package:VideoSync/views/videoPlayer.dart';
+// import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:VideoSync/views/createRoom.dart';
+// import 'package:VideoSync/views/createRoom.dart';
 
 class WelcomScreen extends StatefulWidget {
   @override
