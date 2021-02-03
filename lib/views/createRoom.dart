@@ -164,10 +164,12 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                           if (flag) {
                                             Get.to(WelcomScreen());
                                           } else {
-                                            Scaffold.of(context).showSnackBar(
-                                                SnackBar(
-                                                    content: Text(
-                                                        "Wrong Room Id!")));
+                                            Get.snackbar('Wrong Room Id',
+                                                'The room id you entered is wrong');
+                                            // Scaffold.of(context).showSnackBar(
+                                            //     SnackBar(
+                                            //         content: Text(
+                                            //             "Wrong Room Id!")));
                                           }
                                           // bool canJoin =
                                           //     await roomLogicController.joinRoom(
