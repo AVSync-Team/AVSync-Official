@@ -44,9 +44,9 @@ class RoomLogicController extends GetxController {
           "roomId": this.roomId,
           "timeStamp": 0,
           "isDragging": false,
-          "users": [
-            {"name": adminName, "id": this.userId},
-          ],
+          "users": {
+            "admin": {"name": adminName, "id": this.userId},
+          },
           "chat": {
             "341241": {
               "message": "Welcome",
@@ -64,7 +64,7 @@ class RoomLogicController extends GetxController {
 
   Future<bool> joinRoom({String roomId, String name}) async {
     final firebaseDatabase = FirebaseDatabase.instance.reference();
-    
+
     userName = name;
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
@@ -82,14 +82,21 @@ class RoomLogicController extends GetxController {
         flag = true;
         roomFireBaseId = key.toString();
 
-        roomUrl =
-            'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
-        final reponse2 = await http.get(roomUrl);
-        users = json.decode(reponse2.body);
-        users.add({"name": name, "id": this.userId});
-        await http.patch(
-            'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-            body: json.encode({"users": users}));
+        firebaseDatabase
+            .child('Rooms')
+            .child('$roomFireBaseId')
+            .child('users')
+            .push()
+            .set({"id": this.userId, "name": name});
+
+        // roomUrl =
+        //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
+        // final reponse2 = await http.get(roomUrl);
+        // users = json.decode(reponse2.body);
+        // users.add({"name": name, "id": this.userId});
+        // await http.patch(
+        //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+        //     body: json.encode({"users": users}));
         return true;
       }
     });

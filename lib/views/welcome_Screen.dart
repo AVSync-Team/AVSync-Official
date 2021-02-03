@@ -157,28 +157,28 @@ class _WelcomScreenState extends State<WelcomScreen> {
               'Room',
               style: TextStyle(color: Colors.white, fontSize: 50),
             ),
-            StreamBuilder(
-              stream: rishabhController.tester(
-                  firebaseId: roomLogicController.roomFireBaseId),
-              builder: (context, snapshot) {
-                return Container(
-                  height: 100,
-                  child: ListView.builder(
-                    itemBuilder: (ctx, i) {
-                      return Text('Rishabh');
-                    },
-                    itemCount:
-                        snapshot.data.snapshot.value.values.toList().length,
-                  ),
-                );
+            // StreamBuilder(
+            //   stream: rishabhController.tester(
+            //       firebaseId: roomLogicController.roomFireBaseId),
+            //   builder: (context, snapshot) {
+            //     return Container(
+            //       height: 100,
+            //       child: ListView.builder(
+            //         itemBuilder: (ctx, i) {
+            //           return Text('Rishabh');
+            //         },
+            //         itemCount:
+            //             snapshot.data.snapshot.value.values.toList().length,
+            //       ),
+            //     );
 
-                // return RaisedButton(onPressed: () {
-                //   print(snapshot.data.snapshot.value.values.toList());
+            //     // return RaisedButton(onPressed: () {
+            //     //   print(snapshot.data.snapshot.value.values.toList());
 
-                //   rishabhController.userLeaveRoom(
-                //       firebaseId: '-MScDAopj96DypuMqyNh', userId: '2312312');
-              },
-            ),
+            //     //   rishabhController.userLeaveRoom(
+            //     //       firebaseId: '-MScDAopj96DypuMqyNh', userId: '2312312');
+            //   },
+            // ),
             SizedBox(
               height: 40 * heightRatio,
             ),
@@ -341,54 +341,57 @@ class _WelcomScreenState extends State<WelcomScreen> {
               ),
             ),
             SizedBox(height: 40 * heightRatio),
-            // Expanded(
-            //   child: StreamBuilder(
-            //     stream: rishabhController.getUsersList(
-            //         firebaseId: roomLogicController.roomFireBaseId),
-            //     builder: (ctx, event) {
-            //       if (event.hasData) {
-            //         Future.delayed(
-            //             Duration(seconds: 1),
-            //             () => {
-            //                   Get.snackbar(
-            //                       "",
-            //                       event.data.snapshot.value[
-            //                               event.data.snapshot.value.length -
-            //                                   1]['name'] +
-            //                           "joined!")
-            //                 });
+            Expanded(
+              child: StreamBuilder(
+                stream: rishabhController.tester(
+                    firebaseId: roomLogicController.roomFireBaseId),
+                builder: (ctx, event) {
+                  if (event.hasData) {
+                    Future.delayed(
+                        Duration(seconds: 1),
+                        () => {
+                              Get.snackbar(
+                                  "",
+                                  event.data.snapshot.value[
+                                          event.data.snapshot.value.length -
+                                              1]['name'] +
+                                      "joined!")
+                            });
 
-            //         return Container(
-            //           // height: 100,
-            //           width: 300 * widthRatio,
-            //           child:
-            //               NotificationListener<OverscrollIndicatorNotification>(
-            //                   onNotification: (overscroll) {
-            //                     overscroll.disallowGlow();
-            //                   },
-            //                   child: ListView.separated(
-            //                       separatorBuilder: (ctx, i) {
-            //                         return SizedBox(
-            //                           height: 20 * heightRatio,
-            //                         );
-            //                       },
-            //                       itemBuilder: (ctx, i) {
-            //                         print('chut: ${event.data.snapshot.value}');
+                    return Container(
+                      // height: 100,
+                      width: 300 * widthRatio,
+                      child:
+                          NotificationListener<OverscrollIndicatorNotification>(
+                              onNotification: (overscroll) {
+                                overscroll.disallowGlow();
+                              },
+                              child: ListView.separated(
+                                separatorBuilder: (ctx, i) {
+                                  return SizedBox(
+                                    height: 20 * heightRatio,
+                                  );
+                                },
+                                itemBuilder: (ctx, i) {
+                                  print('chut: ${event.data.snapshot.value}');
 
-            //                         return CustomNameBar(
-            //                             event: event,
-            //                             index: i,
-            //                             widthRatio: widthRatio,
-            //                             heightRatio: heightRatio);
-            //                       },
-            //                       itemCount: event.data.snapshot.value.length)),
-            //         );
-            //       } else {
-            //         return Center(child: CircularProgressIndicator());
-            //       }
-            //     },
-            //   ),
-            // ),
+                                  return CustomNameBar(
+                                      event: event,
+                                      index: i,
+                                      widthRatio: widthRatio,
+                                      heightRatio: heightRatio);
+                                },
+                                itemCount: event.data.snapshot.value.values
+                                    .toList()
+                                    .length,
+                              )),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -424,7 +427,7 @@ class CustomNameBar extends StatelessWidget {
 
         child: Center(
           child: Text(
-            '${event.data.snapshot.value[index]['name']}',
+            '${event.data.snapshot.value.values.toList()[index]['name']}',
             style: TextStyle(fontSize: 30),
           ),
 
