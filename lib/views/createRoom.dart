@@ -46,21 +46,24 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               //     ),
               //   ),
               // ),
-              SizedBox(height: 15),
+              SizedBox(height: 30),
               Container(
                 width: Get.width * 0.8,
                 child: TextField(
+                  maxLength: 12,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.normal),
                   controller: nameController,
-                  decoration: InputDecoration(
-                      focusColor: Colors.yellow,
-                      // fillColor: Colors.red,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25)),
-                      hintText: "Enter your name",
-                      hintStyle: TextStyle(color: Colors.grey)),
+                  //    decoration: InputDecoration(
+                  //      focusColor: Colors.yellow,
+                  //      // fillColor: Colors.red,
+                  //      border: OutlineInputBorder(
+                  //        borderRadius: BorderRadius.circular(25),
+                  //      ),
+                  //      hintText: "Enter your name",
+                  //      hintStyle: TextStyle(color: Colors.grey),
+                  //    ),
                 ),
               ),
               SizedBox(height: 60),
@@ -122,9 +125,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                       borderRadius: BorderRadius.circular(25)),
                                   onPressed: () async {
                                     roomLogicController.joinRoom(
-                                      roomId: roomId.text,
-                                      name: nameController.text
-                                    );
+                                        roomId: roomId.text,
+                                        name: nameController.text);
                                     // bool canJoin =
                                     //     await roomLogicController.joinRoom(
                                     //   roomId: roomId.text,
