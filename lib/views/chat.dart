@@ -243,7 +243,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                       ),
                       child: TextField(
                         style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         textAlignVertical: TextAlignVertical.top,
                         onTap: () {
                           if (widget.controller != null) {
@@ -265,7 +265,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   ),
                   //SizedBox(width: 5),
                   Container(
-                    height: 43,
+                    height: 42,
                     child: RaisedButton(
                       color: Colors.grey,
                       shape: StadiumBorder(),
