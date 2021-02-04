@@ -46,6 +46,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
+      //drawerEdgeDragWidth: 380.0,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
@@ -111,7 +112,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                     // }
 
                     return Container(
-                      height: Get.height * 0.6,
+                      height: Get.height * 0.935,
                       child: ListView.builder(
                           controller: chatScroll,
                           itemBuilder: (ctx, i) {
@@ -233,9 +234,16 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 children: [
                   Expanded(
                     child: Container(
+                      //color: Colors.white.withOpacity(0.8),
                       height: 40,
                       margin: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white.withOpacity(0.2),
+                      ),
                       child: TextField(
+                        textAlign: TextAlign.center,
+                        textAlignVertical: TextAlignVertical.top,
                         onTap: () {
                           if (widget.controller != null) {
                             widget.controller.play();
