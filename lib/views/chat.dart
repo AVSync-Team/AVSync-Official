@@ -45,7 +45,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff292727),
+      backgroundColor: Colors.black.withOpacity(0.5),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(

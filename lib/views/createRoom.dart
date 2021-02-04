@@ -75,7 +75,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       borderRadius: new BorderRadius.circular(25),
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: new BorderSide(color: Colors.grey, width: 6),
+                      borderSide: new BorderSide(color: Colors.black, width: 6),
                       borderRadius: new BorderRadius.circular(25),
                     ),
 
@@ -236,7 +236,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   },
                   child: Text('Join Room',
                       style: TextStyle(
-                          fontSize: 40 * widthRatio,
+                          fontSize: 30,
+                          //fontSize: 40 * widthRatio,
                           fontWeight: FontWeight.normal)),
                 ),
               ),
@@ -255,7 +256,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     },
                     child: Text('Create Room',
                         style: TextStyle(
-                            fontSize: 35 * widthRatio,
+                            fontSize: 30,
+                            //fontSize: 35 * widthRatio,
                             fontWeight: FontWeight.normal))),
               ),
               // RaisedButton(

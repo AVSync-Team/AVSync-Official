@@ -160,8 +160,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
         backgroundColor: Color(0xff292727),
       ),
       // appBar: AppBar(),
-      endDrawer: Container(
-        width: 380 * widthRatio,
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        //width: 380 * widthRatio,
         child: Drawer(
           child: ChattingPlace(snackbar: snackbar),
         ),
