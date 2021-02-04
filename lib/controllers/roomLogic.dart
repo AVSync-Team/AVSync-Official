@@ -26,6 +26,8 @@ class RoomLogicController extends GetxController {
   var adminKaNameFromDb = ''.obs;
   var roomIdText = "".obs.value;
   var joinLoading = false.obs;
+  var playingStatus = false.obs;
+  var dontHideControls = false.obs;
 
   void roomText(text) {
     roomIdText = text;

@@ -17,7 +17,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   TextEditingController roomId = TextEditingController();
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
-  GlobalKey<ScaffoldState> c = new GlobalKey();
+
   var messages;
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -27,7 +27,6 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: c,
       backgroundColor: Color(0xff292727),
       body: Center(
         child: SingleChildScrollView(
@@ -104,7 +103,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   child: Text(
                     'Join Room',
                     style: TextStyle(
-                        fontSize: 40 * widthRatio,
+                        fontSize: 30,
+                        //fontSize: 40 * widthRatio,
                         fontWeight: FontWeight.normal),
                   ),
                   onPressed: () async {
@@ -197,18 +197,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                           //         content: Text(
                                           //             "Wrong Room Id!")));
                                         }
-                                        // bool canJoin =
                                         //     await roomLogicController.joinRoom(
                                         //   roomId: roomId.text,
                                         //   name: nameController.text,
-                                        // );
-                                        // if (canJoin) {
-
-                                        // } else if (!canJoin) {
-                                        //   // print("No Such Room exsist");
-                                        //   return Get.snackbar(
-                                        //     'Room not found',
-                                        //     'The Room ID you entered was not found :(',
                                         //   );
                                         // }
                                       },
