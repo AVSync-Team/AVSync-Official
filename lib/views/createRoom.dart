@@ -104,7 +104,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   child: Text(
                     'Join Room',
                     style: TextStyle(
-                        fontSize: 40 * widthRatio,
+                        fontSize: 30,
+                        //fontSize: 40 * widthRatio,
                         fontWeight: FontWeight.normal),
                   ),
                   onPressed: () async {

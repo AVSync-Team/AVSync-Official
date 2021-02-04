@@ -119,19 +119,29 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                             return roomLogicController.userId == check[i].userId
                                 //Self user
                                 ? Padding(
-                                    padding: const EdgeInsets.only(right: 8),
+                                    padding: const EdgeInsets.only(
+                                      right: 5,
+                                      //left: 10,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Spacer(),
                                         Container(
-                                          width: 150,
+                                          constraints: BoxConstraints(
+                                            minWidth: 150,
+                                            maxWidth: 225,
+                                          ),
+                                          //minwidth: 150,
                                           padding: EdgeInsets.all(8),
                                           child: Card(
-                                            elevation: 2,
+                                            elevation: 5,
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.only(
+                                                right: 6,
+                                                left: 10,
+                                                top: 6,
+                                              ),
                                               child: GestureDetector(
                                                 onLongPress: () {
                                                   FlutterClipboard.copy(
@@ -140,28 +150,91 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                                           Get.snackbar("Done!",
                                                               "Message Copied!"));
                                                 },
+
+                                                // child: Container(
+                                                //   check[i].username == roomLogicController.adminKaNaam.obs.value
+
+                                                // ),
+
+                                                // margin: EdgeInsets.all(0),
+                                                // padding: EdgeInsets.all(0),
+                                                // child: check[i].username ==
+                                                //         roomLogicController
+                                                //             .adminKaNaam
+                                                //           .obs
+                                                //             .value
+                                                //     ? Column(
+                                                //         crossAxisAlignment:
+                                                //             CrossAxisAlignment
+                                                //                 .start,
+                                                //         children: [
+                                                //           SizedBox(height: 5),
+                                                //           Text(check[i]
+                                                //               .mesage),
+                                                //           SizedBox(height: 5),
+                                                //         ],
+                                                //       )
+                                                //     : Column(
+                                                //         crossAxisAlignment:
+                                                //             CrossAxisAlignment
+                                                //                 .end,
+                                                //         children: [
+                                                //           check[i].username ==
+                                                //                   roomLogicController
+                                                //                       .adminKaNaam
+                                                //                       .obs
+                                                //                       .value
+                                                //               ? Text(
+                                                //                   "Admin",
+                                                //                   style:
+                                                //                       TextStyle(
+                                                //                     fontSize:
+                                                //                         20,
+                                                //                     color: Colors
+                                                //                         .cyan,
+                                                //                   ),
+                                                //                 )
+                                                //               : Text(
+                                                //                   check[i]
+                                                //                       .username,
+                                                //                   style:
+                                                //                       TextStyle(
+                                                //                     fontSize:
+                                                //                         20,
+                                                //                     color: Colors
+                                                //                         .pink,
+                                                //                   ),
+                                                //                 ),
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    check[i].username ==
-                                                            roomLogicController
-                                                                .adminKaNaam
-                                                                .obs
-                                                                .value
-                                                        ? Text("Admin",
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .cyan))
-                                                        : Text(
-                                                            check[i].username),
                                                     SizedBox(height: 5),
                                                     Text(check[i].mesage),
-                                                    SizedBox(height: 5)
+                                                    SizedBox(height: 5),
                                                   ],
                                                 ),
                                               ),
+                                              //                child: Column(
+                                              //                  crossAxisAlignment:
+                                              //                      CrossAxisAlignment.start,
+                                              //                  children: [
+                                              //                    check[i].username ==
+                                              //                            roomLogicController
+                                              //                                .adminKaNaam
+                                              //                                .obs
+                                              //                                .value
+                                              //                        ? Text("Admin",
+                                              //                            style: TextStyle(
+                                              //                                fontSize: 20,
+                                              //                                color: Colors
+                                              //                                    .cyan))
+                                              //                        : Text(
+                                              //                            check[i].username),
+                                              //                    SizedBox(height: 5),
+                                              //                    Text(check[i].mesage),
+                                              //                    SizedBox(height: 5)
+                                              //                  ],
                                             ),
                                           ),
                                         ),
