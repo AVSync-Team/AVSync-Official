@@ -27,7 +27,6 @@ class RoomLogicController extends GetxController {
   var roomIdText = "".obs.value;
   var joinLoading = false.obs;
 
-
   void roomText(text) {
     roomIdText = text;
   }
@@ -191,4 +190,9 @@ class RoomLogicController extends GetxController {
 
   //   print('fid: $roomFireBaseId');
   // }
+
+  void adminDeleteRoom({String firebaseId}) {
+    final firebaseDB = FirebaseDatabase.instance.reference();
+    firebaseDB.child('Rooms').child('$firebaseId').remove();
+  }
 }

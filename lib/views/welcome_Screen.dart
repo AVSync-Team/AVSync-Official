@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
+import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
@@ -26,6 +27,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
+  FunLogic funLogic = Get.put(FunLogic());
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -136,17 +138,30 @@ class _WelcomScreenState extends State<WelcomScreen> {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.exit_to_app_rounded),
+          icon: !(roomLogicController.adminKaNaam.obs.value ==
+                  roomLogicController.userName.obs.value)
+              ? Icon(Icons.exit_to_app_rounded)
+              : Icon(Icons.delete),
           onPressed: () {
             Get.defaultDialog(
-                title: 'Leave Room',
+                title: !(roomLogicController.adminKaNaam.obs.value ==
+                        roomLogicController.userName.obs.value)
+                    ? 'Leave Room'
+                    : 'Delete Room',
                 confirm: RaisedButton(
                     child: Text('Yes'),
                     onPressed: () {
-                      rishabhController.userLeaveRoom(
-                        firebaseId: roomLogicController.roomFireBaseId,
-                        userId: roomLogicController.userId,
-                      );
+                      if (!(roomLogicController.adminKaNaam.obs.value ==
+                          roomLogicController.userName.obs.value)) {
+                        rishabhController.userLeaveRoom(
+                          firebaseId: roomLogicController.roomFireBaseId,
+                          userId: roomLogicController.userId,
+                        );
+                      } else {
+                        roomLogicController.adminDeleteRoom(
+                            firebaseId: roomLogicController.roomFireBaseId);
+                      }
+
                       Get.off(CreateRoomScreen());
                     }),
                 cancel: RaisedButton(
@@ -154,7 +169,10 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     onPressed: () {
                       Get.back();
                     }),
-                content: Text('Do you want to leave the room ? '));
+                content: !(roomLogicController.adminKaNaam.obs.value ==
+                        roomLogicController.userName.obs.value)
+                    ? Text('Do you want to leave the room ? ')
+                    : Text('Do you want to delete the room ? '));
           },
         ),
         backgroundColor: Color(0xff292727),
@@ -288,7 +306,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                     SizedBox(width: 10 * widthRatio),
                                     Text(
                                       'Youtube',
-                                      style: TextStyle(fontSize: 20),
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.red),
                                     )
                                   ],
                                 ),
@@ -378,17 +397,18 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 stream: rishabhController.tester(
                     firebaseId: roomLogicController.roomFireBaseId),
                 builder: (ctx, event) {
-                  if (event.hasData) {
-                    Future.delayed(
-                        Duration(seconds: 2),
-                        () => {
-                              Get.snackbar(
-                                  "",
-                                  event.data.snapshot.value[
-                                          event.data.snapshot.value.length -
-                                              1]['name'] +
-                                      "joined!")
-                            });
+                  if (event.hasData ||
+                      event.connectionState == ConnectionState.active) {
+                    // Future.delayed(
+                    //     Duration(seconds: 2),
+                    //     () => {
+                    //           Get.snackbar(
+                    //               "",
+                    //               event.data.snapshot.value[
+                    //                       event.data.snapshot.value.length -
+                    //                           1]['name'] +
+                    //                   "joined!")
+                    //         });
 
                     return Container(
                       // height: 100,
@@ -408,17 +428,19 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                   print('chut: ${event.data.snapshot.value}');
 
                                   return CustomNameBar(
-                                      event: event,
-                                      index: i,
-                                      widthRatio: widthRatio,
-                                      heightRatio: heightRatio);
+                                    event: event,
+                                    index: i,
+                                    widthRatio: widthRatio,
+                                    heightRatio: heightRatio,
+                                    controller: funLogic,
+                                  );
                                 },
                                 itemCount: event.data.snapshot.value.values
                                     .toList()
                                     .length,
                               )),
                     );
-                  } else {
+                  } else if (event.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
                 },
@@ -436,11 +458,13 @@ class CustomNameBar extends StatelessWidget {
   final int index;
   final double heightRatio;
   final double widthRatio;
+  final FunLogic controller;
   CustomNameBar({
     this.event,
     this.index,
     this.heightRatio,
     this.widthRatio,
+    this.controller,
     Key key,
   }) : super(key: key);
 
@@ -460,7 +484,7 @@ class CustomNameBar extends StatelessWidget {
         child: Center(
           child: Text(
             '${event.data.snapshot.value.values.toList()[index]['name']}',
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: 30, color: controller.randomColorPick),
           ),
 
           // InkWell(
