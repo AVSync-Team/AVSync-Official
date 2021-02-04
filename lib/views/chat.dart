@@ -45,7 +45,8 @@ class _ChattingPlaceState extends State<ChattingPlace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff292727),
+      backgroundColor: Colors.black.withOpacity(0.5),
+      //drawerEdgeDragWidth: 380.0,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
@@ -111,7 +112,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                     // }
 
                     return Container(
-                      height: Get.height * 0.6,
+                      height: Get.height * 0.935,
                       child: ListView.builder(
                           controller: chatScroll,
                           itemBuilder: (ctx, i) {
@@ -233,9 +234,17 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                 children: [
                   Expanded(
                     child: Container(
-                      height: 40,
+                      //color: Colors.white.withOpacity(0.8),
+                      height: 43,
                       margin: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromARGB(0, 255, 255, 255),
+                      ),
                       child: TextField(
+                        style: TextStyle(fontSize: 15),
+                        textAlign: TextAlign.start,
+                        textAlignVertical: TextAlignVertical.top,
                         onTap: () {
                           if (widget.controller != null) {
                             widget.controller.play();
@@ -243,28 +252,37 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                         },
                         controller: message,
                         decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey,
+                            focusColor: Colors.white,
                             border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                ),
                                 borderRadius: BorderRadius.circular(20))),
                       ),
                     ),
                   ),
-                  SizedBox(width: 5),
-                  RaisedButton(
-                    color: Colors.grey,
-                    shape: StadiumBorder(),
-                    onPressed: () {
-                      if (message.text != "") {
-                        chatController.sendMessage(
-                            firebaseId: roomLogicController.roomFireBaseId,
-                            message: message.text,
-                            userId: roomLogicController.userId,
-                            username: roomLogicController.userName.obs.value);
-                        message.clear();
-                        messages = [];
-                      }
-                    },
-                    child: Text("Send",
-                        style: TextStyle(color: Colors.white, fontSize: 18)),
+                  //SizedBox(width: 5),
+                  Container(
+                    height: 42,
+                    child: RaisedButton(
+                      color: Colors.grey,
+                      shape: StadiumBorder(),
+                      onPressed: () {
+                        if (message.text != "") {
+                          chatController.sendMessage(
+                              firebaseId: roomLogicController.roomFireBaseId,
+                              message: message.text,
+                              userId: roomLogicController.userId,
+                              username: roomLogicController.userName.obs.value);
+                          message.clear();
+                          messages = [];
+                        }
+                      },
+                      child: Text("Send",
+                          style: TextStyle(color: Colors.white, fontSize: 15)),
+                    ),
                   ),
                   SizedBox(width: 10)
                 ],
