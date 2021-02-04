@@ -11,5 +11,4 @@ Future updates :
 2. Users have power to control their video
 
 
-## Getting Started
 
