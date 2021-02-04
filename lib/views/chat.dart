@@ -235,13 +235,14 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   Expanded(
                     child: Container(
                       //color: Colors.white.withOpacity(0.8),
-                      height: 40,
+                      height: 43,
                       margin: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.white.withOpacity(0.2),
+                        color: Color.fromARGB(0, 255, 255, 255),
                       ),
                       child: TextField(
+                        style: TextStyle(fontSize: 15),
                         textAlign: TextAlign.center,
                         textAlignVertical: TextAlignVertical.top,
                         onTap: () {
@@ -251,28 +252,37 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                         },
                         controller: message,
                         decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey,
+                            focusColor: Colors.white,
                             border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                ),
                                 borderRadius: BorderRadius.circular(20))),
                       ),
                     ),
                   ),
-                  SizedBox(width: 5),
-                  RaisedButton(
-                    color: Colors.grey,
-                    shape: StadiumBorder(),
-                    onPressed: () {
-                      if (message.text != "") {
-                        chatController.sendMessage(
-                            firebaseId: roomLogicController.roomFireBaseId,
-                            message: message.text,
-                            userId: roomLogicController.userId,
-                            username: roomLogicController.userName.obs.value);
-                        message.clear();
-                        messages = [];
-                      }
-                    },
-                    child: Text("Send",
-                        style: TextStyle(color: Colors.white, fontSize: 18)),
+                  //SizedBox(width: 5),
+                  Container(
+                    height: 43,
+                    child: RaisedButton(
+                      color: Colors.grey,
+                      shape: StadiumBorder(),
+                      onPressed: () {
+                        if (message.text != "") {
+                          chatController.sendMessage(
+                              firebaseId: roomLogicController.roomFireBaseId,
+                              message: message.text,
+                              userId: roomLogicController.userId,
+                              username: roomLogicController.userName.obs.value);
+                          message.clear();
+                          messages = [];
+                        }
+                      },
+                      child: Text("Send",
+                          style: TextStyle(color: Colors.white, fontSize: 15)),
+                    ),
                   ),
                   SizedBox(width: 10)
                 ],
