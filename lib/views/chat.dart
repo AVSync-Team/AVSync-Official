@@ -112,7 +112,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                     // }
 
                     return Container(
-                      height: Get.height * 0.935,
+                      height: Get.height * 0.910,
                       child: ListView.builder(
                           controller: chatScroll,
                           itemBuilder: (ctx, i) {
@@ -128,6 +128,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                       children: [
                                         Spacer(),
                                         Container(
+                                          //decoration: BoxBorder(BorderRadius: BorderRadius.circular(10,),),
                                           constraints: BoxConstraints(
                                             minWidth: 150,
                                             maxWidth: 225,
@@ -135,11 +136,20 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                           //minwidth: 150,
                                           padding: EdgeInsets.all(8),
                                           child: Card(
+                                            color:
+                                                Colors.white.withOpacity(0.4),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(13),
+                                                bottomLeft: Radius.circular(13),
+                                                topLeft: Radius.circular(13),
+                                              ),
+                                            ),
                                             elevation: 5,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                right: 6,
-                                                left: 10,
+                                                right: 12,
+                                                left: 8,
                                                 top: 6,
                                               ),
                                               child: GestureDetector(
@@ -249,13 +259,31 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                         Container(
                                           // decoration:
                                           //     BoxDecoration(color: Colors.cyan),
-                                          width: 150,
+                                          //width: 150,
+                                          constraints: BoxConstraints(
+                                            minWidth: 150,
+                                            maxWidth: 225,
+                                          ),
                                           padding: EdgeInsets.only(right: 20),
                                           child: Card(
+                                            color:
+                                                Colors.white.withOpacity(0.4),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(13),
+                                                bottomRight:
+                                                    Radius.circular(13),
+                                                topLeft: Radius.circular(13),
+                                              ),
+                                            ),
                                             elevation: 1,
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.only(
+                                                right: 12,
+                                                left: 8,
+                                                top: 6,
+                                                bottom: 6,
+                                              ),
                                               child: GestureDetector(
                                                 onLongPress: () {
                                                   FlutterClipboard.copy(
@@ -275,13 +303,24 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                                                 .adminKaNaam
                                                                 .obs
                                                                 .value
-                                                        ? Text("Admin")
+                                                        ? Text(
+                                                            "Admin",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Colors.red
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                            ),
+                                                          )
                                                         : Text(
                                                             check[i].username,
                                                             style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .red)),
+                                                              fontSize: 16,
+                                                              color: Colors.blue
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                            ),
+                                                          ),
                                                     Text(
                                                       check[i].mesage,
                                                     ),
@@ -303,63 +342,91 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                   }
                 },
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      //color: Colors.white.withOpacity(0.8),
-                      height: 43,
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(0, 255, 255, 255),
+              //Container(
+              //width: 300,
+              //height: 50,
+              //child:
+              Container(
+                color: Colors.grey.withOpacity(0.2),
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  //mainAxisAlignment: MainAxisAlignment.start,
+
+                  children: [
+                    Expanded(
+                      child: Container(
+                        //color: Colors.white.withOpacity(0.8),
+                        constraints: BoxConstraints(
+                          minHeight: Get.height * 0.065,
+                          //maxWidth: 100,
+                        ),
+                        //height: Get.height * 0.065,
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromARGB(0, 255, 255, 255),
+                        ),
+                        child: TextField(
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.start,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          onTap: () {
+                            if (widget.controller != null) {
+                              widget.controller.play();
+                            }
+                          },
+                          controller: message,
+                          decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.grey,
+                              focusColor: Colors.white,
+                              border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                    bottomLeft: Radius.circular(5),
+                                  ))),
+                        ),
                       ),
-                      child: TextField(
-                        style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.start,
-                        textAlignVertical: TextAlignVertical.top,
-                        onTap: () {
-                          if (widget.controller != null) {
-                            widget.controller.play();
+                    ),
+                    //SizedBox(width: 5),
+                    Container(
+                      height: Get.height * 0.077,
+                      child: RaisedButton(
+                        color: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                          topRight: Radius.circular(5),
+                        )),
+                        onPressed: () {
+                          if (message.text != "") {
+                            chatController.sendMessage(
+                                firebaseId: roomLogicController.roomFireBaseId,
+                                message: message.text,
+                                userId: roomLogicController.userId,
+                                username:
+                                    roomLogicController.userName.obs.value);
+                            message.clear();
+                            messages = [];
                           }
                         },
-                        controller: message,
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey,
-                            focusColor: Colors.white,
-                            border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(20))),
+                        child: Text("Send",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 15)),
                       ),
                     ),
-                  ),
-                  //SizedBox(width: 5),
-                  Container(
-                    height: 42,
-                    child: RaisedButton(
-                      color: Colors.grey,
-                      shape: StadiumBorder(),
-                      onPressed: () {
-                        if (message.text != "") {
-                          chatController.sendMessage(
-                              firebaseId: roomLogicController.roomFireBaseId,
-                              message: message.text,
-                              userId: roomLogicController.userId,
-                              username: roomLogicController.userName.obs.value);
-                          message.clear();
-                          messages = [];
-                        }
-                      },
-                      child: Text("Send",
-                          style: TextStyle(color: Colors.white, fontSize: 15)),
-                    ),
-                  ),
-                  SizedBox(width: 10)
-                ],
-              )
+                    SizedBox(width: 10)
+                  ],
+                ),
+              ),
             ],
           ),
         ),

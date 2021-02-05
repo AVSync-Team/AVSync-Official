@@ -7,6 +7,7 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
+import 'package:firebase_database/firebase_database.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
@@ -54,9 +55,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
       });
 
       check.sort((a, b) => (a.id).compareTo(b.id));
-
-      Get.snackbar(
-          check[check.length - 1].username, check[check.length - 1].mesage);
+      if (check[check.length - 1].userId != roomLogicController.userId)
+        Get.snackbar(
+            check[check.length - 1].username, check[check.length - 1].mesage);
     });
     //   _userController = new StreamController();
 
@@ -186,267 +187,282 @@ class _WelcomScreenState extends State<WelcomScreen> {
         ),
       ),
       backgroundColor: Color(0xff292727),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // Text('Users: '),
-            // SizedBox(height: 40),
-            Text(
-              'Room',
-              style: TextStyle(color: Colors.white, fontSize: 50),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: Get.height,
             ),
-            // StreamBuilder(
-            //   stream: rishabhController.tester(
-            //       firebaseId: roomLogicController.roomFireBaseId),
-            //   builder: (context, snapshot) {
-            //     return Container(
-            //       height: 100,
-            //       child: ListView.builder(
-            //         itemBuilder: (ctx, i) {
-            //           return Text('Rishabh');
-            //         },
-            //         itemCount:
-            //             snapshot.data.snapshot.value.values.toList().length,
-            //       ),
-            //     );
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Text('Users: '),
+                // SizedBox(height: 40),
+                Text(
+                  'Room',
+                  style: TextStyle(color: Colors.white, fontSize: 50),
+                ),
+                // StreamBuilder(
+                //   stream: rishabhController.tester(
+                //       firebaseId: roomLogicController.roomFireBaseId),
+                //   builder: (context, snapshot) {
+                //     return Container(
+                //       height: 100,
+                //       child: ListView.builder(
+                //         itemBuilder: (ctx, i) {
+                //           return Text('Rishabh');
+                //         },
+                //         itemCount:
+                //             snapshot.data.snapshot.value.values.toList().length,
+                //       ),
+                //     );
 
-            //     // return RaisedButton(onPressed: () {
-            //     //   print(snapshot.data.snapshot.value.values.toList());
+                //     // return RaisedButton(onPressed: () {
+                //     //   print(snapshot.data.snapshot.value.values.toList());
 
-            //     //   rishabhController.userLeaveRoom(
-            //     //       firebaseId: '-MScDAopj96DypuMqyNh', userId: '2312312');
-            //   },
-            // ),
-            SizedBox(
-              height: 40 * heightRatio,
-            ),
-            Container(
-              height: 320 * heightRatio,
-              width: 300 * widthRatio,
-              // decoration:
-              //     BoxDecoration(border: Border.all(color: Colors.black)),
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 250 * heightRatio,
-                      width: 280 * widthRatio,
-                      child: Card(
-                        elevation: 8,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25 * widthRatio),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 30),
-                              child: InkWell(
-                                onTap: () {
-                                  // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
-                                  Get.bottomSheet(
-                                    Container(
-                                      color: Colors.white,
-                                      width: double.infinity,
-                                      height: heightRatio * 250,
-                                      child: Card(
-                                        elevation: 10,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(height: 20),
-                                            Text('Enter the Youtube Link',
-                                                style: TextStyle(fontSize: 20)),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: heightRatio * 20),
-                                              height: heightRatio * 80,
-                                              width: widthRatio * 300,
-                                              child: TextField(
-                                                controller: yturl,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
+                //     //   rishabhController.userLeaveRoom(
+                //     //       firebaseId: '-MScDAopj96DypuMqyNh', userId: '2312312');
+                //   },
+                // ),
+                SizedBox(
+                  height: 40 * heightRatio,
+                ),
+                Container(
+                  height: 320 * heightRatio,
+                  width: 300 * widthRatio,
+                  // decoration:
+                  //     BoxDecoration(border: Border.all(color: Colors.black)),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: 250 * heightRatio,
+                          width: 280 * widthRatio,
+                          child: Card(
+                            color: Color.fromARGB(200, 60, 60, 60),
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(25 * widthRatio),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 20, left: 30),
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                      Get.bottomSheet(
+                                        Container(
+                                          color: Colors.white,
+                                          width: double.infinity,
+                                          height: heightRatio * 250,
+                                          child: Card(
+                                            elevation: 10,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(height: 20),
+                                                Text('Enter the Youtube Link',
+                                                    style: TextStyle(
+                                                        fontSize: 20)),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: heightRatio * 20),
+                                                  height: heightRatio * 80,
+                                                  width: widthRatio * 300,
+                                                  child: TextField(
+                                                    controller: yturl,
+                                                    decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: heightRatio * 10),
+                                                  child: RaisedButton(
+                                                    shape: StadiumBorder(),
+                                                    onPressed: () {
+                                                      roomLogicController.ytURL
+                                                          .value = yturl.text;
+                                                      Get.to(YTPlayer());
+                                                    },
+                                                    child: Text('Play'),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: heightRatio * 10),
-                                              child: RaisedButton(
-                                                shape: StadiumBorder(),
-                                                onPressed: () {
-                                                  roomLogicController
-                                                      .ytURL.value = yturl.text;
-                                                  Get.to(YTPlayer());
-                                                },
-                                                child: Text('Play'),
-                                              ),
-                                            )
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'lib/assets/svgs/youtubeplayer.svg',
+                                          width: 70 * heightRatio,
+                                          height: 70 * widthRatio,
+                                        ),
+                                        SizedBox(width: 10 * widthRatio),
+                                        Text(
+                                          'Youtube',
+                                          style: TextStyle(
+                                              fontSize: 20, color: Colors.red),
+                                        )
+                                      ],
                                     ),
-                                  );
-                                },
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'lib/assets/svgs/youtubeplayer.svg',
-                                      width: 70 * heightRatio,
-                                      height: 70 * widthRatio,
-                                    ),
-                                    SizedBox(width: 10 * widthRatio),
-                                    Text(
-                                      'Youtube',
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.red),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 42.5),
-                              child: InkWell(
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'lib/assets/svgs/localplayer.svg',
-                                      width: 40 * widthRatio,
-                                      height: 40 * heightRatio,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 42.5),
+                                  child: InkWell(
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'lib/assets/svgs/localplayer.svg',
+                                          width: 40 * widthRatio,
+                                          height: 40 * heightRatio,
+                                        ),
+                                        SizedBox(width: 25 * widthRatio),
+                                        Text(
+                                          'Local Media',
+                                          style: TextStyle(fontSize: 20),
+                                        )
+                                      ],
                                     ),
-                                    SizedBox(width: 25 * widthRatio),
-                                    Text(
-                                      'Local Media',
-                                      style: TextStyle(fontSize: 20),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                SizedBox(height: 20 * heightRatio),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Row(
+                                    // mainAxisAlignment:
+                                    //     MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.baseline,
+                                    children: [
+                                      StreamBuilder(
+                                          stream: roomLogicController
+                                              .adminBsdkKaNaam(
+                                                  firebaseId:
+                                                      roomLogicController
+                                                          .roomFireBaseId),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '${snapshot.data.snapshot.value}',
+                                                style: TextStyle(fontSize: 30),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text('Error');
+                                            }
+                                            return Text('');
+                                          }),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, bottom: 0),
+                                        child: SvgPicture.asset(
+                                          'lib/assets/svgs/crown.svg',
+                                          height: 25 * heightRatio,
+                                          width: 25 * widthRatio,
+                                          color: Colors.orange,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10 * heightRatio),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: GetX<RoomLogicController>(
+                                      builder: (controller) {
+                                    return Text(
+                                        'Room no: ${controller.roomId.obs.value} ',
+                                        style: TextStyle(fontSize: 20));
+                                  }),
+                                )
+                              ],
                             ),
-                            SizedBox(height: 20 * heightRatio),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Row(
-                                // mainAxisAlignment:
-                                //     MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                children: [
-                                  StreamBuilder(
-                                      stream:
-                                          roomLogicController.adminBsdkKaNaam(
-                                              firebaseId: roomLogicController
-                                                  .roomFireBaseId),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasError) {
-                                          return Text(
-                                            '${snapshot.data.snapshot.value}',
-                                            style: TextStyle(fontSize: 30),
-                                          );
-                                        } else if (snapshot.hasError) {
-                                          return Text('Error');
-                                        }
-                                      }),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, bottom: 0),
-                                    child: SvgPicture.asset(
-                                      'lib/assets/svgs/crown.svg',
-                                      height: 25 * heightRatio,
-                                      width: 25 * widthRatio,
-                                      color: Colors.orange,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10 * heightRatio),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: GetX<RoomLogicController>(
-                                  builder: (controller) {
-                                return Text(
-                                    'Room no: ${controller.roomId.obs.value} ',
-                                    style: TextStyle(fontSize: 20));
-                              }),
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: SvgPicture.asset('lib/assets/svgs/movie.svg',
+                            width: 120 * widthRatio, height: 120 * heightRatio),
+                      )
+                    ],
                   ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                        width: 120 * widthRatio, height: 120 * heightRatio),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 40 * heightRatio),
-            Expanded(
-              child: StreamBuilder(
-                stream: rishabhController.tester(
-                    firebaseId: roomLogicController.roomFireBaseId),
-                builder: (ctx, event) {
-                  if (event.hasData ||
-                      event.connectionState == ConnectionState.active) {
-                    // Future.delayed(
-                    //     Duration(seconds: 2),
-                    //     () => {
-                    //           Get.snackbar(
-                    //               "",
-                    //               event.data.snapshot.value[
-                    //                       event.data.snapshot.value.length -
-                    //                           1]['name'] +
-                    //                   "joined!")
-                    //         });
+                ),
+                SizedBox(height: 40 * heightRatio),
+                Expanded(
+                  child: StreamBuilder(
+                    stream: rishabhController.tester(
+                        firebaseId: roomLogicController.roomFireBaseId),
+                    builder: (ctx, event) {
+                      if (event.hasData) {
+                        // Future.delayed(
+                        //     Duration(seconds: 2),
+                        //     () => {
+                        //           Get.snackbar(
+                        //               "",
+                        //               event.data.snapshot.value[
+                        //                       event.data.snapshot.value.length -
+                        //                           1]['name'] +
+                        //                   "joined!")
+                        //         });
 
-                    return Container(
-                      // height: 100,
-                      width: 300 * widthRatio,
-                      child:
-                          NotificationListener<OverscrollIndicatorNotification>(
-                              onNotification: (overscroll) {
-                                overscroll.disallowGlow();
+                        return Container(
+                          // height: 100,
+                          width: 300 * widthRatio,
+                          child: NotificationListener<
+                              OverscrollIndicatorNotification>(
+                            onNotification: (overscroll) {
+                              overscroll.disallowGlow();
+                            },
+                            child: ListView.separated(
+                              separatorBuilder: (ctx, i) {
+                                return SizedBox(
+                                  height: 20 * heightRatio,
+                                );
                               },
-                              child: ListView.separated(
-                                separatorBuilder: (ctx, i) {
-                                  return SizedBox(
-                                    height: 20 * heightRatio,
-                                  );
-                                },
-                                itemBuilder: (ctx, i) {
-                                  print('chut: ${event.data.snapshot.value}');
+                              itemBuilder: (ctx, i) {
+                                print('chut: ${event.data.snapshot.value}');
 
-                                  return CustomNameBar(
-                                    event: event,
-                                    index: i,
-                                    widthRatio: widthRatio,
-                                    heightRatio: heightRatio,
-                                    controller: funLogic,
-                                  );
-                                },
-                                itemCount: event.data.snapshot.value.values
-                                    .toList()
-                                    .length,
-                              )),
-                    );
-                  } else if (event.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
+                                return CustomNameBar(
+                                  event: event,
+                                  index: i,
+                                  widthRatio: widthRatio,
+                                  heightRatio: heightRatio,
+                                  controller: funLogic,
+                                );
+                              },
+                              itemCount: event.data.snapshot.value.values
+                                  .toList()
+                                  .length,
+                            ),
+                          ),
+                        );
+                      }
+
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -473,6 +489,7 @@ class CustomNameBar extends StatelessWidget {
     return Container(
       height: 80,
       child: Card(
+        color: Color.fromARGB(200, 60, 60, 60),
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         // width: 20,

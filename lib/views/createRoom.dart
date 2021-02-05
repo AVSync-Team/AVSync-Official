@@ -19,13 +19,16 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   ChatController chatController = Get.put(ChatController());
 
   var messages;
-  final double heightRatio = Get.height / 823;
-  final double widthRatio = Get.width / 411;
-  bool joinLoading = false;
-  String roomIdText = "";
+  // final double heightRatio = Get.height / 823;
+
+  // bool joinLoading = false;
+  // String roomIdText = "";
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final double heightRatio = size.height / 823;
+    final double widthRatio = size.width / 411;
     return Scaffold(
       backgroundColor: Color(0xff292727),
       body: Center(

@@ -28,6 +28,7 @@ class RoomLogicController extends GetxController {
   var joinLoading = false.obs;
   var playingStatus = false.obs;
   var dontHideControls = false.obs;
+  var videoPosition = Duration(seconds: 0).obs;
 
   void roomText(text) {
     roomIdText = text;
@@ -58,6 +59,7 @@ class RoomLogicController extends GetxController {
           "roomId": this.roomId,
           "timeStamp": 0,
           "adminName": adminName,
+          "playBackSpeed": 1.0,
           "isDragging": false,
           "users": {
             "admin": {"name": adminName, "id": this.userId},
@@ -183,6 +185,12 @@ class RoomLogicController extends GetxController {
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
         body: json.encode({"isDragging": status}));
     return json.decode(response.body);
+  }
+
+  Future<void> sendPlay({double speed}) async {
+    final response = await http.patch(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+        body: json.encode({"playBackSpeed": speed}));
   }
 
   // Stream<List<dynamic>> getusersInRoom() async* {
