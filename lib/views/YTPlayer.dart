@@ -55,6 +55,7 @@ class _YTPlayerState extends State<YTPlayer> {
   bool hideUI = false;
   double animatedHeight = 30;
   bool shoSpeedWidget = false;
+  bool playerIsUser = true;
 
   // void hideControls() async {
   //   if (controller.value.isPlaying) {
@@ -290,15 +291,17 @@ class _YTPlayerState extends State<YTPlayer> {
                             children: [
                               //seek backward 10
                               SizedBox(width: 10),
-                              IconButton(
-                                icon: Icon(Icons.speed),
-                                color: Colors.white,
-                                onPressed: () {
-                                  setState(() {
-                                    shoSpeedWidget = !shoSpeedWidget;
-                                  });
-                                },
-                              ),
+                              if (roomLogicController.adminKaNaam.obs.value ==
+                                  roomLogicController.userName.obs.value)
+                                IconButton(
+                                  icon: Icon(Icons.speed),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    setState(() {
+                                      shoSpeedWidget = !shoSpeedWidget;
+                                    });
+                                  },
+                                ),
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
@@ -354,22 +357,24 @@ class _YTPlayerState extends State<YTPlayer> {
                               ),
 
                               //seek forward 10
-                              Expanded(
-                                // width: Get.width * 0.3,
-                                // color: Colors.yellow.shade100,
-                                child: GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'lib/assets/svgs/go10.svg',
-                                      width: 30 * widthRatio,
-                                      height: 30 * heightRatio),
-                                  onTap: () {
-                                    controller.seekTo(Duration(
-                                        seconds: controller
-                                                .value.position.inSeconds +
-                                            10));
-                                  },
+                              if (roomLogicController.adminKaNaam.obs.value ==
+                                  roomLogicController.userName.obs.value)
+                                Expanded(
+                                  // width: Get.width * 0.3,
+                                  // color: Colors.yellow.shade100,
+                                  child: GestureDetector(
+                                    child: SvgPicture.asset(
+                                        'lib/assets/svgs/go10.svg',
+                                        width: 30 * widthRatio,
+                                        height: 30 * heightRatio),
+                                    onTap: () {
+                                      controller.seekTo(Duration(
+                                          seconds: controller
+                                                  .value.position.inSeconds +
+                                              10));
+                                    },
+                                  ),
                                 ),
-                              ),
 
                               //Toggle fullscreen
                               IconButton(
@@ -390,66 +395,68 @@ class _YTPlayerState extends State<YTPlayer> {
                   ),
                 ),
               ),
-              AnimatedContainer(
-                duration: Duration(seconds: 1),
-                // height: hideUI ? 0 : double.maxFinite,
-                margin: EdgeInsets.only(bottom: 40),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.red)),
-                // height: 100,
-                width: shoSpeedWidget ? 40 : 0,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: AnimatedOpacity(
-                    duration: Duration(milliseconds: 200),
-                    opacity: !shoSpeedWidget ? 0 : 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(height: 20),
-                        GestureDetector(
-                          child: CustomText('1.0'),
-                          onTap: () {
-                            roomLogicController.sendPlay(speed: 1.0);
-                            controller.setPlaybackRate(1.0);
-                          },
-                        ),
-                        GestureDetector(
-                          child: CustomText('1.25'),
-                          onTap: () {
-                            roomLogicController.sendPlay(speed: 1.25);
-                            controller.setPlaybackRate(1.25);
-                          },
-                        ),
-                        // Spacer(),
-                        GestureDetector(
-                          child: CustomText('1.5'),
-                          onTap: () {
-                            roomLogicController.sendPlay(speed: 1.5);
-                            controller.setPlaybackRate(1.5);
-                          },
-                        ),
-                        GestureDetector(
-                          child: CustomText('1.75'),
-                          onTap: () {
-                            roomLogicController.sendPlay(speed: 1.75);
-                            controller.setPlaybackRate(1.75);
-                          },
-                        ),
-                        GestureDetector(
-                          child: CustomText('2.0'),
-                          onTap: () {
-                            roomLogicController.sendPlay(speed: 2.0);
-                            controller.setPlaybackRate(2.0);
-                          },
-                        ),
-                        // SizedBox(height: 30)
-                        // Spacer()
-                      ],
+              if (roomLogicController.adminKaNaam.obs.value ==
+                  roomLogicController.userName.obs.value)
+                AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  // height: hideUI ? 0 : double.maxFinite,
+                  margin: EdgeInsets.only(bottom: 40),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.red)),
+                  // height: 100,
+                  width: shoSpeedWidget ? 40 : 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 200),
+                      opacity: !shoSpeedWidget ? 0 : 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(height: 20),
+                          GestureDetector(
+                            child: CustomText('1.0'),
+                            onTap: () {
+                              roomLogicController.sendPlay(speed: 1.0);
+                              controller.setPlaybackRate(1.0);
+                            },
+                          ),
+                          GestureDetector(
+                            child: CustomText('1.25'),
+                            onTap: () {
+                              roomLogicController.sendPlay(speed: 1.25);
+                              controller.setPlaybackRate(1.25);
+                            },
+                          ),
+                          // Spacer(),
+                          GestureDetector(
+                            child: CustomText('1.5'),
+                            onTap: () {
+                              roomLogicController.sendPlay(speed: 1.5);
+                              controller.setPlaybackRate(1.5);
+                            },
+                          ),
+                          GestureDetector(
+                            child: CustomText('1.75'),
+                            onTap: () {
+                              roomLogicController.sendPlay(speed: 1.75);
+                              controller.setPlaybackRate(1.75);
+                            },
+                          ),
+                          GestureDetector(
+                            child: CustomText('2.0'),
+                            onTap: () {
+                              roomLogicController.sendPlay(speed: 2.0);
+                              controller.setPlaybackRate(2.0);
+                            },
+                          ),
+                          // SizedBox(height: 30)
+                          // Spacer()
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
+                )
             ],
           ),
         ),
