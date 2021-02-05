@@ -187,6 +187,12 @@ class RoomLogicController extends GetxController {
     return json.decode(response.body);
   }
 
+  Future<void> sendPlay({double speed}) async {
+    final response = await http.patch(
+        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+        body: json.encode({"playBackSpeed": speed}));
+  }
+
   // Stream<List<dynamic>> getusersInRoom() async* {
   //   print("heellool");
   //   Future.delayed(Duration(seconds: 1));
