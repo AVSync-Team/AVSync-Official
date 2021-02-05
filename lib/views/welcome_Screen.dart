@@ -54,9 +54,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
       });
 
       check.sort((a, b) => (a.id).compareTo(b.id));
-
-      Get.snackbar(
-          check[check.length - 1].username, check[check.length - 1].mesage);
+      if (check[check.length - 1].userId != roomLogicController.userId)
+        Get.snackbar(
+            check[check.length - 1].username, check[check.length - 1].mesage);
     });
     //   _userController = new StreamController();
 

@@ -1,6 +1,7 @@
 // import 'dart:async';
 
 import 'package:VideoSync/controllers/betterController.dart';
+import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
@@ -21,6 +22,7 @@ class YTPlayer extends StatefulWidget {
 // String url;
 
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
+ChatController chatController = Get.put(ChatController());
 YTStateController ytStateController = Get.put(YTStateController());
 RishabhController rishabhController = Get.put(RishabhController());
 AnimationController animationController;
@@ -92,14 +94,41 @@ class _YTPlayerState extends State<YTPlayer> {
         .child('isPlayerPaused')
         .onValue
         .listen((event) {
+      if (event.snapshot.value) {
+        controller.pause();
+        // print(event.snapshot.value);
+      } else {
+        controller.play();
+      }
+    });
+    chatController
+        .message(firebaseId: roomLogicController.roomFireBaseId)
+        .listen((event) {
+      List<M> check = [];
+
+      event.snapshot.value.forEach((key, value) {
+        check.add(M(
+            id: DateTime.parse(value["messageId"]),
+            mesage: value["message"],
+            userId: value["userId"],
+            username: value["username"]));
+      });
+
+      check.sort((a, b) => (a.id).compareTo(b.id));
+      if (check[check.length - 1].userId != roomLogicController.userId)
+        Get.snackbar(
+            check[check.length - 1].username, check[check.length - 1].mesage);
+    });
+
+    firebaseDatabase
+        .child('Rooms')
+        .child(roomLogicController.roomFireBaseId.obs.value)
+        .child('playBackSpeed')
+        .onValue
+        .listen((event) {
       if (!(roomLogicController.adminKaNaam.obs.value ==
           roomLogicController.userName.obs.value)) {
-        if (event.snapshot.value) {
-          controller.pause();
-          // print(event.snapshot.value);
-        } else {
-          controller.play();
-        }
+        controller.setPlaybackRate(event.snapshot.value);
       }
     });
 
@@ -161,6 +190,16 @@ class _YTPlayerState extends State<YTPlayer> {
                               controller.value.isPlaying;
                           ytStateController.videoPosition.value =
                               controller.value.position.inSeconds.toDouble();
+
+                          if (controller.value.isPlaying) {
+                            rishabhController.sendPlayerStatus(
+                                status: false,
+                                firebaseId: roomLogicController.roomFireBaseId);
+                          } else if (!controller.value.isPlaying) {
+                            rishabhController.sendPlayerStatus(
+                                status: true,
+                                firebaseId: roomLogicController.roomFireBaseId);
+                          }
                           //admin
                           //will send timestamp and control video playback
                           if (roomLogicController.adminKaNaam.obs.value ==
@@ -168,17 +207,6 @@ class _YTPlayerState extends State<YTPlayer> {
                             rishabhController.sendTimeStamp(
                                 firebaseId: roomLogicController.roomFireBaseId,
                                 timeStamp: controller.value.position.inSeconds);
-                            if (controller.value.isPlaying) {
-                              rishabhController.sendPlayerStatus(
-                                  status: false,
-                                  firebaseId:
-                                      roomLogicController.roomFireBaseId);
-                            } else if (!controller.value.isPlaying) {
-                              rishabhController.sendPlayerStatus(
-                                  status: true,
-                                  firebaseId:
-                                      roomLogicController.roomFireBaseId);
-                            }
                           }
                         },
                       );

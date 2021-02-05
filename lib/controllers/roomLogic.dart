@@ -59,6 +59,7 @@ class RoomLogicController extends GetxController {
           "roomId": this.roomId,
           "timeStamp": 0,
           "adminName": adminName,
+          "playBackSpeed": 1.0,
           "isDragging": false,
           "users": {
             "admin": {"name": adminName, "id": this.userId},
