@@ -191,15 +191,6 @@ class _YTPlayerState extends State<YTPlayer> {
                           ytStateController.videoPosition.value =
                               controller.value.position.inSeconds.toDouble();
 
-                          if (controller.value.isPlaying) {
-                            rishabhController.sendPlayerStatus(
-                                status: false,
-                                firebaseId: roomLogicController.roomFireBaseId);
-                          } else if (!controller.value.isPlaying) {
-                            rishabhController.sendPlayerStatus(
-                                status: true,
-                                firebaseId: roomLogicController.roomFireBaseId);
-                          }
                           //admin
                           //will send timestamp and control video playback
                           if (roomLogicController.adminKaNaam.obs.value ==
@@ -313,8 +304,17 @@ class _YTPlayerState extends State<YTPlayer> {
                                   onTap: () {
                                     // hideControls();
                                     if (controller.value.isPlaying) {
+                                      rishabhController.sendPlayerStatus(
+                                          status: true,
+                                          firebaseId: roomLogicController
+                                              .roomFireBaseId);
                                       controller.pause();
                                     } else {
+                                      rishabhController.sendPlayerStatus(
+                                          status: false,
+                                          firebaseId: roomLogicController
+                                              .roomFireBaseId);
+                                      controller.pause();
                                       controller.play();
                                     }
                                   },
