@@ -125,7 +125,7 @@ class _YTPlayerState extends State<YTPlayer> {
               elevation: 0,
             )
           : null,
-      drawer: Container(
+      endDrawer: Container(
         width: 380 * widthRatio,
         child: Drawer(
           child: ChattingPlace(controller: controller),
@@ -247,7 +247,9 @@ class _YTPlayerState extends State<YTPlayer> {
 
                       //For all the controls
                       AnimatedContainer(
+                        color: Color.fromRGBO(25, 25, 25, 0.66),
                         // decoration: BoxDecoration(
+                        //     color: Colors.grey,
                         //     border: Border.all(color: Colors.cyan)),
                         // padding: EdgeInsets.only(bottom: 20),
                         duration: Duration(milliseconds: 500),
@@ -270,8 +272,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                   },
                                   child: SvgPicture.asset(
                                       'lib/assets/svgs/back10.svg',
-                                      width: 20 * widthRatio,
-                                      height: 20 * heightRatio),
+                                      width: 30 * widthRatio,
+                                      height: 30 * heightRatio),
                                 ),
                               ),
 
@@ -293,12 +295,12 @@ class _YTPlayerState extends State<YTPlayer> {
                                         roomLogicController.playingStatus.value
                                             ? Icon(
                                                 Icons.pause,
-                                                size: 30,
+                                                size: 40,
                                                 color: Colors.white,
                                               )
                                             : Icon(
                                                 Icons.play_arrow,
-                                                size: 30,
+                                                size: 40,
                                                 color: Colors.white,
                                               ),
                                   ),
@@ -312,8 +314,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                 child: GestureDetector(
                                   child: SvgPicture.asset(
                                       'lib/assets/svgs/go10.svg',
-                                      width: 20 * widthRatio,
-                                      height: 20 * heightRatio),
+                                      width: 30 * widthRatio,
+                                      height: 30 * heightRatio),
                                   onTap: () {
                                     controller.seekTo(Duration(
                                         seconds: controller
