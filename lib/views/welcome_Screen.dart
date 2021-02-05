@@ -404,7 +404,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       )
                     ],
                   ),
-<<<<<<< HEAD
                 ),
                 SizedBox(height: 40 * heightRatio),
                 Expanded(
@@ -423,33 +422,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         //                           1]['name'] +
                         //                   "joined!")
                         //         });
-=======
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                        width: 120 * widthRatio, height: 120 * heightRatio),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 40 * heightRatio),
-            Expanded(
-              child: StreamBuilder<Event>(
-                stream: rishabhController.tester(
-                    firebaseId: roomLogicController.roomFireBaseId),
-                builder: (ctx, event) {
-                  if (event.hasData) {
-                    // Future.delayed(
-                    //     Duration(seconds: 2),
-                    //     () => {
-                    //           Get.snackbar(
-                    //               "",
-                    //               event.data.snapshot.value[
-                    //                       event.data.snapshot.value.length -
-                    //                           1]['name'] +
-                    //                   "joined!")
-                    //         });
->>>>>>> 78b3d32a58eac4250f44301bec562dc35ee22747
 
                         return Container(
                           // height: 100,
