@@ -7,6 +7,7 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
+import 'package:firebase_database/firebase_database.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
@@ -395,7 +396,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             ),
             SizedBox(height: 40 * heightRatio),
             Expanded(
-              child: StreamBuilder(
+              child: StreamBuilder<Event>(
                 stream: rishabhController.tester(
                     firebaseId: roomLogicController.roomFireBaseId),
                 builder: (ctx, event) {

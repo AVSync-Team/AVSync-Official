@@ -1,5 +1,7 @@
 // import 'dart:async';
 
+import 'dart:ui';
+
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
@@ -52,6 +54,7 @@ class _YTPlayerState extends State<YTPlayer> {
   // bool dontHideControlsBool = true;
   bool hideUI = false;
   double animatedHeight = 30;
+  bool shoSpeedWidget = false;
 
   // void hideControls() async {
   //   if (controller.value.isPlaying) {
@@ -162,7 +165,8 @@ class _YTPlayerState extends State<YTPlayer> {
       ),
       backgroundColor: Color(0xff292727),
       body: Center(
-        child: Container(
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
           child: Stack(
             children: [
               //The youtube player
@@ -226,12 +230,13 @@ class _YTPlayerState extends State<YTPlayer> {
                       //For hiding or displaying UI
                       Expanded(
                         child: Container(
-                          // decoration: BoxDecoration(
-                          //     border: Border.all(color: Colors.red)),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.yellow)),
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
                                 hideUI = !hideUI;
+                                shoSpeedWidget = false;
                                 // animatedHeight = 0;
                               });
                             },
@@ -266,7 +271,9 @@ class _YTPlayerState extends State<YTPlayer> {
 
                       //For all the controls
                       AnimatedContainer(
-                        color: Color.fromRGBO(25, 25, 25, 0.66),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.cyan)),
+                        // color: Color.fromRGBO(25, 25, 25, 0.66),
                         // decoration: BoxDecoration(
                         //     color: Colors.grey,
                         //     border: Border.all(color: Colors.cyan)),
@@ -281,6 +288,17 @@ class _YTPlayerState extends State<YTPlayer> {
                           child: Row(
                             // mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              //seek backward 10
+                              SizedBox(width: 10),
+                              IconButton(
+                                icon: Icon(Icons.speed),
+                                color: Colors.white,
+                                onPressed: () {
+                                  setState(() {
+                                    shoSpeedWidget = !shoSpeedWidget;
+                                  });
+                                },
+                              ),
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
@@ -368,19 +386,84 @@ class _YTPlayerState extends State<YTPlayer> {
                           ),
                         ),
                       ),
-                      // : Container(
-                      //     height: 0,
-                      //     margin: EdgeInsets.only(bottom: 10),
-                      //   )
-                      // SizedBox(height: 10)
                     ],
                   ),
                 ),
               ),
+              AnimatedContainer(
+                duration: Duration(seconds: 1),
+                // height: hideUI ? 0 : double.maxFinite,
+                margin: EdgeInsets.only(bottom: 40),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.red)),
+                // height: 100,
+                width: shoSpeedWidget ? 40 : 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 200),
+                    opacity: !shoSpeedWidget ? 0 : 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(height: 20),
+                        GestureDetector(
+                          child: CustomText('1.0'),
+                          onTap: () {
+                            roomLogicController.sendPlay(speed: 1.0);
+                            controller.setPlaybackRate(1.0);
+                          },
+                        ),
+                        GestureDetector(
+                          child: CustomText('1.25'),
+                          onTap: () {
+                            roomLogicController.sendPlay(speed: 1.25);
+                            controller.setPlaybackRate(1.25);
+                          },
+                        ),
+                        // Spacer(),
+                        GestureDetector(
+                          child: CustomText('1.5'),
+                          onTap: () {
+                            roomLogicController.sendPlay(speed: 1.5);
+                            controller.setPlaybackRate(1.5);
+                          },
+                        ),
+                        GestureDetector(
+                          child: CustomText('1.75'),
+                          onTap: () {
+                            roomLogicController.sendPlay(speed: 1.75);
+                            controller.setPlaybackRate(1.75);
+                          },
+                        ),
+                        GestureDetector(
+                          child: CustomText('2.0'),
+                          onTap: () {
+                            roomLogicController.sendPlay(speed: 2.0);
+                            controller.setPlaybackRate(2.0);
+                          },
+                        ),
+                        // SizedBox(height: 30)
+                        // Spacer()
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class CustomText extends StatelessWidget {
+  final String text;
+  CustomText(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text, style: TextStyle(color: Colors.white));
   }
 }
