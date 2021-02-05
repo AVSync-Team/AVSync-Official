@@ -28,6 +28,7 @@ class RoomLogicController extends GetxController {
   var joinLoading = false.obs;
   var playingStatus = false.obs;
   var dontHideControls = false.obs;
+  var videoPosition = Duration(seconds: 0).obs;
 
   void roomText(text) {
     roomIdText = text;

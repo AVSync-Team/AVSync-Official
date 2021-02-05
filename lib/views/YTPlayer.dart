@@ -26,6 +26,7 @@ RishabhController rishabhController = Get.put(RishabhController());
 AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
+
 // int position = 0;
 
 class _YTPlayerState extends State<YTPlayer> {
@@ -46,23 +47,25 @@ class _YTPlayerState extends State<YTPlayer> {
         hideThumbnail: true),
   );
   int timestamp = 0;
-  bool dontHideControlsBool = true;
+  // bool dontHideControlsBool = true;
+  bool hideUI = false;
+  double animatedHeight = 30;
 
-  void hideControls() async {
-    if (controller.value.isPlaying) {
-      await Future.delayed(Duration(seconds: 2));
-      setState(() {
-        dontHideControlsBool = true;
-      });
-    } else {
-      await Future.delayed(Duration(seconds: 2));
-      // hideControlsBool = false;
-      setState(() {
-        dontHideControlsBool = false;
-      });
-    }
-    print('Khushi Love');
-  }
+  // void hideControls() async {
+  //   if (controller.value.isPlaying) {
+  //     await Future.delayed(Duration(seconds: 2));
+  //     setState(() {
+  //       dontHideControlsBool = true;
+  //     });
+  //   } else {
+  //     await Future.delayed(Duration(seconds: 2));
+  //     // hideControlsBool = false;
+  //     setState(() {
+  //       dontHideControlsBool = false;
+  //     });
+  //   }
+  //   print('Khushi Love');
+  // }
 
   @override
   void initState() {
@@ -113,6 +116,8 @@ class _YTPlayerState extends State<YTPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: Get.context.orientation == Orientation.portrait
           ? AppBar(
@@ -129,9 +134,6 @@ class _YTPlayerState extends State<YTPlayer> {
       backgroundColor: Color(0xff292727),
       body: Center(
         child: Container(
-          // decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
-          // height: Get.context.isPortrait ? Get.height : Get.height,
-          // width: Get.context.isPortrait ? Get.width : Get.width,
           child: Stack(
             children: [
               //The youtube player
@@ -153,6 +155,8 @@ class _YTPlayerState extends State<YTPlayer> {
                     onReady: () {
                       controller.addListener(
                         () {
+                          roomLogicController.videoPosition.value =
+                              controller.value.position;
                           roomLogicController.playingStatus.value =
                               controller.value.isPlaying;
                           ytStateController.videoPosition.value =
@@ -176,12 +180,6 @@ class _YTPlayerState extends State<YTPlayer> {
                                       roomLogicController.roomFireBaseId);
                             }
                           }
-                          // if (controller.value.isPlaying) {
-                          //   hideControlsBool = true;
-                          // } else {
-                          //   hideControlsBool = false;
-                          // }
-                          print('Khushi: ${roomLogicController.playingStatus}');
                         },
                       );
                     },
@@ -191,22 +189,78 @@ class _YTPlayerState extends State<YTPlayer> {
 
               //Control UIs
               //seek back 10
-              dontHideControlsBool
-                  ? Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        // aspectRatio: 16 / 9,
-                        width: Get.width,
-                        height: Get.height,
-                        // decoration: BoxDecoration(color: Colors.blue),
+              Align(
+                alignment: Alignment.center,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  // width: size.width,
+                  // height: MediaQuery.of(context).orientation ==
+                  //         Orientation.landscape
+                  //     ? size.height * 0.8
+                  //     : size.height * 0.3,
+                  // decoration:
+                  //     BoxDecoration(border: Border.all(color: Colors.yellow)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //For hiding or displaying UI
+                      Expanded(
+                        child: Container(
+                          // decoration: BoxDecoration(
+                          //     border: Border.all(color: Colors.red)),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                hideUI = !hideUI;
+                                // animatedHeight = 0;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      // Spacer(
 
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                // decoration: BoxDecoration(
-                                //     border: Border.all(color: Colors.red)),
+                      Obx(
+                        () => Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  // margin: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                      '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )),
+                                ),
+                                Container(
+                                  // margin: EdgeInsets.only(right: 5),
+                                  child: Text(
+                                      '${controller.metadata.duration.toString().substring(0, 7)}',
+                                      style: TextStyle(color: Colors.white)),
+                                )
+                              ],
+                            )),
+                      ),
+
+                      //For all the controls
+                      AnimatedContainer(
+                        // decoration: BoxDecoration(
+                        //     border: Border.all(color: Colors.cyan)),
+                        // padding: EdgeInsets.only(bottom: 20),
+                        duration: Duration(milliseconds: 500),
+                        height: hideUI ? 40 : 0,
+                        // width: hideUI ? 0 : size.width,
+                        // height: 0,
+                        child: AnimatedOpacity(
+                          duration: Duration(milliseconds: 200),
+                          opacity: hideUI ? 1 : 0,
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
                                 child: GestureDetector(
                                   onTap: () {
                                     controller.seekTo(Duration(
@@ -216,25 +270,18 @@ class _YTPlayerState extends State<YTPlayer> {
                                   },
                                   child: SvgPicture.asset(
                                       'lib/assets/svgs/back10.svg',
-                                      width: 40 * widthRatio,
-                                      height: 40 * heightRatio),
+                                      width: 20 * widthRatio,
+                                      height: 20 * heightRatio),
                                 ),
                               ),
-                            ),
 
-                            //play pause icon
-                            Expanded(
-                              // width: Get.width * 0.4,
-                              // color: Colors.blue.shade100,
-                              child: Container(
-                                // decoration: BoxDecoration(
-                                //     border: Border.all(color: Colors.cyan)),
+                              //play pause icon
+                              Expanded(
+                                // width: Get.width * 0.4,
+                                // color: Colors.blue.shade100,
                                 child: GestureDetector(
                                   onTap: () {
                                     // hideControls();
-                                    setState(() {
-                                      dontHideControlsBool = false;
-                                    });
                                     if (controller.value.isPlaying) {
                                       controller.pause();
                                     } else {
@@ -246,31 +293,27 @@ class _YTPlayerState extends State<YTPlayer> {
                                         roomLogicController.playingStatus.value
                                             ? Icon(
                                                 Icons.pause,
-                                                size: 60,
+                                                size: 30,
                                                 color: Colors.white,
                                               )
                                             : Icon(
                                                 Icons.play_arrow,
-                                                size: 60,
+                                                size: 30,
                                                 color: Colors.white,
                                               ),
                                   ),
                                 ),
                               ),
-                            ),
 
-                            //seek forward 10
-                            Expanded(
-                              // width: Get.width * 0.3,
-                              // color: Colors.yellow.shade100,
-                              child: Container(
-                                // decoration: BoxDecoration(
-                                //     border: Border.all(color: Colors.yellow)),
+                              //seek forward 10
+                              Expanded(
+                                // width: Get.width * 0.3,
+                                // color: Colors.yellow.shade100,
                                 child: GestureDetector(
                                   child: SvgPicture.asset(
                                       'lib/assets/svgs/go10.svg',
-                                      width: 40 * widthRatio,
-                                      height: 40 * heightRatio),
+                                      width: 20 * widthRatio,
+                                      height: 20 * heightRatio),
                                   onTap: () {
                                     controller.seekTo(Duration(
                                         seconds: controller
@@ -279,46 +322,29 @@ class _YTPlayerState extends State<YTPlayer> {
                                   },
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.cyan)),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              dontHideControlsBool = true;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
 
-              //Toggle fullscreen
-              Positioned(
-                bottom: Get.context.isPortrait
-                    ? 270 * heightRatio
-                    : 20 * heightRatio,
-                right:
-                    Get.context.isPortrait ? 10 * widthRatio : 30 * widthRatio,
-                child: Container(
-                  // margin: EdgeInsets.only(left: 40),
-                  child: IconButton(
-                      icon: Icon(
-                        Icons.fullscreen,
-                        color: Colors.white,
-                        size: 35,
+                              //Toggle fullscreen
+                              IconButton(
+                                icon: Icon(
+                                  Icons.fullscreen,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                onPressed: () {
+                                  controller.toggleFullScreenMode();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      onPressed: () {
-                        controller.toggleFullScreenMode();
-                      }),
+                      // : Container(
+                      //     height: 0,
+                      //     margin: EdgeInsets.only(bottom: 10),
+                      //   )
+                      // SizedBox(height: 10)
+                    ],
+                  ),
                 ),
               ),
             ],

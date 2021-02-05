@@ -234,6 +234,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       height: 250 * heightRatio,
                       width: 280 * widthRatio,
                       child: Card(
+                        color: Color.fromARGB(200, 60, 60, 60),
                         elevation: 8,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25 * widthRatio),
@@ -346,7 +347,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                               firebaseId: roomLogicController
                                                   .roomFireBaseId),
                                       builder: (context, snapshot) {
-                                        if (!snapshot.hasError) {
+                                        if (snapshot.hasData) {
                                           return Text(
                                             '${snapshot.data.snapshot.value}',
                                             style: TextStyle(fontSize: 30),
@@ -354,6 +355,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         } else if (snapshot.hasError) {
                                           return Text('Error');
                                         }
+                                        return Text('');
                                       }),
                                   Padding(
                                     padding: const EdgeInsets.only(
@@ -397,8 +399,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 stream: rishabhController.tester(
                     firebaseId: roomLogicController.roomFireBaseId),
                 builder: (ctx, event) {
-                  if (event.hasData ||
-                      event.connectionState == ConnectionState.active) {
+                  if (event.hasData) {
                     // Future.delayed(
                     //     Duration(seconds: 2),
                     //     () => {
@@ -415,34 +416,34 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       width: 300 * widthRatio,
                       child:
                           NotificationListener<OverscrollIndicatorNotification>(
-                              onNotification: (overscroll) {
-                                overscroll.disallowGlow();
-                              },
-                              child: ListView.separated(
-                                separatorBuilder: (ctx, i) {
-                                  return SizedBox(
-                                    height: 20 * heightRatio,
-                                  );
-                                },
-                                itemBuilder: (ctx, i) {
-                                  print('chut: ${event.data.snapshot.value}');
+                        onNotification: (overscroll) {
+                          overscroll.disallowGlow();
+                        },
+                        child: ListView.separated(
+                          separatorBuilder: (ctx, i) {
+                            return SizedBox(
+                              height: 20 * heightRatio,
+                            );
+                          },
+                          itemBuilder: (ctx, i) {
+                            print('chut: ${event.data.snapshot.value}');
 
-                                  return CustomNameBar(
-                                    event: event,
-                                    index: i,
-                                    widthRatio: widthRatio,
-                                    heightRatio: heightRatio,
-                                    controller: funLogic,
-                                  );
-                                },
-                                itemCount: event.data.snapshot.value.values
-                                    .toList()
-                                    .length,
-                              )),
+                            return CustomNameBar(
+                              event: event,
+                              index: i,
+                              widthRatio: widthRatio,
+                              heightRatio: heightRatio,
+                              controller: funLogic,
+                            );
+                          },
+                          itemCount:
+                              event.data.snapshot.value.values.toList().length,
+                        ),
+                      ),
                     );
-                  } else if (event.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
                   }
+
+                  return Center(child: CircularProgressIndicator());
                 },
               ),
             ),
@@ -473,6 +474,7 @@ class CustomNameBar extends StatelessWidget {
     return Container(
       height: 80,
       child: Card(
+        color: Color.fromARGB(200, 60, 60, 60),
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         // width: 20,
