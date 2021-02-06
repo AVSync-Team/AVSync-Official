@@ -57,7 +57,7 @@ class _YTPlayerState extends State<YTPlayer> {
   bool shoSpeedWidget = false;
   bool playerIsUser = true;
   int selectedRadio;
-  final GlobalKey globalKey = GlobalKey();
+  // final GlobalKey globalKey = GlobalKey();
 
   // void hideControls() async {
   //   if (controller.value.isPlaying) {
@@ -142,6 +142,7 @@ class _YTPlayerState extends State<YTPlayer> {
 
     super.initState();
     selectedRadio = 1;
+    
   }
 
   @override
@@ -242,7 +243,7 @@ class _YTPlayerState extends State<YTPlayer> {
                         child: Container(
                           decoration: BoxDecoration(
                               // border: Border.all(color: Colors.yellow),
-                              
+
                               ),
                           child: GestureDetector(
                             onTap: () {
@@ -284,11 +285,9 @@ class _YTPlayerState extends State<YTPlayer> {
                       //For all the controls
                       AnimatedContainer(
                         decoration: BoxDecoration(
-                            color: Color.fromRGBO(25, 25, 25, 0.66),
-                            // border: Border.all(color: Colors.cyan)
-                            
-                            
-                            ),
+                          color: Color.fromRGBO(25, 25, 25, 0.66),
+                          // border: Border.all(color: Colors.cyan)
+                        ),
                         // color: Color.fromRGBO(25, 25, 25, 0.66),
                         // decoration: BoxDecoration(
                         //     color: Colors.grey,

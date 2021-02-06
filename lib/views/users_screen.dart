@@ -7,6 +7,8 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
+import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
@@ -22,8 +24,8 @@ class WelcomScreen extends StatefulWidget {
 }
 
 class _WelcomScreenState extends State<WelcomScreen> {
-  bool ytPlayerclicked = false;
-  bool localPlayerClicked = false;
+  // bool ytPlayerclicked = false;
+  // bool localPlayerClicked = false;
   TextEditingController yturl = TextEditingController();
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
   RishabhController rishabhController = Get.put(RishabhController());
@@ -32,7 +34,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
-  bool isLoading = false;
+
   bool picking;
 
   // StreamController<List<dynamic>> _userController;
@@ -59,13 +61,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
         Get.snackbar(
             check[check.length - 1].username, check[check.length - 1].mesage);
     });
-    //   _userController = new StreamController();
+    // _userController = new StreamController();
 
-    //   timer = Timer.periodic(Duration(seconds: 3), (_) async {
-    //     var data = await roomLogicController.loadDetails();
-    //     _userController.add(data);
-    //   });
-    //
+    // timer = Timer.periodic(Duration(seconds: 3), (_) async {
+    //   var data = await roomLogicController.loadDetails();
+    //   _userController.add(data);
+    // });
   }
 
   // @override
@@ -76,59 +77,64 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //   super.dispose();
   // }
 
-  // Future<void> filePick() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
+  bool isLoading = false;
 
-  //   FilePickerResult result = await FilePicker.platform.pickFiles(
-  //       // type: FileType.media,
-  //       // allowMultiple: false,
-  //       // allowedExtensions: ['.mp4'],
-  //       withData: false,
-  //       // allowCompression: true,
-  //       withReadStream: true,
-  //       onFileLoading: (status) {
-  //         if (status.toString() == "FilePickerStatus.picking") {
-  //           setState(() {
-  //             picking = true;
-  //           });
-  //         } else {
-  //           setState(() {
-  //             picking = false;
-  //           });
-  //         }
-  //       });
+  void bottomSheet() {
+    Get.bottomSheet(Container(
+      color: Colors.white,
+      height: 200,
+      width: 200,
+      child: !isLoading
+          ? RaisedButton(
+              onPressed: () async {
+                await filePick();
+                Get.to(NiceVideoPlayer());
+              },
+              child: Text("Pick Video"),
+            )
+          : Center(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+    ));
+  }
 
-  //   // roomLogicController.bytes.obs.value = result.files[0];
-  //   roomLogicController.localUrl = result.files[0].path;
+  Future<void> filePick() async {
+    setState(() {
+      isLoading = true;
+    });
 
-  //   // print('testUrl: $testUrl');
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+        // type: FileType.media,
+        // allowMultiple: false,
+        // allowedExtensions: ['.mp4'],
+        withData: false,
+        // allowCompression: true,
+        withReadStream: true,
+        onFileLoading: (status) {
+          if (status.toString() == "FilePickerStatus.picking") {
+            setState(() {
+              picking = true;
+            });
+          } else {
+            setState(() {
+              picking = false;
+            });
+          }
+        });
 
-  // void bottomSheet() {
-  //   Get.bottomSheet(Container(
-  //     color: Colors.white,
-  //     height: 200,
-  //     width: 200,
-  //     child: isLoading
-  //         ? RaisedButton(
-  //             onPressed: () async {
-  //               await filePick();
-  //               Get.to(NiceVideoPlayer());
-  //             },
-  //             child: Text("Pick Video"),
-  //           )
-  //         : Center(
-  //             child: Center(
-  //               child: CircularProgressIndicator(),
-  //             ),
-  //           ),
-  //   ));
-  // }
+    // roomLogicController.bytes.obs.value = result.files[0];
+    roomLogicController.localUrl.value = result.files[0].path;
+
+    // print('testUrl: $testUrl');
+    setState(() {
+      isLoading = false;
+    });
+
+    // Get.to(NiceVideoPlayer());
+  }
+
   void snackbar(String name, String message) {
     Get.snackbar(name, message);
   }
@@ -162,8 +168,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         roomLogicController.adminDeleteRoom(
                             firebaseId: roomLogicController.roomFireBaseId);
                       }
-
-                      Get.off(CreateRoomScreen());
+                      Get.offAll(CreateRoomScreen());
+                      // Get.off(CreateRoomScreen());
                     }),
                 cancel: RaisedButton(
                     child: Text('No'),
@@ -198,6 +204,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               children: [
                 // Text('Users: '),
                 // SizedBox(height: 40),
+
                 Text(
                   'Room',
                   style: TextStyle(color: Colors.white, fontSize: 50),
@@ -327,6 +334,10 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 42.5),
                                   child: InkWell(
+                                    onTap: () {
+                                      // filePick();
+                                      bottomSheet();
+                                    },
                                     child: Row(
                                       children: [
                                         SvgPicture.asset(
