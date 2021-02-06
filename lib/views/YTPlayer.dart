@@ -241,7 +241,9 @@ class _YTPlayerState extends State<YTPlayer> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.yellow)),
+                              // border: Border.all(color: Colors.yellow),
+                              
+                              ),
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -283,7 +285,10 @@ class _YTPlayerState extends State<YTPlayer> {
                       AnimatedContainer(
                         decoration: BoxDecoration(
                             color: Color.fromRGBO(25, 25, 25, 0.66),
-                            border: Border.all(color: Colors.cyan)),
+                            // border: Border.all(color: Colors.cyan)
+                            
+                            
+                            ),
                         // color: Color.fromRGBO(25, 25, 25, 0.66),
                         // decoration: BoxDecoration(
                         //     color: Colors.grey,
