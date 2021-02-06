@@ -1,7 +1,7 @@
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/views/welcome_Screen.dart';
+import 'package:VideoSync/views/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -160,59 +160,60 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                   height: 30 * heightRatio,
                                 ),
                                 GetBuilder<RoomLogicController>(
-                                    builder: (controller) {
-                                  return Container(
-                                    height: 50 * heightRatio,
-                                    width: 150 * widthRatio,
-                                    child: RaisedButton(
-                                      color: controller.joinLoading.value
-                                          ? Colors.blue
-                                          : Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                      onPressed:
+                                  builder: (controller) {
+                                    return Container(
+                                      height: 50 * heightRatio,
+                                      width: 150 * widthRatio,
+                                      child: RaisedButton(
+                                        color: controller.joinLoading.value
+                                            ? Colors.blue
+                                            : Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25)),
+                                        onPressed:
 
-                                          // controller.joinLoading.value ||
-                                          //         controller.roomIdText == ""
-                                          //     ? null
-                                          //     :
+                                            // controller.joinLoading.value ||
+                                            //         controller.roomIdText == ""
+                                            //     ? null
+                                            //     :
 
-                                          () {
-                                        // roomLogicController.joinstatus(true);
-                                        // bool flag =
-                                        //     await roomLogicController.joinRoom(
-                                        //         roomId: roomId.text,
-                                        //         name: nameController.text);
-                                        // roomLogicController.joinstatus(false);
-                                        // print(flag);
-                                        roomLogicController.joinRoom(
-                                            roomId: roomId.text,
-                                            name: nameController.text);
+                                            () {
+                                          // roomLogicController.joinstatus(true);
+                                          // bool flag =
+                                          //     await roomLogicController.joinRoom(
+                                          //         roomId: roomId.text,
+                                          //         name: nameController.text);
+                                          // roomLogicController.joinstatus(false);
+                                          // print(flag);
+                                          roomLogicController.joinRoom(
+                                              roomId: roomId.text,
+                                              name: nameController.text);
 
-                                        if (true) {
-                                          Get.to(WelcomScreen());
-                                        } else {
-                                          Get.snackbar('Wrong Room Id',
-                                              'The room id you entered is wrong');
-                                          // Scaffold.of(context).showSnackBar(
-                                          //     SnackBar(
-                                          //         content: Text(
-                                          //             "Wrong Room Id!")));
-                                        }
-                                        //     await roomLogicController.joinRoom(
-                                        //   roomId: roomId.text,
-                                        //   name: nameController.text,
-                                        //   );
-                                        // }
-                                      },
-                                      child: Text(
-                                        'Join',
-                                        style: TextStyle(fontSize: 25),
+                                          if (true) {
+                                            Get.to(WelcomScreen());
+                                          } else {
+                                            Get.snackbar('Wrong Room Id',
+                                                'The room id you entered is wrong');
+                                            // Scaffold.of(context).showSnackBar(
+                                            //     SnackBar(
+                                            //         content: Text(
+                                            //             "Wrong Room Id!")));
+                                          }
+                                          //     await roomLogicController.joinRoom(
+                                          //   roomId: roomId.text,
+                                          //   name: nameController.text,
+                                          //   );
+                                          // }
+                                        },
+                                        child: Text(
+                                          'Join',
+                                          style: TextStyle(fontSize: 25),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                })
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),

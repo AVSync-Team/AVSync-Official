@@ -352,22 +352,33 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.baseline,
                                     children: [
-                                      StreamBuilder(
-                                          stream: roomLogicController
-                                              .adminBsdkKaNaam(
-                                                  firebaseId:
-                                                      roomLogicController
-                                                          .roomFireBaseId),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Text(
-                                                '${snapshot.data.snapshot.value}',
-                                                style: TextStyle(fontSize: 30),
-                                              );
-                                            } else if (snapshot.hasError) {
-                                              return Text('Error');
+                                      FutureBuilder(
+                                          future: Future.delayed(
+                                              Duration(seconds: 2)),
+                                          builder: (cts, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return StreamBuilder(
+                                                  stream: roomLogicController
+                                                      .adminBsdkKaNaam(
+                                                          firebaseId:
+                                                              roomLogicController
+                                                                  .roomFireBaseId),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Text(
+                                                        '${snapshot.data.snapshot.value}',
+                                                        style: TextStyle(
+                                                            fontSize: 30),
+                                                      );
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      return Text('Error');
+                                                    }
+                                                    return Text('');
+                                                  });
                                             }
-                                            return Text('');
+                                            return Container();
                                           }),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -406,59 +417,97 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   ),
                 ),
                 SizedBox(height: 40 * heightRatio),
+
+                // FutureBuilder(
+                //     future: Future.delayed(Duration(seconds: 2)),
+                //     builder: (ctx, snapshot) {
+                //       if (snapshot.connectionState == ConnectionState.done) {
+                //         return StreamBuilder(
+                //           builder: (ctx, event) {
+                //             if (event.hasData) {
+                //               print('snapshot: ${event.data.snapshot.value}');
+                //             }
+
+                //             return Container(height: 0, width: 0);
+                //           },
+                //           stream: rishabhController.tester(
+                //               firebaseId: roomLogicController.roomFireBaseId),
+                //         );
+                //       }
+                //       return Container();
+                //     }),
+
                 Expanded(
-                  child: StreamBuilder(
-                    stream: rishabhController.tester(
-                        firebaseId: roomLogicController.roomFireBaseId),
-                    builder: (ctx, event) {
-                      if (event.hasData) {
-                        // Future.delayed(
-                        //     Duration(seconds: 2),
-                        //     () => {
-                        //           Get.snackbar(
-                        //               "",
-                        //               event.data.snapshot.value[
-                        //                       event.data.snapshot.value.length -
-                        //                           1]['name'] +
-                        //                   "joined!")
-                        //         });
+                  child: FutureBuilder(
+                      future: Future.delayed(Duration(seconds: 2)),
+                      builder: (ctx, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return StreamBuilder(
+                            stream: rishabhController.tester(
+                                firebaseId: roomLogicController.roomFireBaseId),
+                            builder: (ctx, event) {
+                              if (event.hasData) {
+                                // Future.delayed(
+                                //     Duration(seconds: 2),
+                                //     () => {
+                                //           Get.snackbar(
+                                //               "",
+                                //               event.data.snapshot.value[event
+                                //                           .data
+                                //                           .snapshot
+                                //                           .value
+                                //                           .length -
+                                //                       1]['name'] +
+                                //                   "joined!")
+                                //         });
 
-                        return Container(
-                          // height: 100,
-                          width: 300 * widthRatio,
-                          child: NotificationListener<
-                              OverscrollIndicatorNotification>(
-                            onNotification: (overscroll) {
-                              overscroll.disallowGlow();
+                                return Container(
+                                  // height: 100,
+                                  width: 300 * widthRatio,
+                                  child: NotificationListener<
+                                      OverscrollIndicatorNotification>(
+                                    onNotification: (overscroll) {
+                                      overscroll.disallowGlow();
+                                    },
+                                    child: ListView.separated(
+                                      separatorBuilder: (ctx, i) {
+                                        return SizedBox(
+                                          height: 20 * heightRatio,
+                                        );
+                                      },
+                                      itemBuilder: (ctx, i) {
+                                        print(
+                                            'chut: ${event.data.snapshot.value}');
+                                        return CustomNameBar(
+                                          event: event,
+                                          index: i,
+                                          widthRatio: widthRatio,
+                                          heightRatio: heightRatio,
+                                          controller: funLogic,
+                                        );
+                                      },
+                                      itemCount: event
+                                          .data.snapshot.value.values
+                                          .toList()
+                                          .length,
+                                    ),
+                                  ),
+                                );
+                              } else if (event.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              return Container(height: 0.0, width: 0.0);
                             },
-                            child: ListView.separated(
-                              separatorBuilder: (ctx, i) {
-                                return SizedBox(
-                                  height: 20 * heightRatio,
-                                );
-                              },
-                              itemBuilder: (ctx, i) {
-                                print('chut: ${event.data.snapshot.value}');
-
-                                return CustomNameBar(
-                                  event: event,
-                                  index: i,
-                                  widthRatio: widthRatio,
-                                  heightRatio: heightRatio,
-                                  controller: funLogic,
-                                );
-                              },
-                              itemCount: event.data.snapshot.value.values
-                                  .toList()
-                                  .length,
-                            ),
-                          ),
-                        );
-                      }
-
-                      return Center(child: CircularProgressIndicator());
-                    },
-                  ),
+                          );
+                        }
+                        return Container();
+                      }),
                 ),
               ],
             ),
@@ -469,7 +518,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   }
 }
 
-class CustomNameBar extends StatelessWidget {
+class CustomNameBar extends StatefulWidget {
   final AsyncSnapshot event;
   final int index;
   final double heightRatio;
@@ -484,6 +533,11 @@ class CustomNameBar extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
+  @override
+  _CustomNameBarState createState() => _CustomNameBarState();
+}
+
+class _CustomNameBarState extends State<CustomNameBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -500,8 +554,9 @@ class CustomNameBar extends StatelessWidget {
 
         child: Center(
           child: Text(
-            '${event.data.snapshot.value.values.toList()[index]['name']}',
-            style: TextStyle(fontSize: 30, color: controller.randomColorPick),
+            '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
+            style: TextStyle(
+                fontSize: 30, color: widget.controller.randomColorPick),
           ),
 
           // InkWell(

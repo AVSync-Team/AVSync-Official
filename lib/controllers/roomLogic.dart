@@ -103,7 +103,8 @@ class RoomLogicController extends GetxController {
     rooms.forEach((key, value) async {
       if (value['roomId'].toString() == roomId) {
         flag = true;
-        roomFireBaseId = key.toString();
+        this.roomFireBaseId = key.toString();
+        print('joinRoom: $roomFireBaseId');
 
         firebaseDatabase
             .child('Rooms')
@@ -191,6 +192,15 @@ class RoomLogicController extends GetxController {
     final response = await http.patch(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
         body: json.encode({"playBackSpeed": speed}));
+  }
+
+  void sendPlayBackSpeed({double speed}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    firebase
+        .child('Rooms')
+        .child(roomFireBaseId)
+        .child('playBackSpeed')
+        .set(speed);
   }
 
   // Stream<List<dynamic>> getusersInRoom() async* {
