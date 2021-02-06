@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class RishabhController extends GetxController {
   var timeStamp = 0.obs;
   var isDragging = false.obs;
-  var radioValue = 1.5.obs;
+  var radioValue = 1.0.obs;
 
   void timestampFromDB({String roomFireBaseID}) {
     print('called');
@@ -101,5 +101,15 @@ class RishabhController extends GetxController {
         .child('$firebaseId')
         .child('users')
         .onValue;
+  }
+
+  Future firstDataFromUsers({String firebaseId}) {
+    final firebasedatbase = FirebaseDatabase.instance.reference();
+    return firebasedatbase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('users')
+        .onValue
+        .first;
   }
 }

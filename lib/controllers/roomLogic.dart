@@ -103,7 +103,8 @@ class RoomLogicController extends GetxController {
     rooms.forEach((key, value) async {
       if (value['roomId'].toString() == roomId) {
         flag = true;
-        roomFireBaseId = key.toString();
+        this.roomFireBaseId = key.toString();
+        print('joinRoom: $roomFireBaseId');
 
         firebaseDatabase
             .child('Rooms')

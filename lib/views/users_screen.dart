@@ -406,63 +406,98 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   ),
                 ),
                 SizedBox(height: 40 * heightRatio),
-                Expanded(
-                  child: StreamBuilder(
-                    stream: rishabhController.tester(
-                        firebaseId: roomLogicController.roomFireBaseId),
-                    builder: (ctx, event) {
-                      if (event.hasData) {
-                        // Future.delayed(
-                        //     Duration(seconds: 2),
-                        //     () => {
-                        //           Get.snackbar(
-                        //               "",
-                        //               event.data.snapshot.value[
-                        //                       event.data.snapshot.value.length -
-                        //                           1]['name'] +
-                        //                   "joined!")
-                        //         });
 
-                        return Container(
-                          // height: 100,
-                          width: 300 * widthRatio,
-                          child: NotificationListener<
-                              OverscrollIndicatorNotification>(
-                            onNotification: (overscroll) {
-                              overscroll.disallowGlow();
+                // FutureBuilder(
+                //     future: Future.delayed(Duration(seconds: 2)),
+                //     builder: (ctx, snapshot) {
+                //       if (snapshot.connectionState == ConnectionState.done) {
+                //         return StreamBuilder(
+                //           builder: (ctx, event) {
+                //             if (event.hasData) {
+                //               print('snapshot: ${event.data.snapshot.value}');
+                //             }
+
+                //             return Container(height: 0, width: 0);
+                //           },
+                //           stream: rishabhController.tester(
+                //               firebaseId: roomLogicController.roomFireBaseId),
+                //         );
+                //       }
+                //       return Container();
+                //     }),
+
+                Expanded(
+                  child: FutureBuilder(
+                      future: rishabhController.firstDataFromUsers(
+                          firebaseId: roomLogicController.roomFireBaseId),
+                      builder: (ctx, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return StreamBuilder(
+                            stream: rishabhController.tester(
+                                firebaseId: roomLogicController.roomFireBaseId),
+                            builder: (ctx, event) {
+                              if (event.hasData) {
+                                // Future.delayed(
+                                //     Duration(seconds: 2),
+                                //     () => {
+                                //           Get.snackbar(
+                                //               "",
+                                //               event.data.snapshot.value[event
+                                //                           .data
+                                //                           .snapshot
+                                //                           .value
+                                //                           .length -
+                                //                       1]['name'] +
+                                //                   "joined!")
+                                //         });
+
+                                return Container(
+                                  // height: 100,
+                                  width: 300 * widthRatio,
+                                  child: NotificationListener<
+                                      OverscrollIndicatorNotification>(
+                                    onNotification: (overscroll) {
+                                      overscroll.disallowGlow();
+                                    },
+                                    child: ListView.separated(
+                                      separatorBuilder: (ctx, i) {
+                                        return SizedBox(
+                                          height: 20 * heightRatio,
+                                        );
+                                      },
+                                      itemBuilder: (ctx, i) {
+                                        print(
+                                            'chut: ${event.data.snapshot.value}');
+                                        return CustomNameBar(
+                                          event: event,
+                                          index: i,
+                                          widthRatio: widthRatio,
+                                          heightRatio: heightRatio,
+                                          controller: funLogic,
+                                        );
+                                      },
+                                      itemCount: event
+                                          .data.snapshot.value.values
+                                          .toList()
+                                          .length,
+                                    ),
+                                  ),
+                                );
+                              } else if (event.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              return Container(height: 0.0, width: 0.0);
                             },
-                            child: ListView.separated(
-                              separatorBuilder: (ctx, i) {
-                                return SizedBox(
-                                  height: 20 * heightRatio,
-                                );
-                              },
-                              itemBuilder: (ctx, i) {
-                                print('chut: ${event.data.snapshot.value}');
-                                return CustomNameBar(
-                                  event: event,
-                                  index: i,
-                                  widthRatio: widthRatio,
-                                  heightRatio: heightRatio,
-                                  controller: funLogic,
-                                );
-                              },
-                              itemCount: event.data.snapshot.value.values
-                                  .toList()
-                                  .length,
-                            ),
-                          ),
-                        );
-                      } else if (event.connectionState ==
-                          ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
+                          );
+                        }
+                        return Container();
+                      }),
                 ),
               ],
             ),
@@ -510,7 +545,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
         child: Center(
           child: Text(
             '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
-            style: TextStyle(fontSize: 30, color: widget.controller.randomColorPick),
+            style: TextStyle(
+                fontSize: 30, color: widget.controller.randomColorPick),
           ),
 
           // InkWell(

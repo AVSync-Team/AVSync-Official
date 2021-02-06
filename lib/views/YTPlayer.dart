@@ -282,6 +282,7 @@ class _YTPlayerState extends State<YTPlayer> {
                       //For all the controls
                       AnimatedContainer(
                         decoration: BoxDecoration(
+                            color: Color.fromRGBO(25, 25, 25, 0.66),
                             border: Border.all(color: Colors.cyan)),
                         // color: Color.fromRGBO(25, 25, 25, 0.66),
                         // decoration: BoxDecoration(
@@ -589,9 +590,9 @@ class _YTPlayerState extends State<YTPlayer> {
               //     ),
               //   ),
               // )
-              RaisedButton(onPressed: () {
-                print('marty: ${rishabhController.radioValue.value}');
-              })
+              // RaisedButton(onPressed: () {
+              //   print('marty: ${rishabhController.radioValue.value}');
+              // })
             ],
           ),
         ),
