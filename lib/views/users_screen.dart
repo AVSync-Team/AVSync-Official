@@ -439,7 +439,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                               },
                               itemBuilder: (ctx, i) {
                                 print('chut: ${event.data.snapshot.value}');
-
                                 return CustomNameBar(
                                   event: event,
                                   index: i,
@@ -454,9 +453,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
                             ),
                           ),
                         );
+                      } else if (event.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
                       }
-
-                      return Center(child: CircularProgressIndicator());
                     },
                   ),
                 ),
@@ -469,7 +473,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   }
 }
 
-class CustomNameBar extends StatelessWidget {
+class CustomNameBar extends StatefulWidget {
   final AsyncSnapshot event;
   final int index;
   final double heightRatio;
@@ -484,6 +488,11 @@ class CustomNameBar extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
+  @override
+  _CustomNameBarState createState() => _CustomNameBarState();
+}
+
+class _CustomNameBarState extends State<CustomNameBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -500,8 +509,8 @@ class CustomNameBar extends StatelessWidget {
 
         child: Center(
           child: Text(
-            '${event.data.snapshot.value.values.toList()[index]['name']}',
-            style: TextStyle(fontSize: 30, color: controller.randomColorPick),
+            '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
+            style: TextStyle(fontSize: 30, color: widget.controller.randomColorPick),
           ),
 
           // InkWell(

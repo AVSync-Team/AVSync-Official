@@ -118,6 +118,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                           itemBuilder: (ctx, i) {
                             return roomLogicController.userId == check[i].userId
                                 //Self user
+                                
                                 ? Padding(
                                     padding: const EdgeInsets.only(
                                       right: 5,

@@ -1,7 +1,7 @@
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/views/welcome_Screen.dart';
+import 'package:VideoSync/views/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

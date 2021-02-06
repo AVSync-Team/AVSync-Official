@@ -193,6 +193,15 @@ class RoomLogicController extends GetxController {
         body: json.encode({"playBackSpeed": speed}));
   }
 
+  void sendPlayBackSpeed({double speed}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    firebase
+        .child('Rooms')
+        .child(roomFireBaseId)
+        .child('playBackSpeed')
+        .set(speed);
+  }
+
   // Stream<List<dynamic>> getusersInRoom() async* {
   //   print("heellool");
   //   Future.delayed(Duration(seconds: 1));
