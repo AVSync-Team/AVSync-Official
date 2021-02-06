@@ -100,6 +100,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 width: 300 * widthRatio,
                 height: 80 * heightRatio,
                 child: RaisedButton(
+                  elevation: 10,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),

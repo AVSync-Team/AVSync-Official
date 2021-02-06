@@ -19,7 +19,7 @@ class RoomLogicController extends GetxController {
   String adminKaNaam;
   String userName;
   var ytURL = ''.obs;
-  String localUrl = ''.obs.value;
+  var localUrl = ''.obs;
   String userId;
   String userKaId;
   Uint8List bytes;
