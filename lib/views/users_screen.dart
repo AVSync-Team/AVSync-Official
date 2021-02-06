@@ -352,22 +352,33 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.baseline,
                                     children: [
-                                      StreamBuilder(
-                                          stream: roomLogicController
-                                              .adminBsdkKaNaam(
-                                                  firebaseId:
-                                                      roomLogicController
-                                                          .roomFireBaseId),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Text(
-                                                '${snapshot.data.snapshot.value}',
-                                                style: TextStyle(fontSize: 30),
-                                              );
-                                            } else if (snapshot.hasError) {
-                                              return Text('Error');
+                                      FutureBuilder(
+                                          future: Future.delayed(
+                                              Duration(seconds: 2)),
+                                          builder: (cts, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return StreamBuilder(
+                                                  stream: roomLogicController
+                                                      .adminBsdkKaNaam(
+                                                          firebaseId:
+                                                              roomLogicController
+                                                                  .roomFireBaseId),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Text(
+                                                        '${snapshot.data.snapshot.value}',
+                                                        style: TextStyle(
+                                                            fontSize: 30),
+                                                      );
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      return Text('Error');
+                                                    }
+                                                    return Text('');
+                                                  });
                                             }
-                                            return Text('');
+                                            return Container();
                                           }),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -428,8 +439,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
                 Expanded(
                   child: FutureBuilder(
-                      future: rishabhController.firstDataFromUsers(
-                          firebaseId: roomLogicController.roomFireBaseId),
+                      future: Future.delayed(Duration(seconds: 2)),
                       builder: (ctx, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           return StreamBuilder(
