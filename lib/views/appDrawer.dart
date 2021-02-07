@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon2, Function tapHandler) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.only(left: 30.0),
       child: ListTile(
         // leading: Icon(
@@ -37,9 +37,12 @@ class MainDrawer extends StatelessWidget {
           Container(
             decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
             alignment: Alignment.topLeft,
-            height: 200,
+            height: 150,
             width: double.infinity,
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.only(
+              top: 30,
+              left: 20,
+            ),
             child: Text(
               'AV Sync',
               style: TextStyle(
