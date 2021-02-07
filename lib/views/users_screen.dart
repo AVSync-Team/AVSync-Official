@@ -234,197 +234,205 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 SizedBox(
                   height: 40 * heightRatio,
                 ),
-                Container(
-                  height: 320 * heightRatio,
-                  width: 300 * widthRatio,
-                  // decoration:
-                  //     BoxDecoration(border: Border.all(color: Colors.black)),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: 250 * heightRatio,
-                          width: 280 * widthRatio,
-                          child: Card(
-                            color: Color.fromARGB(200, 60, 60, 60),
-                            elevation: 8,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(25 * widthRatio),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 20, left: 30),
-                                  child: InkWell(
-                                    onTap: () {
-                                      // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
-                                      Get.bottomSheet(
-                                        Container(
-                                          color: Colors.white,
-                                          width: double.infinity,
-                                          height: heightRatio * 250,
-                                          child: Card(
-                                            elevation: 10,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(height: 20),
-                                                Text('Enter the Youtube Link',
-                                                    style: TextStyle(
-                                                        fontSize: 20)),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: heightRatio * 20),
-                                                  height: heightRatio * 80,
-                                                  width: widthRatio * 300,
-                                                  child: TextField(
-                                                    controller: yturl,
-                                                    decoration: InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
+                Hero(
+                  tag: 'Rishabh',
+                  child: Container(
+                    height: 320 * heightRatio,
+                    width: 300 * widthRatio,
+                    // decoration:
+                    //     BoxDecoration(border: Border.all(color: Colors.black)),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 250 * heightRatio,
+                            width: 280 * widthRatio,
+                            child: Card(
+                              color: Color.fromARGB(200, 60, 60, 60),
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(25 * widthRatio),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 20, left: 30),
+                                    child: InkWell(
+                                      onTap: () {
+                                        // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                        Get.bottomSheet(
+                                          Container(
+                                            color: Colors.white,
+                                            width: double.infinity,
+                                            height: heightRatio * 250,
+                                            child: Card(
+                                              elevation: 10,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(height: 20),
+                                                  Text('Enter the Youtube Link',
+                                                      style: TextStyle(
+                                                          fontSize: 20)),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        top: heightRatio * 20),
+                                                    height: heightRatio * 80,
+                                                    width: widthRatio * 300,
+                                                    child: TextField(
+                                                      controller: yturl,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: heightRatio * 10),
-                                                  child: RaisedButton(
-                                                    shape: StadiumBorder(),
-                                                    onPressed: () {
-                                                      roomLogicController.ytURL
-                                                          .value = yturl.text;
-                                                      Get.to(YTPlayer());
-                                                    },
-                                                    child: Text('Play'),
-                                                  ),
-                                                )
-                                              ],
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        top: heightRatio * 10),
+                                                    child: RaisedButton(
+                                                      shape: StadiumBorder(),
+                                                      onPressed: () {
+                                                        roomLogicController
+                                                            .ytURL
+                                                            .value = yturl.text;
+                                                        Get.to(YTPlayer());
+                                                      },
+                                                      child: Text('Play'),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'lib/assets/svgs/youtubeplayer.svg',
+                                            width: 70 * heightRatio,
+                                            height: 70 * widthRatio,
+                                          ),
+                                          SizedBox(width: 10 * widthRatio),
+                                          Text(
+                                            'Youtube',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.red),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 42.5),
+                                    child: InkWell(
+                                      onTap: () {
+                                        // filePick();
+                                        bottomSheet();
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'lib/assets/svgs/localplayer.svg',
+                                            width: 40 * widthRatio,
+                                            height: 40 * heightRatio,
+                                          ),
+                                          SizedBox(width: 25 * widthRatio),
+                                          Text(
+                                            'Local Media',
+                                            style: TextStyle(fontSize: 20),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20 * heightRatio),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
                                     child: Row(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.baseline,
                                       children: [
-                                        SvgPicture.asset(
-                                          'lib/assets/svgs/youtubeplayer.svg',
-                                          width: 70 * heightRatio,
-                                          height: 70 * widthRatio,
-                                        ),
-                                        SizedBox(width: 10 * widthRatio),
-                                        Text(
-                                          'Youtube',
-                                          style: TextStyle(
-                                              fontSize: 20, color: Colors.red),
+                                        FutureBuilder(
+                                            future: Future.delayed(
+                                                Duration(seconds: 2)),
+                                            builder: (cts, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.done) {
+                                                return StreamBuilder(
+                                                    stream: roomLogicController
+                                                        .adminBsdkKaNaam(
+                                                            firebaseId:
+                                                                roomLogicController
+                                                                    .roomFireBaseId),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Text(
+                                                          '${snapshot.data.snapshot.value}',
+                                                          style: TextStyle(
+                                                              fontSize: 30),
+                                                        );
+                                                      } else if (snapshot
+                                                          .hasError) {
+                                                        return Text('Error');
+                                                      }
+                                                      return Text('');
+                                                    });
+                                              }
+                                              return Container();
+                                            }),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, bottom: 0),
+                                          child: SvgPicture.asset(
+                                            'lib/assets/svgs/crown.svg',
+                                            height: 25 * heightRatio,
+                                            width: 25 * widthRatio,
+                                            color: Colors.orange,
+                                          ),
                                         )
                                       ],
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 42.5),
-                                  child: InkWell(
-                                    onTap: () {
-                                      // filePick();
-                                      bottomSheet();
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          'lib/assets/svgs/localplayer.svg',
-                                          width: 40 * widthRatio,
-                                          height: 40 * heightRatio,
-                                        ),
-                                        SizedBox(width: 25 * widthRatio),
-                                        Text(
-                                          'Local Media',
-                                          style: TextStyle(fontSize: 20),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20 * heightRatio),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Row(
-                                    // mainAxisAlignment:
-                                    //     MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.baseline,
-                                    children: [
-                                      FutureBuilder(
-                                          future: Future.delayed(
-                                              Duration(seconds: 2)),
-                                          builder: (cts, snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.done) {
-                                              return StreamBuilder(
-                                                  stream: roomLogicController
-                                                      .adminBsdkKaNaam(
-                                                          firebaseId:
-                                                              roomLogicController
-                                                                  .roomFireBaseId),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      return Text(
-                                                        '${snapshot.data.snapshot.value}',
-                                                        style: TextStyle(
-                                                            fontSize: 30),
-                                                      );
-                                                    } else if (snapshot
-                                                        .hasError) {
-                                                      return Text('Error');
-                                                    }
-                                                    return Text('');
-                                                  });
-                                            }
-                                            return Container();
-                                          }),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, bottom: 0),
-                                        child: SvgPicture.asset(
-                                          'lib/assets/svgs/crown.svg',
-                                          height: 25 * heightRatio,
-                                          width: 25 * widthRatio,
-                                          color: Colors.orange,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10 * heightRatio),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: GetX<RoomLogicController>(
-                                      builder: (controller) {
-                                    return Text(
-                                        'Room no: ${controller.roomId.obs.value} ',
-                                        style: TextStyle(fontSize: 20));
-                                  }),
-                                )
-                              ],
+                                  SizedBox(height: 10 * heightRatio),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: GetX<RoomLogicController>(
+                                        builder: (controller) {
+                                      return Text(
+                                          'Room no: ${controller.roomId.obs.value} ',
+                                          style: TextStyle(fontSize: 20));
+                                    }),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                            width: 120 * widthRatio, height: 120 * heightRatio),
-                      )
-                    ],
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: SvgPicture.asset('lib/assets/svgs/movie.svg',
+                              width: 120 * widthRatio,
+                              height: 120 * heightRatio),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 40 * heightRatio),
