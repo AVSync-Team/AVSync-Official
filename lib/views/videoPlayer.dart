@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
@@ -11,12 +10,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-
 class NiceVideoPlayer extends StatefulWidget {
   @override
   _NiceVideoPlayerState createState() => _NiceVideoPlayerState();
 }
-
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 ChatController chatController = Get.put(ChatController());
 YTStateController ytStateController = Get.put(YTStateController());
@@ -24,11 +21,11 @@ RishabhController rishabhController = Get.put(RishabhController());
 AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
-
-class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
+class _NiceVideoPlayerState extends State<NiceVideoPlayer>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
   VideoPlayerController controller;
   Duration videoLength;
-
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
   int timestamp = 0;
@@ -38,10 +35,11 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
   bool shoSpeedWidget = false;
   bool playerIsUser = true;
   int selectedRadio;
-
   @override
   void initState() {
     super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     controller =
         VideoPlayerController.file(File(roomLogicController.localUrl.value))
           ..initialize().then((_) {
@@ -178,38 +176,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   // width: double.infinity,
-                  child: VideoPlayer(controller
-                      // onEnded: (_) {
-                      //   Get.off(WelcomScreen());
-                      // },
-                      // aspectRatio: 16 / 9,
-                      // controller: controller,
-                      // showVideoProgressIndicator: true,
-                      // progressColors: ProgressBarColors(
-                      //     playedColor: Colors.amber,
-                      //     handleColor: Colors.amberAccent),
-                      // onReady: () {
-                      //   controller.addListener(
-                      //     () {
-                      //       roomLogicController.videoPosition.value =
-                      //           controller.value.position;
-                      //       roomLogicController.playingStatus.value =
-                      //           controller.value.isPlaying;
-                      //       ytStateController.videoPosition.value =
-                      //           controller.value.position.inSeconds.toDouble();
-
-                      //       //admin
-                      //       //will send timestamp and control video playback
-                      //       if (roomLogicController.adminKaNaam.obs.value ==
-                      //           roomLogicController.userName.obs.value) {
-                      //         rishabhController.sendTimeStamp(
-                      //             firebaseId: roomLogicController.roomFireBaseId,
-                      //             timeStamp: controller.value.position.inSeconds);
-                      //       }
-                      //     },
-                      //   );
-                      // },
-                      ),
+                  child: VideoPlayer(controller),
                 ),
               ),
 
@@ -353,107 +320,130 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
                                     //     width: 400,
                                     //     child: Card()));
                                     Get.defaultDialog(
+                                      titleStyle: TextStyle(
+                                          color: Colors.white, fontSize: 12),
                                       backgroundColor: Color(0xff292727),
-                                      title: '',
+                                      title: 'Speed',
                                       content: GetBuilder<RishabhController>(
                                           builder: (controllerGetx) {
                                         return Container(
                                           width: 200,
-                                          height: 150,
+                                          height: 170,
                                           child: ListView(
                                             // height: 50,
                                             children: [
-                                              RadioListTile(
-                                                  // key: globalKey,
-                                                  toggleable: true,
-                                                  title: CustomText('1'),
-                                                  value: 1.0,
-                                                  groupValue:
-                                                      controllerGetx.radioValue,
-                                                  onChanged: (value) {
-                                                    roomLogicController
-                                                        .sendPlayBackSpeed(
-                                                            speed: 1.0);
-                                                    controller
-                                                        .setPlaybackSpeed(1.0);
-                                                    controllerGetx.radioValue
-                                                        .value = value;
+                                              Container(
+                                                height: 50,
+                                                child: RadioListTile(
+                                                    // key: globalKey,
+                                                    toggleable: true,
+                                                    title: CustomText('1'),
+                                                    value: 1.0,
+                                                    groupValue: controllerGetx
+                                                        .radioValue,
+                                                    onChanged: (value) {
+                                                      roomLogicController
+                                                          .sendPlayBackSpeed(
+                                                              speed: 1.0);
+                                                      controller
+                                                          .setPlaybackSpeed(
+                                                              1.0);
+                                                      controllerGetx.radioValue
+                                                          .value = value;
 
-                                                    Get.back();
-                                                  }),
-                                              RadioListTile(
+                                                      Get.back();
+                                                    }),
+                                              ),
+                                              Container(
+                                                height: 50,
+                                                child: RadioListTile(
+                                                    // key: globalKey,
+                                                    title: CustomText('1.25'),
+                                                    value: 1.25,
+                                                    groupValue: controllerGetx
+                                                        .radioValue.value,
+                                                    onChanged: (value) {
+                                                      // print('value: $value');
+                                                      // changeRadioValue(value);
+                                                      roomLogicController
+                                                          .sendPlayBackSpeed(
+                                                              speed: 1.25);
+                                                      controller
+                                                          .setPlaybackSpeed(
+                                                              1.25);
+                                                      controllerGetx.radioValue
+                                                          .value = value;
+
+                                                      Get.back();
+                                                    }),
+                                              ),
+                                              Container(
+                                                height: 50,
+                                                child: RadioListTile(
+                                                    // key: globalKey,
+                                                    title: CustomText('1.5'),
+                                                    value: 1.5,
+                                                    groupValue: controllerGetx
+                                                        .radioValue.value,
+                                                    onChanged: (value) {
+                                                      // print('value: $value');
+                                                      // changeRadioValue(value);
+                                                      roomLogicController
+                                                          .sendPlayBackSpeed(
+                                                              speed: 1.5);
+                                                      controller
+                                                          .setPlaybackSpeed(
+                                                              1.5);
+                                                      controllerGetx.radioValue
+                                                          .value = value;
+
+                                                      Get.back();
+                                                    }),
+                                              ),
+                                              Container(
+                                                height: 50,
+                                                child: RadioListTile(
+                                                    // key: globalKey,
+                                                    title: CustomText('1.75'),
+                                                    value: 1.75,
+                                                    groupValue: controllerGetx
+                                                        .radioValue.value,
+                                                    onChanged: (value) {
+                                                      roomLogicController
+                                                          .sendPlayBackSpeed(
+                                                              speed: 1.75);
+                                                      controller
+                                                          .setPlaybackSpeed(
+                                                              1.75);
+                                                      controllerGetx.radioValue
+                                                          .value = value;
+
+                                                      Get.back();
+                                                    }),
+                                              ),
+                                              Container(
+                                                // height: 40,
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10),
+                                                child: RadioListTile(
                                                   // key: globalKey,
-                                                  title: CustomText('1.25'),
-                                                  value: 1.25,
+                                                  title: CustomText('2'),
+                                                  value: 2.0,
                                                   groupValue: controllerGetx
                                                       .radioValue.value,
                                                   onChanged: (value) {
                                                     // print('value: $value');
-                                                    // changeRadioValue(value);
                                                     roomLogicController
                                                         .sendPlayBackSpeed(
-                                                            speed: 1.25);
+                                                            speed: 2.0);
                                                     controller
-                                                        .setPlaybackSpeed(1.25);
+                                                        .setPlaybackSpeed(2.0);
                                                     controllerGetx.radioValue
                                                         .value = value;
 
                                                     Get.back();
-                                                  }),
-                                              RadioListTile(
-                                                  // key: globalKey,
-                                                  title: CustomText('1.5'),
-                                                  value: 1.5,
-                                                  groupValue: controllerGetx
-                                                      .radioValue.value,
-                                                  onChanged: (value) {
-                                                    // print('value: $value');
-                                                    // changeRadioValue(value);
-                                                    roomLogicController
-                                                        .sendPlayBackSpeed(
-                                                            speed: 1.5);
-                                                    controller
-                                                        .setPlaybackSpeed(1.5);
-                                                    controllerGetx.radioValue
-                                                        .value = value;
-
-                                                    Get.back();
-                                                  }),
-                                              RadioListTile(
-                                                  // key: globalKey,
-                                                  title: CustomText('1.75'),
-                                                  value: 1.75,
-                                                  groupValue: controllerGetx
-                                                      .radioValue.value,
-                                                  onChanged: (value) {
-                                                    roomLogicController
-                                                        .sendPlayBackSpeed(
-                                                            speed: 1.75);
-                                                    controller
-                                                        .setPlaybackSpeed(1.75);
-                                                    controllerGetx.radioValue
-                                                        .value = value;
-
-                                                    Get.back();
-                                                  }),
-                                              RadioListTile(
-                                                // key: globalKey,
-                                                title: CustomText('2'),
-                                                value: 2.0,
-                                                groupValue: controllerGetx
-                                                    .radioValue.value,
-                                                onChanged: (value) {
-                                                  // print('value: $value');
-                                                  roomLogicController
-                                                      .sendPlayBackSpeed(
-                                                          speed: 2.0);
-                                                  controller
-                                                      .setPlaybackSpeed(2.0);
-                                                  controllerGetx
-                                                      .radioValue.value = value;
-
-                                                  Get.back();
-                                                },
+                                                  },
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -508,20 +498,24 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
                                       controller.play();
                                     }
                                   },
-                                  child: Obx(
-                                    () =>
-                                        roomLogicController.playingStatus.value
-                                            ? Icon(
-                                                Icons.pause,
-                                                size: 40,
-                                                color: Colors.white,
-                                              )
-                                            : Icon(
-                                                Icons.play_arrow,
-                                                size: 40,
-                                                color: Colors.white,
-                                              ),
-                                  ),
+                                  child: IconButton(
+                                      icon: AnimatedIcon(
+                                        color: Colors.white,
+                                        size: 28,
+                                        progress: _animationController,
+                                        icon: AnimatedIcons.play_pause,
+                                      ),
+                                      onPressed: () {
+                                        if (roomLogicController
+                                            .playingStatus.value) {
+                                          controller.pause();
+                                          _animationController.reverse();
+                                        } else if (!roomLogicController
+                                            .playingStatus.value) {
+                                          controller.play();
+                                          _animationController.forward();
+                                        }
+                                      }),
                                 ),
                               ),
 
@@ -560,8 +554,6 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
                                     SystemChrome.setPreferredOrientations(
                                         [DeviceOrientation.portraitUp]);
                                   }
-
-                                  // controller.toggleFullScreenMode();
                                 },
                               ),
                             ],
@@ -572,71 +564,6 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer> {
                   ),
                 ),
               ),
-              // if (roomLogicController.adminKaNaam.obs.value ==
-              //   roomLogicController.userName.obs.value)
-              // AnimatedContainer(
-              //   duration: Duration(seconds: 1),
-              //   // height: hideUI ? 0 : double.maxFinite,
-              //   margin: EdgeInsets.only(bottom: 40),
-              //   decoration:
-              //       BoxDecoration(border: Border.all(color: Colors.red)),
-              //   // height: 100,
-              //   width: shoSpeedWidget ? 40 : 0,
-              //   child: Align(
-              //     alignment: Alignment.center,
-              //     child: AnimatedOpacity(
-              //       duration: Duration(milliseconds: 200),
-              //       opacity: !shoSpeedWidget ? 0 : 1,
-              //       child: Column(
-              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //         children: [
-              //           SizedBox(height: 20),
-              //           GestureDetector(
-              //             child: CustomText('1.0'),
-              //             onTap: () {
-              //               roomLogicController.sendPlay(speed: 1.0);
-              //               controller.setPlaybackRate(1.0);
-              //             },
-              //           ),
-              //           GestureDetector(
-              //             child: CustomText('1.25'),
-              //             onTap: () {
-              //               roomLogicController.sendPlay(speed: 1.25);
-              //               controller.setPlaybackRate(1.25);
-              //             },
-              //           ),
-              //           // Spacer(),
-              //           GestureDetector(
-              //             child: CustomText('1.5'),
-              //             onTap: () {
-              //               roomLogicController.sendPlay(speed: 1.5);
-              //               controller.setPlaybackRate(1.5);
-              //             },
-              //           ),
-              //           GestureDetector(
-              //             child: CustomText('1.75'),
-              //             onTap: () {
-              //               roomLogicController.sendPlay(speed: 1.75);
-              //               controller.setPlaybackRate(1.75);
-              //             },
-              //           ),
-              //           GestureDetector(
-              //             child: CustomText('2.0'),
-              //             onTap: () {
-              //               roomLogicController.sendPlay(speed: 2.0);
-              //               controller.setPlaybackRate(2.0);
-              //             },
-              //           ),
-              //           // SizedBox(height: 30)
-              //           // Spacer()
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // )
-              // RaisedButton(onPressed: () {
-              //   print('marty: ${rishabhController.radioValue.value}');
-              // })
             ],
           ),
         ),

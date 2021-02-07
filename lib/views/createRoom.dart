@@ -1,6 +1,7 @@
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/views/appDrawer.dart';
 import 'package:VideoSync/views/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,6 +31,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
     final double heightRatio = size.height / 823;
     final double widthRatio = size.width / 411;
     return Scaffold(
+      appBar: AppBar(
+        // actions: [],
+        // actions: [Text('Rishabh'), Text('Mishra')],
+        backgroundColor: Color(0xff292727),
+        elevation: 10,
+      ),
+      drawer: MainDrawer(),
       backgroundColor: Color(0xff292727),
       body: Center(
         child: SingleChildScrollView(
@@ -100,7 +108,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 width: 300 * widthRatio,
                 height: 80 * heightRatio,
                 child: RaisedButton(
-                  elevation: 10,
+                  elevation: 20,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
@@ -172,21 +180,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(25)),
-                                        onPressed:
-
-                                            // controller.joinLoading.value ||
-                                            //         controller.roomIdText == ""
-                                            //     ? null
-                                            //     :
-
-                                            () {
-                                          // roomLogicController.joinstatus(true);
-                                          // bool flag =
-                                          //     await roomLogicController.joinRoom(
-                                          //         roomId: roomId.text,
-                                          //         name: nameController.text);
-                                          // roomLogicController.joinstatus(false);
-                                          // print(flag);
+                                        onPressed: () {
                                           roomLogicController.joinRoom(
                                               roomId: roomId.text,
                                               name: nameController.text);
@@ -196,16 +190,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                           } else {
                                             Get.snackbar('Wrong Room Id',
                                                 'The room id you entered is wrong');
-                                            // Scaffold.of(context).showSnackBar(
-                                            //     SnackBar(
-                                            //         content: Text(
-                                            //             "Wrong Room Id!")));
                                           }
-                                          //     await roomLogicController.joinRoom(
-                                          //   roomId: roomId.text,
-                                          //   name: nameController.text,
-                                          //   );
-                                          // }
                                         },
                                         child: Text(
                                           'Join',
@@ -242,71 +227,44 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               Container(
                 width: 300 * widthRatio,
                 height: 80 * heightRatio,
-                child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    color: Colors.white,
-                    onPressed: () async {
-                      await roomLogicController.makeRoom(
-                          adminName: nameController.text);
-                      Get.to(WelcomScreen());
-                    },
-                    child: Text('Create Room',
-                        style: TextStyle(
-                            fontSize: 30,
-                            //fontSize: 35 * widthRatio,
-                            fontWeight: FontWeight.normal))),
+                child: Hero(
+                  tag: 'Rishabh',
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      color: Colors.white,
+                      onPressed: () async {
+                        await roomLogicController.makeRoom(
+                            adminName: nameController.text);
+                        Get.to(WelcomScreen());
+                      },
+                      child: Text('Create Room',
+                          style: TextStyle(
+                              fontSize: 30,
+                              //fontSize: 35 * widthRatio,
+                              fontWeight: FontWeight.normal))),
+                ),
               ),
-              // RaisedButton(
-              //   onPressed: () async {
-              //     // Get.to(WelcomScreen());
-              //   },
-              //   child: Text('Users'),
-              // ),
-              // RaisedButton(
-              //   onPressed: () async {
-              //     // Get.to(WelcomScreen());
-              //     // rishabhController.timestampFromDB();
-              //     // rishabhController.isDraggingStatus();
-              //     chatController.message();
-              //     rishabhController.sendPlayerStatus(
-              //         status: true, firebaseId: '-MSPN-uaUOs908rvqaYY');
-              //   },
-              //   child: Text('Rishabh'),
-              // ),
-              // StreamBuilder(
-              //   stream:
-              //       chatController.message(firebaseId: '-MSTkHEhCDHKWKCfslOa'),
-              //   builder: (ctx, event) {
-              //     // if (event.hasData) {
-              //     //   return Container(
-              //     //     height: 200,
-              //     //     child: ListView.builder(
-              //     //       itemBuilder: (ctx, i) {
-              //     //         return Text('Rishabh');
-              //     //       },
-              //     //       itemCount: 3,
-              //     //     ),
-              //     //   );
-              //     // }
-              //     // if (event.hasData) {
-              //     //   // print('sexy_choot: ${event.data.snapshot.value}');
-              //     //   // event.data.snapshot.value.forEach((key, value) {
-              //     //   //   // print(value);
-              //     //   // });
-              //     //   // print(event.data.snapshot.value['1']);
-              //     //   event.data.snapshot.value.forEach((key, value) {
-              //     //     // print(value['message']);
-              //     //     messages.add({value});
-              //     //   });
-              //     // }
-
-              //     return Text('dekh mera lund');
-              //   },
-              // )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CustomDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width * 0.7,
+      // height: 400,
+      // color: Colors.white,
+      color: Color(0xff292727),
+      // appBar: AppBar(),
+      child: Column(
+        children: [ListTile(title: Text('Rishabh'))],
       ),
     );
   }

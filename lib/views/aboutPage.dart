@@ -1,3 +1,5 @@
+import 'package:VideoSync/controllers/themeData.dart';
+import 'package:VideoSync/views/appDrawer.dart';
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatelessWidget {
@@ -12,7 +14,9 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff292727),
+      appBar: AppBar(backgroundColor: CustomThemeData.customBlack),
+      drawer: MainDrawer(),
+      backgroundColor: CustomThemeData.customBlack,
       body: Center(
         child: Card(
           child: Column(
