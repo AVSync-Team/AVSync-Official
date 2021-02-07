@@ -31,54 +31,74 @@ class MainDrawer extends StatelessWidget {
     return Container(
       color: CustomThemeData.customBlack,
       width: 300,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
-            alignment: Alignment.topLeft,
-            height: 150,
-            width: double.infinity,
-            padding: EdgeInsets.only(
-              top: 30,
-              left: 20,
-            ),
-            child: Text(
-              'AV Sync',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.w900,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
+              alignment: Alignment.topLeft,
+              height: 150,
+              width: double.infinity,
+              padding: EdgeInsets.only(
+                top: 30,
+                left: 20,
+              ),
+              child: Text(
+                'AV Sync',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          buildListTile('Rooms', Icons.restaurant, () {
-            Get.off(CreateRoomScreen());
-            // by this we replace the existing page
-          }),
-          SizedBox(
-            height: 8,
-          ),
-          buildListTile('Discover', Icons.restaurant, () {
-            Get.off(CreateRoomScreen());
-            // by this we replace the existing page
-          }),
-          SizedBox(
-            height: 8,
-          ),
-          buildListTile('Music', Icons.restaurant, () {
-            Get.off(AboutPage());
-            // by this we replace the existing page
-          }),
-          buildListTile('About Us', Icons.restaurant, () {
-            Get.off(AboutPage());
-            // by this we replace the existing page
-          }),
-        ],
+            //Container(
+            //child: SingleChildScrollView(
+            //child: Column(
+            //children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              //child: Container(
+              //height: 500,
+              child: Column(
+                children: <Widget>[
+                  buildListTile('Rooms', Icons.restaurant, () {
+                    Get.off(CreateRoomScreen());
+                    // by this we replace the existing page
+                  }),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  buildListTile('Discover', Icons.restaurant, () {
+                    Get.off(CreateRoomScreen());
+                    // by this we replace the existing page
+                  }),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  buildListTile('Music', Icons.restaurant, () {
+                    Get.off(AboutPage());
+                    // by this we replace the existing page
+                  }),
+                  buildListTile('About Us', Icons.restaurant, () {
+                    Get.off(AboutPage());
+                    // by this we replace the existing page
+                  }),
+                ],
+              ),
+            ),
+            //),
+            //],
+            //),
+            //),
+            //),
+          ],
+        ),
       ),
     );
   }
