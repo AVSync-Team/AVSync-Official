@@ -39,13 +39,22 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
       ),
       drawer: MainDrawer(),
       backgroundColor: Color(0xff292727),
-      body: Center(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          width: size.width,
+          height: size.height,
+          decoration: BoxDecoration(border: Border.all(color: Colors.green)),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SvgPicture.asset('lib/assets/svgs/movie.svg',
-                  width: 170 * widthRatio, height: 170 * heightRatio),
+              SizedBox(height: 50),
+              Container(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.red)),
+                child: SvgPicture.asset('lib/assets/svgs/movie.svg',
+                    width: 170 * widthRatio, height: 170 * heightRatio),
+              ),
               // Container(
               //   width: Get.width * .8,
               //   child: TextField(

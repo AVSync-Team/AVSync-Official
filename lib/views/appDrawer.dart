@@ -53,15 +53,26 @@ class MainDrawer extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          buildListTile('About Us', Icons.restaurant, () {
-            Get.off(AboutPage());
+          buildListTile('Rooms', Icons.restaurant, () {
+            Get.off(CreateRoomScreen());
             // by this we replace the existing page
           }),
           SizedBox(
             height: 8,
           ),
-          buildListTile('Rooms', Icons.restaurant, () {
+          buildListTile('Discover', Icons.restaurant, () {
             Get.off(CreateRoomScreen());
+            // by this we replace the existing page
+          }),
+          SizedBox(
+            height: 8,
+          ),
+          buildListTile('Music', Icons.restaurant, () {
+            Get.off(AboutPage());
+            // by this we replace the existing page
+          }),
+          buildListTile('About Us', Icons.restaurant, () {
+            Get.off(AboutPage());
             // by this we replace the existing page
           }),
         ],
