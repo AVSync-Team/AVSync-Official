@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -10,17 +11,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+
 class NiceVideoPlayer extends StatefulWidget {
   @override
   _NiceVideoPlayerState createState() => _NiceVideoPlayerState();
 }
+
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 ChatController chatController = Get.put(ChatController());
 YTStateController ytStateController = Get.put(YTStateController());
 RishabhController rishabhController = Get.put(RishabhController());
+CustomThemeData themeData = Get.put(CustomThemeData());
 AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
+
 class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
@@ -164,7 +169,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
       //     child: ChattingPlace(controller: controller),
       //   ),
       // ),
-      backgroundColor: Color(0xff292727),
+      backgroundColor: themeData.primaryColor.value,
       body: Center(
         child: AspectRatio(
           aspectRatio: 16 / 9,

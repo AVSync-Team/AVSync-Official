@@ -8,13 +8,15 @@ import 'package:VideoSync/views/musicPage.dart';
 import 'package:VideoSync/views/settingsPage.dart';
 import 'package:VideoSync/views/userManual.dart';
 //=======
-import 'package:VideoSync/views/musicPage.dart';
+// import 'package:VideoSync/views/musicPage.dart';
 //>>>>>>> aa24f830821f4ce032249f8ea189e3ebfb7e0f6e
 //>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainDrawer extends StatelessWidget {
+  final themeController = Get.put(CustomThemeData());
+
   Widget buildListTile(String title, IconData icon2, Function tapHandler) {
     return Container(
       //padding: const EdgeInsets.only(left: 30.0),
@@ -25,12 +27,12 @@ class MainDrawer extends StatelessWidget {
         // ),
         leading: Icon(
           icon2,
-          color: Color.fromRGBO(250, 250, 250, 1),
+          color: themeController.primaryTextColor.value,
         ),
         title: Text(
           title,
           style: TextStyle(
-              color: Colors.white,
+              color: themeController.primaryTextColor.value,
               fontSize: 24,
               // color: THEMEDATA.emeraldCityGreen,
               fontWeight: FontWeight.bold),
@@ -43,7 +45,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomThemeData.customBlack,
+      color: themeController.primaryColorSwatch.value,
       width: 300,
       height: Get.height,
       child: SingleChildScrollView(
@@ -52,7 +54,7 @@ class MainDrawer extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(30, 30, 30, 1),
+                  color: themeController.darkGrey.value,
                   border: Border.all(color: Colors.cyan)),
               alignment: Alignment.topLeft,
               height: 150,
@@ -90,7 +92,7 @@ class MainDrawer extends StatelessWidget {
                     // by this we replace the existing page
                   }),
                   Divider(
-                    color: Color.fromRGBO(30, 30, 30, 1),
+                    color: themeController.darkGrey.value,
                   ),
                   // SizedBox(
                   //   height: 8,
@@ -100,7 +102,7 @@ class MainDrawer extends StatelessWidget {
                     // by this we replace the existing page
                   }),
                   Divider(
-                    color: Color.fromRGBO(30, 30, 30, 1),
+                    color: themeController.darkGrey.value,
                   ),
                   // SizedBox(
                   //   height: 8,
@@ -109,20 +111,18 @@ class MainDrawer extends StatelessWidget {
                     Get.off(MusicPage());
                     // by this we replace the existing page
                   }),
-                  Divider(
-                    color: Color.fromRGBO(30, 30, 30, 1),
-                  ),
+                  Divider(color: themeController.darkGrey.value),
                   buildListTile('User Manual', Icons.table_chart, () {
                     Get.off(UserManual());
                   }),
                   Divider(
-                    color: Color.fromRGBO(30, 30, 30, 1),
+                    color: themeController.darkGrey.value,
                   ),
                   buildListTile('Settings', Icons.settings, () {
                     Get.off(SettingsPage());
                   }),
                   Divider(
-                    color: Color.fromRGBO(30, 30, 30, 1),
+                    color: themeController.darkGrey.value,
                   ),
                   buildListTile('About Us', Icons.restaurant, () {
                     Get.off(AboutPage());

@@ -4,6 +4,7 @@ import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
@@ -31,6 +32,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
   FunLogic funLogic = Get.put(FunLogic());
+  CustomThemeData themeController = Get.put(CustomThemeData());
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -182,7 +184,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     : Text('Do you want to delete the room ? '));
           },
         ),
-        backgroundColor: Color(0xff292727),
+        backgroundColor: themeController.switchContainerColor.value,
       ),
       // appBar: AppBar(),
       endDrawer: Theme(
@@ -192,7 +194,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
           child: ChattingPlace(snackbar: snackbar),
         ),
       ),
-      backgroundColor: Color(0xff292727),
+      backgroundColor: themeController.primaryColor.value,
       body: SingleChildScrollView(
         child: Center(
           child: Container(

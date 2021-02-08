@@ -1,6 +1,7 @@
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/appDrawer.dart';
 import 'package:VideoSync/views/users_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   TextEditingController roomId = TextEditingController();
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
+  CustomThemeData themeController = Get.put(CustomThemeData());
 
   var messages;
   // final double heightRatio = Get.height / 823;
@@ -36,11 +38,11 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
       appBar: AppBar(
         // actions: [],
         // actions: [Text('Rishabh'), Text('Mishra')],
-        backgroundColor: Color(0xff292727),
+        backgroundColor: themeController.switchContainerColor.value,
         elevation: 10,
       ),
       drawer: MainDrawer(),
-      backgroundColor: Color(0xff292727),
+      backgroundColor: themeController.primaryColor.value,
       body: MediaQuery.of(context).orientation == Orientation.landscape
           ? Container(
               width: size.width,
@@ -124,7 +126,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                   // fillColor: Colors.red,
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: new BorderSide(
-                                      color: Colors.white,
+                                      color: Colors.red,
                                       width: 1,
                                     ),
                                     borderRadius: new BorderRadius.circular(25),
@@ -145,7 +147,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                   //    borderRadius: BorderRadius.circular(25),
                                   //  ),
                                   hintText: "Enter your name",
-                                  hintStyle: TextStyle(color: Colors.grey),
+                                  hintStyle: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ),
@@ -154,14 +156,14 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               width: Get.width * 0.4,
                               height: 35,
                               child: RaisedButton(
-                                elevation: 20,
+                                elevation: 8,
                                 color: Colors.white,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25)),
                                 child: Text(
                                   'Join Room',
                                   style: TextStyle(
-                                      fontSize: 25,
+                                      fontSize: 35,
                                       //fontSize: 40 * widthRatio,
                                       fontWeight: FontWeight.normal),
                                 ),
@@ -316,6 +318,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               child: Hero(
                                 tag: 'Rishabh',
                                 child: RaisedButton(
+                                    // elevation: 20,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(25)),
@@ -385,7 +388,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: themeController.primaryTextColor.value,
                           fontWeight: FontWeight.bold,
                         ),
                         controller: nameController,
@@ -417,7 +420,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                           //    borderRadius: BorderRadius.circular(25),
                           //  ),
                           hintText: "Enter your name",
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(
+                              color:
+                                  themeController.switchContainerColor.value),
                         ),
                       ),
                     ),
@@ -426,7 +431,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       width: 300 * widthRatio,
                       height: 80 * heightRatio,
                       child: RaisedButton(
-                        elevation: 20,
+                        elevation: 3,
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25)),
