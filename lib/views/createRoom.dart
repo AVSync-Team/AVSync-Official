@@ -20,24 +20,125 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
   CustomThemeData themeController = Get.put(CustomThemeData());
+  PersistentBottomSheetController _controller; // <------ Instance variable
+  final _scaffoldKey =
+      GlobalKey<ScaffoldState>(); // <---- Another instance variable
 
   var messages;
+  bool isLoading = false;
   // final double heightRatio = Get.height / 823;
 
   // bool joinLoading = false;
   // String roomIdText = "";
 
+  void _createCustomBottomSheet(
+      {double heightRatio, double widthRatio, Size size}) async {
+    _controller = await _scaffoldKey.currentState.showBottomSheet(
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.only(
+      //     topLeft: Radius.circular(23.0),
+      //     topRight: Radius.circular(23.0),
+      //   ),
+      // ),
+      (BuildContext buildContext) {
+        return Container(
+          width: size.width,
+          height: 270 * heightRatio,
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  //color: Colors.grey.withOpacity(0.6),
+                  margin: EdgeInsets.only(top: 40 * heightRatio),
+                  width: 270 * widthRatio,
+                  height: 70 * heightRatio,
+                  child: TextField(
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.normal),
+                    controller: roomId,
+                    onChanged: (value) {
+                      roomLogicController.roomText(value);
+                    },
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      // enabledBorder: OutlineInputBorder(
+                      //   borderSide: const BorderSide(
+                      //       color: Colors.white, width: 2.0),
+                      //   borderRadius: BorderRadius.circular(25.0),
+                      // ),
+                      filled: true,
+                      fillColor: Colors.grey.withOpacity(0.4),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      hintText: "Room ID",
+                      hintStyle: TextStyle(color: Color(0xff7B7171)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30 * heightRatio,
+                ),
+                Container(
+                  height: 50 * heightRatio,
+                  width: 150 * widthRatio,
+                  child: !isLoading
+                      ? RaisedButton(
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          onPressed: () async {
+                            _controller.setState(() {
+                              isLoading = true;
+                            });
+                            bool value = await roomLogicController.joinRoom(
+                                roomId: roomId.text, name: nameController.text);
+                            await Future.delayed(Duration(seconds: 3));
+                            if (value) {
+                              Get.to(WelcomScreen());
+                            } else {
+                              // Get.snackbar('Wrong Room Id',
+                              //     'The room id you entered is wrong');
+                              Get.showSnackbar(GetBar(
+                                title: 'Room ID Error',
+                                message: 'The Room ID is not valid',
+                                duration: Duration(seconds: 2),
+                                borderRadius: 20,
+                              ));
+                            }
+                            _controller.setState(() {
+                              isLoading = false;
+                            });
+                          },
+                          child: Text(
+                            'Join',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      : Center(
+                          child: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: CircularProgressIndicator())),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(
-    BuildContext context, //Orientation orientation
+    BuildContext context,
   ) {
     final size = MediaQuery.of(context).size;
     final double heightRatio = size.height / 823;
     final double widthRatio = size.width / 411;
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        // actions: [],
-        // actions: [Text('Rishabh'), Text('Mishra')],
         backgroundColor: themeController.switchContainerColor.value,
         elevation: 10,
       ),
@@ -49,8 +150,6 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               height: (MediaQuery.of(context).size.height -
                   AppBar().preferredSize.height -
                   MediaQuery.of(context).padding.top),
-
-              //height: Get.height,
               decoration:
                   BoxDecoration(border: Border.all(color: Colors.green)),
               child: Row(
@@ -168,15 +267,15 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                       fontWeight: FontWeight.normal),
                                 ),
                                 onPressed: () async {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(23.0),
-                                        topRight: Radius.circular(23.0),
-                                      ),
-                                    ),
-                                    builder: (ctx) {
+                                  Scaffold.of(context).showBottomSheet(
+                                    // context: context,
+                                    // shape: RoundedRectangleBorder(
+                                    //   borderRadius: BorderRadius.only(
+                                    //     topLeft: Radius.circular(23.0),
+                                    //     topRight: Radius.circular(23.0),
+                                    //   ),
+                                    // ),
+                                    (ctx) {
                                       return Container(
                                         width: Get.width,
                                         //decoration: BoxDecoration(
@@ -293,20 +392,20 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                     },
                                   );
 
-                                  bool canJoin =
-                                      await roomLogicController.joinRoom(
-                                    roomId: roomId.text,
-                                    name: nameController.text,
-                                  );
-                                  if (canJoin) {
-                                    Get.to(WelcomScreen());
-                                  } else if (!canJoin) {
-                                    // print("No Such Room exsist");
-                                    return Get.snackbar(
-                                      'Room not found',
-                                      'The Room ID you entered was not found :(',
-                                    );
-                                  }
+                                  // bool canJoin =
+                                  //     await roomLogicController.joinRoom(
+                                  //   roomId: roomId.text,
+                                  //   name: nameController.text,
+                                  // );
+                                  // if (canJoin) {
+                                  //   Get.to(WelcomScreen());
+                                  // } else if (!canJoin) {
+                                  //   // print("No Such Room exsist");
+                                  //   return Get.snackbar(
+                                  //     'Room not found',
+                                  //     'The Room ID you entered was not found :(',
+                                  //   );
+                                  // }
                                 },
                               ),
                             ),
@@ -317,7 +416,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               height: 35,
                               child: Hero(
                                 tag: 'Rishabh',
-                                child: RaisedButton(
+                                child: Obx(
+                                  () => RaisedButton(
                                     // elevation: 20,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -328,11 +428,15 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                           adminName: nameController.text);
                                       Get.to(WelcomScreen());
                                     },
-                                    child: Text('Create Room',
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            //fontSize: 35 * widthRatio,
-                                            fontWeight: FontWeight.normal))),
+                                    child: Text(
+                                      'Create Room',
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          //fontSize: 35 * widthRatio,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -443,123 +547,26 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               fontWeight: FontWeight.normal),
                         ),
                         onPressed: () async {
-                          showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(23.0),
-                                topRight: Radius.circular(23.0),
-                              ),
-                            ),
-                            builder: (ctx) {
-                              return Container(
-                                width: Get.width,
-                                //decoration: BoxDecoration(
-                                //color: Colors.red.withOpacity(0.4),
-                                //borderRadius: BorderRadius.circular(20)),
-                                // decoration: new BoxDecoration(
-                                //   color: Colors.white,
-                                //   borderRadius: new BorderRadius.only(
-                                //     topLeft: const Radius.circular(20.0),
-                                //     topRight: const Radius.circular(20.0),
-                                //   ),
-                                // ),
-                                //color: Colors.black.withOpacity(0.5),
-                                height: 270 * heightRatio,
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        //color: Colors.grey.withOpacity(0.6),
-                                        margin: EdgeInsets.only(
-                                            top: 40 * heightRatio),
-                                        width: 270 * widthRatio,
-                                        height: 70 * heightRatio,
-                                        child: TextField(
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal),
-                                          controller: roomId,
-                                          onChanged: (value) {
-                                            roomLogicController.roomText(value);
-                                          },
-                                          keyboardType: TextInputType.number,
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            // enabledBorder: OutlineInputBorder(
-                                            //   borderSide: const BorderSide(
-                                            //       color: Colors.white, width: 2.0),
-                                            //   borderRadius: BorderRadius.circular(25.0),
-                                            // ),
-                                            filled: true,
-                                            fillColor:
-                                                Colors.grey.withOpacity(0.4),
-                                            border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25)),
-                                            hintText: "Room ID",
-                                            hintStyle: TextStyle(
-                                                color: Color(0xff7B7171)),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 30 * heightRatio,
-                                      ),
-                                      GetBuilder<RoomLogicController>(
-                                        builder: (controller) {
-                                          return Container(
-                                            height: 50 * heightRatio,
-                                            width: 150 * widthRatio,
-                                            child: RaisedButton(
-                                              color:
-                                                  controller.joinLoading.value
-                                                      ? Colors.blue
-                                                      : Colors.green,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25)),
-                                              onPressed: () {
-                                                roomLogicController.joinRoom(
-                                                    roomId: roomId.text,
-                                                    name: nameController.text);
+                          // Portrait build
 
-                                                if (true) {
-                                                  Get.to(WelcomScreen());
-                                                } else {
-                                                  Get.snackbar('Wrong Room Id',
-                                                      'The room id you entered is wrong');
-                                                }
-                                              },
-                                              child: Text(
-                                                'Join',
-                                                style: TextStyle(fontSize: 20),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                          _createCustomBottomSheet(
+                              heightRatio: heightRatio,
+                              widthRatio: widthRatio,
+                              size: size);
 
-                          bool canJoin = await roomLogicController.joinRoom(
-                            roomId: roomId.text,
-                            name: nameController.text,
-                          );
-                          if (canJoin) {
-                            Get.to(WelcomScreen());
-                          } else if (!canJoin) {
-                            // print("No Such Room exsist");
-                            return Get.snackbar(
-                              'Room not found',
-                              'The Room ID you entered was not found :(',
-                            );
-                          }
+                          // bool canJoin = await roomLogicController.joinRoom(
+                          //   roomId: roomId.text,
+                          //   name: nameController.text,
+                          // );
+                          // if (canJoin) {
+                          //   Get.to(WelcomScreen());
+                          // } else if (!canJoin) {
+                          //   // print("No Such Room exsist");
+                          //   return Get.snackbar(
+                          //     'Room not found',
+                          //     'The Room ID you entered was not found :(',
+                          //   );
+                          // }
                         },
                       ),
                     ),
@@ -569,21 +576,28 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       height: 80 * heightRatio,
                       child: Hero(
                         tag: 'Rishabh',
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          color: Colors.white,
-                          onPressed: () async {
-                            await roomLogicController.makeRoom(
-                                adminName: nameController.text);
-                            Get.to(WelcomScreen());
-                          },
-                          child: Text(
-                            'Create Room',
-                            style: TextStyle(
-                                fontSize: 30,
-                                //fontSize: 35 * widthRatio,
-                                fontWeight: FontWeight.normal),
+                        child: Obx(
+                          () => RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            color: Colors.white,
+                            onPressed: () async {
+                              roomLogicController.isLoading.value = true;
+                              await roomLogicController.makeRoom(
+                                  adminName: nameController.text);
+                              Get.to(WelcomScreen());
+                              roomLogicController.isLoading.value = false;
+                            },
+                            child: !roomLogicController.isLoading.value
+                                ? Text(
+                                    'Create Room',
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        //fontSize: 35 * widthRatio,
+                                        fontWeight: FontWeight.normal),
+                                  )
+                                : CircularProgressIndicator(),
                           ),
                         ),
                       ),
@@ -595,20 +609,3 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
     );
   }
 }
-
-// class CustomDrawer extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final size = MediaQuery.of(context).size;
-//     return Container(
-//       width: size.width * 0.7,
-//       // height: 400,
-//       // color: Colors.white,
-//       color: Color(0xff292727),
-//       // appBar: AppBar(),
-//       child: Column(
-//         children: [ListTile(title: Text('Rishabh'))],
-//       ),
-//     );
-//   }
-// }
