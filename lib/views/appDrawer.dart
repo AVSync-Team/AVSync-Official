@@ -1,10 +1,7 @@
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/aboutPage.dart';
 import 'package:VideoSync/views/createRoom.dart';
-//<<<<<<< Updated upstream
 import 'package:VideoSync/views/musicPage.dart';
-//=======
-//<<<<<<< HEAD
 import 'package:VideoSync/views/settingsPage.dart';
 import 'package:VideoSync/views/userManual.dart';
 //=======
