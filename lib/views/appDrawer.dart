@@ -1,19 +1,32 @@
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/aboutPage.dart';
 import 'package:VideoSync/views/createRoom.dart';
+//<<<<<<< Updated upstream
 import 'package:VideoSync/views/musicPage.dart';
+//=======
+//<<<<<<< HEAD
+import 'package:VideoSync/views/settingsPage.dart';
+import 'package:VideoSync/views/userManual.dart';
+//=======
+import 'package:VideoSync/views/musicPage.dart';
+//>>>>>>> aa24f830821f4ce032249f8ea189e3ebfb7e0f6e
+//>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon2, Function tapHandler) {
     return Container(
-      padding: const EdgeInsets.only(left: 30.0),
+      //padding: const EdgeInsets.only(left: 30.0),
       child: ListTile(
-        // leading: Icon(
+        //leading: Icon(
         //   icon2,
         //   size: 26,
         // ),
+        leading: Icon(
+          icon2,
+          color: Color.fromRGBO(250, 250, 250, 1),
+        ),
         title: Text(
           title,
           style: TextStyle(
@@ -32,14 +45,18 @@ class MainDrawer extends StatelessWidget {
     return Container(
       color: CustomThemeData.customBlack,
       width: 300,
+      height: Get.height,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.cyan)),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(30, 30, 30, 1),
+                  border: Border.all(color: Colors.cyan)),
               alignment: Alignment.topLeft,
               height: 150,
+              //color: Color.fromRGBO(10, 10, 10, 0),
               width: double.infinity,
               padding: EdgeInsets.only(
                 top: 30,
@@ -72,20 +89,41 @@ class MainDrawer extends StatelessWidget {
                     Get.off(CreateRoomScreen());
                     // by this we replace the existing page
                   }),
-                  SizedBox(
-                    height: 8,
+                  Divider(
+                    color: Color.fromRGBO(30, 30, 30, 1),
                   ),
+                  // SizedBox(
+                  //   height: 8,
+                  // ),
                   buildListTile('Discover', Icons.restaurant, () {
                     Get.off(CreateRoomScreen());
                     // by this we replace the existing page
                   }),
-                  SizedBox(
-                    height: 8,
+                  Divider(
+                    color: Color.fromRGBO(30, 30, 30, 1),
                   ),
+                  // SizedBox(
+                  //   height: 8,
+                  // ),
                   buildListTile('Music', Icons.restaurant, () {
                     Get.off(MusicPage());
                     // by this we replace the existing page
                   }),
+                  Divider(
+                    color: Color.fromRGBO(30, 30, 30, 1),
+                  ),
+                  buildListTile('User Manual', Icons.table_chart, () {
+                    Get.off(UserManual());
+                  }),
+                  Divider(
+                    color: Color.fromRGBO(30, 30, 30, 1),
+                  ),
+                  buildListTile('Settings', Icons.settings, () {
+                    Get.off(SettingsPage());
+                  }),
+                  Divider(
+                    color: Color.fromRGBO(30, 30, 30, 1),
+                  ),
                   buildListTile('About Us', Icons.restaurant, () {
                     Get.off(AboutPage());
                     // by this we replace the existing page
