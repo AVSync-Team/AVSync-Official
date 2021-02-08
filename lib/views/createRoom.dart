@@ -565,19 +565,22 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       child: Hero(
                         tag: 'Rishabh',
                         child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
-                            color: Colors.white,
-                            onPressed: () async {
-                              await roomLogicController.makeRoom(
-                                  adminName: nameController.text);
-                              Get.to(WelcomScreen());
-                            },
-                            child: Text('Create Room',
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    //fontSize: 35 * widthRatio,
-                                    fontWeight: FontWeight.normal))),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          color: Colors.white,
+                          onPressed: () async {
+                            await roomLogicController.makeRoom(
+                                adminName: nameController.text);
+                            Get.to(WelcomScreen());
+                          },
+                          child: Text(
+                            'Create Room',
+                            style: TextStyle(
+                                fontSize: 30,
+                                //fontSize: 35 * widthRatio,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -588,19 +591,19 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   }
 }
 
-class CustomDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width * 0.7,
-      // height: 400,
-      // color: Colors.white,
-      color: Color(0xff292727),
-      // appBar: AppBar(),
-      child: Column(
-        children: [ListTile(title: Text('Rishabh'))],
-      ),
-    );
-  }
-}
+// class CustomDrawer extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final size = MediaQuery.of(context).size;
+//     return Container(
+//       width: size.width * 0.7,
+//       // height: 400,
+//       // color: Colors.white,
+//       color: Color(0xff292727),
+//       // appBar: AppBar(),
+//       child: Column(
+//         children: [ListTile(title: Text('Rishabh'))],
+//       ),
+//     );
+//   }
+// }
