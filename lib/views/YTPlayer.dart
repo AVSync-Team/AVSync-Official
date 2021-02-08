@@ -57,6 +57,7 @@ class _YTPlayerState extends State<YTPlayer> {
   bool shoSpeedWidget = false;
   bool playerIsUser = true;
   int selectedRadio;
+  Duration videoLength;
   // final GlobalKey globalKey = GlobalKey();
 
   // void hideControls() async {
@@ -142,7 +143,6 @@ class _YTPlayerState extends State<YTPlayer> {
 
     super.initState();
     selectedRadio = 1;
-    
   }
 
   @override
@@ -224,7 +224,7 @@ class _YTPlayerState extends State<YTPlayer> {
               //Control UIs
               //seek back 10
               Align(
-                alignment: Alignment.center,
+                alignment: Alignment.bottomCenter,
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   // width: size.width,
@@ -271,6 +271,48 @@ class _YTPlayerState extends State<YTPlayer> {
                                       style: TextStyle(
                                         color: Colors.white,
                                       )),
+                                ),
+                                Expanded(
+                                  child: SliderTheme(
+                                    data: SliderThemeData(
+                                      activeTrackColor: Colors.indigo,
+                                      inactiveTrackColor:
+                                          Colors.indigo.shade200,
+                                      trackShape: RoundedRectSliderTrackShape(),
+                                      trackHeight: 2.0,
+                                      thumbShape: RoundSliderThumbShape(
+                                          enabledThumbRadius: 8.0),
+                                      thumbColor: Colors.indigoAccent,
+                                      overlayColor: Colors.indigo,
+                                      overlayShape: RoundSliderOverlayShape(
+                                          overlayRadius: 10.0),
+                                      tickMarkShape: RoundSliderTickMarkShape(),
+                                      activeTickMarkColor: Colors.indigo,
+                                      inactiveTickMarkColor: Colors.indigo,
+                                      valueIndicatorShape:
+                                          PaddleSliderValueIndicatorShape(),
+                                      valueIndicatorColor: Colors.indigo,
+                                    ),
+                                    child: Slider(
+                                      // activeColor:
+                                      //     Color.fromRGBO(50, 60, 120, 0.5),
+
+                                      value: roomLogicController
+                                          .videoPosition.value.inSeconds
+                                          .toDouble(),
+                                      onChanged: (value) {
+                                        roomLogicController
+                                                .videoPosition.value =
+                                            Duration(seconds: value.toInt());
+                                        controller.seekTo(
+                                            Duration(seconds: value.toInt()));
+                                      },
+                                      min: 0.0,
+                                      max: controller
+                                          .metadata.duration.inSeconds
+                                          .toDouble(),
+                                    ),
+                                  ),
                                 ),
                                 Container(
                                   // margin: EdgeInsets.only(right: 5),

@@ -4,12 +4,9 @@ import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/musicPage.dart';
 import 'package:VideoSync/views/settingsPage.dart';
 import 'package:VideoSync/views/userManual.dart';
-//=======
-// import 'package:VideoSync/views/musicPage.dart';
-//>>>>>>> aa24f830821f4ce032249f8ea189e3ebfb7e0f6e
-//>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 
 class MainDrawer extends StatelessWidget {
   final themeController = Get.put(CustomThemeData());
