@@ -11,6 +11,7 @@ class CustomThemeData extends GetxController {
   Rx<Alignment> swithcAlignment = Alignment.centerLeft.obs;
   Rx<Color> themeSwitchColor = Color.fromRGBO(92, 92, 92, 0.66).obs;
   Rx<Color> switchContainerColor = Color.fromRGBO(196, 196, 196, 1).obs;
+  Rx<Color> justColor = Color.fromRGBO(196, 196, 196, 1).obs;
   // Rx<Color> appBarColor = Color.fromRGBO().obs;
 
   void changeDarkTheme() {
@@ -28,5 +29,6 @@ class CustomThemeData extends GetxController {
     primaryColor.value = Colors.white;
     primaryTextColor.value = Color.fromRGBO(41, 39, 39, 1);
     switchContainerColor.value = Color.fromRGBO(196, 196, 196, 1);
+    justColor.value = Color.fromRGBO(196, 196, 196, 1);
   }
 }

@@ -246,7 +246,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                   //    borderRadius: BorderRadius.circular(25),
                                   //  ),
                                   hintText: "Enter your name",
-                                  hintStyle: TextStyle(color: Colors.white),
+                                  hintStyle: TextStyle(color: Colors.grey),
                                 ),
                               ),
                             ),
@@ -257,12 +257,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               child: RaisedButton(
                                 elevation: 8,
                                 color: Colors.white,
+                                splashColor: Color.fromRGBO(196, 196, 196, 1),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25)),
                                 child: Text(
                                   'Join Room',
                                   style: TextStyle(
-                                      fontSize: 35,
+                                      fontSize: 25,
                                       //fontSize: 40 * widthRatio,
                                       fontWeight: FontWeight.normal),
                                 ),
@@ -419,6 +420,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 child: Obx(
                                   () => RaisedButton(
                                     // elevation: 20,
+                                    splashColor:
+                                        Color.fromRGBO(196, 196, 196, 1),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(25)),
@@ -525,8 +528,10 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                           //  ),
                           hintText: "Enter your name",
                           hintStyle: TextStyle(
-                              color:
-                                  themeController.switchContainerColor.value),
+                            //color:
+                            //themeController.switchContainerColor.value
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
