@@ -1,10 +1,13 @@
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/soundController.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/appDrawer.dart';
 import 'package:VideoSync/views/users_screen.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_sound/flutter_sound.dart';
+// import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -20,16 +23,56 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
   CustomThemeData themeController = Get.put(CustomThemeData());
+  
+  // SoundController soundController = Get.put(SoundController());
   PersistentBottomSheetController _controller; // <------ Instance variable
   final _scaffoldKey =
       GlobalKey<ScaffoldState>(); // <---- Another instance variable
 
   var messages;
   bool isLoading = false;
+  // FlutterSoundPlayer _mplayer = FlutterSoundPlayer();
+  // var _mPlayerIsInited = false.obs;
   // final double heightRatio = Get.height / 823;
 
   // bool joinLoading = false;
   // String roomIdText = "";
+
+  // void play() async {
+  //   if (_mPlayerIsInited.value) {
+  //     await _mplayer.startPlayer(
+  //       fromURI:
+  //           'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
+  //       // codec: Codec.mp3,
+  //       // whenFinished: () {
+  //       //   stopPlayer();
+  //       // },
+
+  //     );
+  //   }
+  //   // print(_mPlayerIsInited.value);
+  // }
+
+  // void stopPlayer() async {
+  //   if (_mplayer != null) {
+  //     await _mplayer.stopPlayer();
+  //   }
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _mplayer.openAudioSession().then((value) {});
+  //   _mPlayerIsInited.value = true;
+  // }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   _mplayer.closeAudioSession();
+  //   _mplayer = null;
+  // }
 
   void _createCustomBottomSheet(
       {double heightRatio, double widthRatio, Size size}) async {
@@ -535,6 +578,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                         ),
                       ),
                     ),
+
                     SizedBox(height: 60),
                     Container(
                       width: 300 * widthRatio,
