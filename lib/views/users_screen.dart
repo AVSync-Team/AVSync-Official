@@ -4,6 +4,7 @@ import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
@@ -31,6 +32,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
   FunLogic funLogic = Get.put(FunLogic());
+  CustomThemeData themeController = Get.put(CustomThemeData());
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -139,6 +141,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
     Get.snackbar(name, message);
   }
 
+  // Widget open(snackbar) {
+  //   return Theme(
+  //     data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+  //     //width: 380 * widthRatio,
+  //     child: Drawer(
+  //       child: ChattingPlace(snackbar: snackbar),
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,11 +163,13 @@ class _WelcomScreenState extends State<WelcomScreen> {
               : Icon(Icons.delete),
           onPressed: () {
             Get.defaultDialog(
+                buttonColor: Colors.green.withOpacity(0.1),
                 title: !(roomLogicController.adminKaNaam.obs.value ==
                         roomLogicController.userName.obs.value)
                     ? 'Leave Room'
                     : 'Delete Room',
                 confirm: RaisedButton(
+                    color: Colors.green,
                     child: Text('Yes'),
                     onPressed: () {
                       if (!(roomLogicController.adminKaNaam.obs.value ==
@@ -172,6 +186,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       // Get.off(CreateRoomScreen());
                     }),
                 cancel: RaisedButton(
+                    color: Colors.red,
                     child: Text('No'),
                     onPressed: () {
                       Get.back();
@@ -182,9 +197,19 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     : Text('Do you want to delete the room ? '));
           },
         ),
-        backgroundColor: Color(0xff292727),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.chat_bubble),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          )
+        ],
+        backgroundColor: themeController.switchContainerColor.value,
       ),
       // appBar: AppBar(),
+
       endDrawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         //width: 380 * widthRatio,
@@ -192,7 +217,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
           child: ChattingPlace(snackbar: snackbar),
         ),
       ),
-      backgroundColor: Color(0xff292727),
+      backgroundColor: themeController.primaryColor.value,
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -232,13 +257,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 //   },
                 // ),
                 SizedBox(
-                  height: 40 * heightRatio,
+                  height: 37 * heightRatio,
                 ),
                 Hero(
                   tag: 'Rishabh',
                   child: Container(
-                    height: 320 * heightRatio,
-                    width: 300 * widthRatio,
+                    color: Colors.green.withOpacity(0.1),
+                    height: 350 * heightRatio,
+                    width: 330 * widthRatio,
                     // decoration:
                     //     BoxDecoration(border: Border.all(color: Colors.black)),
                     child: Stack(
@@ -246,8 +272,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(
-                            height: 250 * heightRatio,
-                            width: 280 * widthRatio,
+                            color: Colors.yellow.withOpacity(0.1),
+                            height: 260 * heightRatio,
+                            width: 300 * widthRatio,
                             child: Card(
                               color: Color.fromARGB(200, 60, 60, 60),
                               elevation: 8,
@@ -259,19 +286,43 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
+                                  Container(
+                                    color: Colors.red.withOpacity(0.1),
                                     padding: const EdgeInsets.only(
-                                        top: 20, left: 30),
+                                        top: 20, left: 24),
                                     child: InkWell(
                                       onTap: () {
                                         // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
                                         Get.bottomSheet(
                                           Container(
-                                            color: Colors.white,
+                                            color:
+                                                Colors.white.withOpacity(0.1),
                                             width: double.infinity,
                                             height: heightRatio * 250,
-                                            child: Card(
-                                              elevation: 10,
+                                            child: Container(
+                                              color: Colors.white,
+                                              // decoration: BoxDecoration(
+                                              //   color: Colors.purple
+                                              //       .withOpacity(0.1),
+                                              //   borderRadius: BorderRadius.only(
+                                              //     topLeft:
+                                              //         Radius.circular(30.0),
+                                              //     topRight:
+                                              //         Radius.circular(30.0),
+                                              //   ),
+                                              // ),
+
+                                              //child: Card(
+                                              // shape: RoundedRectangleBorder(
+                                              //     borderRadius:
+                                              //         BorderRadius.only(
+                                              //             topLeft:
+                                              //                 Radius.circular(
+                                              //                     30.0),
+                                              //             topRight:
+                                              //                 Radius.circular(
+                                              //                     30.0))),
+                                              // elevation: 10,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -315,6 +366,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                 ],
                                               ),
                                             ),
+                                            //),
                                           ),
                                         );
                                       },
@@ -336,8 +388,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 42.5),
+                                  Container(
+                                    color: Colors.orange.withOpacity(0.1),
+                                    padding: const EdgeInsets.only(left: 36),
                                     child: InkWell(
                                       onTap: () {
                                         // filePick();
@@ -349,24 +402,29 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                             'lib/assets/svgs/localplayer.svg',
                                             width: 40 * widthRatio,
                                             height: 40 * heightRatio,
+                                            //color: Colors.white,
                                           ),
-                                          SizedBox(width: 25 * widthRatio),
+                                          SizedBox(width: 10 * widthRatio),
                                           Text(
                                             'Local Media',
-                                            style: TextStyle(fontSize: 20),
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              //color: Colors.white
+                                            ),
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
                                   SizedBox(height: 20 * heightRatio),
-                                  Padding(
+                                  Container(
+                                    color: Colors.white.withOpacity(0.1),
                                     padding: const EdgeInsets.only(left: 20),
                                     child: Row(
                                       // mainAxisAlignment:
                                       //     MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.baseline,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         FutureBuilder(
                                             future: Future.delayed(
@@ -402,8 +460,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                               left: 10, bottom: 0),
                                           child: SvgPicture.asset(
                                             'lib/assets/svgs/crown.svg',
-                                            height: 25 * heightRatio,
-                                            width: 25 * widthRatio,
+                                            height: 27 * heightRatio,
+                                            width: 27 * widthRatio,
                                             color: Colors.orange,
                                           ),
                                         )
@@ -417,7 +475,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         builder: (controller) {
                                       return Text(
                                           'Room no: ${controller.roomId.obs.value} ',
-                                          style: TextStyle(fontSize: 20));
+                                          style: TextStyle(fontSize: 15));
                                     }),
                                   )
                                 ],
@@ -457,76 +515,84 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 //     }),
 
                 Expanded(
-                  child: FutureBuilder(
-                      future: Future.delayed(Duration(seconds: 2)),
-                      builder: (ctx, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return StreamBuilder(
-                            stream: rishabhController.tester(
-                                firebaseId: roomLogicController.roomFireBaseId),
-                            builder: (ctx, event) {
-                              if (event.hasData) {
-                                // Future.delayed(
-                                //     Duration(seconds: 2),
-                                //     () => {
-                                //           Get.snackbar(
-                                //               "",
-                                //               event.data.snapshot.value[event
-                                //                           .data
-                                //                           .snapshot
-                                //                           .value
-                                //                           .length -
-                                //                       1]['name'] +
-                                //                   "joined!")
-                                //         });
+                  child: SingleChildScrollView(
+                    child: Container(
+                      color: Colors.blue.withOpacity(0.1),
+                      height: Get.height * 0.35,
+                      child: FutureBuilder(
+                          future: Future.delayed(Duration(seconds: 2)),
+                          builder: (ctx, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return StreamBuilder(
+                                stream: rishabhController.tester(
+                                    firebaseId:
+                                        roomLogicController.roomFireBaseId),
+                                builder: (ctx, event) {
+                                  if (event.hasData) {
+                                    // Future.delayed(
+                                    //     Duration(seconds: 2),
+                                    //     () => {
+                                    //           Get.snackbar(
+                                    //               "",
+                                    //               event.data.snapshot.value[event
+                                    //                           .data
+                                    //                           .snapshot
+                                    //                           .value
+                                    //                           .length -
+                                    //                       1]['name'] +
+                                    //                   "joined!")
+                                    //         });
 
-                                return Container(
-                                  // height: 100,
-                                  width: 300 * widthRatio,
-                                  child: NotificationListener<
-                                      OverscrollIndicatorNotification>(
-                                    onNotification: (overscroll) {
-                                      overscroll.disallowGlow();
-                                    },
-                                    child: ListView.separated(
-                                      separatorBuilder: (ctx, i) {
-                                        return SizedBox(
-                                          height: 20 * heightRatio,
-                                        );
-                                      },
-                                      itemBuilder: (ctx, i) {
-                                        print(
-                                            'chut: ${event.data.snapshot.value}');
-                                        return CustomNameBar(
-                                          event: event,
-                                          index: i,
-                                          widthRatio: widthRatio,
-                                          heightRatio: heightRatio,
-                                          controller: funLogic,
-                                        );
-                                      },
-                                      itemCount: event
-                                          .data.snapshot.value.values
-                                          .toList()
-                                          .length,
-                                    ),
-                                  ),
-                                );
-                              } else if (event.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              return Container(height: 0.0, width: 0.0);
-                            },
-                          );
-                        }
-                        return Container();
-                      }),
+                                    return Container(
+                                      // height: 100,
+                                      width: 300 * widthRatio,
+                                      child: NotificationListener<
+                                          OverscrollIndicatorNotification>(
+                                        onNotification: (overscroll) {
+                                          overscroll.disallowGlow();
+                                        },
+                                        child: ListView.separated(
+                                          separatorBuilder: (ctx, i) {
+                                            return SizedBox(
+                                              height: 20 * heightRatio,
+                                            );
+                                          },
+                                          itemBuilder: (ctx, i) {
+                                            print(
+                                                'chut: ${event.data.snapshot.value}');
+                                            return CustomNameBar(
+                                              event: event,
+                                              index: i,
+                                              widthRatio: widthRatio,
+                                              heightRatio: heightRatio,
+                                              controller: funLogic,
+                                            );
+                                          },
+                                          itemCount: event
+                                              .data.snapshot.value.values
+                                              .toList()
+                                              .length,
+                                        ),
+                                      ),
+                                    );
+                                  } else if (event.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  return Container(height: 0.0, width: 0.0);
+                                },
+                              );
+                            }
+                            return Container();
+                          }),
+                    ),
+                  ),
                 ),
               ],
             ),

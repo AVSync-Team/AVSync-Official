@@ -36,6 +36,7 @@ dependencies:
   neumorphic: ^0.4.0
   clipboard: ^0.1.2+8
   file_picker: ^2.1.6
+  # flutter_sound: ^7.4.9+1
   # file_picker: ^2.1.4
 
 
@@ -71,6 +72,7 @@ flutter:
     - lib/assets/svgs/youtubeplayer.svg
     - lib/assets/svgs/back10.svg
     - lib/assets/svgs/go10.svg
+    # - lib/assets/sounds/notification.mp3
 
 
   #   - images/a_dot_ham.jpeg

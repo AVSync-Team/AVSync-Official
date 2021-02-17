@@ -50,7 +50,9 @@ class _ChattingPlaceState extends State<ChattingPlace> {
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
-          color: Color.fromARGB(0, 200, 100, 50),
+          //color: Color.fromARGB(0, 200, 100, 50),
+          color: Colors.white.withOpacity(0.1),
+          //color: Colors.black.withOpacity(0.5),
           // height: 500,
           width: double.infinity,
           child: Column(
@@ -118,7 +120,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                           itemBuilder: (ctx, i) {
                             return roomLogicController.userId == check[i].userId
                                 //Self user
-                                
+
                                 ? Padding(
                                     padding: const EdgeInsets.only(
                                       right: 5,

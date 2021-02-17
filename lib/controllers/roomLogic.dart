@@ -29,6 +29,7 @@ class RoomLogicController extends GetxController {
   var playingStatus = false.obs;
   var dontHideControls = false.obs;
   var videoPosition = Duration(seconds: 0).obs;
+  var isLoading = false.obs;
 
   void roomText(text) {
     roomIdText = text;
@@ -48,6 +49,8 @@ class RoomLogicController extends GetxController {
   }
 
   Future<void> makeRoom({String adminName}) async {
+    // isLoading.value = true;
+
     this.roomId.value = randomGenerator().toString();
     adminKaNaam = randomGenerator().toString();
     userName = adminKaNaam;
@@ -69,7 +72,7 @@ class RoomLogicController extends GetxController {
               "message": "Welcome",
               "userId": "231312",
               "messageId": DateTime.now().toIso8601String(),
-              "username": "Bot"
+              "username": "AVSync"
             }
           }
         }));
@@ -78,6 +81,8 @@ class RoomLogicController extends GetxController {
 
     roomFireBaseId = json.decode(response.body)["name"];
     print(roomFireBaseId);
+
+    // isLoading.value = false;
   }
 
   String get getUserId {
@@ -85,6 +90,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> joinRoom({String roomId, String name}) async {
+    isLoading.value = true;
     final firebaseDatabase = FirebaseDatabase.instance.reference();
 
     userName = name;
@@ -123,6 +129,7 @@ class RoomLogicController extends GetxController {
         flag = true;
       }
     });
+    isLoading.value = false;
     return flag;
   }
 

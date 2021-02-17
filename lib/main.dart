@@ -1,3 +1,4 @@
+import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/createRoom.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
@@ -9,6 +10,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  // final themeController = Get.put(CustomThemeData());
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
