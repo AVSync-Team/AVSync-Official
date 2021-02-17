@@ -141,15 +141,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
     Get.snackbar(name, message);
   }
 
-  Widget open(snackbar) {
-    return Theme(
-      data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-      //width: 380 * widthRatio,
-      child: Drawer(
-        child: ChattingPlace(snackbar: snackbar),
-      ),
-    );
-  }
+  // Widget open(snackbar) {
+  //   return Theme(
+  //     data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+  //     //width: 380 * widthRatio,
+  //     child: Drawer(
+  //       child: ChattingPlace(snackbar: snackbar),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -515,76 +515,84 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 //     }),
 
                 Expanded(
-                  child: FutureBuilder(
-                      future: Future.delayed(Duration(seconds: 2)),
-                      builder: (ctx, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return StreamBuilder(
-                            stream: rishabhController.tester(
-                                firebaseId: roomLogicController.roomFireBaseId),
-                            builder: (ctx, event) {
-                              if (event.hasData) {
-                                // Future.delayed(
-                                //     Duration(seconds: 2),
-                                //     () => {
-                                //           Get.snackbar(
-                                //               "",
-                                //               event.data.snapshot.value[event
-                                //                           .data
-                                //                           .snapshot
-                                //                           .value
-                                //                           .length -
-                                //                       1]['name'] +
-                                //                   "joined!")
-                                //         });
+                  child: SingleChildScrollView(
+                    child: Container(
+                      color: Colors.blue.withOpacity(0.1),
+                      height: Get.height * 0.35,
+                      child: FutureBuilder(
+                          future: Future.delayed(Duration(seconds: 2)),
+                          builder: (ctx, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return StreamBuilder(
+                                stream: rishabhController.tester(
+                                    firebaseId:
+                                        roomLogicController.roomFireBaseId),
+                                builder: (ctx, event) {
+                                  if (event.hasData) {
+                                    // Future.delayed(
+                                    //     Duration(seconds: 2),
+                                    //     () => {
+                                    //           Get.snackbar(
+                                    //               "",
+                                    //               event.data.snapshot.value[event
+                                    //                           .data
+                                    //                           .snapshot
+                                    //                           .value
+                                    //                           .length -
+                                    //                       1]['name'] +
+                                    //                   "joined!")
+                                    //         });
 
-                                return Container(
-                                  // height: 100,
-                                  width: 300 * widthRatio,
-                                  child: NotificationListener<
-                                      OverscrollIndicatorNotification>(
-                                    onNotification: (overscroll) {
-                                      overscroll.disallowGlow();
-                                    },
-                                    child: ListView.separated(
-                                      separatorBuilder: (ctx, i) {
-                                        return SizedBox(
-                                          height: 20 * heightRatio,
-                                        );
-                                      },
-                                      itemBuilder: (ctx, i) {
-                                        print(
-                                            'chut: ${event.data.snapshot.value}');
-                                        return CustomNameBar(
-                                          event: event,
-                                          index: i,
-                                          widthRatio: widthRatio,
-                                          heightRatio: heightRatio,
-                                          controller: funLogic,
-                                        );
-                                      },
-                                      itemCount: event
-                                          .data.snapshot.value.values
-                                          .toList()
-                                          .length,
-                                    ),
-                                  ),
-                                );
-                              } else if (event.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              return Container(height: 0.0, width: 0.0);
-                            },
-                          );
-                        }
-                        return Container();
-                      }),
+                                    return Container(
+                                      // height: 100,
+                                      width: 300 * widthRatio,
+                                      child: NotificationListener<
+                                          OverscrollIndicatorNotification>(
+                                        onNotification: (overscroll) {
+                                          overscroll.disallowGlow();
+                                        },
+                                        child: ListView.separated(
+                                          separatorBuilder: (ctx, i) {
+                                            return SizedBox(
+                                              height: 20 * heightRatio,
+                                            );
+                                          },
+                                          itemBuilder: (ctx, i) {
+                                            print(
+                                                'chut: ${event.data.snapshot.value}');
+                                            return CustomNameBar(
+                                              event: event,
+                                              index: i,
+                                              widthRatio: widthRatio,
+                                              heightRatio: heightRatio,
+                                              controller: funLogic,
+                                            );
+                                          },
+                                          itemCount: event
+                                              .data.snapshot.value.values
+                                              .toList()
+                                              .length,
+                                        ),
+                                      ),
+                                    );
+                                  } else if (event.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  return Container(height: 0.0, width: 0.0);
+                                },
+                              );
+                            }
+                            return Container();
+                          }),
+                    ),
+                  ),
                 ),
               ],
             ),

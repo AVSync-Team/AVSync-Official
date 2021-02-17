@@ -72,7 +72,7 @@ class RoomLogicController extends GetxController {
               "message": "Welcome",
               "userId": "231312",
               "messageId": DateTime.now().toIso8601String(),
-              "username": "Bot"
+              "username": "AVSync"
             }
           }
         }));
