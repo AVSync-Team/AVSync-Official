@@ -200,7 +200,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
         actions: [
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.chat_bubble_rounded),
+              icon: Icon(Icons.chat_bubble),
               onPressed: () => Scaffold.of(context).openEndDrawer(),
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
@@ -210,13 +210,13 @@ class _WelcomScreenState extends State<WelcomScreen> {
       ),
       // appBar: AppBar(),
 
-      // endDrawer: Theme(
-      //   data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-      //   //width: 380 * widthRatio,
-      //   child: Drawer(
-      //     child: ChattingPlace(snackbar: snackbar),
-      //   ),
-      // ),
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        //width: 380 * widthRatio,
+        child: Drawer(
+          child: ChattingPlace(snackbar: snackbar),
+        ),
+      ),
       backgroundColor: themeController.primaryColor.value,
       body: SingleChildScrollView(
         child: Center(
