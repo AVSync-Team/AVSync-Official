@@ -7,7 +7,6 @@ import 'package:VideoSync/views/userManual.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class MainDrawer extends StatelessWidget {
   final themeController = Get.put(CustomThemeData());
 
@@ -22,14 +21,15 @@ class MainDrawer extends StatelessWidget {
         leading: Icon(
           icon2,
           color: themeController.primaryTextColor.value,
+          size: 22,
         ),
         title: Text(
           title,
           style: TextStyle(
               color: themeController.primaryTextColor.value,
-              fontSize: 24,
+              fontSize: 17,
               // color: THEMEDATA.emeraldCityGreen,
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.w100),
         ),
         onTap: tapHandler,
       ),
@@ -72,15 +72,18 @@ class MainDrawer extends StatelessWidget {
             //child: SingleChildScrollView(
             //child: Column(
             //children: <Widget>[
-            SizedBox(
-              height: 20,
-            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               //child: Container(
               //height: 500,
               child: Column(
                 children: <Widget>[
+                  Divider(
+                    color: themeController.darkGrey.value,
+                  ),
                   buildListTile('Rooms', Icons.restaurant, () {
                     Get.off(CreateRoomScreen());
                     // by this we replace the existing page
@@ -122,6 +125,9 @@ class MainDrawer extends StatelessWidget {
                     Get.off(AboutPage());
                     // by this we replace the existing page
                   }),
+                  Divider(
+                    color: themeController.darkGrey.value,
+                  ),
                 ],
               ),
             ),
