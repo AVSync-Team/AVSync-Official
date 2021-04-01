@@ -8,7 +8,7 @@ import 'package:VideoSync/views/chat.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -502,17 +502,18 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                       roomLogicController.userName.obs.value)
                                     Expanded(
                                       child: GestureDetector(
-                                        onTap: () {
-                                          controller.seekTo(Duration(
-                                              seconds: controller.value.position
-                                                      .inSeconds -
-                                                  10));
-                                        },
-                                        child: SvgPicture.asset(
-                                            'lib/assets/svgs/back10.svg',
-                                            width: 30 * widthRatio,
-                                            height: 30 * heightRatio),
-                                      ),
+                                          onTap: () {
+                                            controller.seekTo(Duration(
+                                                seconds: controller.value
+                                                        .position.inSeconds -
+                                                    10));
+                                          },
+                                          child: Container()
+                                          //   SvgPicture.asset(
+                                          //       'lib/assets/svgs/back10.svg',
+                                          //       width: 30 * widthRatio,
+                                          //       height: 30 * heightRatio),
+                                          ),
                                     ),
 
                                   //play pause icon
@@ -566,10 +567,11 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                       // width: Get.width * 0.3,
                                       // color: Colors.yellow.shade100,
                                       child: GestureDetector(
-                                        child: SvgPicture.asset(
-                                            'lib/assets/svgs/go10.svg',
-                                            width: 30 * widthRatio,
-                                            height: 30 * heightRatio),
+                                        child: Container(),
+                                        // SvgPicture.asset(
+                                        //     'lib/assets/svgs/go10.svg',
+                                        //     width: 30 * widthRatio,
+                                        //     height: 30 * heightRatio),
                                         onTap: () {
                                           controller.seekTo(Duration(
                                               seconds: controller.value.position
