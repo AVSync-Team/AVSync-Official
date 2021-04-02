@@ -70,7 +70,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
         .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
       int x = event.snapshot.value;
-      if (x == 0) {
+      if (x == 0 &&
+          !(roomLogicController.adminKaNaam.obs.value ==
+              roomLogicController.userName.obs.value)) {
         Get.back();
       }
     });
