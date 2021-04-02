@@ -57,6 +57,7 @@ class RoomLogicController extends GetxController {
     this.userId = randomGenerator().toString();
     final response = await http.post(roomUrl,
         body: json.encode({
+          "status": 1,
           "admin": adminKaNaam,
           "isPlayerPaused": true,
           "roomId": this.roomId,
@@ -218,8 +219,14 @@ class RoomLogicController extends GetxController {
   //   print('fid: $roomFireBaseId');
   // }
 
-  void adminDeleteRoom({String firebaseId}) {
+  Future<void> adminDeleteRoom({String firebaseId}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
+
+    //status - 0 - room delete
+    //status -1 - room exist
+
+    firebaseDB.child('Rooms').child('$firebaseId').child('status').set(0);
+    await Future.delayed(Duration(seconds: 4));
     firebaseDB.child('Rooms').child('$firebaseId').remove();
   }
 }

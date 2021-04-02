@@ -94,6 +94,7 @@ class RishabhController extends GetxController {
     // print('room: $firebaseId');
   }
 
+
   Stream tester({String firebaseId}) {
     print('lodu: $firebaseId');
     final firebasedatbase = FirebaseDatabase.instance.reference();

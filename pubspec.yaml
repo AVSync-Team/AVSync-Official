@@ -23,16 +23,26 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # meda controllers plugin  
   video_player: ^1.0.1
   youtube_player_flutter: ^7.0.0+7
   # cloud_firestore: ^0.16.0
+
+  # State management 
   get: ^3.24.0
+
+
+  #server-side plugins
   http: ^0.12.1
   # html: ^0.14.0+4
   # firebase: ^8.0.0
   # firebase_core: ^0.7.0
   firebase_database: ^6.0.0
   # flutter_svg: ^0.18.0
+
+
+  #add-ons
   flutter_svg: ^0.19.3
   neumorphic: ^0.4.0
   clipboard: ^0.1.2+8

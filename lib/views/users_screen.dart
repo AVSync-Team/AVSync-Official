@@ -15,6 +15,8 @@ import 'package:firebase_database/firebase_database.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 // import 'package:VideoSync/views/createRoom.dart';
@@ -185,8 +187,11 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       Get.offAll(CreateRoomScreen());
                       // Get.off(CreateRoomScreen());
                     }),
-                cancel: RaisedButton(
-                    color: Colors.red,
+                cancel: ElevatedButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green)),
+                    // color: Colors.red,
                     child: Text('No'),
                     onPressed: () {
                       Get.back();
