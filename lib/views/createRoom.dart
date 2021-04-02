@@ -8,7 +8,7 @@ import 'package:VideoSync/views/users_screen.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_sound/flutter_sound.dart';
 // import 'package:flutter_sound/public/flutter_sound_player.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class CreateRoomScreen extends StatefulWidget {
@@ -215,10 +215,12 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             Container(
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.red)),
-                              child: SvgPicture.asset(
-                                  'lib/assets/svgs/movie.svg',
-                                  width: 294 * widthRatio,
-                                  height: 294 * heightRatio),
+                              // child: SvgPicture.asset(
+                              //     'lib/assets/svgs/movie.svg',
+                              //     width: 294 * widthRatio,
+                              //     height: 294 * heightRatio),
+                              child : 
+                              Container()
                             ),
                             // Container(
                             //   width: Get.width * .8,
@@ -513,8 +515,11 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     Container(
                       decoration:
                           BoxDecoration(border: Border.all(color: Colors.red)),
-                      child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                          width: 170 * widthRatio, height: 170 * heightRatio),
+                      child: 
+                      Container()
+                      
+                      // SvgPicture.asset('lib/assets/svgs/movie.svg',
+                      //     width: 170 * widthRatio, height: 170 * heightRatio),
                     ),
                     // Container(
                     //   width: Get.width * .8,
@@ -530,6 +535,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     //     ),
                     //   ),
                     // ),
+                    // 
+                    // 
                     SizedBox(height: 30),
                     Container(
                       width: Get.width * 0.8,
