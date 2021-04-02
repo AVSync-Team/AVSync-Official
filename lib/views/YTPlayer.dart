@@ -139,6 +139,15 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
+    // roomLogicController
+    //     .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
+    //     .listen((event) {
+    //   int x = event.snapshot.value;
+    //   if (x == 0) {
+    //     Get.back();
+    //   }
+    // });
+
     // hideControls();
 
     super.initState();

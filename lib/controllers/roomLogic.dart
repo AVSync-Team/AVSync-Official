@@ -229,4 +229,9 @@ class RoomLogicController extends GetxController {
     await Future.delayed(Duration(seconds: 4));
     firebaseDB.child('Rooms').child('$firebaseId').remove();
   }
+
+  Stream<Event> roomStatus({String firebaseId}) {
+    final firebaseDB = FirebaseDatabase.instance.reference();
+    firebaseDB.child('Rooms').child('$firebaseId').child('status').onValue;
+  }
 }

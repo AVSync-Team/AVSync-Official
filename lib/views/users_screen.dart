@@ -65,6 +65,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
         Get.snackbar(
             check[check.length - 1].username, check[check.length - 1].mesage);
     });
+
+    roomLogicController
+        .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
+        .listen((event) {
+      int x = event.snapshot.value;
+      if (x == 0) {
+        Get.back();
+      }
+    });
+
     // _userController = new StreamController();
 
     // timer = Timer.periodic(Duration(seconds: 3), (_) async {
