@@ -15,7 +15,7 @@ import 'package:firebase_database/firebase_database.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 // import 'package:VideoSync/views/createRoom.dart';
 
@@ -372,11 +372,11 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       },
                                       child: Row(
                                         children: [
-                                          // SvgPicture.asset(
-                                          //   'lib/assets/svgs/youtubeplayer.svg',
-                                          //   width: 70 * heightRatio,
-                                          //   height: 70 * widthRatio,
-                                          // ),
+                                          SvgPicture.asset(
+                                            'lib/assets/svgs/youtubeplayer.svg',
+                                            width: 70 * heightRatio,
+                                            height: 70 * widthRatio,
+                                          ),
                                           SizedBox(width: 10 * widthRatio),
                                           Text(
                                             'Youtube',
@@ -398,16 +398,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       },
                                       child: Row(
                                         children: [
-
-
-                                          // SvgPicture.asset(
-                                          //   'lib/assets/svgs/localplayer.svg',
-                                          //   width: 40 * widthRatio,
-                                          //   height: 40 * heightRatio,
-                                          //   //color: Colors.white,
-                                          // ),
-
-                                        
+                                          SvgPicture.asset(
+                                            'lib/assets/svgs/localplayer.svg',
+                                            width: 40 * widthRatio,
+                                            height: 40 * heightRatio,
+                                            //color: Colors.white,
+                                          ),
                                           SizedBox(width: 10 * widthRatio),
                                           Text(
                                             'Local Media',
@@ -462,14 +458,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 10, bottom: 0),
-                                          child:
-                                          Container()
-                                          //  SvgPicture.asset(
-                                          //   'lib/assets/svgs/crown.svg',
-                                          //   height: 27 * heightRatio,
-                                          //   width: 27 * widthRatio,
-                                          //   color: Colors.orange,
-                                          // ),
+                                          child: SvgPicture.asset(
+                                            'lib/assets/svgs/crown.svg',
+                                            height: 27 * heightRatio,
+                                            width: 27 * widthRatio,
+                                            color: Colors.orange,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -491,12 +485,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         ),
                         Align(
                           alignment: Alignment.topCenter,
-                          child: 
-                          Container(),
-
-                          // SvgPicture.asset('lib/assets/svgs/movie.svg',
-                          //     width: 120 * widthRatio,
-                              // height: 120 * heightRatio),
+                          child: SvgPicture.asset('lib/assets/svgs/movie.svg',
+                              width: 120 * widthRatio,
+                              height: 120 * heightRatio),
                         )
                       ],
                     ),
