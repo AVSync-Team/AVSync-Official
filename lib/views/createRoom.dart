@@ -182,7 +182,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: themeController.switchContainerColor.value,
+        //backgroundColor: themeController.switchContainerColor.value,
+        backgroundColor: Color.fromRGBO(41, 39, 39, 1),
         elevation: 10,
       ),
       drawer: MainDrawer(),
@@ -219,7 +220,6 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 'lib/assets/svgs/movie.svg',
                                 width: 294 * widthRatio,
                                 height: 294 * heightRatio,
-                                color: Colors.red,
                               ),
                               // child :
                               // Container()
