@@ -83,6 +83,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
             idOfUser: roomLogicController.userId)
         .listen((event) {
       int x = event.snapshot.value;
+
+      if (x == 0 &&
+          !(roomLogicController.adminKaNaam.obs.value ==
+              roomLogicController.userName.obs.value)) {
+        Get.offAll(CreateRoomScreen());
+      }
     });
 
     // _userController = new StreamController();

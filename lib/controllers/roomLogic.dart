@@ -22,6 +22,7 @@ class RoomLogicController extends GetxController {
   var localUrl = ''.obs;
   String userId;
   String userKaId;
+  String userFireBase;
   Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
   var roomIdText = "".obs.value;
@@ -113,12 +114,21 @@ class RoomLogicController extends GetxController {
         this.roomFireBaseId = key.toString();
         print('joinRoom: $roomFireBaseId');
 
-        firebaseDatabase
+        String key1 = firebaseDatabase
             .child('Rooms')
             .child('$roomFireBaseId')
             .child('users')
             .push()
+            .key;
+
+        firebaseDatabase
+            .child('Rooms')
+            .child('$roomFireBaseId')
+            .child('users')
+            .child(key1)
             .set({"id": this.userId, "name": name, "status": 1});
+
+        userFireBase = key1;
 
         // roomUrl =
         //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
@@ -258,7 +268,7 @@ class RoomLogicController extends GetxController {
         .child('Rooms')
         .child(firebaseId)
         .child('users')
-        .child(idOfUser)
+        .child(userFireBase)
         .child('status')
         .onValue;
   }
