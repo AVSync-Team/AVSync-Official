@@ -146,9 +146,11 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    chatController.dispose();
+    roomLogicController.dispose();
+    rishabhController.dispose();
+
     super.dispose();
-    controller.dispose();
   }
 
   @override

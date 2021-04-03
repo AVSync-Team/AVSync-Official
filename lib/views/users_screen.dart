@@ -77,30 +77,23 @@ class _WelcomScreenState extends State<WelcomScreen> {
       }
     });
 
-if( !(roomLogicController.adminKaNaam.obs.value ==
-              roomLogicController.userName.obs.value
+    if (!(roomLogicController.adminKaNaam.obs.value ==
+        roomLogicController.userName.obs.value))
+      roomLogicController
+          .userStatus(
+        firebaseId: roomLogicController.roomFireBaseId,
+        // idOfUser: roomLogicController.userId
+      )
+          .listen((event) {
+        int x = event.snapshot.value;
+        print("sex : ${x}");
 
-              ))
-    roomLogicController
-        .userStatus(
-      firebaseId: roomLogicController.roomFireBaseId,
-      // idOfUser: roomLogicController.userId
-    )
-        .listen((event) {
-      int x = event.snapshot.value;
-      print("sex : ${x}");
-
-      if (x == 0 &&
-
-          !(roomLogicController.adminKaNaam.obs.value ==
-              roomLogicController.userName.obs.value
-
-              ))
-
-              {
-        Get.offAll(CreateRoomScreen());
-      }
-    });
+        if (x == 0 &&
+            !(roomLogicController.adminKaNaam.obs.value ==
+                roomLogicController.userName.obs.value)) {
+          Get.offAll(CreateRoomScreen());
+        }
+      });
 
     // _userController = new StreamController();
 
@@ -110,13 +103,14 @@ if( !(roomLogicController.adminKaNaam.obs.value ==
     // });
   }
 
-  // @override
-  // void dispose() {
-  //   _userController.close();
-  //   // _userController.done;
-  //   timer.cancel();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    chatController.dispose();
+    roomLogicController.dispose();
+    rishabhController.dispose();
+
+    super.dispose();
+  }
 
   bool isLoading = false;
 

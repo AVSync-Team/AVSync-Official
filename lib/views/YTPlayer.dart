@@ -154,10 +154,13 @@ class _YTPlayerState extends State<YTPlayer> {
     selectedRadio = 1;
   }
 
-  @override
+@override
   void dispose() {
+    chatController.dispose();
+    roomLogicController.dispose();
+    rishabhController.dispose();
+
     super.dispose();
-    controller.dispose();
   }
 
   changeRadioValue(int value) {
