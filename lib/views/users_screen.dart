@@ -73,7 +73,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
       if (x == 0 &&
           !(roomLogicController.adminKaNaam.obs.value ==
               roomLogicController.userName.obs.value)) {
-        Get.back();
+        Get.offAll(CreateRoomScreen());
       }
     });
 
@@ -578,12 +578,28 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           itemBuilder: (ctx, i) {
                                             print(
                                                 'chut: ${event.data.snapshot.value}');
-                                            return CustomNameBar(
-                                              event: event,
-                                              index: i,
-                                              widthRatio: widthRatio,
-                                              heightRatio: heightRatio,
-                                              controller: funLogic,
+                                            return GestureDetector(
+                                              onTap: () {
+                                                String key = event
+                                                    .data.snapshot.value.keys
+                                                    .elementAt(0);
+
+                                                roomLogicController.kickUser(
+                                                    firebaseId:
+                                                        roomLogicController
+                                                            .roomFireBaseId,
+                                                    idofUser: event
+                                                        .data
+                                                        .snapshot
+                                                        .value[key]['id']);
+                                              },
+                                              child: CustomNameBar(
+                                                event: event,
+                                                index: i,
+                                                widthRatio: widthRatio,
+                                                heightRatio: heightRatio,
+                                                controller: funLogic,
+                                              ),
                                             );
                                           },
                                           itemCount: event

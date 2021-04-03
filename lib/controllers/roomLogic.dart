@@ -118,7 +118,7 @@ class RoomLogicController extends GetxController {
             .child('$roomFireBaseId')
             .child('users')
             .push()
-            .set({"id": this.userId, "name": name});
+            .set({"id": this.userId, "name": name, "status": 1});
 
         // roomUrl =
         //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
@@ -218,6 +218,30 @@ class RoomLogicController extends GetxController {
 
   //   print('fid: $roomFireBaseId');
   // }
+  //
+  //
+  //
+  Future<void> kickUser({String firebaseId,String idofUser}) async {
+    final firebaseDB = FirebaseDatabase.instance.reference();
+    firebaseDB
+        .child('Rooms')
+        .child(firebaseId)
+        .child('users')
+        .child(idofUser)
+        .child('status')
+        .set(0);
+  }
+
+  Stream<Event> userStatus({String firebaseId,String idOfUser}) {
+    final firebaseDB = FirebaseDatabase.instance.reference();
+    return firebaseDB
+        .child('Rooms')
+        .child(firebaseId)
+        .child('users')
+        .child(idOfUser)
+        .child('status')
+        .onValue;
+  }
 
   Future<void> adminDeleteRoom({String firebaseId}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
@@ -226,12 +250,16 @@ class RoomLogicController extends GetxController {
     //status -1 - room exist
 
     firebaseDB.child('Rooms').child('$firebaseId').child('status').set(0);
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 20));
     firebaseDB.child('Rooms').child('$firebaseId').remove();
   }
 
   Stream<Event> roomStatus({String firebaseId}) {
     final firebaseDB = FirebaseDatabase.instance.reference();
-    firebaseDB.child('Rooms').child('$firebaseId').child('status').onValue;
+    return firebaseDB
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('status')
+        .onValue;
   }
 }
