@@ -77,6 +77,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
       }
     });
 
+    roomLogicController
+        .userStatus(
+            firebaseId: roomLogicController.roomFireBaseId,
+            idOfUser: roomLogicController.userId)
+        .listen((event) {
+      int x = event.snapshot.value;
+    });
+
     // _userController = new StreamController();
 
     // timer = Timer.periodic(Duration(seconds: 3), (_) async {
@@ -591,18 +599,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                 'chut: ${event.data.snapshot.value}');
                                             return GestureDetector(
                                               onTap: () {
-                                                String key = event
-                                                    .data.snapshot.value.keys
-                                                    .elementAt(0);
+                                                String idd = event
+                                                    .data.snapshot.value.values
+                                                    .toList()[i]['id'];
 
                                                 roomLogicController.kickUser(
                                                     firebaseId:
                                                         roomLogicController
                                                             .roomFireBaseId,
-                                                    idofUser: event
-                                                        .data
-                                                        .snapshot
-                                                        .value[key]['id']);
+                                                    idofUser: idd);
                                               },
                                               child: CustomNameBar(
                                                 event: event,
