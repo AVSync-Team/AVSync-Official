@@ -221,18 +221,38 @@ class RoomLogicController extends GetxController {
   //
   //
   //
-  Future<void> kickUser({String firebaseId,String idofUser}) async {
+  Future<void> kickUser({String firebaseId, String idofUser}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
-    firebaseDB
+    Event bhosda = await firebaseDB
         .child('Rooms')
         .child(firebaseId)
         .child('users')
-        .child(idofUser)
-        .child('status')
-        .set(0);
+        .onValue
+        .first;
+    Map userMap = bhosda.snapshot.value;
+
+    userMap.forEach((key, value) {
+      if (value['id'] == idofUser && key != 'admin') {
+        firebaseDB
+            .child('Rooms')
+            .child(firebaseId)
+            .child('users')
+            .child(key)
+            .child('status')
+            .set(0);
+      }
+    });
+
+    // firebaseDB
+    //     .child('Rooms')
+    //     .child(firebaseId)
+    //     .child('users')
+    //     .child(idofUser)
+    //     .child('status')
+    //     .set(0);
   }
 
-  Stream<Event> userStatus({String firebaseId,String idOfUser}) {
+  Stream<Event> userStatus({String firebaseId, String idOfUser}) {
     final firebaseDB = FirebaseDatabase.instance.reference();
     return firebaseDB
         .child('Rooms')
