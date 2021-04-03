@@ -241,7 +241,7 @@ class RoomLogicController extends GetxController {
         .first;
     Map userMap = bhosda.snapshot.value;
 
-    userMap.forEach((key, value) {
+    userMap.forEach((key, value) async {
       if (value['id'] == idofUser && key != 'admin') {
         firebaseDB
             .child('Rooms')
@@ -250,6 +250,15 @@ class RoomLogicController extends GetxController {
             .child(key)
             .child('status')
             .set(0);
+
+        await Future.delayed(Duration(seconds: 2));
+
+        firebaseDB
+            .child('Rooms')
+            .child(firebaseId)
+            .child('users')
+            .child(key)
+            .remove();
       }
     });
 
