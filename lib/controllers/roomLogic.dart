@@ -232,6 +232,17 @@ class RoomLogicController extends GetxController {
 
   Stream<Event> roomStatus({String firebaseId}) {
     final firebaseDB = FirebaseDatabase.instance.reference();
-    firebaseDB.child('Rooms').child('$firebaseId').child('status').onValue;
+
+
+
+    return firebaseDB.child('Rooms').child('$firebaseId').child('status').onValue;
+
+
+  }
+
+  @override
+  void onInit() {
+    
+    super.onInit();
   }
 }

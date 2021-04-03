@@ -105,6 +105,7 @@ class RishabhController extends GetxController {
         .onValue;
   }
 
+
   Future firstDataFromUsers({String firebaseId}) {
     final firebasedatbase = FirebaseDatabase.instance.reference();
     return firebasedatbase

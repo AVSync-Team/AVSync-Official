@@ -66,15 +66,19 @@ class _WelcomScreenState extends State<WelcomScreen> {
             check[check.length - 1].username, check[check.length - 1].mesage);
     });
 
-    roomLogicController
-        .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
-        .listen((event) {
-      int x = event.snapshot.value;
-      if (x == 0 &&
-          !(roomLogicController.adminKaNaam.obs.value ==
-              roomLogicController.userName.obs.value)) {
-        Get.back();
-      }
+    // roomLogicController
+    //     .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
+    //     .listen((event) {
+    //   int x = event.snapshot.value;
+    //   if (x == 0 &&
+    //       !(roomLogicController.adminKaNaam.obs.value ==
+    //           roomLogicController.userName.obs.value)) {
+    //     Get.back();
+    //   }
+    // });
+
+    roomLogicController.roomStatus().listen((event) {
+      print(event);
     });
 
     // _userController = new StreamController();
@@ -246,6 +250,17 @@ class _WelcomScreenState extends State<WelcomScreen> {
               children: [
                 // Text('Users: '),
                 // SizedBox(height: 40),
+
+                // StreamBuilder(
+                //   stream: roomLogicController.roomStatus(
+                //       firebaseId: roomLogicController.roomFireBaseId),
+                //   builder: (ctx, event) {
+                //     if (event.hasData) {
+                //       print("lela ${event.data.snapshot.value}");
+                //     }
+                //     return Container();
+                //   },
+                // ),
 
                 Text(
                   'Room',
