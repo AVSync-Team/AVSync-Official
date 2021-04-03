@@ -476,7 +476,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                     onPressed: () async {
                                       await roomLogicController.makeRoom(
                                           adminName: nameController.text);
-                                      Get.to(WelcomScreen());
+                                      // Get.to(WelcomScreen());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                WelcomScreen()),
+                                      );
                                     },
                                     child: Text(
                                       'Create Room',

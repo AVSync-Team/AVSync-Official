@@ -77,19 +77,29 @@ class _WelcomScreenState extends State<WelcomScreen> {
       }
     });
 
-    roomLogicController
-        .userStatus(
-            firebaseId: roomLogicController.roomFireBaseId,
-            idOfUser: roomLogicController.userId)
-        .listen((event) {
-      int x = event.snapshot.value;
+    roomLogicController.userStatus(
+        firebaseId: roomLogicController.roomFireBaseId);
 
-      if (x == 0 &&
-          !(roomLogicController.adminKaNaam.obs.value ==
-              roomLogicController.userName.obs.value)) {
-        Get.offAll(CreateRoomScreen());
-      }
-    });
+    // roomLogicController
+    //     .userStatus(
+    //   firebaseId: roomLogicController.roomFireBaseId,
+    //   // idOfUser: roomLogicController.userId
+    // )
+    //     .listen((event) {
+    //   // int x = event.snapshot.value;
+    //   // print("sex : ${x}");
+
+    //   // if (x == 0 &&
+
+    //   //     !(roomLogicController.adminKaNaam.obs.value ==
+    //   //         roomLogicController.userName.obs.value
+
+    //   //         ))
+
+    //   //         {
+    //   //   Get.offAll(CreateRoomScreen());
+    //   // }
+    // });
 
     // _userController = new StreamController();
 
