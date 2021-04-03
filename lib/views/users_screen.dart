@@ -247,6 +247,17 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 // Text('Users: '),
                 // SizedBox(height: 40),
 
+                // StreamBuilder(
+                //   stream: roomLogicController.roomStatus(
+                //       firebaseId: roomLogicController.roomFireBaseId),
+                //   builder: (ctx, event) {
+                //     if (event.hasData) {
+                //       print("lela ${event.data.snapshot.value}");
+                //     }
+                //     return Container();
+                //   },
+                // ),
+
                 Text(
                   'Room',
                   style: TextStyle(color: Colors.white, fontSize: 50),

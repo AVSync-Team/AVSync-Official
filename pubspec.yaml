@@ -73,16 +73,16 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - lib/assets/svgs/crown.svg
-  #   - lib/assets/svgs/emoji.svg
-  #   - lib/assets/svgs/maybe.svg
-  #   - lib/assets/svgs/movie.svg
-  #   - lib/assets/svgs/neomo.svg
-  #   - lib/assets/svgs/localplayer.svg
-  #   - lib/assets/svgs/youtubeplayer.svg
-  #   - lib/assets/svgs/back10.svg
-  #   - lib/assets/svgs/go10.svg
+  assets:
+    - lib/assets/svgs/crown.svg
+    - lib/assets/svgs/emoji.svg
+    - lib/assets/svgs/maybe.svg
+    - lib/assets/svgs/movie.svg
+    - lib/assets/svgs/neomo.svg
+    - lib/assets/svgs/localplayer.svg
+    - lib/assets/svgs/youtubeplayer.svg
+    - lib/assets/svgs/back10.svg
+    - lib/assets/svgs/go10.svg
     # - lib/assets/sounds/notification.mp3
 
 
