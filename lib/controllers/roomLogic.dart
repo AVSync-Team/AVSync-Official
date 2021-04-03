@@ -268,14 +268,14 @@ class RoomLogicController extends GetxController {
     print(" firebaseid: $firebaseId");
     print('userFireBase :  $userFireBase');
 
-    // final firebaseDB = FirebaseDatabase.instance.reference();
-    // return firebaseDB
-    //     .child('Rooms')
-    //     .child(firebaseId)
-    //     .child('users')
-    //     .child(userFireBase)
-    //     .child('status')
-    //     .onValue;
+    final firebaseDB = FirebaseDatabase.instance.reference();
+    return firebaseDB
+        .child('Rooms')
+        .child(firebaseId)
+        .child('users')
+        .child(userFireBase)
+        .child('status')
+        .onValue;
   }
 
   Future<void> adminDeleteRoom({String firebaseId}) async {
