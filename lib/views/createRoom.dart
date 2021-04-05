@@ -189,6 +189,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
       drawer: MainDrawer(),
       backgroundColor: themeController.primaryColor.value,
       body: MediaQuery.of(context).orientation == Orientation.landscape
+
+          //landscape
           ? Container(
               width: size.width,
               height: (MediaQuery.of(context).size.height -
@@ -301,12 +303,22 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             Container(
                               width: Get.width * 0.4,
                               height: 35,
-                              child: RaisedButton(
-                                elevation: 8,
-                                color: Colors.white,
-                                splashColor: Color.fromRGBO(196, 196, 196, 1),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25)),
+                              child: ElevatedButton(
+                                // elevation: 8,
+                                // color: Colors.white,
+                                // splashColor: Color.fromRGBO(196, 196, 196, 1),
+                                // shape: RoundedRectangleBorder(
+                                // borderRadius: BorderRadius.circular(25)),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  onSurface: Colors.white,
+                                  primary: Colors.red,
+                                  shadowColor: Colors.green,
+                                  elevation: 8,
+                                  onPrimary: Colors.white,
+                                ),
                                 child: Text(
                                   'Join Room',
                                   style: TextStyle(
@@ -459,38 +471,34 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             ),
                             SizedBox(height: 30 * heightRatio),
                             Container(
-                              width: Get.width * 0.4,
-                              //height: 80 * heightRatio,
-                              height: 35,
+                              width: 300 * widthRatio,
+                              height: 80 * heightRatio,
                               child: Hero(
                                 tag: 'Rishabh',
                                 child: Obx(
-                                  () => RaisedButton(
-                                    // elevation: 20,
-                                    splashColor:
-                                        Color.fromRGBO(196, 196, 196, 1),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    color: Colors.white,
+                                  () => ElevatedButton(
+                                    // shape: RoundedRectangleBorder(
+                                    //   borderRadius: BorderRadius.circular(25),
+                                    // ),
+                                    // color: Colors.white,
                                     onPressed: () async {
+                                      roomLogicController.isLoading.value =
+                                          true;
                                       await roomLogicController.makeRoom(
                                           adminName: nameController.text);
-                                      // Get.to(WelcomScreen());
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                WelcomScreen()),
-                                      );
+                                      Get.to(WelcomScreen());
+                                      roomLogicController.isLoading.value =
+                                          false;
                                     },
-                                    child: Text(
-                                      'Create Room',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          //fontSize: 35 * widthRatio,
-                                          fontWeight: FontWeight.normal),
-                                    ),
+                                    child: !roomLogicController.isLoading.value
+                                        ? Text(
+                                            'Create Room',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                //fontSize: 35 * widthRatio,
+                                                fontWeight: FontWeight.normal),
+                                          )
+                                        : CircularProgressIndicator(),
                                   ),
                                 ),
                               ),
@@ -513,41 +521,20 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     AppBar().preferredSize.height -
                     MediaQuery.of(context).padding.top),
                 //height: Get.height,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.green)),
+                // decoration:
+                //     BoxDecoration(border: Border.all(color: Colors.green)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: 50),
                     Container(
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Colors.red)),
                       child: SvgPicture.asset(
                         'lib/assets/svgs/movie.svg',
                         width: 170 * widthRatio,
                         height: 170 * heightRatio,
                       ),
-
-                      // SvgPicture.asset('lib/assets/svgs/movie.svg',
-                      //     width: 170 * widthRatio, height: 170 * heightRatio),
                     ),
-                    // Container(
-                    //   width: Get.width * .8,
-                    //   child: TextField(
-                    //     style: TextStyle(
-                    //         color: Colors.white, fontWeight: FontWeight.normal),
-                    //     controller: roomId,
-                    //     decoration: InputDecoration(
-                    //       border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(25)),
-                    //       hintText: "Enter Room ID",
-                    //       hintStyle: TextStyle(color: Colors.grey),
-                    //     ),
-                    //   ),
-                    // ),
-                    //
-                    //
                     SizedBox(height: 30),
                     Container(
                       width: Get.width * 0.8,
@@ -596,16 +583,21 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                         ),
                       ),
                     ),
-
                     SizedBox(height: 60),
                     Container(
                       width: 300 * widthRatio,
                       height: 80 * heightRatio,
-                      child: RaisedButton(
-                        elevation: 3,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25)),
+                      child: ElevatedButton(
+                        clipBehavior: Clip.none,
+                        style: ElevatedButton.styleFrom(
+                          animationDuration: Duration(milliseconds: 400),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          primary: Colors.redAccent,
+                          // shadowColor: Colors.blueAccent,
+                          elevation: 6,
+                        ),
                         child: Text(
                           'Join Room',
                           style: TextStyle(
@@ -644,11 +636,19 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       child: Hero(
                         tag: 'Rishabh',
                         child: Obx(
-                          () => RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
+                          () => ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              primary: Colors.redAccent,
+                              elevation: 8,
+                              onPrimary: Colors.white,
                             ),
-                            color: Colors.white,
+                            // shape: RoundedRectangleBorder(
+                            //   borderRadius: BorderRadius.circular(25),
+                            // ),
+                            // color: Colors.white,
                             onPressed: () async {
                               roomLogicController.isLoading.value = true;
                               await roomLogicController.makeRoom(

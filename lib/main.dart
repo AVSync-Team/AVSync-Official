@@ -1,5 +1,6 @@
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/createRoom.dart';
+import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:flutter/material.dart';

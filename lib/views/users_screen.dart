@@ -187,7 +187,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        backgroundColor: Color.fromRGBO(41, 39, 39, 1),
+        elevation: 10,
         leading: IconButton(
           icon: !(roomLogicController.adminKaNaam.obs.value ==
                   roomLogicController.userName.obs.value)
@@ -241,7 +242,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
             ),
           )
         ],
-        backgroundColor: themeController.switchContainerColor.value,
       ),
       // appBar: AppBar(),
 
@@ -494,36 +494,40 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 ),
               ),
               SizedBox(height: 40 * heightRatio),
-              Container(
-                margin: EdgeInsets.only(left: 20),
+              Expanded(
+                // margin: EdgeInsets.only(left: 20),
                 // color: Colors.blue.withOpacity(0.1),
-                height: heightRatio * 300,
-                child: FutureBuilder(
-                    future: Future.delayed(Duration(seconds: 2)),
-                    builder: (ctx, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return StreamBuilder(
-                          stream: rishabhController.tester(
-                              firebaseId: roomLogicController.roomFireBaseId),
-                          builder: (ctx, event) {
-                            if (event.hasData) {
-                              return NotificationListener<
-                                  OverscrollIndicatorNotification>(
-                                onNotification: (overscroll) {
-                                  overscroll.disallowGlow();
-                                },
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (ctx, i) {
-                                    return SizedBox(
-                                      width: 5,
-                                    );
+                // height: heightRatio * 300,
+                // width: widthRatio * 200,
+                // height: 500,
+                child: Container(
+                  width: 300 * widthRatio,
+                  // color: Colors.red,
+                  child: FutureBuilder(
+                      future: Future.delayed(Duration(seconds: 2)),
+                      builder: (ctx, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return StreamBuilder(
+                            stream: rishabhController.tester(
+                                firebaseId: roomLogicController.roomFireBaseId),
+                            builder: (ctx, event) {
+                              if (event.hasData) {
+                                return NotificationListener<
+                                    OverscrollIndicatorNotification>(
+                                  onNotification: (overscroll) {
+                                    overscroll.disallowGlow();
                                   },
-                                  itemBuilder: (ctx, i) {
-                                    print('chut: ${event.data.snapshot.value}');
-                                    return Container(
-                                      margin: EdgeInsets.only(bottom: 40),
-                                      child: CustomNameBar(
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.vertical,
+                                    separatorBuilder: (ctx, i) {
+                                      return SizedBox(
+                                        width: 5,
+                                      );
+                                    },
+                                    itemBuilder: (ctx, i) {
+                                      print(
+                                          'chut: ${event.data.snapshot.value}');
+                                      return CustomNameBar(
                                         roomController: roomLogicController,
                                         userID: event.data.snapshot.value.values
                                             .toList()[i]['id'],
@@ -532,28 +536,29 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         widthRatio: widthRatio,
                                         heightRatio: heightRatio,
                                         controller: funLogic,
-                                      ),
-                                    );
-                                  },
-                                  itemCount: event.data.snapshot.value.values
-                                      .toList()
-                                      .length,
-                                ),
-                              );
-                            } else if (event.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                            return Container(height: 0.0, width: 0.0);
-                          },
-                        );
-                      }
-                      return Container();
-                    }),
+                                      );
+                                    },
+                                    itemCount: event.data.snapshot.value.values
+                                        .toList()
+                                        .length,
+                                  ),
+                                );
+                              } else if (event.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              return Container(height: 0.0, width: 0.0);
+                            },
+                          );
+                        }
+                        return Container();
+                      }),
+                ),
               ),
             ],
           ),
@@ -590,7 +595,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 224 * widget.widthRatio,
+      // width: 224 * widget.widthRatio,
+      height: 90 * widget.heightRatio,
       child: Card(
         color: Color.fromARGB(200, 60, 60, 60),
         elevation: 5,
@@ -601,35 +607,39 @@ class _CustomNameBarState extends State<CustomNameBar> {
         // decoration: BoxDecoration(
         //     borderRadius: BorderRadius.circular(25), color: Colors.white),
 
-        child: Container(
-          height: 100,
-          child: Column(
-            children: [
-              SizedBox(height: 20 * widget.heightRatio),
-              Text(
-                '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
-                style: TextStyle(
-                    fontSize: 30, color: widget.controller.randomColorPick),
+        child: Row(
+          children: [
+            SizedBox(width: widget.widthRatio * 12),
+            ClipOval(
+              child: Container(
+                decoration: BoxDecoration(),
+                width: 50,
+                height: 50,
+                child: Image.network(
+                    'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
               ),
-              SizedBox(height: 10 * widget.heightRatio),
-              ClipOval(
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.grey),
-                  height: 100,
-                  width: 100,
+            ),
+            SizedBox(width: 20 * widget.heightRatio),
+            Text(
+              '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
+              style: TextStyle(
+                  fontSize: 25, color: widget.controller.randomColorPick),
+            ),
+            Spacer(),
+            Column(
+              children: [
+                ClipOval(
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    color: Colors.red,
+                    child: Center(child: Text('X')),
+                  ),
                 ),
-              ),
-              SizedBox(height: widget.heightRatio * 10),
-              ElevatedButton(
-                onPressed: () {
-                  widget.roomController.kickUser(
-                      firebaseId: widget.roomController.roomFireBaseId,
-                      idofUser: widget.userID);
-                },
-                child: Text('Kick'),
-              )
-            ],
-          ),
+                Spacer()
+              ],
+            )
+          ],
         ),
       ),
     );

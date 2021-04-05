@@ -19,7 +19,7 @@ class CustomThemeData extends GetxController {
     primaryColorSwatch.value = Color.fromRGBO(41, 39, 39, 1);
     primaryTextColor.value = Colors.white;
     primaryColor.value = Color.fromRGBO(41, 39, 39, 0.89);
-    switchContainerColor.value = primaryColor.value;
+    switchContainerColor.value = Color.fromRGBO(41, 39, 39, 1);
     print('called');
   }
 

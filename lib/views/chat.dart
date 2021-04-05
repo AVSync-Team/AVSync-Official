@@ -115,6 +115,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
 
                     return Container(
                       height: Get.height * 0.910,
+                      // height: Get.height * 0.810,
                       child: ListView.builder(
                           controller: chatScroll,
                           itemBuilder: (ctx, i) {
@@ -223,6 +224,13 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(height: 5),
+                                                    // ClipOval(
+                                                    //   child: Container(
+                                                    //     color: Colors.red,
+                                                    //     height: 50,
+                                                    //     width: 50,
+                                                    //   ),
+                                                    // ),
                                                     Text(check[i].mesage),
                                                     SizedBox(height: 5),
                                                   ],
@@ -350,8 +358,8 @@ class _ChattingPlaceState extends State<ChattingPlace> {
               //height: 50,
               //child:
               Container(
-                color: Colors.grey.withOpacity(0.2),
-                padding: EdgeInsets.symmetric(vertical: 5),
+                // color: Colors.grey.withOpacity(0.2),
+                margin: EdgeInsets.only(bottom: 10),
                 child: Row(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,
@@ -381,34 +389,39 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                           },
                           controller: message,
                           decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.grey,
-                              focusColor: Colors.white,
-                              border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(30),
-                                    bottomRight: Radius.circular(30),
-                                    bottomLeft: Radius.circular(5),
-                                  ))),
+                            filled: true,
+                            fillColor: Colors.grey,
+                            focusColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                                bottomLeft: Radius.circular(5),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                     //SizedBox(width: 5),
                     Container(
-                      height: Get.height * 0.077,
-                      child: RaisedButton(
-                        color: Colors.grey,
-                        shape: RoundedRectangleBorder(
+                      height: 50,
+                      width: 80,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                          topRight: Radius.circular(5),
-                        )),
+                              topLeft: Radius.circular(30),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(30),
+                              topRight: Radius.circular(5),
+                            ),
+                          ),
+                        ),
                         onPressed: () {
                           if (message.text != "") {
                             chatController.sendMessage(
