@@ -8,7 +8,7 @@ import 'package:VideoSync/views/userManual.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainDrawer extends StatelessWidget {
+class DrawerPage extends StatelessWidget {
   final themeController = Get.put(CustomThemeData());
 
   Widget buildListTile(String title, IconData icon2, Function tapHandler) {
@@ -19,18 +19,24 @@ class MainDrawer extends StatelessWidget {
         //   icon2,
         //   size: 26,
         // ),
-        leading: Icon(
-          icon2,
-          color: themeController.primaryTextColor.value,
-          size: 22,
-        ),
+        /////////////////////////////////////////////////////////////////
+        // leading: Icon(
+        //   icon2,
+        //   color: themeController.primaryTextColor.value,
+        //   size: 15,
+        // ),
+        /////////////////////////////////////////////////////////////////
         title: Text(
           title,
           style: TextStyle(
-              color: themeController.primaryTextColor.value,
-              fontSize: 17,
-              // color: THEMEDATA.emeraldCityGreen,
-              fontWeight: FontWeight.w100),
+            color: themeController.primaryTextColor.value,
+            //fontSize: 15,
+            // color: THEMEDATA.emeraldCityGreen,
+            //fontWeight: FontWeight.w100
+            fontSize: 17,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w100,
+          ),
         ),
         onTap: tapHandler,
       ),
@@ -40,32 +46,31 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: themeController.primaryColorSwatch.value,
-      width: 300,
+      //color: themeController.primaryColorSwatch.value,
+      //color: Colors.grey[900],
+      color: Colors.black,
+      width: double.infinity,
       height: Get.height,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              decoration: BoxDecoration(
-                  color: themeController.darkGrey.value,
-                  border: Border.all(color: Colors.cyan)),
+              //decoration: BoxDecoration(
+              //color: themeController.darkGrey.value,
+              //border: Border.all(color: Colors.cyan)),
               alignment: Alignment.topLeft,
-              height: 150,
+              height: 170,
               //color: Color.fromRGBO(10, 10, 10, 0),
               width: double.infinity,
-              padding: EdgeInsets.only(
-                top: 30,
-                left: 20,
-              ),
+              padding: EdgeInsets.only(top: 80, left: 20),
               child: Text(
                 'AV Sync',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
                   fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w100,
                 ),
               ),
             ),
@@ -86,6 +91,7 @@ class MainDrawer extends StatelessWidget {
                     color: themeController.darkGrey.value,
                   ),
                   buildListTile('Rooms', Icons.restaurant, () {
+                    //Get.off(CreateRoomScreen());
                     Get.off(HomePage());
                     // by this we replace the existing page
                   }),
@@ -96,7 +102,6 @@ class MainDrawer extends StatelessWidget {
                   //   height: 8,
                   // ),
                   buildListTile('Discover', Icons.restaurant, () {
-                    //Get.off(CreateRoomScreen());
                     Get.off(HomePage());
                     // by this we replace the existing page
                   }),

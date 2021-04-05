@@ -1,5 +1,7 @@
 import 'package:VideoSync/main.dart';
 import 'package:VideoSync/views/appDrawer.dart';
+import 'package:VideoSync/views/drawerPage.dart';
+import 'userOnManual.dart';
 import 'package:flutter/material.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:get/get.dart';
@@ -15,11 +17,17 @@ class _UserManualState extends State<UserManual> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Manual'),
-        backgroundColor: themeController.switchContainerColor.value,
+      // appBar: AppBar(
+      //   title: Text('User Manual'),
+      //   backgroundColor: themeController.switchContainerColor.value,
+      // ),
+      //drawer: MainDrawer(),
+      body: Stack(
+        children: <Widget>[
+          DrawerPage(),
+          UserOnManual(),
+        ],
       ),
-      drawer: MainDrawer(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/createRoom.dart';
+import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
-      home: CreateRoomScreen(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

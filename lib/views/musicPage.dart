@@ -1,4 +1,6 @@
 import 'package:VideoSync/views/appDrawer.dart';
+import 'package:VideoSync/views/drawerPage.dart';
+import 'musicOnPage.dart';
 import 'package:flutter/material.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:get/get.dart';
@@ -17,21 +19,21 @@ class _MusicPageState extends State<MusicPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Music'),
-        backgroundColor: themeController.switchContainerColor.value,
-      ),
-      drawer: MainDrawer(),
-      body: Center(
-        child: Container(
-          child: Text('Go to spotify you idiot'),
-        ),
+      body: Stack(
+        children: <Widget>[
+          DrawerPage(),
+          MusicOnPage(),
+        ],
       ),
     );
-    //     Container(
-    //     decoration: BoxDecoration(border: Border.all(color: Colors.red)),
-    //     width: size.width,
-    //     height: size.height,
-    //     child: Text('Rishabh'));
   }
+
+  // Widget musicOnPage() {
+
+  //   //     Container(
+  //   //     decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+  //   //     width: size.width,
+  //   //     height: size.height,
+  //   //     child: Text('Rishabh'));
+  // }
 }
