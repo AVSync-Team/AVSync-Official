@@ -3,6 +3,7 @@ import 'package:VideoSync/views/aboutPage.dart';
 import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/musicPage.dart';
+import 'package:VideoSync/views/settingsOnPage.dart';
 import 'package:VideoSync/views/settingsPage.dart';
 import 'package:VideoSync/views/userManual.dart';
 import 'package:flutter/material.dart';
