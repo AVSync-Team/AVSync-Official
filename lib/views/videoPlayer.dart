@@ -49,6 +49,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         VideoPlayerController.file(File(roomLogicController.localUrl.value))
           ..initialize().then((_) {
             setState(() {
+             
               videoLength = controller.value.duration;
             });
           });

@@ -108,7 +108,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
     chatController.dispose();
     roomLogicController.dispose();
     rishabhController.dispose();
-
     super.dispose();
   }
 
@@ -196,7 +195,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               : Icon(Icons.delete),
           onPressed: () {
             Get.defaultDialog(
-                buttonColor: Colors.green.withOpacity(0.1),
+                // buttonColor: Colors.green.withOpacity(0.1),
                 title: !(roomLogicController.adminKaNaam.obs.value ==
                         roomLogicController.userName.obs.value)
                     ? 'Leave Room'
@@ -254,408 +253,309 @@ class _WelcomScreenState extends State<WelcomScreen> {
         ),
       ),
       backgroundColor: themeController.primaryColor.value,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            constraints: BoxConstraints(
-              maxHeight: Get.height,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // Text('Users: '),
-                // SizedBox(height: 40),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: Get.height,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10 * heightRatio,
+              ),
+              Hero(
+                tag: 'Rishabh',
+                child: Container(
+                  // color: Colors.green.withOpacity(0.1),
+                  height: 350 * heightRatio,
+                  width: 330 * widthRatio,
+                  // decoration:
+                  //     BoxDecoration(border: Border.all(color: Colors.black)),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          // color: Colors.yellow.withOpacity(0.1),
+                          height: 260 * heightRatio,
+                          width: 300 * widthRatio,
+                          child: Card(
+                            color: Color.fromARGB(200, 60, 60, 60),
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(25 * widthRatio),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  // color: Colors.red.withOpacity(0.1),
+                                  padding:
+                                      const EdgeInsets.only(top: 20, left: 24),
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                      Get.bottomSheet(
+                                        Container(
+                                          // color:
+                                          //     Colors.white.withOpacity(0.1),
+                                          width: double.infinity,
+                                          height: heightRatio * 250,
+                                          child: Container(
+                                            color: Colors.white,
+                                            // decoration: BoxDecoration(
+                                            //   color: Colors.purple
+                                            //       .withOpacity(0.1),
+                                            //   borderRadius: BorderRadius.only(
+                                            //     topLeft:
+                                            //         Radius.circular(30.0),
+                                            //     topRight:
+                                            //         Radius.circular(30.0),
+                                            //   ),
+                                            // ),
 
-                // StreamBuilder(
-                //   stream: roomLogicController.roomStatus(
-                //       firebaseId: roomLogicController.roomFireBaseId),
-                //   builder: (ctx, event) {
-                //     if (event.hasData) {
-                //       print("lela ${event.data.snapshot.value}");
-                //     }
-                //     return Container();
-                //   },
-                // ),
-
-                Text(
-                  'Room',
-                  style: TextStyle(color: Colors.white, fontSize: 50),
-                ),
-                // StreamBuilder(
-                //   stream: rishabhController.tester(
-                //       firebaseId: roomLogicController.roomFireBaseId),
-                //   builder: (context, snapshot) {
-                //     return Container(
-                //       height: 100,
-                //       child: ListView.builder(
-                //         itemBuilder: (ctx, i) {
-                //           return Text('Rishabh');
-                //         },
-                //         itemCount:
-                //             snapshot.data.snapshot.value.values.toList().length,
-                //       ),
-                //     );
-
-                //     // return RaisedButton(onPressed: () {
-                //     //   print(snapshot.data.snapshot.value.values.toList());
-
-                //     //   rishabhController.userLeaveRoom(
-                //     //       firebaseId: '-MScDAopj96DypuMqyNh', userId: '2312312');
-                //   },
-                // ),
-                SizedBox(
-                  height: 37 * heightRatio,
-                ),
-                Hero(
-                  tag: 'Rishabh',
-                  child: Container(
-                    color: Colors.green.withOpacity(0.1),
-                    height: 350 * heightRatio,
-                    width: 330 * widthRatio,
-                    // decoration:
-                    //     BoxDecoration(border: Border.all(color: Colors.black)),
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            color: Colors.yellow.withOpacity(0.1),
-                            height: 260 * heightRatio,
-                            width: 300 * widthRatio,
-                            child: Card(
-                              color: Color.fromARGB(200, 60, 60, 60),
-                              elevation: 8,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(25 * widthRatio),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    color: Colors.red.withOpacity(0.1),
-                                    padding: const EdgeInsets.only(
-                                        top: 20, left: 24),
-                                    child: InkWell(
-                                      onTap: () {
-                                        // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
-                                        Get.bottomSheet(
-                                          Container(
-                                            color:
-                                                Colors.white.withOpacity(0.1),
-                                            width: double.infinity,
-                                            height: heightRatio * 250,
-                                            child: Container(
-                                              color: Colors.white,
-                                              // decoration: BoxDecoration(
-                                              //   color: Colors.purple
-                                              //       .withOpacity(0.1),
-                                              //   borderRadius: BorderRadius.only(
-                                              //     topLeft:
-                                              //         Radius.circular(30.0),
-                                              //     topRight:
-                                              //         Radius.circular(30.0),
-                                              //   ),
-                                              // ),
-
-                                              //child: Card(
-                                              // shape: RoundedRectangleBorder(
-                                              //     borderRadius:
-                                              //         BorderRadius.only(
-                                              //             topLeft:
-                                              //                 Radius.circular(
-                                              //                     30.0),
-                                              //             topRight:
-                                              //                 Radius.circular(
-                                              //                     30.0))),
-                                              // elevation: 10,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(height: 20),
-                                                  Text('Enter the Youtube Link',
-                                                      style: TextStyle(
-                                                          fontSize: 20)),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: heightRatio * 20),
-                                                    height: heightRatio * 80,
-                                                    width: widthRatio * 300,
-                                                    child: TextField(
-                                                      controller: yturl,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                        ),
+                                            //child: Card(
+                                            // shape: RoundedRectangleBorder(
+                                            //     borderRadius:
+                                            //         BorderRadius.only(
+                                            //             topLeft:
+                                            //                 Radius.circular(
+                                            //                     30.0),
+                                            //             topRight:
+                                            //                 Radius.circular(
+                                            //                     30.0))),
+                                            // elevation: 10,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(height: 20),
+                                                Text('Enter the Youtube Link',
+                                                    style: TextStyle(
+                                                        fontSize: 20)),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: heightRatio * 20),
+                                                  height: heightRatio * 80,
+                                                  width: widthRatio * 300,
+                                                  child: TextField(
+                                                    controller: yturl,
+                                                    decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
                                                       ),
                                                     ),
                                                   ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: heightRatio * 10),
-                                                    child: RaisedButton(
-                                                      shape: StadiumBorder(),
-                                                      onPressed: () {
-                                                        roomLogicController
-                                                            .ytURL
-                                                            .value = yturl.text;
-                                                        Get.to(YTPlayer());
-                                                      },
-                                                      child: Text('Play'),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: heightRatio * 10),
+                                                  child: RaisedButton(
+                                                    shape: StadiumBorder(),
+                                                    onPressed: () {
+                                                      roomLogicController.ytURL
+                                                          .value = yturl.text;
+                                                      Get.to(YTPlayer());
+                                                    },
+                                                    child: Text('Play'),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                            //),
                                           ),
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'lib/assets/svgs/youtubeplayer.svg',
-                                            width: 70 * heightRatio,
-                                            height: 70 * widthRatio,
-                                          ),
-                                          SizedBox(width: 10 * widthRatio),
-                                          Text(
-                                            'Youtube',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.red),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    color: Colors.orange.withOpacity(0.1),
-                                    padding: const EdgeInsets.only(left: 36),
-                                    child: InkWell(
-                                      onTap: () {
-                                        // filePick();
-                                        bottomSheet();
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'lib/assets/svgs/localplayer.svg',
-                                            width: 40 * widthRatio,
-                                            height: 40 * heightRatio,
-                                            //color: Colors.white,
-                                          ),
-                                          SizedBox(width: 10 * widthRatio),
-                                          Text(
-                                            'Local Media',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              //color: Colors.white
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20 * heightRatio),
-                                  Container(
-                                    color: Colors.white.withOpacity(0.1),
-                                    padding: const EdgeInsets.only(left: 20),
+                                          //),
+                                        ),
+                                      );
+                                    },
                                     child: Row(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: [
-                                        FutureBuilder(
-                                            future: Future.delayed(
-                                                Duration(seconds: 2)),
-                                            builder: (cts, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.done) {
-                                                return StreamBuilder(
-                                                    stream: roomLogicController
-                                                        .adminBsdkKaNaam(
-                                                            firebaseId:
-                                                                roomLogicController
-                                                                    .roomFireBaseId),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot.hasData) {
-                                                        return Text(
-                                                          '${snapshot.data.snapshot.value}',
-                                                          style: TextStyle(
-                                                              fontSize: 30),
-                                                        );
-                                                      } else if (snapshot
-                                                          .hasError) {
-                                                        return Text('Error');
-                                                      }
-                                                      return Text('');
-                                                    });
-                                              }
-                                              return Container();
-                                            }),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, bottom: 0),
-                                          child: SvgPicture.asset(
-                                            'lib/assets/svgs/crown.svg',
-                                            height: 27 * heightRatio,
-                                            width: 27 * widthRatio,
-                                            color: Colors.orange,
+                                        SvgPicture.asset(
+                                          'lib/assets/svgs/youtubeplayer.svg',
+                                          width: 70 * heightRatio,
+                                          height: 70 * widthRatio,
+                                        ),
+                                        SizedBox(width: 10 * widthRatio),
+                                        Text(
+                                          'Youtube',
+                                          style: TextStyle(
+                                              fontSize: 20, color: Colors.red),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // color: Colors.orange.withOpacity(0.1),
+                                  padding: const EdgeInsets.only(left: 36),
+                                  child: InkWell(
+                                    onTap: () {
+                                      // filePick();
+                                      bottomSheet();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'lib/assets/svgs/localplayer.svg',
+                                          width: 40 * widthRatio,
+                                          height: 40 * heightRatio,
+                                          //color: Colors.white,
+                                        ),
+                                        SizedBox(width: 10 * widthRatio),
+                                        Text(
+                                          'Local Media',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            //color: Colors.white
                                           ),
                                         )
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 10 * heightRatio),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: GetX<RoomLogicController>(
-                                        builder: (controller) {
-                                      return Text(
-                                          'Room no: ${controller.roomId.obs.value} ',
-                                          style: TextStyle(fontSize: 15));
-                                    }),
-                                  )
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: 20 * heightRatio),
+                                Container(
+                                  // color: Colors.white.withOpacity(0.1),
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Row(
+                                    // mainAxisAlignment:
+                                    //     MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      FutureBuilder(
+                                          future: Future.delayed(
+                                              Duration(seconds: 2)),
+                                          builder: (cts, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return StreamBuilder(
+                                                  stream: roomLogicController
+                                                      .adminBsdkKaNaam(
+                                                          firebaseId:
+                                                              roomLogicController
+                                                                  .roomFireBaseId),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Text(
+                                                        '${snapshot.data.snapshot.value}',
+                                                        style: TextStyle(
+                                                            fontSize: 30),
+                                                      );
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      return Text('Error');
+                                                    }
+                                                    return Text('');
+                                                  });
+                                            }
+                                            return Container();
+                                          }),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, bottom: 0),
+                                        child: SvgPicture.asset(
+                                          'lib/assets/svgs/crown.svg',
+                                          height: 27 * heightRatio,
+                                          width: 27 * widthRatio,
+                                          color: Colors.orange,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10 * heightRatio),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: GetX<RoomLogicController>(
+                                      builder: (controller) {
+                                    return Text(
+                                        'Room no: ${controller.roomId.obs.value} ',
+                                        style: TextStyle(fontSize: 15));
+                                  }),
+                                )
+                              ],
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                              width: 120 * widthRatio,
-                              height: 120 * heightRatio),
-                        )
-                      ],
-                    ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: SvgPicture.asset('lib/assets/svgs/movie.svg',
+                            width: 120 * widthRatio, height: 120 * heightRatio),
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(height: 40 * heightRatio),
-
-                // FutureBuilder(
-                //     future: Future.delayed(Duration(seconds: 2)),
-                //     builder: (ctx, snapshot) {
-                //       if (snapshot.connectionState == ConnectionState.done) {
-                //         return StreamBuilder(
-                //           builder: (ctx, event) {
-                //             if (event.hasData) {
-                //               print('snapshot: ${event.data.snapshot.value}');
-                //             }
-
-                //             return Container(height: 0, width: 0);
-                //           },
-                //           stream: rishabhController.tester(
-                //               firebaseId: roomLogicController.roomFireBaseId),
-                //         );
-                //       }
-                //       return Container();
-                //     }),
-
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      color: Colors.blue.withOpacity(0.1),
-                      height: Get.height * 0.35,
-                      child: FutureBuilder(
-                          future: Future.delayed(Duration(seconds: 2)),
-                          builder: (ctx, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return StreamBuilder(
-                                stream: rishabhController.tester(
-                                    firebaseId:
-                                        roomLogicController.roomFireBaseId),
-                                builder: (ctx, event) {
-                                  if (event.hasData) {
-                                    // Future.delayed(
-                                    //     Duration(seconds: 2),
-                                    //     () => {
-                                    //           Get.snackbar(
-                                    //               "",
-                                    //               event.data.snapshot.value[event
-                                    //                           .data
-                                    //                           .snapshot
-                                    //                           .value
-                                    //                           .length -
-                                    //                       1]['name'] +
-                                    //                   "joined!")
-                                    //         });
-
+              ),
+              SizedBox(height: 40 * heightRatio),
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                // color: Colors.blue.withOpacity(0.1),
+                height: heightRatio * 300,
+                child: FutureBuilder(
+                    future: Future.delayed(Duration(seconds: 2)),
+                    builder: (ctx, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return StreamBuilder(
+                          stream: rishabhController.tester(
+                              firebaseId: roomLogicController.roomFireBaseId),
+                          builder: (ctx, event) {
+                            if (event.hasData) {
+                              return NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                                onNotification: (overscroll) {
+                                  overscroll.disallowGlow();
+                                },
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (ctx, i) {
+                                    return SizedBox(
+                                      width: 5,
+                                    );
+                                  },
+                                  itemBuilder: (ctx, i) {
+                                    print('chut: ${event.data.snapshot.value}');
                                     return Container(
-                                      // height: 100,
-                                      width: 300 * widthRatio,
-                                      child: NotificationListener<
-                                          OverscrollIndicatorNotification>(
-                                        onNotification: (overscroll) {
-                                          overscroll.disallowGlow();
-                                        },
-                                        child: ListView.separated(
-                                          separatorBuilder: (ctx, i) {
-                                            return SizedBox(
-                                              height: 20 * heightRatio,
-                                            );
-                                          },
-                                          itemBuilder: (ctx, i) {
-                                            print(
-                                                'chut: ${event.data.snapshot.value}');
-                                            return GestureDetector(
-                                              onTap: () {
-                                                String idd = event
-                                                    .data.snapshot.value.values
-                                                    .toList()[i]['id'];
-
-                                                roomLogicController.kickUser(
-                                                    firebaseId:
-                                                        roomLogicController
-                                                            .roomFireBaseId,
-                                                    idofUser: idd);
-                                              },
-                                              child: CustomNameBar(
-                                                event: event,
-                                                index: i,
-                                                widthRatio: widthRatio,
-                                                heightRatio: heightRatio,
-                                                controller: funLogic,
-                                              ),
-                                            );
-                                          },
-                                          itemCount: event
-                                              .data.snapshot.value.values
-                                              .toList()
-                                              .length,
-                                        ),
+                                      margin: EdgeInsets.only(bottom: 40),
+                                      child: CustomNameBar(
+                                        roomController: roomLogicController,
+                                        userID: event.data.snapshot.value.values
+                                            .toList()[i]['id'],
+                                        event: event,
+                                        index: i,
+                                        widthRatio: widthRatio,
+                                        heightRatio: heightRatio,
+                                        controller: funLogic,
                                       ),
                                     );
-                                  } else if (event.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  } else {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  return Container(height: 0.0, width: 0.0);
-                                },
+                                  },
+                                  itemCount: event.data.snapshot.value.values
+                                      .toList()
+                                      .length,
+                                ),
                               );
+                            } else if (event.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              return Center(child: CircularProgressIndicator());
                             }
-                            return Container();
-                          }),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                            return Container(height: 0.0, width: 0.0);
+                          },
+                        );
+                      }
+                      return Container();
+                    }),
+              ),
+            ],
           ),
         ),
       ),
@@ -668,7 +568,9 @@ class CustomNameBar extends StatefulWidget {
   final int index;
   final double heightRatio;
   final double widthRatio;
+  final String userID;
   final FunLogic controller;
+  final RoomLogicController roomController;
   CustomNameBar({
     this.event,
     this.index,
@@ -676,6 +578,8 @@ class CustomNameBar extends StatefulWidget {
     this.widthRatio,
     this.controller,
     Key key,
+    this.userID,
+    this.roomController,
   }) : super(key: key);
 
   @override
@@ -686,7 +590,7 @@ class _CustomNameBarState extends State<CustomNameBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      width: 224 * widget.widthRatio,
       child: Card(
         color: Color.fromARGB(200, 60, 60, 60),
         elevation: 5,
@@ -697,31 +601,35 @@ class _CustomNameBarState extends State<CustomNameBar> {
         // decoration: BoxDecoration(
         //     borderRadius: BorderRadius.circular(25), color: Colors.white),
 
-        child: Center(
-          child: Text(
-            '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
-            style: TextStyle(
-                fontSize: 30, color: widget.controller.randomColorPick),
+        child: Container(
+          height: 100,
+          child: Column(
+            children: [
+              SizedBox(height: 20 * widget.heightRatio),
+              Text(
+                '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
+                style: TextStyle(
+                    fontSize: 30, color: widget.controller.randomColorPick),
+              ),
+              SizedBox(height: 10 * widget.heightRatio),
+              ClipOval(
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.grey),
+                  height: 100,
+                  width: 100,
+                ),
+              ),
+              SizedBox(height: widget.heightRatio * 10),
+              ElevatedButton(
+                onPressed: () {
+                  widget.roomController.kickUser(
+                      firebaseId: widget.roomController.roomFireBaseId,
+                      idofUser: widget.userID);
+                },
+                child: Text('Kick'),
+              )
+            ],
           ),
-
-          // InkWell(
-          //   onTap: () {
-          //     Get.showSnackbar(GetBar(
-          //       title: 'Rishabh',
-          //       message: 'Hi I am Rishabh',
-          //       duration: Duration(seconds: 2),
-          //     ));
-          //   },
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(right: 30),
-          //     child: SvgPicture.asset(
-          //       'lib/assets/svgs/emoji.svg',
-          //       width: 30 * widthRatio,
-          //       height: 30 * heightRatio,
-          //       color: Color(0xffF15757),
-          //     ),
-          //   ),
-          //)
         ),
       ),
     );
