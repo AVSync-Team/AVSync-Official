@@ -5,6 +5,7 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/chat.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,9 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   bool shoSpeedWidget = false;
   bool playerIsUser = true;
   int selectedRadio;
+  bool isLoading = false;
+  bool picking = false;
+  String path = "";
   @override
   void initState() {
     super.initState();
@@ -49,7 +53,6 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         VideoPlayerController.file(File(roomLogicController.localUrl.value))
           ..initialize().then((_) {
             setState(() {
-             
               videoLength = controller.value.duration;
             });
           });
@@ -154,6 +157,62 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     super.dispose();
   }
 
+  Future<void> filePick() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+        // type: FileType.media,
+        // allowMultiple: false,
+        allowedExtensions: ['.srt'],
+        withData: false,
+        // allowCompression: true,
+        withReadStream: true,
+        onFileLoading: (status) {
+          if (status.toString() == "FilePickerStatus.picking") {
+            setState(() {
+              picking = true;
+            });
+          } else {
+            setState(() {
+              picking = false;
+            });
+          }
+        });
+
+    // roomLogicController.bytes.obs.value = result.files[0];
+    path = result.files[0].path;
+
+    // print('testUrl: $testUrl');
+    setState(() {
+      isLoading = false;
+    });
+
+    // Get.to(NiceVideoPlayer());
+  }
+
+  Future<ClosedCaptionFile> _loadCaptions() async {
+    filePick();
+    final String fileContents =
+        await DefaultAssetBundle.of(context).loadString(path);
+
+    return SubRipCaptionFile(fileContents);
+  }
+
+  void initializeSubs() {
+    controller = VideoPlayerController.file(
+        File(
+          roomLogicController.localUrl.value,
+        ),
+        closedCaptionFile: _loadCaptions())
+      ..initialize().then((_) {
+        setState(() {
+          videoLength = controller.value.duration;
+        });
+      });
+  }
+
   @override
   @override
   Widget build(BuildContext context) {
@@ -189,7 +248,12 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                     child: AspectRatio(
                       aspectRatio: controller.value.aspectRatio,
                       // width: double.infinity,
-                      child: VideoPlayer(controller),
+                      child: Column(
+                        children: [
+                          VideoPlayer(controller),
+                          ClosedCaption(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -460,6 +524,12 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                                           Get.back();
                                                         }),
                                                   ),
+                                                  Container(
+                                                      child: ElevatedButton(
+                                                    onPressed: () async {
+                                                      await initializeSubs();
+                                                    },
+                                                  )),
                                                   Container(
                                                     // height: 40,
                                                     margin: EdgeInsets.only(
