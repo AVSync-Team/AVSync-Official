@@ -158,26 +158,26 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   }
 
   Future<void> filePick() async {
-    setState(() {
-      isLoading = true;
-    });
+    // setState(() {
+    //   isLoading = true;
+    // });
 
     FilePickerResult result = await FilePicker.platform.pickFiles(
         // type: FileType.media,
         // allowMultiple: false,
-        allowedExtensions: ['.srt'],
+        // allowedExtensions: ['.srt'],
         withData: false,
         // allowCompression: true,
         withReadStream: true,
         onFileLoading: (status) {
           if (status.toString() == "FilePickerStatus.picking") {
-            setState(() {
-              picking = true;
-            });
+            // setState(() {
+            //   picking = true;
+            // });
           } else {
-            setState(() {
-              picking = false;
-            });
+            // setState(() {
+            //   picking = false;
+            // });
           }
         });
 
@@ -185,22 +185,22 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     path = result.files[0].path;
 
     // print('testUrl: $testUrl');
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
 
     // Get.to(NiceVideoPlayer());
   }
 
   Future<ClosedCaptionFile> _loadCaptions() async {
-    filePick();
     final String fileContents =
         await DefaultAssetBundle.of(context).loadString(path);
 
     return SubRipCaptionFile(fileContents);
   }
 
-  void initializeSubs() {
+  Future<void> initializeSubs() async {
+    await filePick();
     controller = VideoPlayerController.file(
         File(
           roomLogicController.localUrl.value,
@@ -208,6 +208,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         closedCaptionFile: _loadCaptions())
       ..initialize().then((_) {
         setState(() {
+          print(videoLength.toString() + "LODE  BSDK ");
           videoLength = controller.value.duration;
         });
       });
@@ -248,12 +249,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                     child: AspectRatio(
                       aspectRatio: controller.value.aspectRatio,
                       // width: double.infinity,
-                      child: Column(
-                        children: [
-                          VideoPlayer(controller),
-                          ClosedCaption(),
-                        ],
-                      ),
+                      child: VideoPlayer(controller),
+                      // ClosedCaption(),
                     ),
                   ),
                 ),
