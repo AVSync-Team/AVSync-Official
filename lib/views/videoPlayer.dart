@@ -44,18 +44,20 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   bool isLoading = false;
   bool picking = false;
   String path = "";
+
   @override
   void initState() {
     super.initState();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
-    controller =
-        VideoPlayerController.file(File(roomLogicController.localUrl.value))
-          ..initialize().then((_) {
-            setState(() {
-              videoLength = controller.value.duration;
-            });
-          });
+    controller = VideoPlayerController.file(
+      File(roomLogicController.localUrl.value),
+      closedCaptionFile: _loadCaptions(),
+    )..initialize().then((_) {
+        setState(() {
+          videoLength = controller.value.duration;
+        });
+      });
 
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     firebaseDatabase
@@ -162,6 +164,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     //   isLoading = true;
     // });
 
+    print("File picker fired");
     FilePickerResult result = await FilePicker.platform.pickFiles(
         // type: FileType.media,
         // allowMultiple: false,
@@ -183,6 +186,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
     // roomLogicController.bytes.obs.value = result.files[0];
     path = result.files[0].path;
+    print("vide path $path");
 
     // print('testUrl: $testUrl');
     // setState(() {
@@ -193,11 +197,20 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   }
 
   Future<ClosedCaptionFile> _loadCaptions() async {
+    print('closedcaptions fires');
     final String fileContents =
-        await DefaultAssetBundle.of(context).loadString(path);
-
+        await DefaultAssetBundle.of(context).loadString('lib/assets/red.srt');
+    print('contents: $fileContents');
     return SubRipCaptionFile(fileContents);
   }
+
+  // Future<ClosedCaptionFile> _loadCaptions() async {
+  //   print("fired");
+  //   final String fileContents =
+  //       await DefaultAssetBundle.of(context).loadString(path);
+  //   print('fileContents : $fileContents');
+  //   return SubRipCaptionFile(fileContents);
+  // }
 
   Future<void> initializeSubs() async {
     await filePick();
@@ -207,10 +220,10 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         ),
         closedCaptionFile: _loadCaptions())
       ..initialize().then((_) {
-        setState(() {
-          print(videoLength.toString() + "LODE  BSDK ");
-          videoLength = controller.value.duration;
-        });
+        // setState(() {
+        //   print(videoLength.toString() + "LODE  BSDK ");
+        //   videoLength = controller.value.duration;
+        // });
       });
   }
 
@@ -241,25 +254,21 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
             child: Stack(
               children: [
                 //The youtube player
-                Container(
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.red)),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: AspectRatio(
-                      aspectRatio: controller.value.aspectRatio,
-                      // width: double.infinity,
-                      child: VideoPlayer(controller),
-                      // ClosedCaption(),
-                    ),
+                Align(
+                  alignment: Alignment.center,
+                  child: AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    // width: double.infinity,
+                    child: VideoPlayer(controller),
+                    // ClosedCaption(),
                   ),
                 ),
 
                 //Control UIs
                 //seek back 10
                 Container(
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.cyan)),
+                  // decoration:
+                  //     BoxDecoration(border: Border.all(color: Colors.cyan)),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: AspectRatio(
@@ -676,6 +685,10 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                     ),
                   ),
                 ),
+                Container(
+                    height: 80,
+                    width: 200,
+                    child: ClosedCaption(text: controller.value.caption.text))
               ],
             ),
           ),

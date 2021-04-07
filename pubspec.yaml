@@ -83,6 +83,7 @@ flutter:
     - lib/assets/svgs/youtubeplayer.svg
     - lib/assets/svgs/back10.svg
     - lib/assets/svgs/go10.svg
+    - lib/assets/red.srt
     # - lib/assets/sounds/notification.mp3
 
 

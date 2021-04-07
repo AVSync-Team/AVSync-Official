@@ -681,11 +681,18 @@ class _CustomNameBarState extends State<CustomNameBar> {
             Column(
               children: [
                 ClipOval(
-                  child: Container(
-                    width: 25,
-                    height: 25,
-                    color: Colors.red,
-                    child: Center(child: Text('X')),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.roomController.kickUser(
+                          firebaseId: widget.roomController.roomFireBaseId,
+                          idofUser: widget.userID);
+                    },
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      color: Colors.red,
+                      child: Center(child: Text('X')),
+                    ),
                   ),
                 ),
                 Spacer()
