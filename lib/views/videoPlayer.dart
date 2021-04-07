@@ -523,6 +523,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                                   ),
                                                   Container(
                                                       child: ElevatedButton(
+                                                    child: Container(),
                                                     onPressed: () async {
                                                       await initializeSubs();
                                                     },

@@ -5,6 +5,7 @@ import 'package:VideoSync/controllers/soundController.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/appDrawer.dart';
 import 'package:VideoSync/views/users_screen.dart';
+import 'package:VideoSync/views/waitingPage.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_sound/flutter_sound.dart';
 // import 'package:flutter_sound/public/flutter_sound_player.dart';
@@ -718,7 +719,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 roomLogicController.isLoading.value = true;
                                 await roomLogicController.makeRoom(
                                     adminName: nameController.text);
-                                Get.to(WelcomScreen());
+                                Get.to(WaitingPage());
                                 roomLogicController.isLoading.value = false;
                               },
                               child: !roomLogicController.isLoading.value
