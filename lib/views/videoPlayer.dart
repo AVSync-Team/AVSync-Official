@@ -29,8 +29,12 @@ final double widthRatio = Get.width / 411;
 
 class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     with SingleTickerProviderStateMixin {
+  ///            `controllers`
   AnimationController _animationController;
   VideoPlayerController controller;
+  VideoPlayerController subsController;
+
+  ///             `properties`
   Duration videoLength;
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -48,17 +52,27 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   @override
   void initState() {
     super.initState();
+
+    //animation controller
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
-    controller = VideoPlayerController.file(
-      File(roomLogicController.localUrl.value),
-      closedCaptionFile: _loadCaptions(),
-    )..initialize().then((_) {
-        setState(() {
-          videoLength = controller.value.duration;
-        });
-      });
 
+    ///`Video Player Controller`
+
+    controller =
+        VideoPlayerController.file(File(roomLogicController.localUrl.value),
+            // closedCaptionFile: _loadCaptions(),
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
+          ..initialize().then((_) {
+            setState(() {
+              videoLength = controller.value.duration;
+            });
+          });
+
+    //closed captions
+    // initializeSubs();
+
+    //firebase
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     firebaseDatabase
         .child('Rooms')
@@ -124,10 +138,15 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
     // hideControls();
 
-    super.initState();
     selectedRadio = 1;
 
-    controller.addListener(() {
+    //video controller listeners
+    addListener();
+  }
+
+  void addListener() {
+    
+    return controller.addListener(() {
       roomLogicController.videoPosition.value = controller.value.position;
       roomLogicController.playingStatus.value = controller.value.isPlaying;
       ytStateController.videoPosition.value =
@@ -141,6 +160,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
             firebaseId: roomLogicController.roomFireBaseId,
             timeStamp: controller.value.position.inSeconds);
       }
+      setState(() {});
     });
   }
 
@@ -155,6 +175,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     chatController.dispose();
     roomLogicController.dispose();
     rishabhController.dispose();
+    controller.dispose();
 
     super.dispose();
   }
@@ -199,7 +220,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   Future<ClosedCaptionFile> _loadCaptions() async {
     print('closedcaptions fires');
     final String fileContents =
-        await DefaultAssetBundle.of(context).loadString('lib/assets/red.srt');
+        await DefaultAssetBundle.of(context).loadString('lib/assets/lund.srt');
     print('contents: $fileContents');
     return SubRipCaptionFile(fileContents);
   }
@@ -213,7 +234,10 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   // }
 
   Future<void> initializeSubs() async {
-    await filePick();
+    //first close the videoPlayer
+    // controller.dispose();
+    // await filePick();
+
     controller = VideoPlayerController.file(
         File(
           roomLogicController.localUrl.value,
@@ -224,10 +248,10 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         //   print(videoLength.toString() + "LODE  BSDK ");
         //   videoLength = controller.value.duration;
         // });
+        setState(() {});
       });
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -302,76 +326,78 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                             ),
                           ),
                           // Spacer(
-
-                          Obx(
-                            () => Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      // margin: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                          '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          )),
-                                    ),
-                                    Expanded(
-                                      child: SliderTheme(
-                                        data: SliderThemeData(
-                                          activeTrackColor: Colors.indigo,
-                                          inactiveTrackColor:
-                                              Colors.indigo.shade200,
-                                          trackShape:
-                                              RoundedRectSliderTrackShape(),
-                                          trackHeight: 2.0,
-                                          thumbShape: RoundSliderThumbShape(
-                                              enabledThumbRadius: 8.0),
-                                          thumbColor: Colors.indigoAccent,
-                                          overlayColor: Colors.indigo,
-                                          overlayShape: RoundSliderOverlayShape(
-                                              overlayRadius: 10.0),
-                                          tickMarkShape:
-                                              RoundSliderTickMarkShape(),
-                                          activeTickMarkColor: Colors.indigo,
-                                          inactiveTickMarkColor: Colors.indigo,
-                                          valueIndicatorShape:
-                                              PaddleSliderValueIndicatorShape(),
-                                          valueIndicatorColor: Colors.indigo,
-                                        ),
-                                        child: Slider(
-                                          // activeColor:
-                                          //     Color.fromRGBO(50, 60, 120, 0.5),
-                                          value: roomLogicController
-                                              .videoPosition.value.inSeconds
-                                              .toDouble(),
-                                          onChanged: (value) {
-                                            roomLogicController
-                                                    .videoPosition.value =
-                                                Duration(
-                                                    seconds: value.toInt());
-                                            controller.seekTo(Duration(
-                                                seconds: value.toInt()));
-                                          },
-                                          min: 0.0,
-                                          max: controller
-                                              .value.duration.inSeconds
-                                              .toDouble(),
+                          if (controller != null)
+                            Obx(
+                              () => Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        // margin: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                            '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            )),
+                                      ),
+                                      Expanded(
+                                        child: SliderTheme(
+                                          data: SliderThemeData(
+                                            activeTrackColor: Colors.indigo,
+                                            inactiveTrackColor:
+                                                Colors.indigo.shade200,
+                                            trackShape:
+                                                RoundedRectSliderTrackShape(),
+                                            trackHeight: 2.0,
+                                            thumbShape: RoundSliderThumbShape(
+                                                enabledThumbRadius: 8.0),
+                                            thumbColor: Colors.indigoAccent,
+                                            overlayColor: Colors.indigo,
+                                            overlayShape:
+                                                RoundSliderOverlayShape(
+                                                    overlayRadius: 10.0),
+                                            tickMarkShape:
+                                                RoundSliderTickMarkShape(),
+                                            activeTickMarkColor: Colors.indigo,
+                                            inactiveTickMarkColor:
+                                                Colors.indigo,
+                                            valueIndicatorShape:
+                                                PaddleSliderValueIndicatorShape(),
+                                            valueIndicatorColor: Colors.indigo,
+                                          ),
+                                          child: Slider(
+                                            // activeColor:
+                                            //     Color.fromRGBO(50, 60, 120, 0.5),
+                                            value: roomLogicController
+                                                .videoPosition.value.inSeconds
+                                                .toDouble(),
+                                            onChanged: (value) {
+                                              roomLogicController
+                                                      .videoPosition.value =
+                                                  Duration(
+                                                      seconds: value.toInt());
+                                              controller.seekTo(Duration(
+                                                  seconds: value.toInt()));
+                                            },
+                                            min: 0.0,
+                                            max: controller
+                                                .value.duration.inSeconds
+                                                .toDouble(),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      // margin: EdgeInsets.only(right: 5),
-                                      child: Text(
-                                          '${controller.value.duration.toString().substring(0, 7)}',
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                    )
-                                  ],
-                                )),
-                          ),
+                                      Container(
+                                        // margin: EdgeInsets.only(right: 5),
+                                        child: Text(
+                                            '${controller.value.duration.toString().substring(0, 7)}',
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                      )
+                                    ],
+                                  )),
+                            ),
 
                           //For all the controls
                           AnimatedContainer(
@@ -685,10 +711,26 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                     ),
                   ),
                 ),
-                Container(
-                    height: 80,
-                    width: 200,
-                    child: ClosedCaption(text: controller.value.caption.text))
+                // if (subsController != null)
+                Positioned(
+                  bottom: 100,
+                  child: Container(
+                    height: 100,
+                    width: size.width,
+                    child: ClosedCaption(
+                        text: controller.value.caption.text,
+                        textStyle: TextStyle(
+                            fontSize: 14,
+                            backgroundColor: Colors.white,
+                            color: Colors.pink)),
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      // controller.dispose();
+                      initializeSubs();
+                    },
+                    child: Text('Test'))
               ],
             ),
           ),
