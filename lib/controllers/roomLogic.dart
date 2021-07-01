@@ -23,6 +23,7 @@ class RoomLogicController extends GetxController {
   String userId;
   String userKaId;
   String userFireBase;
+  String adminId;
   Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
   var roomIdText = "".obs.value;
@@ -53,17 +54,18 @@ class RoomLogicController extends GetxController {
     // isLoading.value = true;
 
     this.roomId.value = randomGenerator().toString();
-    adminKaNaam = randomGenerator().toString();
+
     userName = adminKaNaam;
     this.userId = randomGenerator().toString();
     final response = await http.post(roomUrl,
         body: json.encode({
           "status": 1,
-          "admin": adminKaNaam,
+          "admin": userName,
           "isPlayerPaused": true,
           "roomId": this.roomId,
           "timeStamp": 0,
           "adminName": adminName,
+          "adminId": this.userId,
           "playBackSpeed": 1.0,
           "isDragging": false,
           "users": {
@@ -150,6 +152,15 @@ class RoomLogicController extends GetxController {
         .child('Rooms')
         .child('$firebaseId')
         .child('adminName')
+        .onValue;
+  }
+
+  Stream<Event> adminIdd({String firebaseId}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    return firebase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('adminId')
         .onValue;
   }
 
@@ -261,8 +272,6 @@ class RoomLogicController extends GetxController {
             .remove();
       }
     });
-
-
 
     // firebaseDB
     //     .child('Rooms')

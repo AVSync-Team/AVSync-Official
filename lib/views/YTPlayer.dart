@@ -108,24 +108,24 @@ class _YTPlayerState extends State<YTPlayer> {
         controller.play();
       }
     });
-    chatController
-        .message(firebaseId: roomLogicController.roomFireBaseId)
-        .listen((event) {
-      List<M> check = [];
+    // chatController
+    //     .message(firebaseId: roomLogicController.roomFireBaseId)
+    //     .listen((event) {
+    //   List<M> check = [];
 
-      event.snapshot.value.forEach((key, value) {
-        check.add(M(
-            id: DateTime.parse(value["messageId"]),
-            mesage: value["message"],
-            userId: value["userId"],
-            username: value["username"]));
-      });
+    //   event.snapshot.value.forEach((key, value) {
+    //     check.add(M(
+    //         id: DateTime.parse(value["messageId"]),
+    //         mesage: value["message"],
+    //         userId: value["userId"],
+    //         username: value["username"]));
+    //   });
 
-      check.sort((a, b) => (a.id).compareTo(b.id));
-      if (check[check.length - 1].userId != roomLogicController.userId)
-        Get.snackbar(
-            check[check.length - 1].username, check[check.length - 1].mesage);
-    });
+    //   check.sort((a, b) => (a.id).compareTo(b.id));
+    //   if (check[check.length - 1].userId != roomLogicController.userId)
+    //     Get.snackbar(
+    //         check[check.length - 1].username, check[check.length - 1].mesage);
+    // });
 
     firebaseDatabase
         .child('Rooms')

@@ -39,6 +39,7 @@ dependencies:
   # firebase: ^8.0.0
   # firebase_core: ^0.7.0
   firebase_database: ^6.0.0
+  better_player: ^0.0.65
   # flutter_svg: ^0.18.0
 
 

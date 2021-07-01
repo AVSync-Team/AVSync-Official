@@ -52,24 +52,24 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   void initState() {
     super.initState();
-    chatController
-        .message(firebaseId: roomLogicController.roomFireBaseId)
-        .listen((event) {
-      List<M> check = [];
+    // chatController
+    //     .message(firebaseId: roomLogicController.roomFireBaseId)
+    //     .listen((event) {
+    //   List<M> check = [];
 
-      event.snapshot.value.forEach((key, value) {
-        check.add(M(
-            id: DateTime.parse(value["messageId"]),
-            mesage: value["message"],
-            userId: value["userId"],
-            username: value["username"]));
-      });
+    //   event.snapshot.value.forEach((key, value) {
+    //     check.add(M(
+    //         id: DateTime.parse(value["messageId"]),
+    //         mesage: value["message"],
+    //         userId: value["userId"],
+    //         username: value["username"]));
+    //   });
 
-      check.sort((a, b) => (a.id).compareTo(b.id));
-      if (check[check.length - 1].userId != roomLogicController.userId)
-        Get.snackbar(
-            check[check.length - 1].username, check[check.length - 1].mesage);
-    });
+    //   check.sort((a, b) => (a.id).compareTo(b.id));
+    //   if (check[check.length - 1].userId != roomLogicController.userId)
+    //     Get.snackbar(
+    //         check[check.length - 1].username, check[check.length - 1].mesage);
+    // });
 
     roomLogicController
         .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
@@ -91,7 +91,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
       )
           .listen((event) {
         int x = event.snapshot.value;
-        print("sex : ${x}");
+       
 
         if (x == 0 &&
             !(roomLogicController.adminKaNaam.obs.value ==
@@ -100,12 +100,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
         }
       });
 
-    // _userController = new StreamController();
-
-    // timer = Timer.periodic(Duration(seconds: 3), (_) async {
-    //   var data = await roomLogicController.loadDetails();
-    //   _userController.add(data);
-    // });
   }
 
   @override
