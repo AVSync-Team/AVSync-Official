@@ -10,6 +10,8 @@ import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/leaveRoom.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/widgets/custom_button.dart';
+import 'package:VideoSync/widgets/show_alerts.dart';
 import 'package:better_player/better_player.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -52,6 +54,33 @@ class _WelcomScreenState extends State<WelcomScreen> {
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
+  Future buildShowDialog(BuildContext context, {String userName}) {
+    return showDialog(
+      context: context,
+      builder: (context) => Container(
+        child: new AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: new Text('Kicked from room',
+              style: TextStyle(color: Colors.blueAccent)),
+          content: Text("The admin has kicked you from the room :("),
+          actions: <Widget>[
+            CustomButton(
+              height: 30,
+              buttonColor: Colors.blueAccent,
+              content: "OK",
+              cornerRadius: 5,
+              contentSize: 14,
+              function: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -83,6 +112,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
     //         check[check.length - 1].username, check[check.length - 1].mesage);
     // });
 
+    //checks the room status if status = 0 , then room is kicked
+    // status = 1,then room is fine
     roomLogicController
         .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -94,6 +125,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
       }
     });
 
+    //checks the status status if status = 0 , then user is kicked
+    // status = 1,then user is fine
     if (!(roomLogicController.adminId.value ==
         roomLogicController.userId.obs.value))
       roomLogicController
@@ -108,6 +141,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             !(roomLogicController.adminId.value ==
                 roomLogicController.userId.obs.value)) {
           Get.offAll(CreateRoomScreen());
+          buildShowDialog(context);
         }
       });
   }
@@ -605,6 +639,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           print(
                                               'chut: ${event.data.snapshot.value}');
                                           return CustomNameBar(
+                                            userName: event
+                                                .data.snapshot.value.values
+                                                .toList()[i]['name'],
                                             roomController: roomLogicController,
                                             userID: event
                                                 .data.snapshot.value.values
@@ -650,6 +687,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
 }
 
 class CustomNameBar extends StatefulWidget {
+  final String userName;
   final AsyncSnapshot event;
   final int index;
   final double heightRatio;
@@ -657,7 +695,9 @@ class CustomNameBar extends StatefulWidget {
   final String userID;
   final FunLogic controller;
   final RoomLogicController roomController;
+  CustomAlertes customAlertes;
   CustomNameBar({
+    this.userName,
     this.event,
     this.index,
     this.heightRatio,
@@ -673,6 +713,46 @@ class CustomNameBar extends StatefulWidget {
 }
 
 class _CustomNameBarState extends State<CustomNameBar> {
+  Future buildShowDialog(BuildContext context, {String userName}) {
+    return showDialog(
+      context: context,
+      builder: (context) => Container(
+        child: new AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title:
+              new Text('Kick User', style: TextStyle(color: Colors.blueAccent)),
+          content: Text("Do you want to kick $userName ?"),
+          actions: <Widget>[
+            CustomButton(
+              height: 30,
+              buttonColor: Colors.blueAccent,
+              content: "Cancel",
+              cornerRadius: 5,
+              contentSize: 14,
+              function: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+            CustomButton(
+              height: 30,
+              buttonColor: Colors.redAccent,
+              content: "Kick",
+              cornerRadius: 5,
+              contentSize: 14,
+              function: () {
+                widget.roomController.kickUser(
+                    firebaseId: widget.roomController.roomFireBaseId,
+                    idofUser: widget.userID);
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -719,10 +799,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
                                 "roomControllerUserId: ${widget.roomController.userId}");
 
                             print("UserId: ${widget.userID}");
-                            widget.roomController.kickUser(
-                                firebaseId:
-                                    widget.roomController.roomFireBaseId,
-                                idofUser: widget.userID);
+
+                            buildShowDialog(context, userName: widget.userName);
                           },
                           child: Container(
                             width: 25,
