@@ -1,3 +1,4 @@
+import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
@@ -70,7 +71,8 @@ class RishabhController extends GetxController {
         .onValue;
   }
 
-  void userLeaveRoom({String firebaseId, String userId}) async {
+  Future<bool> userLeaveRoom(
+      {String firebaseId, String userId, String adminId}) async {
     final firebaseDatabase = FirebaseDatabase.instance.reference();
     final userRef =
         firebaseDatabase.child('Rooms').child('$firebaseId').child('users');
@@ -78,22 +80,45 @@ class RishabhController extends GetxController {
     // var usersList = [];
     // var index = 0;
 
-    userRef.once().then((value) {
+    String id = "";
+    String name = "";
+    DataSnapshot v;
+    int flag = 0;
+    await userRef.once().then((value) {
+      v = value;
+      print("loda mera sala");
+      print("Firebase ${adminId}");
+
       value.value.forEach((key, value) {
-        // print(index);
-        print(key);
-        print(value['id']);
         if (userId == value['id']) {
-          print(userId);
           userRef.child(key).remove();
+        } else if (flag == 0) {
+          print(value['name']);
+
+          if (adminId == roomLogicController.userId.obs.value) {
+            flag = 1;
+            print("firebase id" + firebaseId);
+            firebaseDatabase
+                .child('Rooms')
+                .child('$firebaseId')
+                .child('adminId')
+                .set(value['id']);
+            firebaseDatabase
+                .child('Rooms')
+                .child('$firebaseId')
+                .child('adminName')
+                .set(value['name']);
+          }
         }
+
         // index++;
       });
     });
-    // print('sext: $userId');
-    // print('room: $firebaseId');
-  }
 
+    // index++;
+
+    return true;
+  }
 
   Stream tester({String firebaseId}) {
     print('lodu: $firebaseId');
@@ -104,7 +129,6 @@ class RishabhController extends GetxController {
         .child('users')
         .onValue;
   }
-
 
   Future firstDataFromUsers({String firebaseId}) {
     final firebasedatbase = FirebaseDatabase.instance.reference();

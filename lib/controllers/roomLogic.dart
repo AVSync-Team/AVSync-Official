@@ -23,7 +23,7 @@ class RoomLogicController extends GetxController {
   String userId;
   String userKaId;
   String userFireBase;
-  String adminId;
+  var adminId = ''.obs;
   Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
   var roomIdText = "".obs.value;
@@ -81,6 +81,11 @@ class RoomLogicController extends GetxController {
           }
         }));
 
+    adminId.value = userId;
+    // print(userId);
+    // print("admin Id");
+    // print(adminId);
+
     // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
@@ -131,6 +136,16 @@ class RoomLogicController extends GetxController {
             .set({"id": this.userId, "name": name, "status": 1});
 
         userFireBase = key1;
+        firebaseDatabase
+            .child('Rooms')
+            .child('$roomFireBaseId')
+            .child('adminId')
+            .once()
+            .then((value) {
+          adminId.value = value.value;
+          print("adminId");
+          print(adminId);
+        });
 
         // roomUrl =
         //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
