@@ -277,7 +277,7 @@ class RoomLogicController extends GetxController {
             .child('status')
             .set(0);
 
-        await Future.delayed(Duration(seconds: 2));
+        // await Future.delayed(Duration(seconds: 2));
 
         firebaseDB
             .child('Rooms')

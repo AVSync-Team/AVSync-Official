@@ -6,6 +6,7 @@ import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
+import 'package:VideoSync/widgets/custom_button.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

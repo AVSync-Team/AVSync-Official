@@ -145,7 +145,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 roomId: roomId.text, name: nameController.text);
                             await Future.delayed(Duration(seconds: 3));
                             if (value) {
-                              Get.to(WelcomScreen());
+                              Get.to(WaitingPage());
                             } else {
                               // Get.snackbar('Wrong Room Id',
                               //     'The room id you entered is wrong');
@@ -453,7 +453,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
 
                                                           if (true) {
                                                             Get.to(
-                                                                WelcomScreen());
+                                                                WaitingPage());
                                                           } else {
                                                             Get.snackbar(
                                                                 'Wrong Room Id',
@@ -510,7 +510,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                             true;
                                         await roomLogicController.makeRoom(
                                             adminName: nameController.text);
-                                        Get.to(WelcomScreen());
+                                        Get.to(WaitingPage());
                                         roomLogicController.isLoading.value =
                                             false;
                                       },
