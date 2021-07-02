@@ -167,9 +167,6 @@ class _YTPlayerState extends State<YTPlayer> {
 
   @override
   void dispose() {
-    chatController.dispose();
-    roomLogicController.dispose();
-    rishabhController.dispose();
     controller.dispose();
 
     super.dispose();
@@ -181,15 +178,53 @@ class _YTPlayerState extends State<YTPlayer> {
     });
   }
 
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("Yes"),
+      onPressed: () {
+        Navigator.pop(context);
+        controller.seekTo(Duration(seconds: 0));
+        Navigator.pop(context);
+        return true;
+      },
+    );
+
+    Widget cancel = FlatButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+        // controller.seekTo(Duration(seconds: timestamp));
+        return false;
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Do you want to leave the screen"),
+      actions: [okButton, cancel],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return WillPopScope(
-      onWillPop: () {
-        controller.reset();
-
-        return Future.delayed(Duration(seconds: 1)).then((value) => true);
+      onWillPop: () async {
+        controller.pause();
+        if (Get.context.orientation == Orientation.landscape)
+          controller.toggleFullScreenMode();
+        return showAlertDialog(context);
       },
       child: Scaffold(
         appBar: Get.context.orientation == Orientation.portrait
@@ -345,8 +380,9 @@ class _YTPlayerState extends State<YTPlayer> {
                                         },
                                         min: 0.0,
                                         max: controller
-                                            .metadata.duration.inSeconds
-                                            .toDouble(),
+                                                .metadata.duration.inSeconds
+                                                .toDouble() +
+                                            5.0,
                                       ),
                                     ),
                                   ),
