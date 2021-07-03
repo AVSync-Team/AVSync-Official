@@ -9,13 +9,18 @@ import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
-// import 'package:VideoSync/views/leaveRoom.dart';
+
+import 'package:VideoSync/views/homePage.dart';
+import 'package:VideoSync/views/leaveRoom.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/show_alerts.dart';
 // import 'package:better_player/better_player.dart';
 import 'package:file_picker/file_picker.dart';
-// import 'package:firebase_database/firebase_database.dart';
+
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
+
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
@@ -54,11 +59,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
   double zOffset = 0;
   double scaleFactor = 1;
   bool isDrawerOpen = false;
+  bool leaveRoom = false;
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
   Future buildShowDialog(BuildContext context,
-      {String userName, String title, String content}) {
+      {String userName,
+      String title,
+      String content,
+      Function customFunction}) {
     return showDialog(
       context: context,
       builder: (context) => Container(
@@ -71,13 +80,20 @@ class _WelcomScreenState extends State<WelcomScreen> {
             CustomButton(
               height: 30,
               buttonColor: Colors.blueAccent,
-              content: "OK",
+              content: "Cancel",
               cornerRadius: 5,
               contentSize: 14,
               function: () {
                 Navigator.of(context, rootNavigator: true).pop();
               },
             ),
+            CustomButton(
+                height: 30,
+                buttonColor: Colors.blueAccent,
+                content: "Leave",
+                cornerRadius: 5,
+                contentSize: 14,
+                function: customFunction),
           ],
         ),
       ),
@@ -186,7 +202,10 @@ class _WelcomScreenState extends State<WelcomScreen> {
             )
           : Center(
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      themeController.drawerHead.value),
+                ),
               ),
             ),
     ));
@@ -243,12 +262,26 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return WillPopScope(
-      onWillPop: () {
-        return rishabhController.userLeaveRoom(
-            firebaseId: roomLogicController.roomFireBaseId,
-            adminId: roomLogicController.adminId.value,
-            userId: roomLogicController.userId);
+      onWillPop: () async {
+        await buildShowDialog(context,
+            content: "Do you wish to go back ",
+            title: "Leaving room", customFunction: () {
+          setState(() {
+            leaveRoom = true;
+          });
+          rishabhController.userLeaveRoom(
+              firebaseId: roomLogicController.roomFireBaseId,
+              adminId: roomLogicController.adminId.value,
+              userId: roomLogicController.userId);
+          Get.off(HomePage());
+          //Navigator.of(context, rootNavigator: true).pop();
+        });
+        return leaveRoom;
       },
       child: AnimatedContainer(
         transform: Matrix4.translationValues(xOffset, yOffset, zOffset)
@@ -266,7 +299,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             backgroundColor: isDrawerOpen
                 ? Colors.transparent
                 : Color.fromRGBO(41, 39, 39, 1),
-            elevation: 10,
+            elevation: 0,
             leading: isDrawerOpen
                 ? IconButton(
                     icon: Icon(
@@ -471,47 +504,68 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                       margin: EdgeInsets.only(
                                                           top:
                                                               heightRatio * 10),
-                                                      child: Obx(
-                                                        () => ytStateController
-                                                                .isYtUrlValid
-                                                                .value
-                                                            ? RaisedButton(
-                                                                shape:
-                                                                    StadiumBorder(),
-                                                                onPressed:
-                                                                    () async {
-                                                                  if (ytStateController
+                                                      child:
+                                                          // ytStateController.
+                                                          //     ? Container(
+                                                          //         child: Text(
+                                                          //           "No link provided",
+                                                          //           style: TextStyle(
+                                                          //               color: Colors
+                                                          //                   .red),
+                                                          //         ),
+                                                          //       )
+                                                          //     :
+                                                          Obx(() => ytStateController
                                                                       .isYtUrlValid
-                                                                      .value) {
-                                                                    roomLogicController
-                                                                            .ytURL
-                                                                            .value =
-                                                                        yturl
-                                                                            .text;
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    await Future.delayed(Duration(
-                                                                        seconds:
-                                                                            2));
-                                                                    Get.to(
-                                                                        YTPlayer());
-                                                                  }
-
-                                                                  // Navigator.pop(
-                                                                  //     context);
-                                                                },
-                                                                child: Text(
-                                                                    'Play'),
-                                                              )
-                                                            : Container(
-                                                                child: Text(
-                                                                  "Link not Valid !",
-                                                                  style: TextStyle(
+                                                                      .value ==
+                                                                  1
+                                                              ? Container(
+                                                                  child: Text(
+                                                                    "No link provided",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .red),
+                                                                  ),
+                                                                )
+                                                              : ytStateController
+                                                                          .isYtUrlValid
+                                                                          .value ==
+                                                                      2
+                                                                  ? RaisedButton(
                                                                       color: Colors
-                                                                          .red),
-                                                                ),
-                                                              ),
-                                                      ),
+                                                                          .green,
+                                                                      shape:
+                                                                          StadiumBorder(),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        if (ytStateController.isYtUrlValid.value !=
+                                                                            2) {
+                                                                          roomLogicController
+                                                                              .ytURL
+                                                                              .value = yturl.text;
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          await Future.delayed(
+                                                                              Duration(seconds: 2));
+                                                                          Get.to(
+                                                                              YTPlayer());
+                                                                        }
+
+                                                                        // Navigator.pop(
+                                                                        //     context);
+                                                                      },
+                                                                      child: Text(
+                                                                          'Play'),
+                                                                    )
+                                                                  : Container(
+                                                                      child:
+                                                                          Text(
+                                                                        "Link not Valid !",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.red),
+                                                                      ),
+                                                                    )),
                                                     )
                                                   ],
                                                 ),
@@ -583,6 +637,29 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                               future: Future.delayed(
                                                   Duration(seconds: 2)),
                                               builder: (cts, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return Center(
+                                                    child: Container(
+                                                      height: 2,
+                                                      width: 100,
+                                                      color: Color.fromARGB(
+                                                          200, 60, 60, 60),
+                                                      child:
+                                                          LinearProgressIndicator(
+                                                        backgroundColor:
+                                                            Color.fromARGB(200,
+                                                                60, 60, 60),
+                                                        valueColor:
+                                                            new AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                themeController
+                                                                    .drawerHead
+                                                                    .value),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.done) {
                                                   return StreamBuilder(
@@ -706,11 +783,20 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                   } else if (event.connectionState ==
                                       ConnectionState.waiting) {
                                     return Center(
-                                      child: CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                themeController
+                                                    .drawerHead.value),
+                                      ),
                                     );
                                   } else {
                                     return Center(
-                                        child: CircularProgressIndicator());
+                                        child: CircularProgressIndicator(
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              themeController.drawerHead.value),
+                                    ));
                                   }
                                   return Container(height: 0.0, width: 0.0);
                                 },

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class YTStateController extends GetxController {
   var videoPosition = 0.0.obs;
-  var isYtUrlValid = false.obs;
+  var isYtUrlValid = 1.obs;
 
   Future<void> getInfo() async {
     // EventSource eventSource = EventSource(
@@ -23,12 +23,20 @@ class YTStateController extends GetxController {
   }
 
   void checkYotutTubeUrl({String ytURl}) {
+    //String nadda = 'nadda';
+    if (ytURl == '') {
+      isYtUrlValid.value = 1;
+    }
     RegExp regExp = new RegExp(
       r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
       caseSensitive: false,
       multiLine: false,
     );
-    isYtUrlValid.value = regExp.hasMatch(ytURl);
+    if (regExp.hasMatch(ytURl) == true) {
+      isYtUrlValid.value = 2;
+    }
+
+    //isYtUrlValid.value = regExp.hasMatch(ytURl);
     print("isUrlValid ${isYtUrlValid.value}");
   }
 }
