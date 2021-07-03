@@ -169,7 +169,10 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                           child: SizedBox(
                               height: 50,
                               width: 50,
-                              child: CircularProgressIndicator())),
+                              child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Colors.white),
+                              ))),
                 )
               ],
             ),
@@ -646,7 +649,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               // fillColor: Colors.red,
                               focusedBorder: OutlineInputBorder(
                                 borderSide: new BorderSide(
-                                  color: Colors.white,
+                                  color: themeController.drawerHead.value,
                                   width: 1,
                                 ),
                                 borderRadius: new BorderRadius.circular(25),
@@ -765,7 +768,14 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                             //fontSize: 35 * widthRatio,
                                             fontWeight: FontWeight.normal),
                                       )
-                                    : CircularProgressIndicator(),
+                                    : CircularProgressIndicator(
+                                        //value: controller.value,
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                        // semanticsLabel:
+                                        //     'Linear progress indicator',
+                                      ),
                               ),
                             ),
                           ),

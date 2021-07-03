@@ -95,7 +95,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                     color: Colors.yellow,
                                   )
                                 : Icon(
-                                    Icons.star_half,
+                                    Icons.brightness_3,
                                     color: Colors.white,
                                   ),
                             onPressed: () {
