@@ -53,11 +53,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
   double zOffset = 0;
   double scaleFactor = 1;
   bool isDrawerOpen = false;
+  bool leaveRoom = false;
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
   Future buildShowDialog(BuildContext context,
-      {String userName, String title, String content}) {
+      {String userName,
+      String title,
+      String content,
+      Function customFunction}) {
     return showDialog(
       context: context,
       builder: (context) => Container(
@@ -70,13 +74,20 @@ class _WelcomScreenState extends State<WelcomScreen> {
             CustomButton(
               height: 30,
               buttonColor: Colors.blueAccent,
-              content: "OK",
+              content: "Cancel",
               cornerRadius: 5,
               contentSize: 14,
               function: () {
                 Navigator.of(context, rootNavigator: true).pop();
               },
             ),
+            CustomButton(
+                height: 30,
+                buttonColor: Colors.blueAccent,
+                content: "Leave",
+                cornerRadius: 5,
+                contentSize: 14,
+                function: customFunction),
           ],
         ),
       ),
@@ -238,11 +249,21 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        return rishabhController.userLeaveRoom(
-            firebaseId: roomLogicController.roomFireBaseId,
-            adminId: roomLogicController.adminId.value,
-            userId: roomLogicController.userId);
+      onWillPop: () async {
+        await buildShowDialog(context,
+            content: "Do you wish to go back ",
+            title: "Leaving room", customFunction: () {
+          setState(() {
+            leaveRoom = true;
+          });
+          rishabhController.userLeaveRoom(
+              firebaseId: roomLogicController.roomFireBaseId,
+              adminId: roomLogicController.adminId.value,
+              userId: roomLogicController.userId);
+
+          Navigator.of(context, rootNavigator: true).pop();
+        });
+        return leaveRoom;
       },
       child: AnimatedContainer(
         transform: Matrix4.translationValues(xOffset, yOffset, zOffset)
