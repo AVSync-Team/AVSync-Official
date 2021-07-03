@@ -316,7 +316,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                     //    borderRadius: BorderRadius.circular(25),
                                     //  ),
                                     hintText: "Enter your name",
-                                    hintStyle: TextStyle(color: Colors.grey),
+                                    hintStyle: TextStyle(
+                                        color: themeController.blackText.value),
                                   ),
                                 ),
                               ),
@@ -564,7 +565,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             ? IconButton(
                                 icon: Icon(
                                   Icons.arrow_back_ios,
-                                  color: Colors.white,
+                                  color: themeController.drawerHead.value,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -579,7 +580,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             : IconButton(
                                 icon: Icon(
                                   Icons.menu,
-                                  color: Colors.white,
+                                  color: themeController.drawerHead.value,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -643,7 +644,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             hintStyle: TextStyle(
                               //color:
                               //themeController.switchContainerColor.value
-                              color: Colors.grey,
+                              color: themeController.blackText.value,
                             ),
                           ),
                         ),

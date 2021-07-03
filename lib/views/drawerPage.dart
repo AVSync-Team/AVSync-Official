@@ -23,7 +23,6 @@ class _DrawerPageState extends State<DrawerPage> {
     return Container(
       //padding: const EdgeInsets.only(left: 30.0),
       child: ListTile(
-        
         //leading: Icon(
         //   icon2,
         //   size: 26,
@@ -57,7 +56,7 @@ class _DrawerPageState extends State<DrawerPage> {
     return Container(
       //color: themeController.primaryColorSwatch.value,
       //color: Colors.grey[900],
-      color: Colors.black,
+      color: themeController.drawerColor.value,
       width: double.infinity,
       height: Get.height,
       child: Obx(
@@ -81,7 +80,7 @@ class _DrawerPageState extends State<DrawerPage> {
                       Text(
                         'AV Sync',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: themeController.drawerHead.value,
                           fontSize: 30,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w100,
