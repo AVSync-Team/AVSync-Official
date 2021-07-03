@@ -100,7 +100,7 @@ class _YTPlayerState extends State<YTPlayer> {
           roomLogicController.userId.obs.value)) {
         if ((controller.value.position.inSeconds - event.snapshot.value)
                 .abs() >=
-            5) {
+            3) {
           controller.seekTo(Duration(seconds: event.snapshot.value));
         }
       }
@@ -184,8 +184,9 @@ class _YTPlayerState extends State<YTPlayer> {
     Widget okButton = FlatButton(
       child: Text("Yes"),
       onPressed: () {
+        controller.pause();
         Navigator.pop(context);
-        controller.seekTo(Duration(seconds: 0));
+        // controller.seekTo(Duration(seconds: 0));
         Navigator.pop(context);
         return true;
       },
@@ -222,9 +223,12 @@ class _YTPlayerState extends State<YTPlayer> {
 
     return WillPopScope(
       onWillPop: () async {
-        controller.pause();
+        // controller.pause();
         if (Get.context.orientation == Orientation.landscape)
           controller.toggleFullScreenMode();
+
+        // rishabhController.sendPlayerStatus(
+        //     status: false, firebaseId: roomLogicController.roomFireBaseId);
         return showAlertDialog(context);
       },
       child: Scaffold(
@@ -271,8 +275,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                 controller.value.isPlaying;
                             ytStateController.videoPosition.value =
                                 controller.value.position.inSeconds.toDouble();
-                            print("adminId");
-                            print(roomLogicController.adminId.value);
+                            // print("adminId");
+                            // print(roomLogicController.adminId.;value);
                             //admin
                             //will send timestamp and control video playback
                             if (roomLogicController.adminId.value ==
@@ -420,8 +424,8 @@ class _YTPlayerState extends State<YTPlayer> {
                               children: [
                                 //seek backward 10
                                 SizedBox(width: 10),
-                                if (roomLogicController.adminKaNaam.obs.value ==
-                                    roomLogicController.userName.obs.value)
+                                if (roomLogicController.adminId.value ==
+                                    roomLogicController.userId)
                                   IconButton(
                                     icon: Icon(Icons.speed),
                                     color: Colors.white,
