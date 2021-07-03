@@ -459,14 +459,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                               heightRatio * 10),
                                                       child: RaisedButton(
                                                         shape: StadiumBorder(),
-                                                        onPressed: () {
+                                                        onPressed: () async {
                                                           roomLogicController
                                                                   .ytURL.value =
                                                               yturl.text;
 
                                                           Navigator.pop(
                                                               context);
-
+                                                          await Future.delayed(
+                                                              Duration(
+                                                                  seconds: 2));
                                                           Get.to(YTPlayer());
                                                           // Navigator.pop(
                                                           //     context);
