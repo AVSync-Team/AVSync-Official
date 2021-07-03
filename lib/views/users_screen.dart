@@ -488,6 +488,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                               .checkYotutTubeUrl(
                                                                   ytURl: value);
                                                         },
+                                                        cursorColor: Colors.red,
                                                         decoration:
                                                             InputDecoration(
                                                           border:
@@ -497,6 +498,18 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                     .circular(
                                                                         20),
                                                           ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                                  borderSide:
+                                                                      new BorderSide(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    width: 1,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              20))),
                                                         ),
                                                       ),
                                                     ),
@@ -538,7 +551,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                           StadiumBorder(),
                                                                       onPressed:
                                                                           () async {
-                                                                        if (ytStateController.isYtUrlValid.value !=
+                                                                        if (ytStateController.isYtUrlValid.value ==
                                                                             2) {
                                                                           roomLogicController
                                                                               .ytURL
@@ -546,7 +559,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                           Navigator.pop(
                                                                               context);
                                                                           await Future.delayed(
-                                                                              Duration(seconds: 2));
+                                                                              Duration(seconds: 1));
                                                                           Get.to(
                                                                               YTPlayer());
                                                                         }
@@ -554,8 +567,13 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                         // Navigator.pop(
                                                                         //     context);
                                                                       },
-                                                                      child: Text(
-                                                                          'Play'),
+                                                                      child:
+                                                                          Text(
+                                                                        'Play',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
                                                                     )
                                                                   : Container(
                                                                       child:
@@ -635,7 +653,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         children: [
                                           FutureBuilder(
                                               future: Future.delayed(
-                                                  Duration(seconds: 2)),
+                                                  Duration(seconds: 1)),
                                               builder: (cts, snapshot) {
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
@@ -734,7 +752,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       width: 300 * widthRatio,
                       // color: Colors.red,
                       child: FutureBuilder(
-                          future: Future.delayed(Duration(seconds: 2)),
+                          future: Future.delayed(Duration(seconds: 1)),
                           builder: (ctx, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
