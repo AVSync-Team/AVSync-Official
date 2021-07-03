@@ -278,7 +278,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               firebaseId: roomLogicController.roomFireBaseId,
               adminId: roomLogicController.adminId.value,
               userId: roomLogicController.userId);
-          Get.off(HomePage());
+          Get.offAll(HomePage());
           //Navigator.of(context, rootNavigator: true).pop();
         });
         return leaveRoom;
