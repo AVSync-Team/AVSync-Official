@@ -148,6 +148,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
     //video controller listeners
     addListener();
+
+    
   }
 
   void addListener() {
