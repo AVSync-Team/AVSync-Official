@@ -19,7 +19,7 @@ class CustomThemeData extends GetxController {
   void changeDarkTheme() {
     swithcAlignment.value = Alignment.centerLeft;
     drawerColor.value = Colors.black;
-    blackText.value = Colors.grey;
+    //blackText.value = Colors.grey;
     primaryColorSwatch.value = Color.fromRGBO(41, 39, 39, 1);
     primaryTextColor.value = Colors.white;
     drawerHead.value = Colors.white;
@@ -31,8 +31,8 @@ class CustomThemeData extends GetxController {
   void changeLightTheme() {
     swithcAlignment.value = Alignment.centerRight;
     drawerColor = Color.fromRGBO(10, 10, 10, 0.4).obs;
+    //blackText.value = Colors.black38;
     primaryColorSwatch.value = Colors.white;
-    blackText.value = Colors.black38;
     primaryColor.value = Color.fromRGBO(201, 199, 199, 1);
     drawerHead.value = Colors.black;
     primaryTextColor.value = Color.fromRGBO(10, 10, 10, 1);
