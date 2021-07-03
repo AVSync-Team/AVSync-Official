@@ -54,16 +54,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
 
-  Future buildShowDialog(BuildContext context, {String userName}) {
+  Future buildShowDialog(BuildContext context,
+      {String userName, String title, String content}) {
     return showDialog(
       context: context,
       builder: (context) => Container(
         child: new AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: new Text('Kicked from room',
-              style: TextStyle(color: Colors.blueAccent)),
-          content: Text("The admin has kicked you from the room :("),
+          title: new Text('$title', style: TextStyle(color: Colors.blueAccent)),
+          content: Text("$content"),
           actions: <Widget>[
             CustomButton(
               height: 30,
@@ -122,6 +122,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
           !(roomLogicController.adminId.value ==
               roomLogicController.userId.obs.value)) {
         Get.offAll(CreateRoomScreen());
+        buildShowDialog(context,
+            title: "Room Deleted",
+            content: "The admin has deleted the room :(");
       }
     });
 
@@ -141,7 +144,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
             !(roomLogicController.adminId.value ==
                 roomLogicController.userId.obs.value)) {
           Get.offAll(CreateRoomScreen());
-          buildShowDialog(context);
+          buildShowDialog(context,
+              title: "Kicked from room",
+              content: "The admin has kicked you from the room :(");
         }
       });
   }
