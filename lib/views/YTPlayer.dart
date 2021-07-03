@@ -363,7 +363,19 @@ class _YTPlayerState extends State<YTPlayer> {
                     );
                   },
                   child: Icon(Icons.people),
-                ))
+                ),
+                centerTitle: true,
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: GetX<RoomLogicController>(builder: (controller) {
+                    return Text('${controller.roomId.obs.value} ',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w100));
+                  }),
+                ),
+              )
             : null,
         endDrawer: Container(
           width: 380 * widthRatio,
