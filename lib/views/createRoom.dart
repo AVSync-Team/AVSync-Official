@@ -287,7 +287,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                       }
                                       return null;
                                     },
-                                    maxLength: 12,
+                                    maxLength: 8,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 16,
@@ -631,7 +631,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               }
                               return null;
                             },
-                            maxLength: 12,
+                            maxLength: 8,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 18,
