@@ -9,19 +9,23 @@ import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
+
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/leaveRoom.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/show_alerts.dart';
-import 'package:better_player/better_player.dart';
+// import 'package:better_player/better_player.dart';
 import 'package:file_picker/file_picker.dart';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
+
 // import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -136,6 +140,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
       if (x == 0 &&
           !(roomLogicController.adminId.value ==
               roomLogicController.userId.obs.value)) {
+        if (Get.context.orientation == Orientation.landscape)
+          SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
         Get.offAll(CreateRoomScreen());
         buildShowDialog(context,
             title: "Room Deleted",
@@ -158,6 +164,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
         if (x == 0 &&
             !(roomLogicController.adminId.value ==
                 roomLogicController.userId.obs.value)) {
+          if (Get.context.orientation == Orientation.landscape)
+            SystemChrome.setPreferredOrientations(
+                [DeviceOrientation.portraitUp]);
           Get.offAll(CreateRoomScreen());
           buildShowDialog(context,
               title: "Kicked from room",
