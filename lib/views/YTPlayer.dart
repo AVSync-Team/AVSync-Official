@@ -164,8 +164,6 @@ class _YTPlayerState extends State<YTPlayer> {
 
     super.initState();
     selectedRadio = 1;
-    
-    
   }
 
   @override
@@ -441,6 +439,175 @@ class _YTPlayerState extends State<YTPlayer> {
                                       //     height: 200,
                                       //     width: 400,
                                       //     child: Card()));
+                                      if (Get.context.orientation ==
+                                          Orientation.portrait) {
+                                        return Get.bottomSheet(
+                                          Container(
+                                            height: 350,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1),
+                                            child:
+                                                GetBuilder<RishabhController>(
+                                                    builder: (controllerGetx) {
+                                              return Container(
+                                                width: double.infinity,
+                                                height: 100,
+                                                child: ListView(
+                                                  // height: 50,
+                                                  children: [
+                                                    Container(
+                                                      color: Color.fromRGBO(
+                                                          50, 50, 50, 1),
+                                                      child: RaisedButton(
+                                                        color: Color.fromRGBO(
+                                                            50, 50, 50, 1),
+                                                        elevation: 0,
+                                                        onPressed: () {
+                                                          Get.back();
+                                                        },
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_back_ios,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            Text(
+                                                              'Playback speed',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Divider(
+                                                      color: Colors.white,
+                                                    ),
+                                                    RadioListTile(
+                                                        // key: globalKey,
+                                                        //tileColor: Colors.white,
+                                                        activeColor:
+                                                            Colors.white,
+                                                        toggleable: true,
+                                                        title: CustomText('1'),
+                                                        value: 1.0,
+                                                        groupValue:
+                                                            controllerGetx
+                                                                .radioValue,
+                                                        onChanged: (value) {
+                                                          roomLogicController
+                                                              .sendPlayBackSpeed(
+                                                                  speed: 1.0);
+                                                          controller
+                                                              .setPlaybackRate(
+                                                                  1.0);
+                                                          controllerGetx
+                                                              .radioValue
+                                                              .value = value;
+
+                                                          Get.back();
+                                                        }),
+                                                    RadioListTile(
+                                                        // key: globalKey,
+                                                        title:
+                                                            CustomText('1.25'),
+                                                        value: 1.25,
+                                                        groupValue:
+                                                            controllerGetx
+                                                                .radioValue
+                                                                .value,
+                                                        onChanged: (value) {
+                                                          // print('value: $value');
+                                                          // changeRadioValue(value);
+                                                          roomLogicController
+                                                              .sendPlayBackSpeed(
+                                                                  speed: 1.25);
+                                                          controller
+                                                              .setPlaybackRate(
+                                                                  1.25);
+                                                          controllerGetx
+                                                              .radioValue
+                                                              .value = value;
+
+                                                          Get.back();
+                                                        }),
+                                                    RadioListTile(
+                                                        // key: globalKey,
+                                                        title:
+                                                            CustomText('1.5'),
+                                                        value: 1.5,
+                                                        groupValue:
+                                                            controllerGetx
+                                                                .radioValue
+                                                                .value,
+                                                        onChanged: (value) {
+                                                          // print('value: $value');
+                                                          // changeRadioValue(value);
+                                                          roomLogicController
+                                                              .sendPlayBackSpeed(
+                                                                  speed: 1.5);
+                                                          controller
+                                                              .setPlaybackRate(
+                                                                  1.5);
+                                                          controllerGetx
+                                                              .radioValue
+                                                              .value = value;
+
+                                                          Get.back();
+                                                        }),
+                                                    RadioListTile(
+                                                        // key: globalKey,
+                                                        title:
+                                                            CustomText('1.75'),
+                                                        value: 1.75,
+                                                        groupValue:
+                                                            controllerGetx
+                                                                .radioValue
+                                                                .value,
+                                                        onChanged: (value) {
+                                                          roomLogicController
+                                                              .sendPlayBackSpeed(
+                                                                  speed: 1.75);
+                                                          controller
+                                                              .setPlaybackRate(
+                                                                  1.75);
+                                                          controllerGetx
+                                                              .radioValue
+                                                              .value = value;
+
+                                                          Get.back();
+                                                        }),
+                                                    RadioListTile(
+                                                      // key: globalKey,
+                                                      title: CustomText('2'),
+                                                      value: 2.0,
+                                                      groupValue: controllerGetx
+                                                          .radioValue.value,
+                                                      onChanged: (value) {
+                                                        // print('value: $value');
+                                                        roomLogicController
+                                                            .sendPlayBackSpeed(
+                                                                speed: 2.0);
+                                                        controller
+                                                            .setPlaybackRate(
+                                                                2.0);
+                                                        controllerGetx
+                                                            .radioValue
+                                                            .value = value;
+
+                                                        Get.back();
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        );
+                                      }
                                       Get.defaultDialog(
                                         backgroundColor: Color(0xff292727),
                                         title: '',
