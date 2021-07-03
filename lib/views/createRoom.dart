@@ -616,11 +616,12 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                           decoration: InputDecoration(
                             //filled: true,
                             //fillColor: Colors.blueGrey,
+                            //counterText: '',
                             focusColor: Colors.yellow,
-                            // fillColor: Colors.red,
+                            fillColor: Colors.red,
                             focusedBorder: OutlineInputBorder(
                               borderSide: new BorderSide(
-                                color: Colors.white,
+                                color: themeController.drawerHead.value,
                                 width: 1,
                               ),
                               borderRadius: new BorderRadius.circular(25),
@@ -660,7 +661,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            primary: Colors.redAccent,
+                            primary: themeController.butColor.value,
                             // shadowColor: Colors.blueAccent,
                             elevation: 6,
                           ),
@@ -707,7 +708,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                primary: Colors.redAccent,
+                                primary: themeController.butColor.value,
                                 elevation: 8,
                                 onPrimary: Colors.white,
                               ),
