@@ -5,6 +5,7 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
+import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
@@ -40,6 +41,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   ChatController chatController = Get.put(ChatController());
   FunLogic funLogic = Get.put(FunLogic());
   CustomThemeData themeController = Get.put(CustomThemeData());
+  YTStateController ytStateController = Get.put(YTStateController());
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -441,6 +443,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                       width: widthRatio * 300,
                                                       child: TextField(
                                                         controller: yturl,
+                                                        onChanged:
+                                                            (String value) {
+                                                          ytStateController
+                                                              .checkYotutTubeUrl(
+                                                                  ytURl: value);
+                                                        },
                                                         decoration:
                                                             InputDecoration(
                                                           border:
@@ -457,23 +465,46 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                       margin: EdgeInsets.only(
                                                           top:
                                                               heightRatio * 10),
-                                                      child: RaisedButton(
-                                                        shape: StadiumBorder(),
-                                                        onPressed: () async {
-                                                          roomLogicController
-                                                                  .ytURL.value =
-                                                              yturl.text;
+                                                      child: Obx(
+                                                        () => ytStateController
+                                                                .isYtUrlValid
+                                                                .value
+                                                            ? RaisedButton(
+                                                                shape:
+                                                                    StadiumBorder(),
+                                                                onPressed:
+                                                                    () async {
+                                                                  if (ytStateController
+                                                                      .isYtUrlValid
+                                                                      .value) {
+                                                                    roomLogicController
+                                                                            .ytURL
+                                                                            .value =
+                                                                        yturl
+                                                                            .text;
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    await Future.delayed(Duration(
+                                                                        seconds:
+                                                                            2));
+                                                                    Get.to(
+                                                                        YTPlayer());
+                                                                  }
 
-                                                          Navigator.pop(
-                                                              context);
-                                                          await Future.delayed(
-                                                              Duration(
-                                                                  seconds: 2));
-                                                          Get.to(YTPlayer());
-                                                          // Navigator.pop(
-                                                          //     context);
-                                                        },
-                                                        child: Text('Play'),
+                                                                  // Navigator.pop(
+                                                                  //     context);
+                                                                },
+                                                                child: Text(
+                                                                    'Play'),
+                                                              )
+                                                            : Container(
+                                                                child: Text(
+                                                                  "Link not Valid !",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .red),
+                                                                ),
+                                                              ),
                                                       ),
                                                     )
                                                   ],
