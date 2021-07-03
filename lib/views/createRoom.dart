@@ -171,7 +171,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               width: 50,
                               child: CircularProgressIndicator(
                                 valueColor: new AlwaysStoppedAnimation<Color>(
-                                    Colors.white),
+                                    themeController.drawerColor.value),
                               ))),
                 )
               ],

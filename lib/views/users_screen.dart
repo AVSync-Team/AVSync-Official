@@ -12,6 +12,7 @@ import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/leaveRoom.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/waitingPage.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/show_alerts.dart';
 import 'package:better_player/better_player.dart';
@@ -80,6 +81,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               cornerRadius: 5,
               contentSize: 14,
               function: () {
+                //Get.off(WaitingPage());
                 Navigator.of(context, rootNavigator: true).pop();
               },
             ),
@@ -529,7 +531,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                           StadiumBorder(),
                                                                       onPressed:
                                                                           () async {
-                                                                        if (ytStateController.isYtUrlValid.value !=
+                                                                        if (ytStateController.isYtUrlValid.value ==
                                                                             2) {
                                                                           roomLogicController
                                                                               .ytURL
@@ -852,7 +854,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
               cornerRadius: 5,
               contentSize: 14,
               function: () {
-                Navigator.of(context, rootNavigator: true).pop();
+                Get.off(WaitingPage());
+                //Navigator.of(context, rootNavigator: true).pop();
               },
             ),
             CustomButton(
@@ -865,7 +868,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
                 widget.roomController.kickUser(
                     firebaseId: widget.roomController.roomFireBaseId,
                     idofUser: widget.userID);
-                Navigator.of(context, rootNavigator: true).pop();
+                Get.off(WaitingPage());
+                //Navigator.of(context, rootNavigator: true).pop();
               },
             ),
           ],
