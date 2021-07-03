@@ -1,7 +1,6 @@
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/controllers/soundController.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/appDrawer.dart';
 import 'package:VideoSync/views/users_screen.dart';
