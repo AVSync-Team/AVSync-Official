@@ -48,7 +48,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   void initState() {
     super.initState();
     sharedPrefsInit();
-    // listenToNameChanges();
+    // setTheUserName();
   }
 
   void sharedPrefsInit() async {
@@ -64,7 +64,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   // }
 
   // void setTheUserName() {
-  //   nameController.text = setPreference.getString('userName');
+  //   nameController = setPreference.getString('userName') == null
+  //       ? null
+  //       : setPreference.getString('userName');
   // }
 
   void _createCustomBottomSheet(
@@ -322,6 +324,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       builder: (BuildContext context,
                           AsyncSnapshot<SharedPreferences> snapshot) {
                         if (snapshot.hasData) {
+                          nameController = snapshot.data.getString('userName');
+                          print("Check $nameController");
                           return TextFormField(
                             validator: (String value) {
                               if (value.isEmpty) {
@@ -384,6 +388,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                             ),
                           );
                         }
+                        nameController = 'King';
                         return Container();
                       },
                     ),
