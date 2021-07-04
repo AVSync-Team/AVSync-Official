@@ -45,13 +45,14 @@ dependencies:
 
   #add-ons
   flutter_svg: ^0.19.3
-  neumorphic: ^0.4.0
+  # neumorphic: ^0.4.0
   clipboard: ^0.1.2+8
   file_picker: ^2.1.6
   # better_player: ^0.0.65
   # flutter_sound: ^7.4.9+1
   # file_picker: ^2.1.4
 
+  shared_preferences: ^2.0.6
 
 
 
