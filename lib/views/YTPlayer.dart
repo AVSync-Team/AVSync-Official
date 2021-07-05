@@ -1142,6 +1142,8 @@ class _YTPlayerState extends State<YTPlayer> {
                 ),
               ),
             ),
+
+            //this is the chat display part of code
             if (Get.context.orientation == Orientation.portrait)
               Expanded(
                 child: StreamBuilder(
@@ -1150,10 +1152,12 @@ class _YTPlayerState extends State<YTPlayer> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Event> snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.data.snapshot.value.values);
+                      
                       return ListView.separated(
                           itemBuilder: (BuildContext context, int index) {
-                            return ChatWidget();
+                            // return ChatWidget(userName: snapshot.data.snapshot.value , messageText : );
+                            
+                            return Text('');
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(height: 5);
@@ -1164,6 +1168,10 @@ class _YTPlayerState extends State<YTPlayer> {
                   },
                 ),
               ),
+
+            //this is the sending part
+            //send button
+            //and textinput widget
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Row(
@@ -1386,5 +1394,3 @@ class _YTPlayerState extends State<YTPlayer> {
 //     );
 //   }
 // }
-
-

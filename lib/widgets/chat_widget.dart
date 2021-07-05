@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class ChatWidget extends StatefulWidget {
-  const ChatWidget();
+  const ChatWidget({messageText, userName});
 
   @override
   _ChatWidgetState createState() => _ChatWidgetState();
