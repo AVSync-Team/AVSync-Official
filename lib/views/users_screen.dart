@@ -12,7 +12,8 @@ import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
-import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:VideoSync/widgets/show_alerts.dart';
+//import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               roomLogicController.userId.obs.value)) {
         if (Get.context.orientation == Orientation.landscape)
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        Get.offAll(CreateRoomScreen());
+        Get.offAll(HomePage());
         buildShowDialog(context,
             title: "Room Deleted",
             content: "The admin has deleted the room :(");
@@ -118,7 +119,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
           if (Get.context.orientation == Orientation.landscape)
             SystemChrome.setPreferredOrientations(
                 [DeviceOrientation.portraitUp]);
-          Get.offAll(CreateRoomScreen());
+          Get.offAll(HomePage());
           buildShowDialog(context,
               title: "Kicked from room",
               content: "The admin has kicked you from the room :(");
@@ -339,441 +340,454 @@ class _WelcomScreenState extends State<WelcomScreen> {
             ),
           ),
 
-          body: Center(
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: Get.height,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10 * heightRatio,
-                  ),
-                  Hero(
-                    tag: 'Rishabh',
-                    child: Container(
-                      // color: Colors.green.withOpacity(0.1),
-                      height: 350 * heightRatio,
-                      width: 330 * widthRatio,
-                      // decoration:
-                      //     BoxDecoration(border: Border.all(color: Colors.black)),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              // color: Colors.yellow.withOpacity(0.1),
-                              height: 260 * heightRatio,
-                              width: 300 * widthRatio,
-                              child: Card(
-                                color: Color.fromARGB(200, 60, 60, 60),
-                                elevation: 8,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(25 * widthRatio),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      // color: Colors.red.withOpacity(0.1),
-                                      padding: const EdgeInsets.only(
-                                          top: 20, left: 24),
-                                      child: InkWell(
-                                        onTap: () {
-                                          // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
-                                          Get.bottomSheet(
-                                            Container(
-                                              // color:
-                                              //     Colors.white.withOpacity(0.1),
-                                              width: double.infinity,
-                                              height: heightRatio * 250,
-                                              child: Container(
-                                                color: Colors.white,
-                                                // decoration: BoxDecoration(
-                                                //   color: Colors.purple
-                                                //       .withOpacity(0.1),
-                                                //   borderRadius: BorderRadius.only(
-                                                //     topLeft:
-                                                //         Radius.circular(30.0),
-                                                //     topRight:
-                                                //         Radius.circular(30.0),
-                                                //   ),
-                                                // ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                constraints: BoxConstraints(
+                  maxHeight: Get.height,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 10 * heightRatio,
+                    ),
+                    Hero(
+                      tag: 'Rishabh',
+                      child: Container(
+                        // color: Colors.green.withOpacity(0.1),
+                        height: 350 * heightRatio,
+                        width: 330 * widthRatio,
+                        // decoration:
+                        //     BoxDecoration(border: Border.all(color: Colors.black)),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                // color: Colors.yellow.withOpacity(0.1),
+                                height: 260 * heightRatio,
+                                width: 300 * widthRatio,
+                                child: Card(
+                                  color: Color.fromARGB(200, 60, 60, 60),
+                                  elevation: 8,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(25 * widthRatio),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        // color: Colors.red.withOpacity(0.1),
+                                        padding: const EdgeInsets.only(
+                                            top: 20, left: 24),
+                                        child: InkWell(
+                                          onTap: () {
+                                            // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                            Get.bottomSheet(
+                                              Container(
+                                                // color:
+                                                //     Colors.white.withOpacity(0.1),
+                                                width: double.infinity,
+                                                height: heightRatio * 250,
+                                                child: Container(
+                                                  color: Colors.white,
+                                                  // decoration: BoxDecoration(
+                                                  //   color: Colors.purple
+                                                  //       .withOpacity(0.1),
+                                                  //   borderRadius: BorderRadius.only(
+                                                  //     topLeft:
+                                                  //         Radius.circular(30.0),
+                                                  //     topRight:
+                                                  //         Radius.circular(30.0),
+                                                  //   ),
+                                                  // ),
 
-                                                //child: Card(
-                                                // shape: RoundedRectangleBorder(
-                                                //     borderRadius:
-                                                //         BorderRadius.only(
-                                                //             topLeft:
-                                                //                 Radius.circular(
-                                                //                     30.0),
-                                                //             topRight:
-                                                //                 Radius.circular(
-                                                //                     30.0))),
-                                                // elevation: 10,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    SizedBox(height: 20),
-                                                    Text(
-                                                        'Enter the Youtube Link',
-                                                        style: TextStyle(
-                                                            fontSize: 20)),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          top:
-                                                              heightRatio * 20),
-                                                      height: heightRatio * 80,
-                                                      width: widthRatio * 300,
-                                                      child: TextField(
-                                                        controller: yturl,
-                                                        onChanged:
-                                                            (String value) {
-                                                          ytStateController
-                                                              .checkYotutTubeUrl(
-                                                                  ytURl: value);
-                                                        },
-                                                        cursorColor: Colors.red,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          border:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
+                                                  //child: Card(
+                                                  // shape: RoundedRectangleBorder(
+                                                  //     borderRadius:
+                                                  //         BorderRadius.only(
+                                                  //             topLeft:
+                                                  //                 Radius.circular(
+                                                  //                     30.0),
+                                                  //             topRight:
+                                                  //                 Radius.circular(
+                                                  //                     30.0))),
+                                                  // elevation: 10,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(height: 20),
+                                                      Text(
+                                                          'Enter the Youtube Link',
+                                                          style: TextStyle(
+                                                              fontSize: 20)),
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: heightRatio *
+                                                                20),
+                                                        height:
+                                                            heightRatio * 80,
+                                                        width: widthRatio * 300,
+                                                        child: TextField(
+                                                          controller: yturl,
+                                                          onChanged:
+                                                              (String value) {
+                                                            ytStateController
+                                                                .checkYotutTubeUrl(
+                                                                    ytURl:
+                                                                        value);
+                                                          },
+                                                          cursorColor:
+                                                              Colors.red,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                            ),
+                                                            focusedBorder:
+                                                                OutlineInputBorder(
+                                                                    borderSide:
+                                                                        new BorderSide(
+                                                                      color: Colors
+                                                                          .red,
+                                                                      width: 1,
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(20))),
                                                           ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                                  borderSide:
-                                                                      new BorderSide(
-                                                                    color: Colors
-                                                                        .red,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              20))),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          top:
-                                                              heightRatio * 10),
-                                                      child:
-                                                          // ytStateController.
-                                                          //     ? Container(
-                                                          //         child: Text(
-                                                          //           "No link provided",
-                                                          //           style: TextStyle(
-                                                          //               color: Colors
-                                                          //                   .red),
-                                                          //         ),
-                                                          //       )
-                                                          //     :
-                                                          Obx(() => ytStateController
-                                                                      .isYtUrlValid
-                                                                      .value ==
-                                                                  1
-                                                              ? Container(
-                                                                  child: Text(
-                                                                    "No link provided",
-                                                                    style: TextStyle(
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: heightRatio *
+                                                                10),
+                                                        child:
+                                                            // ytStateController.
+                                                            //     ? Container(
+                                                            //         child: Text(
+                                                            //           "No link provided",
+                                                            //           style: TextStyle(
+                                                            //               color: Colors
+                                                            //                   .red),
+                                                            //         ),
+                                                            //       )
+                                                            //     :
+                                                            Obx(() => ytStateController
+                                                                        .isYtUrlValid
+                                                                        .value ==
+                                                                    1
+                                                                ? Container(
+                                                                    child: Text(
+                                                                      "No link provided",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.red),
+                                                                    ),
+                                                                  )
+                                                                : ytStateController
+                                                                            .isYtUrlValid
+                                                                            .value ==
+                                                                        2
+                                                                    ? RaisedButton(
                                                                         color: Colors
-                                                                            .red),
-                                                                  ),
-                                                                )
-                                                              : ytStateController
-                                                                          .isYtUrlValid
-                                                                          .value ==
-                                                                      2
-                                                                  ? RaisedButton(
-                                                                      color: Colors
-                                                                          .green,
-                                                                      shape:
-                                                                          StadiumBorder(),
-                                                                      onPressed:
-                                                                          () async {
-                                                                        if (ytStateController.isYtUrlValid.value ==
-                                                                            2) {
-                                                                          roomLogicController
-                                                                              .ytURL
-                                                                              .value = yturl.text;
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                          await Future.delayed(
-                                                                              Duration(seconds: 1));
-                                                                          Get.to(
-                                                                              YTPlayer());
-                                                                        }
+                                                                            .green,
+                                                                        shape:
+                                                                            StadiumBorder(),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          if (ytStateController.isYtUrlValid.value ==
+                                                                              2) {
+                                                                            roomLogicController.ytURL.value =
+                                                                                yturl.text;
+                                                                            Navigator.pop(context);
+                                                                            await Future.delayed(Duration(seconds: 1));
+                                                                            Get.to(YTPlayer());
+                                                                          }
 
-                                                                        // Navigator.pop(
-                                                                        //     context);
-                                                                      },
-                                                                      child:
-                                                                          Text(
-                                                                        'Play',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      ),
-                                                                    )
-                                                                  : Container(
-                                                                      child:
-                                                                          Text(
-                                                                        "Link not Valid !",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.red),
-                                                                      ),
-                                                                    )),
-                                                    )
-                                                  ],
+                                                                          // Navigator.pop(
+                                                                          //     context);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          'Play',
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                        ),
+                                                                      )
+                                                                    : Container(
+                                                                        child:
+                                                                            Text(
+                                                                          "Link not Valid !",
+                                                                          style:
+                                                                              TextStyle(color: Colors.red),
+                                                                        ),
+                                                                      )),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
+                                                //),
                                               ),
-                                              //),
-                                            ),
-                                          );
-                                        },
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'lib/assets/svgs/youtubeplayer.svg',
-                                              width: 70 * heightRatio,
-                                              height: 70 * widthRatio,
-                                            ),
-                                            SizedBox(width: 10 * widthRatio),
-                                            Text(
-                                              'Youtube',
-                                              style: TextStyle(
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'lib/assets/svgs/youtubeplayer.svg',
+                                                width: 70 * heightRatio,
+                                                height: 70 * widthRatio,
+                                              ),
+                                              SizedBox(width: 10 * widthRatio),
+                                              Text(
+                                                'Youtube',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.red),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        // color: Colors.orange.withOpacity(0.1),
+                                        padding:
+                                            const EdgeInsets.only(left: 36),
+                                        child: InkWell(
+                                          onTap: () {
+                                            print("adminId");
+                                            print(roomLogicController
+                                                .adminId.value);
+                                            // filePick();
+                                            bottomSheet();
+                                          },
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'lib/assets/svgs/localplayer.svg',
+                                                width: 40 * widthRatio,
+                                                height: 40 * heightRatio,
+                                                //color: Colors.white,
+                                              ),
+                                              SizedBox(width: 10 * widthRatio),
+                                              Text(
+                                                'Local Media',
+                                                style: TextStyle(
                                                   fontSize: 20,
-                                                  color: Colors.red),
-                                            )
-                                          ],
+                                                  //color: Colors.white
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      // color: Colors.orange.withOpacity(0.1),
-                                      padding: const EdgeInsets.only(left: 36),
-                                      child: InkWell(
-                                        onTap: () {
-                                          print("adminId");
-                                          print(roomLogicController
-                                              .adminId.value);
-                                          // filePick();
-                                          bottomSheet();
-                                        },
+                                      SizedBox(height: 20 * heightRatio),
+                                      Container(
+                                        // color: Colors.white.withOpacity(0.1),
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
                                         child: Row(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
-                                            SvgPicture.asset(
-                                              'lib/assets/svgs/localplayer.svg',
-                                              width: 40 * widthRatio,
-                                              height: 40 * heightRatio,
-                                              //color: Colors.white,
-                                            ),
-                                            SizedBox(width: 10 * widthRatio),
-                                            Text(
-                                              'Local Media',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                //color: Colors.white
+                                            FutureBuilder(
+                                                future: Future.delayed(
+                                                    Duration(seconds: 1)),
+                                                builder: (cts, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return Center(
+                                                      child: Container(
+                                                        height: 2,
+                                                        width: 100,
+                                                        color: Color.fromARGB(
+                                                            200, 60, 60, 60),
+                                                        child:
+                                                            LinearProgressIndicator(
+                                                          backgroundColor:
+                                                              Color.fromARGB(
+                                                                  200,
+                                                                  60,
+                                                                  60,
+                                                                  60),
+                                                          valueColor:
+                                                              new AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  themeController
+                                                                      .drawerHead
+                                                                      .value),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.done) {
+                                                    return StreamBuilder(
+                                                        stream: roomLogicController
+                                                            .adminBsdkKaNaam(
+                                                                firebaseId:
+                                                                    roomLogicController
+                                                                        .roomFireBaseId),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            return Text(
+                                                              '${snapshot.data.snapshot.value}',
+                                                              style: TextStyle(
+                                                                  fontSize: 30),
+                                                            );
+                                                          } else if (snapshot
+                                                              .hasError) {
+                                                            return Text(
+                                                                'Error');
+                                                          }
+                                                          return Text('');
+                                                        });
+                                                  }
+                                                  return Container();
+                                                }),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10, bottom: 0),
+                                              child: SvgPicture.asset(
+                                                'lib/assets/svgs/crown.svg',
+                                                height: 27 * heightRatio,
+                                                width: 27 * widthRatio,
+                                                color: Colors.orange,
                                               ),
                                             )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(height: 20 * heightRatio),
-                                    Container(
-                                      // color: Colors.white.withOpacity(0.1),
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Row(
-                                        // mainAxisAlignment:
-                                        //     MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          FutureBuilder(
-                                              future: Future.delayed(
-                                                  Duration(seconds: 1)),
-                                              builder: (cts, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                    ConnectionState.waiting) {
-                                                  return Center(
-                                                    child: Container(
-                                                      height: 2,
-                                                      width: 100,
-                                                      color: Color.fromARGB(
-                                                          200, 60, 60, 60),
-                                                      child:
-                                                          LinearProgressIndicator(
-                                                        backgroundColor:
-                                                            Color.fromARGB(200,
-                                                                60, 60, 60),
-                                                        valueColor:
-                                                            new AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                                themeController
-                                                                    .drawerHead
-                                                                    .value),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                                if (snapshot.connectionState ==
-                                                    ConnectionState.done) {
-                                                  return StreamBuilder(
-                                                      stream: roomLogicController
-                                                          .adminBsdkKaNaam(
-                                                              firebaseId:
-                                                                  roomLogicController
-                                                                      .roomFireBaseId),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        if (snapshot.hasData) {
-                                                          return Text(
-                                                            '${snapshot.data.snapshot.value}',
-                                                            style: TextStyle(
-                                                                fontSize: 30),
-                                                          );
-                                                        } else if (snapshot
-                                                            .hasError) {
-                                                          return Text('Error');
-                                                        }
-                                                        return Text('');
-                                                      });
-                                                }
-                                                return Container();
-                                              }),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, bottom: 0),
-                                            child: SvgPicture.asset(
-                                              'lib/assets/svgs/crown.svg',
-                                              height: 27 * heightRatio,
-                                              width: 27 * widthRatio,
-                                              color: Colors.orange,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 10 * heightRatio),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: GetX<RoomLogicController>(
-                                          builder: (controller) {
-                                        return Text(
-                                            'Room no: ${controller.roomId.obs.value} ',
-                                            style: TextStyle(fontSize: 15));
-                                      }),
-                                    )
-                                  ],
+                                      SizedBox(height: 10 * heightRatio),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: GetX<RoomLogicController>(
+                                            builder: (controller) {
+                                          return Text(
+                                              'Room no: ${controller.roomId.obs.value} ',
+                                              style: TextStyle(fontSize: 15));
+                                        }),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: SvgPicture.asset('lib/assets/svgs/movie.svg',
-                                width: 120 * widthRatio,
-                                height: 120 * heightRatio),
-                          )
-                        ],
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: SvgPicture.asset(
+                                  'lib/assets/svgs/movie.svg',
+                                  width: 120 * widthRatio,
+                                  height: 120 * heightRatio),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 40 * heightRatio),
-                  Expanded(
-                    // margin: EdgeInsets.only(left: 20),
-                    // color: Colors.blue.withOpacity(0.1),
-                    // height: heightRatio * 300,
-                    // width: widthRatio * 200,
-                    // height: 500,
-                    child: Container(
-                      width: 300 * widthRatio,
-                      // color: Colors.red,
-                      child: FutureBuilder(
-                          future: Future.delayed(Duration(seconds: 1)),
-                          builder: (ctx, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return StreamBuilder(
-                                stream: rishabhController.tester(
-                                    firebaseId:
-                                        roomLogicController.roomFireBaseId),
-                                builder: (ctx, event) {
-                                  if (event.hasData) {
-                                    return NotificationListener<
-                                        OverscrollIndicatorNotification>(
-                                      onNotification: (overscroll) {
-                                        overscroll.disallowGlow();
-                                      },
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.vertical,
-                                        separatorBuilder: (ctx, i) {
-                                          return SizedBox(
-                                            width: 5,
-                                          );
+                    SizedBox(height: 40 * heightRatio),
+                    Expanded(
+                      // margin: EdgeInsets.only(left: 20),
+                      // color: Colors.blue.withOpacity(0.1),
+                      // height: heightRatio * 300,
+                      // width: widthRatio * 200,
+                      // height: 500,
+                      child: Container(
+                        width: 300 * widthRatio,
+                        // color: Colors.red,
+                        child: FutureBuilder(
+                            future: Future.delayed(Duration(seconds: 1)),
+                            builder: (ctx, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return StreamBuilder(
+                                  stream: rishabhController.tester(
+                                      firebaseId:
+                                          roomLogicController.roomFireBaseId),
+                                  builder: (ctx, event) {
+                                    if (event.hasData) {
+                                      return NotificationListener<
+                                          OverscrollIndicatorNotification>(
+                                        onNotification: (overscroll) {
+                                          overscroll.disallowGlow();
                                         },
-                                        itemBuilder: (ctx, i) {
-                                          print(
-                                              'chut: ${event.data.snapshot.value}');
-                                          return CustomNameBar(
-                                            userName: event
-                                                .data.snapshot.value.values
-                                                .toList()[i]['name'],
-                                            roomController: roomLogicController,
-                                            userID: event
-                                                .data.snapshot.value.values
-                                                .toList()[i]['id'],
-                                            event: event,
-                                            index: i,
-                                            widthRatio: widthRatio,
-                                            heightRatio: heightRatio,
-                                            controller: funLogic,
-                                          );
-                                        },
-                                        itemCount: event
-                                            .data.snapshot.value.values
-                                            .toList()
-                                            .length,
-                                      ),
-                                    );
-                                  } else if (event.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                      child: CircularProgressIndicator(
+                                        child: ListView.separated(
+                                          scrollDirection: Axis.vertical,
+                                          separatorBuilder: (ctx, i) {
+                                            return SizedBox(
+                                              width: 5,
+                                            );
+                                          },
+                                          itemBuilder: (ctx, i) {
+                                            print(
+                                                'chut: ${event.data.snapshot.value}');
+                                            return CustomNameBar(
+                                              userName: event
+                                                  .data.snapshot.value.values
+                                                  .toList()[i]['name'],
+                                              roomController:
+                                                  roomLogicController,
+                                              userID: event
+                                                  .data.snapshot.value.values
+                                                  .toList()[i]['id'],
+                                              event: event,
+                                              index: i,
+                                              widthRatio: widthRatio,
+                                              heightRatio: heightRatio,
+                                              controller: funLogic,
+                                            );
+                                          },
+                                          itemCount: event
+                                              .data.snapshot.value.values
+                                              .toList()
+                                              .length,
+                                        ),
+                                      );
+                                    } else if (event.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  themeController
+                                                      .drawerHead.value),
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(
+                                          child: CircularProgressIndicator(
                                         valueColor:
                                             new AlwaysStoppedAnimation<Color>(
                                                 themeController
                                                     .drawerHead.value),
-                                      ),
-                                    );
-                                  } else {
-                                    return Center(
-                                        child: CircularProgressIndicator(
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              themeController.drawerHead.value),
-                                    ));
-                                  }
-                                  return Container(height: 0.0, width: 0.0);
-                                },
-                              );
-                            }
-                            return Container();
-                          }),
+                                      ));
+                                    }
+                                    return Container(height: 0.0, width: 0.0);
+                                  },
+                                );
+                              }
+                              return Container();
+                            }),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -816,6 +830,141 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     contentSize: 14,
                     function: customFunction)
                 : Container(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomNameBar extends StatefulWidget {
+  final String userName;
+  final AsyncSnapshot event;
+  final int index;
+  final double heightRatio;
+  final double widthRatio;
+  final String userID;
+  final FunLogic controller;
+  final RoomLogicController roomController;
+  CustomAlertes customAlertes;
+  CustomNameBar({
+    this.userName,
+    this.event,
+    this.index,
+    this.heightRatio,
+    this.widthRatio,
+    this.controller,
+    Key key,
+    this.userID,
+    this.roomController,
+  }) : super(key: key);
+
+  @override
+  _CustomNameBarState createState() => _CustomNameBarState();
+}
+
+class _CustomNameBarState extends State<CustomNameBar> {
+  Future buildShowDialog(BuildContext context, {String userName}) {
+    return showDialog(
+      context: context,
+      builder: (context) => Container(
+        child: new AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title:
+              new Text('Kick User', style: TextStyle(color: Colors.blueAccent)),
+          content: Text("Do you want to kick $userName ?"),
+          actions: <Widget>[
+            CustomButton(
+              height: 30,
+              buttonColor: Colors.blueAccent,
+              content: "Cancel",
+              cornerRadius: 5,
+              contentSize: 14,
+              function: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+            CustomButton(
+              height: 30,
+              buttonColor: Colors.redAccent,
+              content: "Kick",
+              cornerRadius: 5,
+              contentSize: 14,
+              function: () {
+                widget.roomController.kickUser(
+                    firebaseId: widget.roomController.roomFireBaseId,
+                    idofUser: widget.userID);
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // width: 224 * widget.widthRatio,
+      height: 90 * widget.heightRatio,
+      child: Card(
+        color: Color.fromARGB(200, 60, 60, 60),
+        elevation: 5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        // width: 20,
+        // height: 70,
+        // color: Colors.white,
+        // decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(25), color: Colors.white),
+
+        child: Row(
+          children: [
+            SizedBox(width: widget.widthRatio * 12),
+            ClipOval(
+              child: Container(
+                decoration: BoxDecoration(),
+                width: 50,
+                height: 50,
+                child: Image.network(
+                    'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
+              ),
+            ),
+            SizedBox(width: 20 * widget.heightRatio),
+            Text(
+              '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
+              style: TextStyle(
+                  fontSize: 25, color: widget.controller.randomColorPick),
+            ),
+            Spacer(),
+            Column(
+              children: [
+                (widget.roomController.userId != widget.userID &&
+                        widget.roomController.userId ==
+                            widget.roomController.adminId.value)
+                    ? ClipOval(
+                        child: GestureDetector(
+                          onTap: () {
+                            print(
+                                "roomControllerUserId: ${widget.roomController.userId}");
+
+                            print("UserId: ${widget.userID}");
+
+                            buildShowDialog(context, userName: widget.userName);
+                          },
+                          child: Container(
+                            width: 25,
+                            height: 25,
+                            color: Colors.red,
+                            child: Center(child: Text('X')),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                Spacer()
+              ],
+            )
           ],
         ),
       ),

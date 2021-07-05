@@ -2,6 +2,7 @@
 
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
@@ -42,316 +43,381 @@ class _ChattingPlaceState extends State<ChattingPlace> {
     count = 0;
   }
 
+  bool mess = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
       //drawerEdgeDragWidth: 380.0,
-      resizeToAvoidBottomInset: true,
+      //resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
+          padding: EdgeInsets.only(top: 30),
+          height: Get.height,
           //color: Color.fromARGB(0, 200, 100, 50),
           color: Colors.white.withOpacity(0.1),
           //color: Colors.black.withOpacity(0.5),
           // height: 500,
           width: double.infinity,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StreamBuilder(
-                stream: chatController.message(
-                    firebaseId: roomLogicController.roomFireBaseId),
-                builder: (BuildContext ctx, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    List<M> check = [];
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: 30,
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color.fromRGBO(0, 0, 0, 0.4),
+                          width: 1,
+                        ),
+                        color: Color.fromRGBO(0, 0, 0, 0.4),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Jee lo apni jandagi',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: Get.height - 123,
+                      child: StreamBuilder(
+                        stream: chatController.message(
+                            firebaseId: roomLogicController.roomFireBaseId),
+                        builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            List<M> check = [];
 
-                    snapshot.data.snapshot.value.forEach((key, value) {
-                      text = [];
-                      messages.add({
-                        "userId": value["userId"],
-                        "message": value["message"]
-                      });
-                      check.add(M(
-                          id: DateTime.parse(value["messageId"]),
-                          mesage: value["message"],
-                          userId: value["userId"],
-                          username: value["username"]));
-                    });
+                            snapshot.data.snapshot.value.forEach((key, value) {
+                              text = [];
+                              messages.add({
+                                "userId": value["userId"],
+                                "message": value["message"]
+                              });
+                              check.add(M(
+                                  id: DateTime.parse(value["messageId"]),
+                                  mesage: value["message"],
+                                  userId: value["userId"],
+                                  username: value["username"]));
+                            });
 
-                    check.sort((a, b) => (a.id).compareTo(b.id));
+                            check.sort((a, b) => (a.id).compareTo(b.id));
 
-                    // if (count != 0) {
-                    //   chatScroll.animateTo(
-                    //     chatScroll.position.maxScrollExtent,
-                    //     duration: Duration(milliseconds: 200),
-                    //     curve: Curves.bounceIn,
-                    //   );
-                    //   check[check.length - 1].userId !=
-                    //           roomLogicController.userId
-                    //       ? Future.delayed(
-                    //           Duration(seconds: 1),
-                    //           () => {
-                    //                 widget.snackbar(
-                    //                     check[check.length - 1].username,
-                    //                     check[check.length - 1].mesage)
-                    //               })
-                    //       : {};
-                    // }
+                            // if (count != 0) {
+                            //   chatScroll.animateTo(
+                            //     chatScroll.position.maxScrollExtent,
+                            //     duration: Duration(milliseconds: 200),
+                            //     curve: Curves.bounceIn,
+                            //   );
+                            //   check[check.length - 1].userId !=
+                            //           roomLogicController.userId
+                            //       ? Future.delayed(
+                            //           Duration(seconds: 1),
+                            //           () => {
+                            //                 widget.snackbar(
+                            //                     check[check.length - 1].username,
+                            //                     check[check.length - 1].mesage)
+                            //               })
+                            //       : {};
+                            // }
 
-                    count++;
+                            count++;
 ////s
-                    // if (text == []) {
-                    //   text = check;
-                    // } else {
-                    //   check.removeWhere((element) {
-                    //     for (int i = 0; i < text.length; i++) {
-                    //       if (element["messageId"] == text[i]["messageId"]) {
-                    //         return true;
-                    //       }
-                    //     }
-                    //     return false;
-                    //   });
-                    //   text = temp;
-                    // }
+                            // if (text == []) {
+                            //   text = check;
+                            // } else {
+                            //   check.removeWhere((element) {
+                            //     for (int i = 0; i < text.length; i++) {
+                            //       if (element["messageId"] == text[i]["messageId"]) {
+                            //         return true;
+                            //       }
+                            //     }
+                            //     return false;
+                            //   });
+                            //   text = temp;
+                            // }
 
-                    return Container(
-                      height: Get.height * 0.910,
-                      // height: Get.height * 0.810,
-                      child: ListView.builder(
-                          controller: chatScroll,
-                          itemBuilder: (ctx, i) {
-                            return roomLogicController.userId == check[i].userId
-                                //Self user
+                            return Container(
+                              //height: Get.height * 0.910,
+                              // height: Get.height * 0.810,
+                              child: ListView.builder(
+                                  controller: chatScroll,
+                                  itemBuilder: (ctx, i) {
+                                    return roomLogicController.userId ==
+                                            check[i].userId
+                                        //Self user
 
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 5,
-                                      //left: 10,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Spacer(),
-                                        Container(
-                                          //decoration: BoxBorder(BorderRadius: BorderRadius.circular(10,),),
-                                          constraints: BoxConstraints(
-                                            minWidth: 150,
-                                            maxWidth: 225,
-                                          ),
-                                          //minwidth: 150,
-                                          padding: EdgeInsets.all(8),
-                                          child: Card(
-                                            color:
-                                                Colors.white.withOpacity(0.4),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(13),
-                                                bottomLeft: Radius.circular(13),
-                                                topLeft: Radius.circular(13),
-                                              ),
+                                        ? Container(
+                                            //color: Colors.red,
+                                            padding: const EdgeInsets.only(
+                                              right: 5,
+                                              //left: 10,
                                             ),
-                                            elevation: 5,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 12,
-                                                left: 8,
-                                                top: 6,
-                                              ),
-                                              child: GestureDetector(
-                                                onLongPress: () {
-                                                  FlutterClipboard.copy(
-                                                          check[i].mesage)
-                                                      .then((value) =>
-                                                          Get.snackbar("Done!",
-                                                              "Message Copied!"));
-                                                },
-
-                                                // child: Container(
-                                                //   check[i].username == roomLogicController.adminKaNaam.obs.value
-
-                                                // ),
-
-                                                // margin: EdgeInsets.all(0),
-                                                // padding: EdgeInsets.all(0),
-                                                // child: check[i].username ==
-                                                //         roomLogicController
-                                                //             .adminKaNaam
-                                                //           .obs
-                                                //             .value
-                                                //     ? Column(
-                                                //         crossAxisAlignment:
-                                                //             CrossAxisAlignment
-                                                //                 .start,
-                                                //         children: [
-                                                //           SizedBox(height: 5),
-                                                //           Text(check[i]
-                                                //               .mesage),
-                                                //           SizedBox(height: 5),
-                                                //         ],
-                                                //       )
-                                                //     : Column(
-                                                //         crossAxisAlignment:
-                                                //             CrossAxisAlignment
-                                                //                 .end,
-                                                //         children: [
-                                                //           check[i].username ==
-                                                //                   roomLogicController
-                                                //                       .adminKaNaam
-                                                //                       .obs
-                                                //                       .value
-                                                //               ? Text(
-                                                //                   "Admin",
-                                                //                   style:
-                                                //                       TextStyle(
-                                                //                     fontSize:
-                                                //                         20,
-                                                //                     color: Colors
-                                                //                         .cyan,
-                                                //                   ),
-                                                //                 )
-                                                //               : Text(
-                                                //                   check[i]
-                                                //                       .username,
-                                                //                   style:
-                                                //                       TextStyle(
-                                                //                     fontSize:
-                                                //                         20,
-                                                //                     color: Colors
-                                                //                         .pink,
-                                                //                   ),
-                                                //                 ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(height: 5),
-                                                    // ClipOval(
-                                                    //   child: Container(
-                                                    //     color: Colors.red,
-                                                    //     height: 50,
-                                                    //     width: 50,
-                                                    //   ),
-                                                    // ),
-                                                    Text(check[i].mesage),
-                                                    SizedBox(height: 5),
-                                                  ],
-                                                ),
-                                              ),
-                                              //                child: Column(
-                                              //                  crossAxisAlignment:
-                                              //                      CrossAxisAlignment.start,
-                                              //                  children: [
-                                              //                    check[i].username ==
-                                              //                            roomLogicController
-                                              //                                .adminKaNaam
-                                              //                                .obs
-                                              //                                .value
-                                              //                        ? Text("Admin",
-                                              //                            style: TextStyle(
-                                              //                                fontSize: 20,
-                                              //                                color: Colors
-                                              //                                    .cyan))
-                                              //                        : Text(
-                                              //                            check[i].username),
-                                              //                    SizedBox(height: 5),
-                                              //                    Text(check[i].mesage),
-                                              //                    SizedBox(height: 5)
-                                              //                  ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                //Sending user
-                                : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          // decoration:
-                                          //     BoxDecoration(color: Colors.cyan),
-                                          //width: 150,
-                                          constraints: BoxConstraints(
-                                            minWidth: 150,
-                                            maxWidth: 225,
-                                          ),
-                                          padding: EdgeInsets.only(right: 20),
-                                          child: Card(
-                                            color:
-                                                Colors.white.withOpacity(0.4),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(13),
-                                                bottomRight:
-                                                    Radius.circular(13),
-                                                topLeft: Radius.circular(13),
-                                              ),
-                                            ),
-                                            elevation: 1,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 12,
-                                                left: 8,
-                                                top: 6,
-                                                bottom: 6,
-                                              ),
-                                              child: GestureDetector(
-                                                onLongPress: () {
-                                                  FlutterClipboard.copy(
-                                                          check[i].mesage)
-                                                      .then((value) =>
-                                                          Get.snackbar("Done!",
-                                                              "Message Copied!"));
-                                                },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    check[i].username ==
-                                                            roomLogicController
-                                                                .adminKaNaam
-                                                                .obs
-                                                                .value
-                                                        ? Text(
-                                                            "Admin",
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors.red
-                                                                  .withOpacity(
-                                                                      0.7),
-                                                            ),
-                                                          )
-                                                        : Text(
-                                                            check[i].username,
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors.blue
-                                                                  .withOpacity(
-                                                                      0.7),
-                                                            ),
-                                                          ),
-                                                    Text(
-                                                      check[i].mesage,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Spacer(),
+                                                Container(
+                                                  //decoration: BoxBorder(BorderRadius: BorderRadius.circular(10,),),
+                                                  constraints: BoxConstraints(
+                                                    minWidth: 150,
+                                                    maxWidth: 225,
+                                                  ),
+                                                  //minwidth: 150,
+                                                  padding: EdgeInsets.all(3),
+                                                  child: Card(
+                                                    color: Colors.white
+                                                        .withOpacity(0.4),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topRight:
+                                                            Radius.circular(13),
+                                                        bottomLeft:
+                                                            Radius.circular(13),
+                                                        topLeft:
+                                                            Radius.circular(13),
+                                                      ),
                                                     ),
-                                                  ],
+                                                    elevation: 5,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        right: 12,
+                                                        left: 8,
+                                                        top: 6,
+                                                      ),
+                                                      child: GestureDetector(
+                                                        onLongPress: () {
+                                                          FlutterClipboard.copy(
+                                                                  check[i]
+                                                                      .mesage)
+                                                              .then((value) =>
+                                                                  Get.snackbar(
+                                                                      "Done!",
+                                                                      "Message Copied!"));
+                                                        },
+
+                                                        // child: Container(
+                                                        //   check[i].username == roomLogicController.adminKaNaam.obs.value
+
+                                                        // ),
+
+                                                        // margin: EdgeInsets.all(0),
+                                                        // padding: EdgeInsets.all(0),
+                                                        // child: check[i].username ==
+                                                        //         roomLogicController
+                                                        //             .adminKaNaam
+                                                        //           .obs
+                                                        //             .value
+                                                        //     ? Column(
+                                                        //         crossAxisAlignment:
+                                                        //             CrossAxisAlignment
+                                                        //                 .start,
+                                                        //         children: [
+                                                        //           SizedBox(height: 5),
+                                                        //           Text(check[i]
+                                                        //               .mesage),
+                                                        //           SizedBox(height: 5),
+                                                        //         ],
+                                                        //       )
+                                                        //     : Column(
+                                                        //         crossAxisAlignment:
+                                                        //             CrossAxisAlignment
+                                                        //                 .end,
+                                                        //         children: [
+                                                        //           check[i].username ==
+                                                        //                   roomLogicController
+                                                        //                       .adminKaNaam
+                                                        //                       .obs
+                                                        //                       .value
+                                                        //               ? Text(
+                                                        //                   "Admin",
+                                                        //                   style:
+                                                        //                       TextStyle(
+                                                        //                     fontSize:
+                                                        //                         20,
+                                                        //                     color: Colors
+                                                        //                         .cyan,
+                                                        //                   ),
+                                                        //                 )
+                                                        //               : Text(
+                                                        //                   check[i]
+                                                        //                       .username,
+                                                        //                   style:
+                                                        //                       TextStyle(
+                                                        //                     fontSize:
+                                                        //                         20,
+                                                        //                     color: Colors
+                                                        //                         .pink,
+                                                        //                   ),
+                                                        //                 ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(height: 5),
+                                                            // ClipOval(
+                                                            //   child: Container(
+                                                            //     color: Colors.red,
+                                                            //     height: 50,
+                                                            //     width: 50,
+                                                            //   ),
+                                                            // ),
+                                                            Text(check[i]
+                                                                .mesage),
+                                                            SizedBox(height: 5),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      //                child: Column(
+                                                      //                  crossAxisAlignment:
+                                                      //                      CrossAxisAlignment.start,
+                                                      //                  children: [
+                                                      //                    check[i].username ==
+                                                      //                            roomLogicController
+                                                      //                                .adminKaNaam
+                                                      //                                .obs
+                                                      //                                .value
+                                                      //                        ? Text("Admin",
+                                                      //                            style: TextStyle(
+                                                      //                                fontSize: 20,
+                                                      //                                color: Colors
+                                                      //                                    .cyan))
+                                                      //                        : Text(
+                                                      //                            check[i].username),
+                                                      //                    SizedBox(height: 5),
+                                                      //                    Text(check[i].mesage),
+                                                      //                    SizedBox(height: 5)
+                                                      //                  ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                          ),
-                                        ),
-                                        Spacer()
-                                      ],
-                                    ),
-                                  );
-                          },
-                          itemCount: check.length),
-                    );
-                  } else {
-                    return Text("Getting your Chat");
-                  }
-                },
+                                          )
+                                        //Sending user
+                                        : Container(
+                                            //color: Colors.red,
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  // decoration:
+                                                  //     BoxDecoration(color: Colors.cyan),
+                                                  //width: 150,
+                                                  constraints: BoxConstraints(
+                                                    minWidth: 150,
+                                                    maxWidth: 225,
+                                                  ),
+                                                  padding: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Card(
+                                                    color: Colors.white
+                                                        .withOpacity(0.4),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topRight:
+                                                            Radius.circular(13),
+                                                        bottomRight:
+                                                            Radius.circular(13),
+                                                        topLeft:
+                                                            Radius.circular(13),
+                                                      ),
+                                                    ),
+                                                    elevation: 1,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        right: 12,
+                                                        left: 8,
+                                                        top: 6,
+                                                        bottom: 6,
+                                                      ),
+                                                      child: GestureDetector(
+                                                        onLongPress: () {
+                                                          FlutterClipboard.copy(
+                                                                  check[i]
+                                                                      .mesage)
+                                                              .then((value) =>
+                                                                  Get.snackbar(
+                                                                      "Done!",
+                                                                      "Message Copied!"));
+                                                        },
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            check[i].username ==
+                                                                    roomLogicController
+                                                                        .adminKaNaam
+                                                                        .obs
+                                                                        .value
+                                                                ? Text(
+                                                                    "Admin",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .red
+                                                                          .withOpacity(
+                                                                              0.7),
+                                                                    ),
+                                                                  )
+                                                                : Text(
+                                                                    check[i]
+                                                                        .username,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .withOpacity(
+                                                                              0.7),
+                                                                    ),
+                                                                  ),
+                                                            Text(
+                                                              check[i].mesage,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Spacer()
+                                              ],
+                                            ),
+                                          );
+                                  },
+                                  itemCount: check.length),
+                            );
+                          } else {
+                            return Text("Getting your Chat");
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               //Container(
               //width: 300,
@@ -359,9 +425,12 @@ class _ChattingPlaceState extends State<ChattingPlace> {
               //child:
               Container(
                 // color: Colors.grey.withOpacity(0.2),
-                margin: EdgeInsets.only(bottom: 10),
+                //width: double.infinity,
+                height: 43,
+                color: Colors.black,
+                margin: EdgeInsets.only(bottom: 0),
                 child: Row(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  //crossAxisAlignment: CrossAxisAlignment.stretch,
                   //mainAxisAlignment: MainAxisAlignment.start,
 
                   children: [
@@ -369,18 +438,24 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                       child: Container(
                         //color: Colors.white.withOpacity(0.8),
                         constraints: BoxConstraints(
-                          minHeight: Get.height * 0.065,
-                          //maxWidth: 100,
-                        ),
+                            //minHeight: Get.height * 0.065,
+                            //maxWidth: 100,
+                            ),
                         //height: Get.height * 0.065,
-                        margin: EdgeInsets.only(left: 10, right: 10),
+                        margin: EdgeInsets.only(left: 0, right: 0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(0),
                           color: Color.fromARGB(0, 255, 255, 255),
                         ),
                         child: TextField(
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w100,
+                          ),
                           textAlign: TextAlign.start,
+                          cursorHeight: 20,
+                          cursorColor: Colors.grey,
                           textAlignVertical: TextAlignVertical.bottom,
                           onTap: () {
                             if (widget.controller != null) {
@@ -389,38 +464,58 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                           },
                           controller: message,
                           decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey,
-                            focusColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.white,
+                              filled: true,
+                              fillColor: Colors.black12,
+                              focusColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                  color: Color.fromRGBO(0, 0, 0, 0),
+                                  width: 1,
+                                ),
                               ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30),
-                                bottomRight: Radius.circular(30),
-                                bottomLeft: Radius.circular(5),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                ),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
+                                  bottomLeft: Radius.circular(0),
+                                ),
                               ),
-                            ),
-                          ),
+                              hintText: 'Message',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w100,
+                                fontSize: 16,
+                              )),
                         ),
                       ),
                     ),
                     //SizedBox(width: 5),
                     Container(
-                      height: 50,
+                      height: 43,
                       width: 80,
                       child: ElevatedButton(
+                        // style: ElevatedButton.styleFrom(
+
+                        //   shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.only(
+                        //       topLeft: Radius.circular(0),
+                        //       bottomLeft: Radius.circular(0),
+                        //       bottomRight: Radius.circular(0),
+                        //       topRight: Radius.circular(0),
+                        //     ),
+                        //   ),
+                        // ),
+
                         style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(30),
-                              topRight: Radius.circular(5),
-                            ),
-                          ),
+                          primary: Colors.black12,
+                          // padding: EdgeInsets.symmetric(
+                          //     horizontal: 50, vertical: 20),
+                          textStyle: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
                           if (message.text != "") {
@@ -428,18 +523,21 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                 firebaseId: roomLogicController.roomFireBaseId,
                                 message: message.text,
                                 userId: roomLogicController.userId,
-                                username:
-                                    roomLogicController.userName.value);
+                                username: roomLogicController.userName.value);
                             message.clear();
                             messages = [];
                           }
                         },
-                        child: Text("Send",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 15)),
+                        // child: Text("Send",
+                        //     style:
+                        //         TextStyle(color: Colors.white, fontSize: 15)),
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
-                    SizedBox(width: 10)
+                    SizedBox(width: 0)
                   ],
                 ),
               ),
