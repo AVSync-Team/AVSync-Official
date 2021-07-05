@@ -253,7 +253,8 @@ class _YTPlayerState extends State<YTPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
+    FocusNode currenFocus = FocusScope.of(context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -1257,6 +1258,7 @@ class _YTPlayerState extends State<YTPlayer> {
                           elevation: 0,
                           color: Colors.transparent,
                           child: TextField(
+                            autofocus: false,
                             controller: chatTextController,
                             style: TextStyle(
                               fontSize: 16,
@@ -1324,7 +1326,28 @@ class _YTPlayerState extends State<YTPlayer> {
                           // ),
                           onPressed: chatController.isTextEmpty.value
                               ? null
-                              : messageSendingCode,
+                              : () {
+                                  chatController.sendMessageCloudFireStore(
+                                      roomId:
+                                          roomLogicController.roomFireBaseId,
+                                      message: chatTextController.text,
+                                      userId: roomLogicController.userId,
+                                      sentBy:
+                                          roomLogicController.userName.value);
+
+                                  //scroll the listview down
+                                  Timer(
+                                      Duration(milliseconds: 300),
+                                      () => chatScrollController.jumpTo(
+                                          chatScrollController
+                                              .position.maxScrollExtent));
+                                  //clear the text from textfield
+                                  chatTextController.clear();
+                                  //remove focus of widget
+                                  if (!currenFocus.hasPrimaryFocus) {
+                                    currenFocus.unfocus();
+                                  }
+                                },
                         ),
                       ),
                     ),
@@ -1335,20 +1358,6 @@ class _YTPlayerState extends State<YTPlayer> {
         ),
       ),
     );
-  }
-
-  void messageSendingCode() {
-    chatController.sendMessageCloudFireStore(
-        roomId: roomLogicController.roomFireBaseId,
-        message: chatTextController.text,
-        userId: roomLogicController.userId,
-        sentBy: roomLogicController.userName.value);
-
-    Timer(
-        Duration(milliseconds: 300),
-        () => chatScrollController
-            .jumpTo(chatScrollController.position.maxScrollExtent));
-    chatTextController.clear();
   }
 }
 
