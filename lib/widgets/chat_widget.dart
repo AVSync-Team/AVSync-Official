@@ -57,14 +57,16 @@ class _ChatWidgetState extends State<ChatWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 5),
-                  Text(
-                    '${widget.userName}',
-                    style: TextStyle(
-                      color: Colors.greenAccent,
-                      fontSize: 14,
+                  if (widget.userIdofOtherUsers != widget.usersOwnUserId)
+                    Text(
+                      '${widget.userName}',
+                      style: TextStyle(
+                        color: Colors.greenAccent,
+                        fontSize: 14,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5),
+                  if (widget.userIdofOtherUsers != widget.usersOwnUserId)
+                    SizedBox(height: 5),
                   Text(
                     "${widget.messageText}",
                     style: TextStyle(
