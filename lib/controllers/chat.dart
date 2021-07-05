@@ -15,6 +15,8 @@ int randomGenerator() {
 }
 
 class ChatController extends GetxController {
+  var isTextEmpty = true.obs;
+
   void sendMessage(
       {String firebaseId, String message, String userId, String username}) {
     var firebaseDatabase = FirebaseDatabase.instance.reference();
@@ -75,7 +77,7 @@ class ChatController extends GetxController {
         .collection('chats')
         .doc('$roomFireBaseId')
         .collection('messages')
-        .orderBy('createdOn', descending: false)
+        .orderBy('timeStamp', descending: false)
         .snapshots();
   }
 
@@ -91,7 +93,7 @@ class ChatController extends GetxController {
       'userId': userId,
       'message': message,
       'sentBy': sentBy,
-      'createdOn': Timestamp.now(),
+      'timeStamp': DateTime.now().toUtc().millisecondsSinceEpoch,
     });
   }
 }

@@ -726,6 +726,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           OverscrollIndicatorNotification>(
                                         onNotification: (overscroll) {
                                           overscroll.disallowGlow();
+                                          return null;
                                         },
                                         child: ListView.separated(
                                           scrollDirection: Axis.vertical,
