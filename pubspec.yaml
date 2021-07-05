@@ -55,6 +55,9 @@ dependencies:
   # flutter_sound: ^7.4.9+1
   # file_picker: ^2.1.4
 
+  #webview
+  webview_flutter: ^2.0.9
+
  
 
 
