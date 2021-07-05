@@ -93,8 +93,8 @@ class _YTPlayerState extends State<YTPlayer> {
         .listen((event) {
       print("adminId");
       roomLogicController.adminId.value = event.snapshot.value;
-      if (Get.context.orientation == Orientation.portrait)
-        controller.toggleFullScreenMode();
+      // if (Get.context.orientation == Orientation.portrait)
+      //   controller.toggleFullScreenMode();
 
       // setState(() {});
     });
