@@ -406,12 +406,12 @@ class _YTPlayerState extends State<YTPlayer> {
                 ),
               )
             : null,
-        endDrawer: Container(
-          width: 380 * widthRatio,
-          child: Drawer(
-            child: ChattingPlace(controller: controller),
-          ),
-        ),
+        // endDrawer: Container(
+        //   width: 380 * widthRatio,
+        //   child: Drawer(
+        //     child: ChattingPlace(controller: controller),
+        //   ),
+        // ),
         backgroundColor: Color(0xff292727),
         body: Column(
           children: [
@@ -1224,9 +1224,13 @@ class _YTPlayerState extends State<YTPlayer> {
             //send button
             //and textinput widget
             if (Get.context.orientation == Orientation.portrait)
-              Padding(
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Color.fromRGBO(10, 10, 10, 1),
                 padding: const EdgeInsets.only(right: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Container(
@@ -1246,10 +1250,11 @@ class _YTPlayerState extends State<YTPlayer> {
                         decoration: BoxDecoration(
                           // border: Border.all(color: Colors.red),
                           borderRadius: BorderRadius.circular(0),
-                          color: CustomThemeData().darkGrey.value,
+                          //color: CustomThemeData().darkGrey.value,
+                          color: Color.fromRGBO(10, 10, 10, 1),
                         ),
                         child: Card(
-                          elevation: 20,
+                          elevation: 0,
                           color: Colors.transparent,
                           child: TextField(
                             controller: chatTextController,
@@ -1268,13 +1273,13 @@ class _YTPlayerState extends State<YTPlayer> {
                               focusColor: Colors.white,
                               focusedBorder: OutlineInputBorder(
                                 borderSide: new BorderSide(
-                                  color: Color.fromRGBO(0, 0, 0, 0),
+                                  color: Color.fromRGBO(10, 10, 10, 0),
                                   width: 1,
                                 ),
                               ),
                               border: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(0),
