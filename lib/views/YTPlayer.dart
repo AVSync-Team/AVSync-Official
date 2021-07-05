@@ -12,6 +12,7 @@ import 'package:VideoSync/widgets/chat_widget.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/custom_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -93,8 +94,8 @@ class _YTPlayerState extends State<YTPlayer> {
         .listen((event) {
       print("adminId");
       roomLogicController.adminId.value = event.snapshot.value;
-      if (Get.context.orientation == Orientation.portrait)
-        controller.toggleFullScreenMode();
+      // if (Get.context.orientation == Orientation.portrait)
+      //   controller.toggleFullScreenMode();
 
       // setState(() {});
     });
@@ -1150,22 +1151,31 @@ class _YTPlayerState extends State<YTPlayer> {
             //this is the chat display part of code
             if (Get.context.orientation == Orientation.portrait)
               Expanded(
-                child: StreamBuilder(
-                  stream: chatController.message(
-                      firebaseId: roomLogicController.roomFireBaseId),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Event> snapshot) {
-                    if (snapshot.hasData) {
+                child: StreamBuilder<QuerySnapshot>(
+                  // stream: chatController.message(
+                  //     firebaseId: roomLogicController.roomFireBaseId),
+                  stream: chatController.chatStream(
+                      roomFireBaseId: roomLogicController.roomFireBaseId),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text("Some error occured"));
+                    } else if (snapshot.hasData) {
                       return ListView.separated(
-                          itemBuilder: (BuildContext context, int index) {
-                            // return ChatWidget(userName: snapshot.data.snapshot.value , messageText : );
-
-                            return Text('');
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(height: 5);
-                          },
-                          itemCount: 5);
+                        itemBuilder: (BuildContext context, int index) {
+                          return ChatWidget(
+                            userName: "${snapshot.data.docs[index]['sentBy']}",
+                            messageText:
+                                "${snapshot.data.docs[index]['message']}",
+                            timeStamp:
+                                "${snapshot.data.docs[index]['createdOn']}",
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 5);
+                        },
+                        itemCount: snapshot.data.size,
+                      );
                     }
                     return Container();
                   },
@@ -1240,11 +1250,11 @@ class _YTPlayerState extends State<YTPlayer> {
                       ),
                       onPressed: () {
                         // if (message.text != "") {
-                        chatController.sendMessage(
-                            firebaseId: roomLogicController.roomFireBaseId,
+                        chatController.sendMessageCloudFireStore(
+                            roomId: roomLogicController.roomFireBaseId,
                             message: chatTextController.text,
                             userId: roomLogicController.userId,
-                            username: roomLogicController.userName.value);
+                            sentBy: roomLogicController.userName.value);
                         chatTextController.clear();
                         // messages = [];
                         // }
