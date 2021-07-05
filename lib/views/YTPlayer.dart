@@ -42,6 +42,7 @@ ScrollController chatScrollController = ScrollController();
 AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
+int buttonPressed = 1;
 
 // int position = 0;
 
@@ -404,6 +405,26 @@ class _YTPlayerState extends State<YTPlayer> {
                             fontWeight: FontWeight.w100));
                   }),
                 ),
+                actions: [
+                  Container(
+                    padding: EdgeInsets.only(right: 13),
+                    child: GestureDetector(
+                      child: buttonPressed == 0
+                          ? Icon(Icons.message)
+                          : Icon(Icons.fullscreen),
+                      onTap: () {
+                        if (buttonPressed == 1)
+                          setState(() {
+                            buttonPressed = 0;
+                          });
+                        else
+                          setState(() {
+                            buttonPressed = 1;
+                          });
+                      },
+                    ),
+                  )
+                ],
               )
             : null,
         // endDrawer: Container(
@@ -415,6 +436,9 @@ class _YTPlayerState extends State<YTPlayer> {
         backgroundColor: Color(0xff292727),
         body: Column(
           children: [
+            SizedBox(
+              height: buttonPressed == 0 ? 225 : 0,
+            ),
             Container(
               decoration: BoxDecoration(border: Border.all(color: Colors.red)),
               child: AspectRatio(
@@ -1170,7 +1194,8 @@ class _YTPlayerState extends State<YTPlayer> {
             if (Get.context.orientation == Orientation.portrait)
               SizedBox(height: 10),
             //this is the chat display part of code
-            if (Get.context.orientation == Orientation.portrait)
+            if (Get.context.orientation == Orientation.portrait &&
+                buttonPressed == 1)
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   // stream: chatController.message(
@@ -1223,7 +1248,8 @@ class _YTPlayerState extends State<YTPlayer> {
             //this is the sending part
             //send button
             //and textinput widget
-            if (Get.context.orientation == Orientation.portrait)
+            if (Get.context.orientation == Orientation.portrait &&
+                buttonPressed == 1)
               Container(
                 width: double.infinity,
                 height: 50,
