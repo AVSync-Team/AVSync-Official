@@ -16,6 +16,7 @@ class ChatController extends GetxController {
   void sendMessage(
       {String firebaseId, String message, String userId, String username}) {
     var firebaseDatabase = FirebaseDatabase.instance.reference();
+    print("CheckUsrName: $username");
     firebaseDatabase
         .child('Rooms')
         .child('$firebaseId')
@@ -29,8 +30,9 @@ class ChatController extends GetxController {
     });
   }
 
-  Stream message({String firebaseId}) {
-    final firebasedatbase = FirebaseDatabase.instance.reference();
+  Stream<Event> message({String firebaseId}) {
+    final DatabaseReference firebasedatbase =
+        FirebaseDatabase.instance.reference();
     return firebasedatbase
         .child('Rooms')
         .child('$firebaseId')

@@ -324,8 +324,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                       builder: (BuildContext context,
                           AsyncSnapshot<SharedPreferences> snapshot) {
                         if (snapshot.hasData) {
+                          //get from local storage
                           nameController = snapshot.data.getString('userName');
-                          print("Check $nameController");
+                          //set the username from local storage
+                          roomLogicController.userName.value = nameController;
+                          print(
+                              "RoomLogicPeCheck ${roomLogicController.userName.value}");
+
                           return TextFormField(
                             validator: (String value) {
                               if (value.isEmpty) {
@@ -334,7 +339,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                               return null;
                             },
                             onChanged: (String value) {
-                              nameController = value; //set the name
+                              roomLogicController.userName.value =
+                                  value; //set the name
                               setPreference.setString('userName', value);
                             },
                             maxLength: 8,
@@ -454,10 +460,11 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                           onPressed: () async {
                             //check if name is null
                             if (!_formKey.currentState.validate()) return;
-
+                            print(
+                                'MakeRoomButton ${roomLogicController.userName.value}');
                             roomLogicController.isLoading.value = true;
                             await roomLogicController.makeRoom(
-                                adminName: nameController);
+                                adminName: roomLogicController.userName.value);
                             Get.to(WaitingPage());
                             roomLogicController.isLoading.value = false;
                           },

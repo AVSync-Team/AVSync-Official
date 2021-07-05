@@ -12,6 +12,7 @@ import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
+import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';

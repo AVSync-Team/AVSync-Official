@@ -17,7 +17,7 @@ class RoomLogicController extends GetxController {
   var randomNumber = 0.obs;
   List<dynamic> users = [];
   String adminKaNaam;
-  String userName;
+
   var ytURL = ''.obs;
   var localUrl = ''.obs;
   String userId;
@@ -32,6 +32,7 @@ class RoomLogicController extends GetxController {
   var dontHideControls = false.obs;
   var videoPosition = Duration(seconds: 0).obs;
   var isLoading = false.obs;
+  var userName = ''.obs;
 
   void roomText(text) {
     roomIdText = text;
@@ -52,10 +53,10 @@ class RoomLogicController extends GetxController {
 
   Future<void> makeRoom({String adminName}) async {
     // isLoading.value = true;
-
     this.roomId.value = randomGenerator().toString();
+    // userName.value = adminKaNaam;
 
-    userName = adminKaNaam;
+    print("RoomLogicController: ${userName.value}");
     this.userId = randomGenerator().toString();
     final response = await http.post(roomUrl,
         body: json.encode({
@@ -102,7 +103,8 @@ class RoomLogicController extends GetxController {
     isLoading.value = true;
     final firebaseDatabase = FirebaseDatabase.instance.reference();
 
-    userName = name;
+    // userName.value = name;
+
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
     String roomIds =

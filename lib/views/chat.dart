@@ -429,7 +429,7 @@ class _ChattingPlaceState extends State<ChattingPlace> {
                                 message: message.text,
                                 userId: roomLogicController.userId,
                                 username:
-                                    roomLogicController.userName.obs.value);
+                                    roomLogicController.userName.value);
                             message.clear();
                             messages = [];
                           }
