@@ -22,6 +22,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key('${widget.timeStamp}'),
       margin: EdgeInsets.symmetric(horizontal: 8),
       // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
       child: Row(

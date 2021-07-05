@@ -201,10 +201,10 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   void dispose() {
     controller.dispose();
-    chatTextController.dispose();
-    roomLogicController.dispose();
-    rishabhController.dispose();
-    ytStateController.dispose();
+    // chatTextController.dispose();
+    // roomLogicController.dispose();
+    // // rishabhController.dispose();
+    // ytStateController.dispose();
     super.dispose();
   }
 
@@ -306,86 +306,85 @@ class _YTPlayerState extends State<YTPlayer> {
                             Container(
                               height: 250,
                               child: FutureBuilder(
-                                  future: Future.delayed(Duration(seconds: 1)),
-                                  builder: (ctx, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.done) {
-                                      return StreamBuilder(
-                                        stream: rishabhController.tester(
-                                            firebaseId: roomLogicController
-                                                .roomFireBaseId),
-                                        builder: (ctx, event) {
-                                          if (event.hasData) {
-                                            return NotificationListener<
-                                                OverscrollIndicatorNotification>(
-                                              onNotification: (overscroll) {
-                                                overscroll.disallowGlow();
+                                future: Future.delayed(Duration(seconds: 1)),
+                                builder: (ctx, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return StreamBuilder(
+                                      stream: rishabhController.tester(
+                                          firebaseId: roomLogicController
+                                              .roomFireBaseId),
+                                      builder: (ctx, event) {
+                                        if (event.hasData) {
+                                          return NotificationListener<
+                                              OverscrollIndicatorNotification>(
+                                            onNotification: (overscroll) {
+                                              overscroll.disallowGlow();
+                                            },
+                                            child: ListView.separated(
+                                              scrollDirection: Axis.vertical,
+                                              separatorBuilder: (ctx, i) {
+                                                return SizedBox(
+                                                  width: 5,
+                                                );
                                               },
-                                              child: ListView.separated(
-                                                scrollDirection: Axis.vertical,
-                                                separatorBuilder: (ctx, i) {
-                                                  return SizedBox(
-                                                    width: 5,
-                                                  );
-                                                },
-                                                itemBuilder: (ctx, i) {
-                                                  print(
-                                                      'chut: ${event.data.snapshot.value}');
-                                                  return Container(
-                                                    width: 100,
-                                                    height: 60,
-                                                    child: CustomNameBar(
-                                                      userName: event.data
-                                                          .snapshot.value.values
-                                                          .toList()[i]['name'],
-                                                      roomController:
-                                                          roomLogicController,
-                                                      userID: event.data
-                                                          .snapshot.value.values
-                                                          .toList()[i]['id'],
-                                                      event: event,
-                                                      index: i,
-                                                      widthRatio: widthRatio,
-                                                      heightRatio: heightRatio,
-                                                      controller: funLogic,
-                                                    ),
-                                                  );
-                                                },
-                                                itemCount: event
-                                                    .data.snapshot.value.values
-                                                    .toList()
-                                                    .length,
-                                              ),
-                                            );
-                                          } else if (event.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        themeController
-                                                            .drawerHead.value),
-                                              ),
-                                            );
-                                          } else {
-                                            return Center(
-                                                child:
-                                                    CircularProgressIndicator(
+                                              itemBuilder: (ctx, i) {
+                                                print(
+                                                    'chut: ${event.data.snapshot.value}');
+                                                return Container(
+                                                  width: 100,
+                                                  height: 60,
+                                                  child: CustomNameBar(
+                                                    userName: event.data
+                                                        .snapshot.value.values
+                                                        .toList()[i]['name'],
+                                                    roomController:
+                                                        roomLogicController,
+                                                    userID: event.data.snapshot
+                                                        .value.values
+                                                        .toList()[i]['id'],
+                                                    event: event,
+                                                    index: i,
+                                                    widthRatio: widthRatio,
+                                                    heightRatio: heightRatio,
+                                                    controller: funLogic,
+                                                  ),
+                                                );
+                                              },
+                                              itemCount: event
+                                                  .data.snapshot.value.values
+                                                  .toList()
+                                                  .length,
+                                            ),
+                                          );
+                                        } else if (event.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(
                                               valueColor:
                                                   new AlwaysStoppedAnimation<
                                                           Color>(
                                                       themeController
                                                           .drawerHead.value),
-                                            ));
-                                          }
-                                          return Container(
-                                              height: 0.0, width: 0.0);
-                                        },
-                                      );
-                                    }
-                                    return Container();
-                                  }),
+                                            ),
+                                          );
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              valueColor:
+                                                  new AlwaysStoppedAnimation<
+                                                          Color>(
+                                                      themeController
+                                                          .drawerHead.value),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  }
+                                  return Container();
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -1363,10 +1362,11 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                   //scroll the listview down
                                   Timer(
-                                      Duration(milliseconds: 300),
-                                      () => chatScrollController.jumpTo(
-                                          chatScrollController
-                                              .position.maxScrollExtent));
+                                    Duration(milliseconds: 300),
+                                    () => chatScrollController.jumpTo(
+                                        chatScrollController
+                                            .position.maxScrollExtent),
+                                  );
                                   //clear the text from textfield
                                   chatTextController.clear();
                                   //remove focus of widget

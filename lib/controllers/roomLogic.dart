@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:VideoSync/controllers/chat.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -74,19 +75,17 @@ class RoomLogicController extends GetxController {
           },
           "chat": {
             "341241": {
-              "message": "Welcome",
-              "userId": "231312",
+              "message": "Welcome to AvSync !!",
+              "userId": "696969",
               "messageId": DateTime.now().toIso8601String(),
               "username": "AVSync"
             }
           }
         }));
-
     adminId.value = userId;
     // print(userId);
     // print("admin Id");
     // print(adminId);
-
     // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
@@ -299,8 +298,6 @@ class RoomLogicController extends GetxController {
     //     .set(0);
   }
 
-
-
   // Stream<Event>  usersInRoom({String firebaseId}){
   //   final firebaseDB = FirebaseDatabase.instance.reference();
   // return firebaseDB
@@ -309,8 +306,6 @@ class RoomLogicController extends GetxController {
   //   .child('users')
   //   .
   // }
-
-
 
   Stream<Event> userStatus({String firebaseId}) {
     // print("Userid : $idOfUser  ,            firebaseid: $firebaseId");
