@@ -80,12 +80,8 @@ class RishabhController extends GetxController {
     // var usersList = [];
     // var index = 0;
 
-    String id = "";
-    String name = "";
-    DataSnapshot v;
     int flag = 0;
     await userRef.once().then((value) {
-      v = value;
       print("loda mera sala");
       print("Firebase ${adminId}");
 
@@ -139,6 +135,4 @@ class RishabhController extends GetxController {
         .onValue
         .first;
   }
-
-  
 }

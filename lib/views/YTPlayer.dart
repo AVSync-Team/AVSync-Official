@@ -93,7 +93,10 @@ class _YTPlayerState extends State<YTPlayer> {
         .listen((event) {
       print("adminId");
       roomLogicController.adminId.value = event.snapshot.value;
-      setState(() {});
+      if (Get.context.orientation == Orientation.portrait)
+        controller.toggleFullScreenMode();
+
+      // setState(() {});
     });
 
     print(roomLogicController.adminId.value);
@@ -129,6 +132,7 @@ class _YTPlayerState extends State<YTPlayer> {
         controller.play();
       }
     });
+
     // chatController
     //     .message(firebaseId: roomLogicController.roomFireBaseId)
     //     .listen((event) {
@@ -1152,11 +1156,10 @@ class _YTPlayerState extends State<YTPlayer> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Event> snapshot) {
                     if (snapshot.hasData) {
-                      
                       return ListView.separated(
                           itemBuilder: (BuildContext context, int index) {
                             // return ChatWidget(userName: snapshot.data.snapshot.value , messageText : );
-                            
+
                             return Text('');
                           },
                           separatorBuilder: (BuildContext context, int index) {

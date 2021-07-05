@@ -299,6 +299,19 @@ class RoomLogicController extends GetxController {
     //     .set(0);
   }
 
+
+
+  // Stream<Event>  usersInRoom({String firebaseId}){
+  //   final firebaseDB = FirebaseDatabase.instance.reference();
+  // return firebaseDB
+  //   .child('Rooms')
+  //   .child(firebaseId)
+  //   .child('users')
+  //   .
+  // }
+
+
+
   Stream<Event> userStatus({String firebaseId}) {
     // print("Userid : $idOfUser  ,            firebaseid: $firebaseId");
     //
