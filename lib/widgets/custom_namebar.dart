@@ -1,5 +1,6 @@
 import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/widgets/show_alerts.dart';
 import 'package:flutter/material.dart';
 
@@ -37,11 +38,14 @@ class CustomNameBar extends StatefulWidget {
 }
 
 class _CustomNameBarState extends State<CustomNameBar> {
+  //builds the alert dialog
   Future buildShowDialog(BuildContext context, {String userName}) {
     return showDialog(
       context: context,
       builder: (context) => Container(
+        height: 60,
         child: new AlertDialog(
+          // backgroundColor: CustomThemeData().darkGrey.value,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title:
@@ -65,6 +69,7 @@ class _CustomNameBarState extends State<CustomNameBar> {
               cornerRadius: 5,
               contentSize: 14,
               function: () {
+                //kick the user logic is here
                 widget.roomController.kickUser(
                     firebaseId: widget.roomController.roomFireBaseId,
                     idofUser: widget.userID);
@@ -79,11 +84,12 @@ class _CustomNameBarState extends State<CustomNameBar> {
 
   @override
   Widget build(BuildContext context) {
+    //builds the custom card container
     return Container(
       // width: 224 * widget.widthRatio,
       height: 90 * widget.heightRatio,
       child: Card(
-        color: Color.fromARGB(200, 60, 60, 60),
+        color: const Color.fromARGB(200, 60, 60, 60),
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         // width: 20,
@@ -93,6 +99,7 @@ class _CustomNameBarState extends State<CustomNameBar> {
         //     borderRadius: BorderRadius.circular(25), color: Colors.white),
 
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(width: widget.widthRatio * 12),
             ClipOval(
@@ -104,41 +111,85 @@ class _CustomNameBarState extends State<CustomNameBar> {
                     'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
               ),
             ),
-            SizedBox(width: 20 * widget.heightRatio),
-            Text(
-              '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
-              style: TextStyle(
+            SizedBox(width: 5 * widget.heightRatio),
+            Container(
+              // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+              child: Text(
+                '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
+                style: TextStyle(
                   fontSize: widget.textSize,
-                  color: widget.controller.randomColorPick),
+                  color: widget.controller.randomColorPick,
+                  // color: Colors.greenAccent,
+                ),
+              ),
             ),
             Spacer(),
-            Column(
-              children: [
-                (widget.roomController.userId != widget.userID &&
-                        widget.roomController.userId ==
-                            widget.roomController.adminId.value)
-                    ? ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            print(
-                                "roomControllerUserId: ${widget.roomController.userId}");
 
-                            print("UserId: ${widget.userID}");
-
-                            buildShowDialog(context, userName: widget.userName);
-                          },
-                          child: Container(
-                            width: 25,
-                            height: 25,
-                            color: Colors.red,
-                            child: Center(child: Text('X')),
+            //kick UI
+            (widget.roomController.userId != widget.userID &&
+                    widget.roomController.userId ==
+                        widget.roomController.adminId.value)
+                ? Container(
+                    // height: 50,
+                    width: 55,
+                    decoration: BoxDecoration(
+                        // color: Colors.redAccent,
+                        ),
+                    child: GestureDetector(
+                      child: Card(
+                        elevation: 7,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                            topLeft: Radius.circular(0),
                           ),
                         ),
-                      )
-                    : Container(),
-                Spacer()
-              ],
-            )
+                        color: Colors.redAccent,
+                        child: Center(
+                          child: Text(
+                            'Kick',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+
+                      //kick logic
+                      onTap: () {
+                        buildShowDialog(context, userName: widget.userName);
+                      },
+                    ),
+                  )
+                : Container()
+
+            // Column(
+            //   children: [
+            //     (widget.roomController.userId != widget.userID &&
+            //             widget.roomController.userId ==
+            //                 widget.roomController.adminId.value)
+            //         ? ClipOval(
+            //             child: GestureDetector(
+            //               onTap: () {
+            //                 // print(
+            //                 //     "roomControllerUserId: ${widget.roomController.userId}");
+
+            //                 // print("UserId: ${widget.userID}");
+
+            //                 buildShowDialog(context, userName: widget.userName);
+            //               },
+            //               child: Container(
+            //                 width: 25,
+            //                 height: 25,
+            //                 color: Colors.red,
+            //                 child: Center(child: Text('X')),
+            //               ),
+            //             ),
+            //           )
+            //         : Container(),
+            //     Spacer()
+            //   ],
+            // )
           ],
         ),
       ),
