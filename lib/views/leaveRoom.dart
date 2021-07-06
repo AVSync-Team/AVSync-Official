@@ -170,7 +170,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
                         roomLogicController.adminDeleteRoom(
                             firebaseId: roomLogicController.roomFireBaseId);
                       }
-                      Get.off(HomePage());
+                      Get.offAll(HomePage());
                       // Get.off(CreateRoomScreen());
                     }),
               ),

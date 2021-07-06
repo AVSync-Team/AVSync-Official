@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:VideoSync/controllers/chat.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +18,7 @@ class RoomLogicController extends GetxController {
   var randomNumber = 0.obs;
   List<dynamic> users = [];
   String adminKaNaam;
-  String userName;
+
   var ytURL = ''.obs;
   var localUrl = ''.obs;
   String userId;
@@ -32,6 +33,7 @@ class RoomLogicController extends GetxController {
   var dontHideControls = false.obs;
   var videoPosition = Duration(seconds: 0).obs;
   var isLoading = false.obs;
+  var userName = ''.obs;
 
   void roomText(text) {
     roomIdText = text;
@@ -52,10 +54,10 @@ class RoomLogicController extends GetxController {
 
   Future<void> makeRoom({String adminName}) async {
     // isLoading.value = true;
-
     this.roomId.value = randomGenerator().toString();
+    // userName.value = adminKaNaam;
 
-    userName = adminKaNaam;
+    print("RoomLogicController: ${userName.value}");
     this.userId = randomGenerator().toString();
     final response = await http.post(roomUrl,
         body: json.encode({
@@ -73,19 +75,17 @@ class RoomLogicController extends GetxController {
           },
           "chat": {
             "341241": {
-              "message": "Welcome",
-              "userId": "231312",
+              "message": "Welcome to AvSync !!",
+              "userId": "696969",
               "messageId": DateTime.now().toIso8601String(),
               "username": "AVSync"
             }
           }
         }));
-
     adminId.value = userId;
     // print(userId);
     // print("admin Id");
     // print(adminId);
-
     // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
@@ -102,7 +102,8 @@ class RoomLogicController extends GetxController {
     isLoading.value = true;
     final firebaseDatabase = FirebaseDatabase.instance.reference();
 
-    userName = name;
+    // userName.value = name;
+
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
     String roomIds =
@@ -225,18 +226,18 @@ class RoomLogicController extends GetxController {
     print('status sent: ${response.statusCode}');
   }
 
-  Future<bool> sendIsDraggingStatus({bool status}) async {
-    final response = await http.patch(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        body: json.encode({"isDragging": status}));
-    return json.decode(response.body);
-  }
+  // Future<bool> sendIsDraggingStatus({bool status}) async {
+  //   final response = await http.patch(
+  //       'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+  //       body: json.encode({"isDragging": status}));
+  //   return json.decode(response.body);
+  // }
 
-  Future<void> sendPlay({double speed}) async {
-    final response = await http.patch(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        body: json.encode({"playBackSpeed": speed}));
-  }
+  // Future<void> sendPlay({double speed}) async {
+  //   final response = await http.patch(
+  //       'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
+  //       body: json.encode({"playBackSpeed": speed}));
+  // }
 
   void sendPlayBackSpeed({double speed}) {
     final firebase = FirebaseDatabase.instance.reference();
@@ -296,6 +297,15 @@ class RoomLogicController extends GetxController {
     //     .child('status')
     //     .set(0);
   }
+
+  // Stream<Event>  usersInRoom({String firebaseId}){
+  //   final firebaseDB = FirebaseDatabase.instance.reference();
+  // return firebaseDB
+  //   .child('Rooms')
+  //   .child(firebaseId)
+  //   .child('users')
+  //   .
+  // }
 
   Stream<Event> userStatus({String firebaseId}) {
     // print("Userid : $idOfUser  ,            firebaseid: $firebaseId");

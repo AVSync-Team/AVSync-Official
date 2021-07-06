@@ -1,5 +1,8 @@
 import 'dart:async';
-
+import 'dart:async';
+import 'dart:convert';
+//import 'dart:html';
+import 'dart:io';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/funLogic.dart';
@@ -9,28 +12,21 @@ import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
 import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
-
 import 'package:VideoSync/views/homePage.dart';
-import 'package:VideoSync/views/leaveRoom.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/webShowones.dart';
+import 'package:VideoSync/views/webShow.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
+import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/show_alerts.dart';
-// import 'package:better_player/better_player.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+//import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:file_picker/file_picker.dart';
-
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
-
-// import 'package:VideoSync/views/videoPlayer.dart';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-//import 'package:flutter/material.dart';
-//import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-// import 'package:VideoSync/views/createRoom.dart';
 
 class WelcomScreen extends StatefulWidget {
   @override
@@ -48,6 +44,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
   FunLogic funLogic = Get.put(FunLogic());
   CustomThemeData themeController = Get.put(CustomThemeData());
   YTStateController ytStateController = Get.put(YTStateController());
+  WebViewController _controller;
+
+  // @override
+  // void initState() {
+
+  // }
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -60,50 +62,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
   double scaleFactor = 1;
   bool isDrawerOpen = false;
   bool leaveRoom = false;
+  bool isLoading = false;
   // StreamController<List<dynamic>> _userController;
   // Timer timer;
-
-  Future buildShowDialog(BuildContext context,
-      {String userName,
-      String title,
-      String content,
-      Function customFunction}) {
-    return showDialog(
-      context: context,
-      builder: (context) => Container(
-        child: new AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: new Text('$title', style: TextStyle(color: Colors.blueAccent)),
-          content: Text("$content"),
-          actions: <Widget>[
-            CustomButton(
-              height: 30,
-              buttonColor: Colors.blueAccent,
-              content: "Cancel",
-              cornerRadius: 5,
-              contentSize: 14,
-              function: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-            CustomButton(
-                height: 30,
-                buttonColor: Colors.blueAccent,
-                content: "Leave",
-                cornerRadius: 5,
-                contentSize: 14,
-                function: customFunction),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
     super.initState();
-
+    //super.initState();
+    //if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     roomLogicController
         .adminIdd(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -142,7 +109,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               roomLogicController.userId.obs.value)) {
         if (Get.context.orientation == Orientation.landscape)
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        Get.offAll(CreateRoomScreen());
+        Get.offAll(HomePage());
         buildShowDialog(context,
             title: "Room Deleted",
             content: "The admin has deleted the room :(");
@@ -167,13 +134,23 @@ class _WelcomScreenState extends State<WelcomScreen> {
           if (Get.context.orientation == Orientation.landscape)
             SystemChrome.setPreferredOrientations(
                 [DeviceOrientation.portraitUp]);
-          Get.offAll(CreateRoomScreen());
+          Get.offAll(HomePage());
           buildShowDialog(context,
               title: "Kicked from room",
               content: "The admin has kicked you from the room :(");
         }
       });
   }
+
+  // buildWebView() {
+  //   return WebView(
+  //     initialUrl: 'https://www.youtube.com/',
+  //     javascriptMode: JavascriptMode.unrestricted,
+  //     onWebViewCreated: (WebViewController webViewController) {
+  //       _controller = webViewController;
+  //     },
+  //   );
+  // }
 
   // @override
   // void dispose() {
@@ -184,8 +161,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //       "Leaving loda mera bsdk gandu harsh  player nikla lodu gamndu bcbcbcb");
   //   super.dispose();
   // }
-
-  bool isLoading = false;
 
   void bottomSheet() {
     Get.bottomSheet(Container(
@@ -278,7 +253,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               firebaseId: roomLogicController.roomFireBaseId,
               adminId: roomLogicController.adminId.value,
               userId: roomLogicController.userId);
-          Get.off(HomePage());
+          Get.offAll(HomePage());
           //Navigator.of(context, rootNavigator: true).pop();
         });
         return leaveRoom;
@@ -435,6 +410,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       child: InkWell(
                                         onTap: () {
                                           // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                          ///////////////webview try/////////////////////////////////////////
+                                          //try {
+                                          //buildWebView();
+
+                                          // } catch (e) {
+                                          //   print(e);
+                                          // }
+
+                                          /////////////////////////////////////////////////////////////////
                                           Get.bottomSheet(
                                             Container(
                                               // color:
@@ -488,6 +472,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                               .checkYotutTubeUrl(
                                                                   ytURl: value);
                                                         },
+                                                        cursorColor: Colors.red,
                                                         decoration:
                                                             InputDecoration(
                                                           border:
@@ -497,6 +482,18 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                     .circular(
                                                                         20),
                                                           ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                                  borderSide:
+                                                                      new BorderSide(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    width: 1,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              20))),
                                                         ),
                                                       ),
                                                     ),
@@ -515,38 +512,54 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                           //         ),
                                                           //       )
                                                           //     :
-                                                          Obx(() => ytStateController
-                                                                      .isYtUrlValid
-                                                                      .value ==
-                                                                  1
-                                                              ? Container(
-                                                                  child: Text(
-                                                                    "No link provided",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .red),
-                                                                  ),
-                                                                )
-                                                              : ytStateController
-                                                                          .isYtUrlValid
-                                                                          .value ==
-                                                                      2
-                                                                  ? RaisedButton(
+                                                          Obx(() =>
+                                                              ///////////////////////////////////////////////////
+                                                              // ytStateController
+                                                              //             .isYtUrlValid
+                                                              //             .value ==
+                                                              //         1
+                                                              //     ? Container(
+                                                              //         child:
+                                                              //             Text(
+                                                              //           "No link provided",
+                                                              //           style: TextStyle(
+                                                              //               color:
+                                                              //                   Colors.red),
+                                                              //         ),
+                                                              //       )
+                                                              //:
+                                                              ytStateController
+                                                                              .isYtUrlValid
+                                                                              .value ==
+                                                                          2 ||
+                                                                      ytStateController
+                                                                              .isYtUrlValid
+                                                                              .value ==
+                                                                          1
+                                                                  ?
+                                                                  ////////////////////////////////////
+                                                                  //   Container(
+                                                                  // height: 30,
+                                                                  // child:
+                                                                  //Obx(() =>
+                                                                  RaisedButton(
                                                                       color: Colors
                                                                           .green,
                                                                       shape:
                                                                           StadiumBorder(),
                                                                       onPressed:
                                                                           () async {
-                                                                        if (ytStateController.isYtUrlValid.value !=
-                                                                            2) {
+                                                                        if (ytStateController.isYtUrlValid.value ==
+                                                                                2 ||
+                                                                            ytStateController.isYtUrlValid.value ==
+                                                                                1) {
                                                                           roomLogicController
                                                                               .ytURL
                                                                               .value = yturl.text;
                                                                           Navigator.pop(
                                                                               context);
                                                                           await Future.delayed(
-                                                                              Duration(seconds: 2));
+                                                                              Duration(seconds: 1));
                                                                           Get.to(
                                                                               YTPlayer());
                                                                         }
@@ -554,8 +567,13 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                         // Navigator.pop(
                                                                         //     context);
                                                                       },
-                                                                      child: Text(
-                                                                          'Play'),
+                                                                      child:
+                                                                          Text(
+                                                                        'Play',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
                                                                     )
                                                                   : Container(
                                                                       child:
@@ -573,6 +591,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                               //),
                                             ),
                                           );
+
+                                          Get.to(WebShow());
+                                          ////////////////////////////////////////////////////////////////////
                                         },
                                         child: Row(
                                           children: [
@@ -635,7 +656,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         children: [
                                           FutureBuilder(
                                               future: Future.delayed(
-                                                  Duration(seconds: 2)),
+                                                  Duration(seconds: 1)),
                                               builder: (cts, snapshot) {
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
@@ -734,7 +755,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       width: 300 * widthRatio,
                       // color: Colors.red,
                       child: FutureBuilder(
-                          future: Future.delayed(Duration(seconds: 2)),
+                          future: Future.delayed(Duration(seconds: 1)),
                           builder: (ctx, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
@@ -748,6 +769,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         OverscrollIndicatorNotification>(
                                       onNotification: (overscroll) {
                                         overscroll.disallowGlow();
+                                        return null;
                                       },
                                       child: ListView.separated(
                                         scrollDirection: Axis.vertical,
@@ -772,6 +794,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                             widthRatio: widthRatio,
                                             heightRatio: heightRatio,
                                             controller: funLogic,
+                                            imageSize: 50,
+                                            textSize: 25,
                                           );
                                         },
                                         itemCount: event
@@ -814,45 +838,20 @@ class _WelcomScreenState extends State<WelcomScreen> {
       ),
     );
   }
-}
 
-class CustomNameBar extends StatefulWidget {
-  final String userName;
-  final AsyncSnapshot event;
-  final int index;
-  final double heightRatio;
-  final double widthRatio;
-  final String userID;
-  final FunLogic controller;
-  final RoomLogicController roomController;
-  CustomAlertes customAlertes;
-  CustomNameBar({
-    this.userName,
-    this.event,
-    this.index,
-    this.heightRatio,
-    this.widthRatio,
-    this.controller,
-    Key key,
-    this.userID,
-    this.roomController,
-  }) : super(key: key);
-
-  @override
-  _CustomNameBarState createState() => _CustomNameBarState();
-}
-
-class _CustomNameBarState extends State<CustomNameBar> {
-  Future buildShowDialog(BuildContext context, {String userName}) {
+  Future buildShowDialog(BuildContext context,
+      {String userName,
+      String title,
+      String content,
+      Function customFunction}) {
     return showDialog(
       context: context,
       builder: (context) => Container(
         child: new AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title:
-              new Text('Kick User', style: TextStyle(color: Colors.blueAccent)),
-          content: Text("Do you want to kick $userName ?"),
+          title: new Text('$title', style: TextStyle(color: Colors.blueAccent)),
+          content: Text("$content"),
           actions: <Widget>[
             CustomButton(
               height: 30,
@@ -864,89 +863,20 @@ class _CustomNameBarState extends State<CustomNameBar> {
                 Navigator.of(context, rootNavigator: true).pop();
               },
             ),
-            CustomButton(
-              height: 30,
-              buttonColor: Colors.redAccent,
-              content: "Kick",
-              cornerRadius: 5,
-              contentSize: 14,
-              function: () {
-                widget.roomController.kickUser(
-                    firebaseId: widget.roomController.roomFireBaseId,
-                    idofUser: widget.userID);
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // width: 224 * widget.widthRatio,
-      height: 90 * widget.heightRatio,
-      child: Card(
-        color: Color.fromARGB(200, 60, 60, 60),
-        elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        // width: 20,
-        // height: 70,
-        // color: Colors.white,
-        // decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(25), color: Colors.white),
-
-        child: Row(
-          children: [
-            SizedBox(width: widget.widthRatio * 12),
-            ClipOval(
-              child: Container(
-                decoration: BoxDecoration(),
-                width: 50,
-                height: 50,
-                child: Image.network(
-                    'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
-              ),
-            ),
-            SizedBox(width: 20 * widget.heightRatio),
-            Text(
-              '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
-              style: TextStyle(
-                  fontSize: 25, color: widget.controller.randomColorPick),
-            ),
-            Spacer(),
-            Column(
-              children: [
-                (widget.roomController.userId != widget.userID &&
-                        widget.roomController.userId ==
-                            widget.roomController.adminId.value)
-                    ? ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            print(
-                                "roomControllerUserId: ${widget.roomController.userId}");
-
-                            print("UserId: ${widget.userID}");
-
-                            buildShowDialog(context, userName: widget.userName);
-                          },
-                          child: Container(
-                            width: 25,
-                            height: 25,
-                            color: Colors.red,
-                            child: Center(child: Text('X')),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                Spacer()
-              ],
-            )
+            //checks if the customfunction is not null
+            customFunction != null
+                ? CustomButton(
+                    height: 30,
+                    buttonColor: Colors.blueAccent,
+                    content: "Leave",
+                    cornerRadius: 5,
+                    contentSize: 14,
+                    function: customFunction)
+                : Container(),
           ],
         ),
       ),
     );
   }
 }
+
