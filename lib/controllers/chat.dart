@@ -93,7 +93,8 @@ class ChatController extends GetxController {
       'userId': userId,
       'message': message,
       'sentBy': sentBy,
-      'timeStamp': DateTime.now().toUtc().millisecondsSinceEpoch,
+      'timeStamp': FieldValue.serverTimestamp(),
+      'tag': 'message'
     });
   }
 }
