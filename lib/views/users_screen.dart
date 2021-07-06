@@ -1,5 +1,8 @@
 import 'dart:async';
-
+import 'dart:async';
+import 'dart:convert';
+//import 'dart:html';
+import 'dart:io';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/funLogic.dart';
@@ -11,9 +14,13 @@ import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/webShowones.dart';
+import 'package:VideoSync/views/webShow.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/show_alerts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
 //import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -37,6 +44,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
   FunLogic funLogic = Get.put(FunLogic());
   CustomThemeData themeController = Get.put(CustomThemeData());
   YTStateController ytStateController = Get.put(YTStateController());
+  WebViewController _controller;
+
+  // @override
+  // void initState() {
+
+  // }
 
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
@@ -56,7 +69,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
   @override
   void initState() {
     super.initState();
-
+    //super.initState();
+    //if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     roomLogicController
         .adminIdd(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -127,6 +141,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
         }
       });
   }
+
+  // buildWebView() {
+  //   return WebView(
+  //     initialUrl: 'https://www.youtube.com/',
+  //     javascriptMode: JavascriptMode.unrestricted,
+  //     onWebViewCreated: (WebViewController webViewController) {
+  //       _controller = webViewController;
+  //     },
+  //   );
+  // }
 
   // @override
   // void dispose() {
@@ -386,6 +410,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       child: InkWell(
                                         onTap: () {
                                           // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
+                                          ///////////////webview try/////////////////////////////////////////
+                                          //try {
+                                          //buildWebView();
+
+                                          // } catch (e) {
+                                          //   print(e);
+                                          // }
+
+                                          /////////////////////////////////////////////////////////////////
                                           Get.bottomSheet(
                                             Container(
                                               // color:
@@ -479,23 +512,37 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                           //         ),
                                                           //       )
                                                           //     :
-                                                          Obx(() => ytStateController
-                                                                      .isYtUrlValid
-                                                                      .value ==
-                                                                  1
-                                                              ? Container(
-                                                                  child: Text(
-                                                                    "No link provided",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .red),
-                                                                  ),
-                                                                )
-                                                              : ytStateController
-                                                                          .isYtUrlValid
-                                                                          .value ==
-                                                                      2
-                                                                  ? RaisedButton(
+                                                          Obx(() =>
+                                                              ///////////////////////////////////////////////////
+                                                              // ytStateController
+                                                              //             .isYtUrlValid
+                                                              //             .value ==
+                                                              //         1
+                                                              //     ? Container(
+                                                              //         child:
+                                                              //             Text(
+                                                              //           "No link provided",
+                                                              //           style: TextStyle(
+                                                              //               color:
+                                                              //                   Colors.red),
+                                                              //         ),
+                                                              //       )
+                                                              //:
+                                                              ytStateController
+                                                                              .isYtUrlValid
+                                                                              .value ==
+                                                                          2 ||
+                                                                      ytStateController
+                                                                              .isYtUrlValid
+                                                                              .value ==
+                                                                          1
+                                                                  ?
+                                                                  ////////////////////////////////////
+                                                                  //   Container(
+                                                                  // height: 30,
+                                                                  // child:
+                                                                  //Obx(() =>
+                                                                  RaisedButton(
                                                                       color: Colors
                                                                           .green,
                                                                       shape:
@@ -503,7 +550,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                                       onPressed:
                                                                           () async {
                                                                         if (ytStateController.isYtUrlValid.value ==
-                                                                            2) {
+                                                                                2 ||
+                                                                            ytStateController.isYtUrlValid.value ==
+                                                                                1) {
                                                                           roomLogicController
                                                                               .ytURL
                                                                               .value = yturl.text;
@@ -542,6 +591,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                               //),
                                             ),
                                           );
+
+                                          Get.to(WebShow());
+                                          ////////////////////////////////////////////////////////////////////
                                         },
                                         child: Row(
                                           children: [
