@@ -15,18 +15,22 @@ class CustomNameBar extends StatefulWidget {
   final String userID;
   final FunLogic controller;
   final RoomLogicController roomController;
-  CustomAlertes customAlertes;
-  CustomNameBar({
-    this.userName,
-    this.event,
-    this.index,
-    this.heightRatio,
-    this.widthRatio,
-    this.controller,
-    Key key,
-    this.userID,
-    this.roomController,
-  }) : super(key: key);
+  final double textSize;
+  final double imageSize;
+
+  CustomNameBar(
+      {this.userName,
+      this.event,
+      this.index,
+      this.heightRatio,
+      this.widthRatio,
+      this.controller,
+      Key key,
+      this.userID,
+      this.roomController,
+      this.textSize,
+      this.imageSize})
+      : super(key: key);
 
   @override
   _CustomNameBarState createState() => _CustomNameBarState();
@@ -94,8 +98,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
             ClipOval(
               child: Container(
                 decoration: BoxDecoration(),
-                width: 50,
-                height: 50,
+                width: widget.imageSize,
+                height: widget.imageSize,
                 child: Image.network(
                     'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
               ),
@@ -104,7 +108,8 @@ class _CustomNameBarState extends State<CustomNameBar> {
             Text(
               '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
               style: TextStyle(
-                  fontSize: 25, color: widget.controller.randomColorPick),
+                  fontSize: widget.textSize,
+                  color: widget.controller.randomColorPick),
             ),
             Spacer(),
             Column(
