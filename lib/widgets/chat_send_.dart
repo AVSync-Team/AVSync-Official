@@ -48,52 +48,50 @@ class ChatSend extends StatelessWidget {
                 //color: CustomThemeData().darkGrey.value,
                 color: Color.fromRGBO(10, 10, 10, 1),
               ),
-              child: Card(
-                elevation: 0,
-                color: Colors.transparent,
-                child: TextField(
-                  maxLines: null,
-                  // maxLength: 35,
-                  expands: true,
-                  autofocus: false,
-                  controller: chatTextController,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
+
+              child: TextField(
+                //maxLines: null,
+                // maxLength: 35,
+                //expands: true,
+                autofocus: false,
+                controller: chatTextController,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w100,
+                  // backgroundColor: Colors.red
+                ),
+                textAlign: TextAlign.start,
+                cursorHeight: 20,
+                cursorColor: Colors.grey,
+                textAlignVertical: TextAlignVertical.bottom,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.black12,
+                  focusColor: Colors.white,
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderSide: new BorderSide(
+                  //     color: Color.fromRGBO(10, 10, 10, 0),
+                  //     width: 1,
+                  //   ),
+                  // ),
+                  // border: OutlineInputBorder(
+                  //   borderSide: const BorderSide(
+                  //     color: Colors.black,
+                  //   ),
+                  //   borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(0),
+                  //     topRight: Radius.circular(0),
+                  //     bottomRight: Radius.circular(0),
+                  //     bottomLeft: Radius.circular(0),
+                  //   ),
+
+                  border: InputBorder.none,
+                  hintText: 'Message',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
                     fontWeight: FontWeight.w100,
-                    // backgroundColor: Colors.red
-                  ),
-                  textAlign: TextAlign.start,
-                  cursorHeight: 20,
-                  cursorColor: Colors.grey,
-                  textAlignVertical: TextAlignVertical.bottom,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.black12,
-                    focusColor: Colors.white,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: new BorderSide(
-                        color: Color.fromRGBO(10, 10, 10, 0),
-                        width: 1,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(0),
-                        topRight: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        bottomLeft: Radius.circular(0),
-                      ),
-                    ),
-                    hintText: 'Message',
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w100,
-                      fontSize: 16,
-                    ),
+                    fontSize: 16,
                   ),
                 ),
               ),

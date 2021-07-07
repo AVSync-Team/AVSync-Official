@@ -411,7 +411,7 @@ class _YTPlayerState extends State<YTPlayer> {
                   padding: const EdgeInsets.only(left: 20),
                   child: GetX<RoomLogicController>(builder: (controller) {
                     return Text(
-                      'Room No: ${controller.roomId.obs.value} ',
+                      '${controller.roomId.obs.value} ',
                       style: TextStyle(
                         fontFamily: 'Consolas',
                         fontSize: 20,
@@ -452,10 +452,14 @@ class _YTPlayerState extends State<YTPlayer> {
         // ),
         backgroundColor: Color(0xff292727),
         body: Container(
-          padding: EdgeInsets.only(top: size.height * 0.02),
+          //padding: EdgeInsets.only(top: size.height * 0.02),
           child: Column(
             children: [
-              // SizedBox(height: 10),
+              SizedBox(
+                  height: phoneOrientation == Orientation.portrait &&
+                          buttonPressed == 0
+                      ? 200
+                      : 0),
               Container(
                 height: phoneOrientation == Orientation.portrait
                     ? size.height * 0.3
@@ -1279,7 +1283,7 @@ class _YTPlayerState extends State<YTPlayer> {
               if (phoneOrientation == Orientation.portrait &&
                   buttonPressed == 1)
                 ChatSend(
-                    chatHeight: 60,
+                    chatHeight: 50,
                     chatTextController: chatTextController,
                     currenFocus: currenFocus)
             ],

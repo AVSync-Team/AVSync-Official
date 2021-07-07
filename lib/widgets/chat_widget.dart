@@ -54,6 +54,7 @@ class ChatWidget extends StatelessWidget {
             color: CustomThemeData().darkGrey.value,
             child: Container(
               width: chatWidth,
+              constraints: BoxConstraints(minWidth: 40, maxWidth: 203),
               //this is for the padding and stuff
               // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               padding: EdgeInsets.only(right: 10, bottom: 8, left: 10, top: 8),
