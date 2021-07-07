@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:VideoSync/controllers/chat.dart';
+import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -101,9 +102,6 @@ class RoomLogicController extends GetxController {
   Future<bool> joinRoom({String roomId, String name}) async {
     isLoading.value = true;
     final firebaseDatabase = FirebaseDatabase.instance.reference();
-
-    // userName.value = name;
-
     adminKaNaam = "1234434";
     this.roomId.value = roomId;
     String roomIds =
@@ -116,49 +114,54 @@ class RoomLogicController extends GetxController {
     userKaId = this.userId;
 
     rooms = json.decode(response.body);
-    rooms.forEach((key, value) async {
-      if (value['roomId'].toString() == roomId) {
-        flag = true;
-        this.roomFireBaseId = key.toString();
-        print('joinRoom: $roomFireBaseId');
+    rooms.forEach(
+      (key, value) async {
+        if (value['roomId'].toString() == roomId) {
+          flag = true;
+          this.roomFireBaseId = key.toString();
+          print('joinRoom: $roomFireBaseId');
 
-        String key1 = firebaseDatabase
-            .child('Rooms')
-            .child('$roomFireBaseId')
-            .child('users')
-            .push()
-            .key;
+          //add user in the room
+          String key1 = firebaseDatabase
+              .child('Rooms')
+              .child('$roomFireBaseId')
+              .child('users')
+              .push()
+              .key;
 
-        firebaseDatabase
-            .child('Rooms')
-            .child('$roomFireBaseId')
-            .child('users')
-            .child(key1)
-            .set({"id": this.userId, "name": name, "status": 1});
+          firebaseDatabase
+              .child('Rooms')
+              .child('$roomFireBaseId')
+              .child('users')
+              .child(key1)
+              .set({"id": this.userId, "name": name, "status": 1});
 
-        userFireBase = key1;
-        firebaseDatabase
-            .child('Rooms')
-            .child('$roomFireBaseId')
-            .child('adminId')
-            .once()
-            .then((value) {
-          adminId.value = value.value;
-          print("adminId");
-          print(adminId);
-        });
-
-        // roomUrl =
-        //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json';
-        // final reponse2 = await http.get(roomUrl);
-        // users = json.decode(reponse2.body);
-        // users.add({"name": name, "id": this.userId});
-        // await http.patch(
-        //     'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        flag = true;
-      }
-    });
+          userFireBase = key1;
+          firebaseDatabase
+              .child('Rooms')
+              .child('$roomFireBaseId')
+              .child('adminId')
+              .once()
+              .then((value) {
+            adminId.value = value.value;
+            // print("adminId");
+            // print(adminId);
+          });
+          flag = true;
+          //send alert dialog message to Chat for new user joined
+          chatController.sendMessageCloudFireStore(
+            message: "$userName has joined the room !!",
+            roomId: roomFireBaseId,
+            sentBy: "User Joined",
+            tag: "alert",
+            userId: "696969",
+            status: "joined",
+          );
+        }
+      },
+    );
     isLoading.value = false;
+    //flag tells if the room exists or not
     return flag;
   }
 
@@ -226,18 +229,57 @@ class RoomLogicController extends GetxController {
     print('status sent: ${response.statusCode}');
   }
 
-  // Future<bool> sendIsDraggingStatus({bool status}) async {
-  //   final response = await http.patch(
-  //       'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-  //       body: json.encode({"isDragging": status}));
-  //   return json.decode(response.body);
-  // }
+  Future<bool> userLeaveRoom(
+      {String firebaseId, String userId, String adminId}) async {
+    final firebaseDatabase = FirebaseDatabase.instance.reference();
+    final userRef =
+        firebaseDatabase.child('Rooms').child('$firebaseId').child('users');
 
-  // Future<void> sendPlay({double speed}) async {
-  //   final response = await http.patch(
-  //       'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-  //       body: json.encode({"playBackSpeed": speed}));
-  // }
+    // var usersList = [];
+    // var index = 0;
+
+    int flag = 0;
+    await userRef.once().then((value) {
+      print("Firebase ${adminId}");
+
+      value.value.forEach((key, value) {
+        if (userId == value['id']) {
+          userRef.child(key).remove();
+          chatController.sendMessageCloudFireStore(
+            message: "$userName has left the room :(",
+            roomId: roomFireBaseId,
+            sentBy: "User Left",
+            tag: "alert",
+            userId: "696969",
+            status: "left",
+          );
+        } else if (flag == 0) {
+          print(value['name']);
+
+          if (adminId == roomLogicController.userId.obs.value) {
+            flag = 1;
+            print("firebase id" + firebaseId);
+            firebaseDatabase
+                .child('Rooms')
+                .child('$firebaseId')
+                .child('adminId')
+                .set(value['id']);
+            firebaseDatabase
+                .child('Rooms')
+                .child('$firebaseId')
+                .child('adminName')
+                .set(value['name']);
+          }
+        }
+
+        // index++;
+      });
+    });
+
+    // index++;
+
+    return true;
+  }
 
   void sendPlayBackSpeed({double speed}) {
     final firebase = FirebaseDatabase.instance.reference();

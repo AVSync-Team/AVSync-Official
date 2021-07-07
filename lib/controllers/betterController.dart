@@ -71,50 +71,7 @@ class RishabhController extends GetxController {
         .onValue;
   }
 
-  Future<bool> userLeaveRoom(
-      {String firebaseId, String userId, String adminId}) async {
-    final firebaseDatabase = FirebaseDatabase.instance.reference();
-    final userRef =
-        firebaseDatabase.child('Rooms').child('$firebaseId').child('users');
-
-    // var usersList = [];
-    // var index = 0;
-
-    int flag = 0;
-    await userRef.once().then((value) {
-      print("loda mera sala");
-      print("Firebase ${adminId}");
-
-      value.value.forEach((key, value) {
-        if (userId == value['id']) {
-          userRef.child(key).remove();
-        } else if (flag == 0) {
-          print(value['name']);
-
-          if (adminId == roomLogicController.userId.obs.value) {
-            flag = 1;
-            print("firebase id" + firebaseId);
-            firebaseDatabase
-                .child('Rooms')
-                .child('$firebaseId')
-                .child('adminId')
-                .set(value['id']);
-            firebaseDatabase
-                .child('Rooms')
-                .child('$firebaseId')
-                .child('adminName')
-                .set(value['name']);
-          }
-        }
-
-        // index++;
-      });
-    });
-
-    // index++;
-
-    return true;
-  }
+  
 
   Stream tester({String firebaseId}) {
     print('lodu: $firebaseId');

@@ -265,7 +265,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
           setState(() {
             leaveRoom = true;
           });
-          rishabhController.userLeaveRoom(
+          roomLogicController.userLeaveRoom(
               firebaseId: roomLogicController.roomFireBaseId,
               adminId: roomLogicController.adminId.value,
               userId: roomLogicController.userId);

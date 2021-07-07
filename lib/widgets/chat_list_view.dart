@@ -38,6 +38,7 @@ class ChatListViewWidget extends StatelessWidget {
                   timeStamp: "${snapshot.data.docs[index]['timeStamp']}",
                   userIdofOtherUsers: "${snapshot.data.docs[index]['userId']}",
                   usersOwnUserId: roomLogicController.userId.toString(),
+                  messageTag: "${snapshot.data.docs[index]['tag']}",
                 );
               },
               separatorBuilder: (BuildContext context, int index) {

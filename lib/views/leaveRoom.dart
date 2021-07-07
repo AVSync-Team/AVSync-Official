@@ -160,9 +160,10 @@ class _LeaveRoomState extends State<LeaveRoom> {
                       ),
                     ),
                     onPressed: () {
+                      // ignore: unrelated_type_equality_checks
                       if (!(roomLogicController.adminKaNaam.obs.value ==
                           roomLogicController.userName.obs.value)) {
-                        rishabhController.userLeaveRoom(
+                        roomLogicController.userLeaveRoom(
                           firebaseId: roomLogicController.roomFireBaseId,
                           userId: roomLogicController.userId,
                         );

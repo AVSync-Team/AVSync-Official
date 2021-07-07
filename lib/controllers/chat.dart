@@ -82,7 +82,12 @@ class ChatController extends GetxController {
   }
 
   void sendMessageCloudFireStore(
-      {String message, String roomId, String sentBy, String userId}) {
+      {String message,
+      String roomId,
+      String sentBy,
+      String userId,
+      String tag,
+      String status}) {
     FirebaseFirestore.instance
         // .collection(
         //     'personal_connections')  //${getxController.authData}/messages')
@@ -94,7 +99,7 @@ class ChatController extends GetxController {
       'message': message,
       'sentBy': sentBy,
       'timeStamp': FieldValue.serverTimestamp(),
-      'tag': 'message'
+      'tag': tag == null ? 'message' : "alert"
     });
   }
 }

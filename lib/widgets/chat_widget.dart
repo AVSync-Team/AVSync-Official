@@ -8,8 +8,12 @@ class ChatWidget extends StatelessWidget {
   final String userIdofOtherUsers;
   final String usersOwnUserId;
   final double chatWidth;
+  final String status;
+  final String messageTag;
   const ChatWidget(
       {this.messageText,
+      this.messageTag,
+      this.status,
       this.chatWidth,
       this.userName,
       this.timeStamp,
@@ -27,10 +31,11 @@ class ChatWidget extends StatelessWidget {
         textBaseline: TextBaseline.alphabetic,
         children: [
           //target this spacer for the self user only
-          if (userIdofOtherUsers == usersOwnUserId) Spacer(),
+          if (userIdofOtherUsers == usersOwnUserId && messageTag == "message")
+            Spacer(),
 
           //show the pics of other users only
-          if (userIdofOtherUsers != usersOwnUserId)
+          if (userIdofOtherUsers != usersOwnUserId && messageTag == "message")
             ClipOval(
               child: Container(
                 // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
@@ -41,6 +46,7 @@ class ChatWidget extends StatelessWidget {
                     'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
               ),
             ),
+          if (messageTag == "alert") Spacer(),
           Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -55,8 +61,9 @@ class ChatWidget extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 5),
-                  if (userIdofOtherUsers != usersOwnUserId)
+                  // SizedBox(width: 5),
+                  if (userIdofOtherUsers != usersOwnUserId &&
+                      messageTag == "message")
                     Text(
                       '${userName}',
                       style: TextStyle(
@@ -71,7 +78,11 @@ class ChatWidget extends StatelessWidget {
                     softWrap: true,
                     overflow: TextOverflow.fade,
                     style: TextStyle(
-                        color: Colors.white,
+                        color: messageTag == "message"
+                            ? Colors.white
+                            : userName == "User Joined"
+                                ? Colors.blueAccent
+                                : Colors.redAccent,
                         fontSize: 12,
                         fontFamily: "Consolas"),
                   )
@@ -80,8 +91,9 @@ class ChatWidget extends StatelessWidget {
             ),
           ),
           //helps the UI
-
-          if (userIdofOtherUsers != usersOwnUserId) Spacer()
+          if (messageTag == "alert") Spacer(),
+          if (userIdofOtherUsers != usersOwnUserId && messageTag == "message")
+            Spacer()
         ],
       ),
     );
