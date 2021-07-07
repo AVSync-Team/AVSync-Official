@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class CustomThemeData extends GetxController {
   Rx<Color> primaryColor = Color.fromRGBO(41, 39, 39, 1).obs;
+  Color primaryColorNotObs = Color.fromRGBO(41, 39, 39, 0.5);
   Rx<Color> drawerColor = Colors.black.obs;
   Rx<Color> primaryColorSwatch = Color.fromRGBO(41, 39, 39, 1).obs;
   Rx<Color> darkGrey = Color.fromRGBO(30, 30, 30, 1).obs;
