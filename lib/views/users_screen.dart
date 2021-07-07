@@ -14,11 +14,12 @@ import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
-import 'package:VideoSync/views/webShowones.dart';
+
 import 'package:VideoSync/views/webShow.dart';
+import 'package:VideoSync/widgets/chat_list_view.dart';
+import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
-import 'package:VideoSync/widgets/show_alerts.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -45,6 +46,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   CustomThemeData themeController = Get.put(CustomThemeData());
   YTStateController ytStateController = Get.put(YTStateController());
   WebViewController _controller;
+  TextEditingController chatTextController = TextEditingController();
 
   // @override
   // void initState() {
@@ -140,6 +142,19 @@ class _WelcomScreenState extends State<WelcomScreen> {
               content: "The admin has kicked you from the room :(");
         }
       });
+    listenToTextInputStateChanges();
+  }
+
+  void listenToTextInputStateChanges() {
+    chatTextController.addListener(() {
+      print("TextState: ${chatTextController.text}");
+      if (chatTextController.text == "") {
+        chatController.isTextEmpty.value = true;
+      } else {
+        chatController.isTextEmpty.value = false;
+      }
+      print('TextState: ${chatController.isTextEmpty}');
+    });
   }
 
   // buildWebView() {
@@ -241,6 +256,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    FocusNode currenFocus = FocusScope.of(context);
     return WillPopScope(
       onWillPop: () async {
         await buildShowDialog(context,
@@ -359,9 +375,17 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
           endDrawer: Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-            //width: 380 * widthRatio,
+            // width: 380 * widthRatio,
             child: Drawer(
-              child: ChattingPlace(snackbar: snackbar),
+              child: Column(
+                children: [
+                  Expanded(child: ChatListViewWidget()),
+                  ChatSend(
+                      chatHeight: 70,
+                      chatTextController: chatTextController,
+                      currenFocus: currenFocus)
+                ],
+              ),
             ),
           ),
 
@@ -822,7 +846,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                               themeController.drawerHead.value),
                                     ));
                                   }
-                                  return Container(height: 0.0, width: 0.0);
                                 },
                               );
                             }
@@ -879,4 +902,3 @@ class _WelcomScreenState extends State<WelcomScreen> {
     );
   }
 }
-

@@ -2,6 +2,7 @@
 
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'package:VideoSync/models/chat_model.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 // import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:clipboard/clipboard.dart';
@@ -18,14 +19,7 @@ class ChattingPlace extends StatefulWidget {
   _ChattingPlaceState createState() => _ChattingPlaceState();
 }
 
-class M {
-  DateTime id;
-  String mesage;
-  String userId;
-  String username;
 
-  M({this.id, this.mesage, this.userId, this.username});
-}
 
 class _ChattingPlaceState extends State<ChattingPlace> {
   RoomLogicController roomLogicController = Get.put(RoomLogicController());

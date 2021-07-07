@@ -1,28 +1,25 @@
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:flutter/material.dart';
 
-class ChatWidget extends StatefulWidget {
+class ChatWidget extends StatelessWidget {
   final String messageText;
   final String userName;
   final String timeStamp;
   final String userIdofOtherUsers;
   final String usersOwnUserId;
+  final double chatWidth;
   const ChatWidget(
       {this.messageText,
+      this.chatWidth,
       this.userName,
       this.timeStamp,
       this.userIdofOtherUsers,
       this.usersOwnUserId});
 
   @override
-  _ChatWidgetState createState() => _ChatWidgetState();
-}
-
-class _ChatWidgetState extends State<ChatWidget> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      key: Key('${widget.timeStamp}'),
+      key: Key('${timeStamp}'),
       margin: EdgeInsets.symmetric(horizontal: 8),
       // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
       child: Row(
@@ -30,10 +27,10 @@ class _ChatWidgetState extends State<ChatWidget> {
         textBaseline: TextBaseline.alphabetic,
         children: [
           //target this spacer for the self user only
-          if (widget.userIdofOtherUsers == widget.usersOwnUserId) Spacer(),
+          if (userIdofOtherUsers == usersOwnUserId) Spacer(),
 
           //show the pics of other users only
-          if (widget.userIdofOtherUsers != widget.usersOwnUserId)
+          if (userIdofOtherUsers != usersOwnUserId)
             ClipOval(
               child: Container(
                 // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
@@ -50,6 +47,7 @@ class _ChatWidgetState extends State<ChatWidget> {
             elevation: 5,
             color: CustomThemeData().darkGrey.value,
             child: Container(
+              width: chatWidth,
               //this is for the padding and stuff
               // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               padding: EdgeInsets.only(right: 10, bottom: 8, left: 10, top: 8),
@@ -58,18 +56,20 @@ class _ChatWidgetState extends State<ChatWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 5),
-                  if (widget.userIdofOtherUsers != widget.usersOwnUserId)
+                  if (userIdofOtherUsers != usersOwnUserId)
                     Text(
-                      '${widget.userName}',
+                      '${userName}',
                       style: TextStyle(
                         color: Colors.greenAccent,
                         fontSize: 14,
                       ),
+                      softWrap: true,
                     ),
-                  if (widget.userIdofOtherUsers != widget.usersOwnUserId)
-                    SizedBox(height: 5),
+                  if (userIdofOtherUsers != usersOwnUserId) SizedBox(height: 5),
                   Text(
-                    "${widget.messageText}",
+                    "${messageText}",
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -81,7 +81,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           ),
           //helps the UI
 
-          if (widget.userIdofOtherUsers != widget.usersOwnUserId) Spacer()
+          if (userIdofOtherUsers != usersOwnUserId) Spacer()
         ],
       ),
     );

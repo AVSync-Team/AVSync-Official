@@ -1,9 +1,6 @@
 import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/controllers/themeData.dart';
-import 'package:VideoSync/widgets/show_alerts.dart';
 import 'package:flutter/material.dart';
-
 import 'custom_button.dart';
 
 // ignore: must_be_immutable

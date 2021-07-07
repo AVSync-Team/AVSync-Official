@@ -8,6 +8,8 @@ import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
+import 'package:VideoSync/widgets/chat_list_view.dart';
+import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/chat_widget.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -20,7 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:VideoSync/widgets/show_alerts.dart';
+
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -203,7 +205,7 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   void dispose() {
     controller.dispose();
-    // chatTextController.dispose();
+    chatTextController.dispose();
     // roomLogicController.dispose();
     // // rishabhController.dispose();
     // ytStateController.dispose();
@@ -1260,197 +1262,26 @@ class _YTPlayerState extends State<YTPlayer> {
                   ],
                 ),
               ),
-              // if (phoneOrientation == Orientation.portrait)
-              // SizedBox(height: 10),
+              if (phoneOrientation == Orientation.portrait)
+                SizedBox(height: 10),
               //this is the chat display part of code
               //so if the buttonPressed == 1 then thos these UIs ok got it Manav
               if (phoneOrientation == Orientation.portrait &&
                   buttonPressed == 1)
                 Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    // stream: chatController.message(
-                    //     firebaseId: roomLogicController.roomFireBaseId),
-                    stream: FirebaseFirestore.instance
-                        .collection('chats')
-                        .doc('${roomLogicController.roomFireBaseId}')
-                        .collection('messages')
-                        .orderBy('timeStamp', descending: false)
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Center(child: Text("Some error occured"));
-                      } else if (snapshot.hasData) {
-                        return NotificationListener<
-                            OverscrollIndicatorNotification>(
-                          onNotification: (overscroll) {
-                            overscroll.disallowGlow();
-                            return null;
-                          },
-                          child: ListView.separated(
-                            controller: chatScrollController,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ChatWidget(
-                                userName:
-                                    "${snapshot.data.docs[index]['sentBy']}",
-                                messageText:
-                                    "${snapshot.data.docs[index]['message']}",
-                                timeStamp:
-                                    "${snapshot.data.docs[index]['timeStamp']}",
-                                userIdofOtherUsers:
-                                    "${snapshot.data.docs[index]['userId']}",
-                                usersOwnUserId:
-                                    roomLogicController.userId.toString(),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(height: 5);
-                            },
-                            itemCount: snapshot.data.size,
-                          ),
-                        );
-                      }
-                      return Container();
-                    },
-                  ),
+                  child: ChatListViewWidget(
+                      // chatWidth: 200,
+                      ),
                 ),
-
               //this is the sending part
               //send button
               //and textinput widget
               if (phoneOrientation == Orientation.portrait &&
                   buttonPressed == 1)
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  color: Color.fromRGBO(10, 10, 10, 1),
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 40,
-                          //color: Colors.white.withOpacity(0.8),
-                          constraints: BoxConstraints(
-                            minHeight: Get.height * 0.065,
-                            //maxWidth: 100,
-                          ),
-                          //height: Get.height * 0.065,
-                          // padding: EdgeInsets.only(bottom: 5),
-                          margin: EdgeInsets.only(left: 10),
-                          // decoration: BoxDecoration(
-                          //   borderRadius: BorderRadius.circular(10),
-                          //   color: Color.fromARGB(0, 255, 255, 255),
-                          // ),
-                          decoration: BoxDecoration(
-                            // border: Border.all(color: Colors.red),
-                            borderRadius: BorderRadius.circular(0),
-                            //color: CustomThemeData().darkGrey.value,
-                            color: Color.fromRGBO(10, 10, 10, 1),
-                          ),
-                          child: Card(
-                            elevation: 0,
-                            color: Colors.transparent,
-                            child: TextField(
-                              autofocus: false,
-                              controller: chatTextController,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w100,
-                              ),
-                              textAlign: TextAlign.start,
-                              cursorHeight: 20,
-                              cursorColor: Colors.grey,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.black12,
-                                focusColor: Colors.white,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: new BorderSide(
-                                    color: Color.fromRGBO(10, 10, 10, 0),
-                                    width: 1,
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(0),
-                                    topRight: Radius.circular(0),
-                                    bottomRight: Radius.circular(0),
-                                    bottomLeft: Radius.circular(0),
-                                  ),
-                                ),
-                                hintText: 'Message',
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w100,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // decoration:
-                        //     BoxDecoration(border: Border.all(color: Colors.red)),
-                        // height: 20,
-                        // width: 80,
-                        child: Obx(
-                          () => IconButton(
-                            icon: Icon(Icons.send,
-                                color: chatController.isTextEmpty.value
-                                    ? Colors.grey
-                                    : Colors.blueAccent,
-                                size: 30),
-                            splashColor: CustomThemeData().primaryColor.value,
-                            // style: ElevatedButton.styleFrom(
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.only(
-                            //       topLeft: Radius.circular(30),
-                            //       bottomLeft: Radius.circular(10),
-                            //       bottomRight: Radius.circular(30),
-                            //       topRight: Radius.circular(5),
-                            //     ),
-                            //   ),
-                            // ),
-                            onPressed: chatController.isTextEmpty.value
-                                ? null
-                                : () {
-                                    chatController.sendMessageCloudFireStore(
-                                        roomId:
-                                            roomLogicController.roomFireBaseId,
-                                        message: chatTextController.text,
-                                        userId: roomLogicController.userId,
-                                        sentBy:
-                                            roomLogicController.userName.value);
-
-                                    //scroll the listview down
-                                    Timer(
-                                      Duration(milliseconds: 300),
-                                      () => chatScrollController.jumpTo(
-                                          chatScrollController
-                                              .position.maxScrollExtent),
-                                    );
-                                    //clear the text from textfield
-                                    chatTextController.clear();
-                                    //remove focus of widget
-                                    if (!currenFocus.hasPrimaryFocus) {
-                                      currenFocus.unfocus();
-                                    }
-                                  },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                ChatSend(
+                    chatHeight: 60,
+                    chatTextController: chatTextController,
+                    currenFocus: currenFocus)
             ],
           ),
         ),
