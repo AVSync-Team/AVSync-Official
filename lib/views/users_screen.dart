@@ -20,6 +20,7 @@ import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -283,6 +284,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           1) {
                                     roomLogicController.ytURL.value =
                                         yturl.text;
+                                    print(ytStateController.isYtUrlValid.value);
+                                    print(roomLogicController.ytURL.value);
                                     Navigator.pop(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     Get.to(YTPlayer());
@@ -601,11 +604,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                     child: Text('Link input'),
                                                   ),
                                                   TextButton(
-                                                    onPressed: () {
+                                                    onPressed: () async {
                                                       Navigator.of(context)
                                                           .pop();
                                                       youTubeBottomSheet();
-                                                      Get.to(WebShow());
+                                                      await Get.to(WebShow());
+                                                      FlutterClipboard.paste()
+                                                          .then((value) => yturl
+                                                              .text = value);
                                                     },
                                                     child: Text('Get the link'),
                                                   ),

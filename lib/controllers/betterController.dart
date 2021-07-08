@@ -63,7 +63,7 @@ class RishabhController extends GetxController {
   }
 
   Stream<Event> getUsersList({String firebaseId}) {
-    final firebasedatbase = FirebaseDatabase.instance.reference();
+    var firebasedatbase = FirebaseDatabase.instance.reference();
     return firebasedatbase
         .child('Rooms')
         .child('$firebaseId')
@@ -71,11 +71,9 @@ class RishabhController extends GetxController {
         .onValue;
   }
 
-  
-
   Stream tester({String firebaseId}) {
     print('lodu: $firebaseId');
-    final firebasedatbase = FirebaseDatabase.instance.reference();
+    var firebasedatbase = FirebaseDatabase.instance.reference();
     return firebasedatbase
         .child('Rooms')
         .child('$firebaseId')
@@ -84,7 +82,7 @@ class RishabhController extends GetxController {
   }
 
   Future firstDataFromUsers({String firebaseId}) {
-    final firebasedatbase = FirebaseDatabase.instance.reference();
+    var firebasedatbase = FirebaseDatabase.instance.reference();
     return firebasedatbase
         .child('Rooms')
         .child('$firebaseId')

@@ -16,7 +16,7 @@ class YTStateController extends GetxController {
       print(event);
     });
 
-    final response = await http.get(
+    var response = await http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/-MSIdyAkrq0f_r7ymlCD/timeStamp.json',
         headers: {'type': 'text/event-stream'});
     print('response: ${response.body}');
