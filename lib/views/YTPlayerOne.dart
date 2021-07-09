@@ -8,12 +8,12 @@ import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
-import 'package:VideoSync/views/YTPlayerOne.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/chat_widget.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'YTPlayer.dart';
 import 'webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -31,9 +31,9 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'chat.dart';
 
-class YTPlayer extends StatefulWidget {
+class YTPlayerOne extends StatefulWidget {
   @override
-  _YTPlayerState createState() => _YTPlayerState();
+  _YTPlayerOneState createState() => _YTPlayerOneState();
 }
 
 // String url;
@@ -53,7 +53,7 @@ int buttonPressed = 1;
 
 // int position = 0;
 
-class _YTPlayerState extends State<YTPlayer> {
+class _YTPlayerOneState extends State<YTPlayerOne> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController yturl = TextEditingController();
   YoutubePlayerController controller = YoutubePlayerController(
@@ -212,9 +212,9 @@ class _YTPlayerState extends State<YTPlayer> {
   void dispose() {
     controller.dispose();
     chatTextController.dispose();
-    // roomLogicController.dispose();
-    // // rishabhController.dispose();
-    // ytStateController.dispose();
+    roomLogicController.dispose();
+    rishabhController.dispose();
+    ytStateController.dispose();
     super.dispose();
   }
 
@@ -369,6 +369,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                       ytStateController.isYtUrlValid.value ==
                                           1) {
                                     setState(() {
+                                      timestamp = 0;
+                                      //controller.value.position = 0;
                                       roomLogicController.ytURL.value =
                                           yturl.text;
                                     });
@@ -377,7 +379,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                     await Future.delayed(Duration(seconds: 1));
                                     print(ytStateController.isYtUrlValid.value);
                                     print(roomLogicController.ytURL.value);
-                                    Get.off(YTPlayerOne());
+                                    Get.off(YTPlayer());
                                     print('hi');
                                   }
 

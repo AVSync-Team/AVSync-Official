@@ -209,13 +209,13 @@ class RoomLogicController extends GetxController {
   }
 
   Future<bool> isDraggingStatus() async {
-    final response = await http.get(
+    var response = await http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isDragging.json');
     return json.decode(response.body);
   }
 
   Future<bool> isPlayerPaused() async {
-    final response = await http.get(
+    var response = await http.get(
         'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isPlayerPaused.json');
 
     print('player_status: ${response.body}');
@@ -282,7 +282,7 @@ class RoomLogicController extends GetxController {
   }
 
   void sendPlayBackSpeed({double speed}) {
-    final firebase = FirebaseDatabase.instance.reference();
+    var firebase = FirebaseDatabase.instance.reference();
     firebase
         .child('Rooms')
         .child(roomFireBaseId)

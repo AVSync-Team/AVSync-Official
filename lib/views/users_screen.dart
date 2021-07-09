@@ -20,6 +20,7 @@ import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -176,6 +177,142 @@ class _WelcomScreenState extends State<WelcomScreen> {
   //       "Leaving loda mera bsdk gandu harsh  player nikla lodu gamndu bcbcbcb");
   //   super.dispose();
   // }
+
+  void youTubeBottomSheet() {
+    Get.bottomSheet(
+      Container(
+        // color:
+        //     Colors.white.withOpacity(0.1),
+        width: double.infinity,
+        height: heightRatio * 250,
+        child: Container(
+          color: Colors.white,
+          // decoration: BoxDecoration(
+          //   color: Colors.purple
+          //       .withOpacity(0.1),
+          //   borderRadius: BorderRadius.only(
+          //     topLeft:
+          //         Radius.circular(30.0),
+          //     topRight:
+          //         Radius.circular(30.0),
+          //   ),
+          // ),
+
+          //child: Card(
+          // shape: RoundedRectangleBorder(
+          //     borderRadius:
+          //         BorderRadius.only(
+          //             topLeft:
+          //                 Radius.circular(
+          //                     30.0),
+          //             topRight:
+          //                 Radius.circular(
+          //                     30.0))),
+          // elevation: 10,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 20),
+              Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
+              Container(
+                margin: EdgeInsets.only(top: heightRatio * 20),
+                height: heightRatio * 80,
+                width: widthRatio * 300,
+                child: TextField(
+                  controller: yturl,
+                  onChanged: (String value) {
+                    ytStateController.checkYotutTubeUrl(ytURl: value);
+                  },
+                  cursorColor: Colors.red,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: new BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: heightRatio * 10),
+                child:
+                    // ytStateController.
+                    //     ? Container(
+                    //         child: Text(
+                    //           "No link provided",
+                    //           style: TextStyle(
+                    //               color: Colors
+                    //                   .red),
+                    //         ),
+                    //       )
+                    //     :
+                    Obx(() =>
+                        ///////////////////////////////////////////////////
+                        // ytStateController
+                        //             .isYtUrlValid
+                        //             .value ==
+                        //         1
+                        //     ? Container(
+                        //         child:
+                        //             Text(
+                        //           "No link provided",
+                        //           style: TextStyle(
+                        //               color:
+                        //                   Colors.red),
+                        //         ),
+                        //       )
+                        //:
+                        ytStateController.isYtUrlValid.value == 2 ||
+                                ytStateController.isYtUrlValid.value == 1
+                            ?
+                            ////////////////////////////////////
+                            //   Container(
+                            // height: 30,
+                            // child:
+                            //Obx(() =>
+                            RaisedButton(
+                                color: Colors.green,
+                                shape: StadiumBorder(),
+                                onPressed: () async {
+                                  if (ytStateController.isYtUrlValid.value ==
+                                          2 ||
+                                      ytStateController.isYtUrlValid.value ==
+                                          1) {
+                                    roomLogicController.ytURL.value =
+                                        yturl.text;
+                                    print(ytStateController.isYtUrlValid.value);
+                                    print(roomLogicController.ytURL.value);
+                                    Navigator.pop(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    Get.to(YTPlayer());
+                                  }
+
+                                  // Navigator.pop(
+                                  //     context);
+                                },
+                                child: Text(
+                                  'Play',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            : Container(
+                                child: Text(
+                                  "Link not Valid !",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              )),
+              )
+            ],
+          ),
+        ),
+        //),
+      ),
+    );
+  }
 
   void bottomSheet() {
     Get.bottomSheet(Container(
@@ -453,6 +590,32 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                             top: 20, left: 24),
                                         child: InkWell(
                                           onTap: () {
+                                            //////////////////////////////asking for opening webview or link bottom sheet directly///////////////////////
+                                            Get.defaultDialog(
+                                                title: 'Youtube',
+                                                middleText: 'What is up Mumbai',
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      youTubeBottomSheet();
+                                                    },
+                                                    child: Text('Link input'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      youTubeBottomSheet();
+                                                      await Get.to(WebShow());
+                                                      FlutterClipboard.paste()
+                                                          .then((value) => yturl
+                                                              .text = value);
+                                                    },
+                                                    child: Text('Get the link'),
+                                                  ),
+                                                ]);
                                             // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
                                             ///////////////webview try/////////////////////////////////////////
                                             //try {
@@ -463,171 +626,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                             // }
 
                                             /////////////////////////////////////////////////////////////////
-                                            Get.bottomSheet(
-                                              Container(
-                                                // color:
-                                                //     Colors.white.withOpacity(0.1),
-                                                width: double.infinity,
-                                                height: heightRatio * 250,
-                                                child: Container(
-                                                  color: Colors.white,
-                                                  // decoration: BoxDecoration(
-                                                  //   color: Colors.purple
-                                                  //       .withOpacity(0.1),
-                                                  //   borderRadius: BorderRadius.only(
-                                                  //     topLeft:
-                                                  //         Radius.circular(30.0),
-                                                  //     topRight:
-                                                  //         Radius.circular(30.0),
-                                                  //   ),
-                                                  // ),
 
-                                                  //child: Card(
-                                                  // shape: RoundedRectangleBorder(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.only(
-                                                  //             topLeft:
-                                                  //                 Radius.circular(
-                                                  //                     30.0),
-                                                  //             topRight:
-                                                  //                 Radius.circular(
-                                                  //                     30.0))),
-                                                  // elevation: 10,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(height: 20),
-                                                      Text(
-                                                          'Enter the Youtube Link',
-                                                          style: TextStyle(
-                                                              fontSize: 20)),
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: heightRatio *
-                                                                20),
-                                                        height:
-                                                            heightRatio * 80,
-                                                        width: widthRatio * 300,
-                                                        child: TextField(
-                                                          controller: yturl,
-                                                          onChanged:
-                                                              (String value) {
-                                                            ytStateController
-                                                                .checkYotutTubeUrl(
-                                                                    ytURl:
-                                                                        value);
-                                                          },
-                                                          cursorColor:
-                                                              Colors.red,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border:
-                                                                OutlineInputBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                            ),
-                                                            focusedBorder:
-                                                                OutlineInputBorder(
-                                                                    borderSide:
-                                                                        new BorderSide(
-                                                                      color: Colors
-                                                                          .red,
-                                                                      width: 1,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(20))),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: heightRatio *
-                                                                10),
-                                                        child:
-                                                            // ytStateController.
-                                                            //     ? Container(
-                                                            //         child: Text(
-                                                            //           "No link provided",
-                                                            //           style: TextStyle(
-                                                            //               color: Colors
-                                                            //                   .red),
-                                                            //         ),
-                                                            //       )
-                                                            //     :
-                                                            Obx(() =>
-                                                                ///////////////////////////////////////////////////
-                                                                // ytStateController
-                                                                //             .isYtUrlValid
-                                                                //             .value ==
-                                                                //         1
-                                                                //     ? Container(
-                                                                //         child:
-                                                                //             Text(
-                                                                //           "No link provided",
-                                                                //           style: TextStyle(
-                                                                //               color:
-                                                                //                   Colors.red),
-                                                                //         ),
-                                                                //       )
-                                                                //:
-                                                                ytStateController.isYtUrlValid.value ==
-                                                                            2 ||
-                                                                        ytStateController.isYtUrlValid.value ==
-                                                                            1
-                                                                    ?
-                                                                    ////////////////////////////////////
-                                                                    //   Container(
-                                                                    // height: 30,
-                                                                    // child:
-                                                                    //Obx(() =>
-                                                                    RaisedButton(
-                                                                        color: Colors
-                                                                            .green,
-                                                                        shape:
-                                                                            StadiumBorder(),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          if (ytStateController.isYtUrlValid.value == 2 ||
-                                                                              ytStateController.isYtUrlValid.value == 1) {
-                                                                            roomLogicController.ytURL.value =
-                                                                                yturl.text;
-                                                                            Navigator.pop(context);
-                                                                            await Future.delayed(Duration(seconds: 1));
-                                                                            Get.to(YTPlayer());
-                                                                          }
-
-                                                                          // Navigator.pop(
-                                                                          //     context);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          'Play',
-                                                                          style:
-                                                                              TextStyle(color: Colors.white),
-                                                                        ),
-                                                                      )
-                                                                    : Container(
-                                                                        child:
-                                                                            Text(
-                                                                          "Link not Valid !",
-                                                                          style:
-                                                                              TextStyle(color: Colors.red),
-                                                                        ),
-                                                                      )),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                //),
-                                              ),
-                                            );
-
-                                            Get.to(WebShow());
                                             ////////////////////////////////////////////////////////////////////
                                           },
                                           child: Row(
