@@ -126,7 +126,7 @@ class _YTPlayerState extends State<YTPlayer> {
           roomLogicController.userId.obs.value)) {
         if ((controller.value.position.inSeconds - event.snapshot.value)
                 .abs() >=
-            3) {
+            4) {
           controller.seekTo(Duration(seconds: event.snapshot.value));
         }
       }
@@ -941,11 +941,11 @@ class _YTPlayerState extends State<YTPlayer> {
                                                                   (value) {
                                                                 roomLogicController
                                                                     .sendPlayBackSpeed(
-                                                                        speed:
-                                                                            1.0);
+                                                                        speed: 1.0
+                                                                            .toDouble());
                                                                 controller
                                                                     .setPlaybackRate(
-                                                                        1.0);
+                                                                        1.0.toDouble());
                                                                 controllerGetx
                                                                     .radioValue
                                                                     .value = value;
@@ -967,11 +967,11 @@ class _YTPlayerState extends State<YTPlayer> {
                                                                 // changeRadioValue(value);
                                                                 roomLogicController
                                                                     .sendPlayBackSpeed(
-                                                                        speed:
-                                                                            1.25);
+                                                                        speed: 1.25
+                                                                            .toDouble());
                                                                 controller
                                                                     .setPlaybackRate(
-                                                                        1.25);
+                                                                        1.25.toDouble());
                                                                 controllerGetx
                                                                     .radioValue
                                                                     .value = value;
@@ -992,11 +992,11 @@ class _YTPlayerState extends State<YTPlayer> {
                                                               // changeRadioValue(value);
                                                               roomLogicController
                                                                   .sendPlayBackSpeed(
-                                                                      speed:
-                                                                          1.5);
+                                                                      speed: 1.5
+                                                                          .toDouble());
                                                               controller
                                                                   .setPlaybackRate(
-                                                                      1.5);
+                                                                      1.5.toDouble());
                                                               controllerGetx
                                                                   .radioValue
                                                                   .value = value;
@@ -1017,11 +1017,11 @@ class _YTPlayerState extends State<YTPlayer> {
                                                                   (value) {
                                                                 roomLogicController
                                                                     .sendPlayBackSpeed(
-                                                                        speed:
-                                                                            1.75);
+                                                                        speed: 1.75
+                                                                            .toDouble());
                                                                 controller
                                                                     .setPlaybackRate(
-                                                                        1.75);
+                                                                        1.75.toDouble());
                                                                 controllerGetx
                                                                     .radioValue
                                                                     .value = value;
@@ -1041,11 +1041,11 @@ class _YTPlayerState extends State<YTPlayer> {
                                                               // print('value: $value');
                                                               roomLogicController
                                                                   .sendPlayBackSpeed(
-                                                                      speed:
-                                                                          2.0);
+                                                                      speed: 2.0
+                                                                          .toDouble());
                                                               controller
                                                                   .setPlaybackRate(
-                                                                      2.0);
+                                                                      2.0.toDouble());
                                                               controllerGetx
                                                                   .radioValue
                                                                   .value = value;
