@@ -126,7 +126,7 @@ class _YTPlayerState extends State<YTPlayer> {
           roomLogicController.userId.obs.value)) {
         if ((controller.value.position.inSeconds - event.snapshot.value)
                 .abs() >=
-            3) {
+            4) {
           controller.seekTo(Duration(seconds: event.snapshot.value));
         }
       }
