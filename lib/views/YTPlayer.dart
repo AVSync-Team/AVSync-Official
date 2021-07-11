@@ -928,8 +928,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                                           RadioListTile(
                                                               // key: globalKey,
                                                               //tileColor: Colors.white,
-                                                              activeColor:
-                                                                  Colors.white,
+                                                              // activeColor:
+                                                              //     Colors.white,
                                                               toggleable: true,
                                                               title: CustomText(
                                                                   '1'),

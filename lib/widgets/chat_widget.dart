@@ -1,5 +1,8 @@
 import 'package:VideoSync/controllers/themeData.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+// import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get.dart';
 
 class ChatWidget extends StatelessWidget {
   final String messageText;
@@ -74,18 +77,24 @@ class ChatWidget extends StatelessWidget {
                       softWrap: true,
                     ),
                   if (userIdofOtherUsers != usersOwnUserId) SizedBox(height: 5),
-                  Text(
-                    "${messageText}",
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                        color: messageTag == "message"
-                            ? Colors.white
-                            : userName == "User Joined"
-                                ? Colors.blueAccent
-                                : Colors.redAccent,
-                        fontSize: 12,
-                        fontFamily: "Consolas"),
+                  GestureDetector(
+                    onTap: () {
+                      FlutterClipboard.copy(messageText).then(
+                          (value) => Get.snackbar("Done!", "Message Copied"));
+                    },
+                    child: Text(
+                      "${messageText}",
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(
+                          color: messageTag == "message"
+                              ? Colors.white
+                              : userName == "User Joined"
+                                  ? Colors.blueAccent
+                                  : Colors.redAccent,
+                          fontSize: 12,
+                          fontFamily: "Consolas"),
+                    ),
                   )
                 ],
               ),
