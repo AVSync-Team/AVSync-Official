@@ -269,45 +269,45 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 30,
+                    height: size.height * 0.1,
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      left: 25,
-                    ),
-                    alignment: Alignment.centerLeft,
-                    child: isDrawerOpen
-                        ? IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: themeController.drawerHead.value,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                xOffset = 0;
-                                yOffset = 0;
-                                zOffset = 0;
-                                scaleFactor = 1;
-                                isDrawerOpen = false;
-                              });
-                            },
-                          )
-                        : IconButton(
-                            icon: Icon(
-                              Icons.menu,
-                              color: themeController.drawerHead.value,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                xOffset = 250;
-                                yOffset = 155;
-                                zOffset = 20;
-                                scaleFactor = 0.6;
-                                isDrawerOpen = true;
-                              });
-                            },
-                          ),
-                  ),
+                  // Container(
+                  //   padding: EdgeInsets.only(
+                  //     left: 25,
+                  //   ),
+                  //   alignment: Alignment.centerLeft,
+                  //   child: isDrawerOpen
+                  //       ? IconButton(
+                  //           icon: Icon(
+                  //             Icons.arrow_back_ios,
+                  //             color: themeController.drawerHead.value,
+                  //           ),
+                  //           onPressed: () {
+                  //             setState(() {
+                  //               xOffset = 0;
+                  //               yOffset = 0;
+                  //               zOffset = 0;
+                  //               scaleFactor = 1;
+                  //               isDrawerOpen = false;
+                  //             });
+                  //           },
+                  //         )
+                  //       : IconButton(
+                  //           icon: Icon(
+                  //             Icons.menu,
+                  //             color: themeController.drawerHead.value,
+                  //           ),
+                  //           onPressed: () {
+                  //             setState(() {
+                  //               xOffset = 250;
+                  //               yOffset = 155;
+                  //               zOffset = 20;
+                  //               scaleFactor = 0.6;
+                  //               isDrawerOpen = true;
+                  //             });
+                  //           },
+                  //         ),
+                  // ),
                   SizedBox(height: 50),
                   Container(
                     child: SvgPicture.asset(
