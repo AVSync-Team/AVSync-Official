@@ -444,46 +444,57 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     child: Hero(
                       tag: 'Rishabh',
                       child: Obx(
-                        () => ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            primary: themeController.butColor.value,
-                            elevation: 8,
-                            onPrimary: Colors.white,
-                          ),
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(25),
-                          // ),
-                          // color: Colors.white,
-                          onPressed: () async {
-                            //check if name is null
-                            if (!_formKey.currentState.validate()) return;
-                            print(
-                                'MakeRoomButton ${roomLogicController.userName.value}');
-                            roomLogicController.isLoading.value = true;
-                            await roomLogicController.makeRoom(
-                                adminName: roomLogicController.userName.value);
-                            Get.to(WaitingPage());
-                            roomLogicController.isLoading.value = false;
-                          },
-                          child: !roomLogicController.isLoading.value
-                              ? Text(
+                        () => !roomLogicController.isLoading.value
+                            ? ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  primary: themeController.butColor.value,
+                                  elevation: 8,
+                                  onPrimary: Colors.white,
+                                ),
+                                // shape: RoundedRectangleBorder(
+                                //   borderRadius: BorderRadius.circular(25),
+                                // ),
+                                // color: Colors.white,
+                                onPressed: () async {
+                                  //check if name is null
+                                  if (!_formKey.currentState.validate()) return;
+                                  print(
+                                      'MakeRoomButton ${roomLogicController.userName.value}');
+                                  roomLogicController.isLoading.value = true;
+                                  await roomLogicController.makeRoom(
+                                      adminName:
+                                          roomLogicController.userName.value);
+                                  Get.to(WaitingPage());
+                                  roomLogicController.isLoading.value = false;
+                                },
+                                child: Text(
                                   'Create Room',
                                   style: TextStyle(
                                       fontSize: 30,
                                       //fontSize: 35 * widthRatio,
                                       fontWeight: FontWeight.normal),
                                 )
-                              : CircularProgressIndicator(
+                                // : CircularProgressIndicator(
+                                //     //value: controller.value,
+                                //     valueColor:
+                                //         new AlwaysStoppedAnimation<Color>(
+                                //             Colors.white),
+                                //     // semanticsLabel:
+                                //     //     'Linear progress indicator',
+                                //   ),
+                                )
+                            : Center(
+                                child: CircularProgressIndicator(
                                   //value: controller.value,
                                   valueColor: new AlwaysStoppedAnimation<Color>(
                                       Colors.white),
                                   // semanticsLabel:
                                   //     'Linear progress indicator',
                                 ),
-                        ),
+                              ),
                       ),
                     ),
                   ),
