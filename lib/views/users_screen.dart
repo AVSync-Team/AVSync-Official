@@ -647,39 +647,39 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        // color: Colors.orange.withOpacity(0.1),
-                                        padding:
-                                            const EdgeInsets.only(left: 36),
-                                        child: InkWell(
-                                          onTap: () {
-                                            print("adminId");
-                                            print(roomLogicController
-                                                .adminId.value);
-                                            // filePick();
-                                            bottomSheet();
-                                          },
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                'lib/assets/svgs/localplayer.svg',
-                                                width: 40 * widthRatio,
-                                                height: 40 * heightRatio,
-                                                //color: Colors.white,
-                                              ),
-                                              SizedBox(width: 10 * widthRatio),
-                                              Text(
-                                                'Local Media',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  //color: Colors.white
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20 * heightRatio),
+                                      // Container(
+                                      //   // color: Colors.orange.withOpacity(0.1),
+                                      //   padding:
+                                      //       const EdgeInsets.only(left: 36),
+                                      //   child: InkWell(
+                                      //     onTap: () {
+                                      //       print("adminId");
+                                      //       print(roomLogicController
+                                      //           .adminId.value);
+                                      //       // filePick();
+                                      //       bottomSheet();
+                                      //     },
+                                      //     child: Row(
+                                      //       children: [
+                                      //         SvgPicture.asset(
+                                      //           'lib/assets/svgs/localplayer.svg',
+                                      //           width: 40 * widthRatio,
+                                      //           height: 40 * heightRatio,
+                                      //           //color: Colors.white,
+                                      //         ),
+                                      //         SizedBox(width: 10 * widthRatio),
+                                      //         Text(
+                                      //           'Local Media',
+                                      //           style: TextStyle(
+                                      //             fontSize: 20,
+                                      //             //color: Colors.white
+                                      //           ),
+                                      //         )
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // SizedBox(height: 20 * heightRatio),
                                       Container(
                                         // color: Colors.white.withOpacity(0.1),
                                         padding:
