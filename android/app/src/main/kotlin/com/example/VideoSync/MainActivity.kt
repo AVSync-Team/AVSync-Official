@@ -1,4 +1,4 @@
-package com.example.VideoSync
+package com.AppStacks.AVSync
 
 import io.flutter.embedding.android.FlutterActivity
 
