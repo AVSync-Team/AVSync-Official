@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:VideoSync/views/videoPlayer.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -120,7 +121,11 @@ class _WebShowState extends State<WebShow> {
               onPressed: () async {
                 final String url = (await controller.data.currentUrl());
                 // ignore: deprecated_member_use
+
+                print(url);
+                print("aljfehfiwehufiupewhfwehfoew");
                 FlutterClipboard.copy(url);
+                roomLogicController.ytURL.value = url;
                 Scaffold.of(context).showSnackBar(
                   SnackBar(content: Text('Copied $url')),
                 );

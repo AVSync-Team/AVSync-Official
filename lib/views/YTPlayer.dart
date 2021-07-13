@@ -407,8 +407,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                           2 ||
                                       ytStateController.isYtUrlValid.value ==
                                           1) {
-                                    roomLogicController.ytURL.value =
-                                        yturl.text;
+                                    yturl.text =
+                                        roomLogicController.ytURL.value;
 
                                     Navigator.pop(context);
                                     await Future.delayed(Duration(seconds: 1));
@@ -466,7 +466,12 @@ class _YTPlayerState extends State<YTPlayer> {
               youBotShe();
               //await Get.to(WebShow());
               youWebShe();
-              FlutterClipboard.paste().then((value) => yturl.text = value);
+              yturl.text = roomLogicController.ytURL.value;
+              FlutterClipboard.paste().then((value) {
+                print(value);
+                print("lodaaaa");
+                yturl.text = value;
+              });
             },
             child: Text('Get the link'),
           ),
