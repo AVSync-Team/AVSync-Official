@@ -702,65 +702,84 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            FutureBuilder(
-                                                future: Future.delayed(
-                                                    Duration(seconds: 1)),
-                                                builder: (cts, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return Center(
-                                                      child: Container(
-                                                        height: 2,
-                                                        width: 100,
-                                                        color: Color.fromARGB(
-                                                            200, 60, 60, 60),
-                                                        child:
-                                                            LinearProgressIndicator(
-                                                          backgroundColor:
-                                                              Color.fromARGB(
-                                                                  200,
-                                                                  60,
-                                                                  60,
-                                                                  60),
-                                                          valueColor:
-                                                              new AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                  themeController
-                                                                      .drawerHead
-                                                                      .value),
-                                                        ),
-                                                      ),
+                                            StreamBuilder(
+                                                stream: roomLogicController
+                                                    .adminBsdkKaNaam(
+                                                        firebaseId:
+                                                            roomLogicController
+                                                                .roomFireBaseId),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                      '${snapshot.data.snapshot.value}',
+                                                      style: TextStyle(
+                                                          fontSize: 30),
                                                     );
+                                                  } else if (snapshot
+                                                      .hasError) {
+                                                    return Text('Error');
                                                   }
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.done) {
-                                                    return StreamBuilder(
-                                                        stream: roomLogicController
-                                                            .adminBsdkKaNaam(
-                                                                firebaseId:
-                                                                    roomLogicController
-                                                                        .roomFireBaseId),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          if (snapshot
-                                                              .hasData) {
-                                                            return Text(
-                                                              '${snapshot.data.snapshot.value}',
-                                                              style: TextStyle(
-                                                                  fontSize: 30),
-                                                            );
-                                                          } else if (snapshot
-                                                              .hasError) {
-                                                            return Text(
-                                                                'Error');
-                                                          }
-                                                          return Text('');
-                                                        });
-                                                  }
-                                                  return Container();
+                                                  return Text('');
                                                 }),
+                                            // FutureBuilder(
+                                            //     future: Future.delayed(
+                                            //         Duration(seconds: 1)),
+                                            //     builder: (cts, snapshot) {
+                                            //       if (snapshot
+                                            //               .connectionState ==
+                                            //           ConnectionState.waiting) {
+                                            //         return Center(
+                                            //           child: Container(
+                                            //             height: 2,
+                                            //             width: 100,
+                                            //             color: Color.fromARGB(
+                                            //                 200, 60, 60, 60),
+                                            //             child:
+                                            //                 LinearProgressIndicator(
+                                            //               backgroundColor:
+                                            //                   Color.fromARGB(
+                                            //                       200,
+                                            //                       60,
+                                            //                       60,
+                                            //                       60),
+                                            //               valueColor:
+                                            //                   new AlwaysStoppedAnimation<
+                                            //                           Color>(
+                                            //                       themeController
+                                            //                           .drawerHead
+                                            //                           .value),
+                                            //             ),
+                                            //           ),
+                                            //         );
+                                            //       }
+                                            //       if (snapshot
+                                            //               .connectionState ==
+                                            //           ConnectionState.done) {
+                                            //         return StreamBuilder(
+                                            //             stream: roomLogicController
+                                            //                 .adminBsdkKaNaam(
+                                            //                     firebaseId:
+                                            //                         roomLogicController
+                                            //                             .roomFireBaseId),
+                                            //             builder: (context,
+                                            //                 snapshot) {
+                                            //               if (snapshot
+                                            //                   .hasData) {
+                                            //                 return Text(
+                                            //                   '${snapshot.data.snapshot.value}',
+                                            //                   style: TextStyle(
+                                            //                       fontSize: 30),
+                                            //                 );
+                                            //               } else if (snapshot
+                                            //                   .hasError) {
+                                            //                 return Text(
+                                            //                     'Error');
+                                            //               }
+                                            //               return Text('');
+                                            //             });
+                                            //       }
+                                            //       return Container();
+                                            //     }),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 10, bottom: 0),
@@ -811,81 +830,63 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       child: Container(
                         width: 300 * widthRatio,
                         // color: Colors.red,
-                        child: FutureBuilder(
-                            future: Future.delayed(Duration(seconds: 1)),
-                            builder: (ctx, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return StreamBuilder(
-                                  stream: rishabhController.tester(
-                                      firebaseId:
-                                          roomLogicController.roomFireBaseId),
-                                  builder: (ctx, event) {
-                                    if (event.hasData) {
-                                      return NotificationListener<
-                                          OverscrollIndicatorNotification>(
-                                        onNotification: (overscroll) {
-                                          overscroll.disallowGlow();
-                                          return null;
-                                        },
-                                        child: ListView.separated(
-                                          scrollDirection: Axis.vertical,
-                                          separatorBuilder: (ctx, i) {
-                                            return SizedBox(
-                                              width: 5,
-                                            );
-                                          },
-                                          itemBuilder: (ctx, i) {
-                                            print(
-                                                'chut: ${event.data.snapshot.value}');
-                                            return CustomNameBar(
-                                              userName: event
-                                                  .data.snapshot.value.values
-                                                  .toList()[i]['name'],
-                                              roomController:
-                                                  roomLogicController,
-                                              userID: event
-                                                  .data.snapshot.value.values
-                                                  .toList()[i]['id'],
-                                              event: event,
-                                              index: i,
-                                              widthRatio: widthRatio,
-                                              heightRatio: heightRatio,
-                                              controller: funLogic,
-                                              imageSize: 50,
-                                              textSize: 25,
-                                            );
-                                          },
-                                          itemCount: event
-                                              .data.snapshot.value.values
-                                              .toList()
-                                              .length,
-                                        ),
-                                      );
-                                    } else if (event.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              new AlwaysStoppedAnimation<Color>(
-                                                  themeController
-                                                      .drawerHead.value),
-                                        ),
-                                      );
-                                    } else {
-                                      return Center(
-                                          child: CircularProgressIndicator(
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                themeController
-                                                    .drawerHead.value),
-                                      ));
-                                    }
+                        child: StreamBuilder(
+                          stream: rishabhController.tester(
+                              firebaseId: roomLogicController.roomFireBaseId),
+                          builder: (ctx, event) {
+                            if (event.hasData) {
+                              return NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                                onNotification: (overscroll) {
+                                  overscroll.disallowGlow();
+                                  return null;
+                                },
+                                child: ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  separatorBuilder: (ctx, i) {
+                                    return SizedBox(
+                                      width: 5,
+                                    );
                                   },
-                                );
-                              }
-                              return Container();
-                            }),
+                                  itemBuilder: (ctx, i) {
+                                    print('chut: ${event.data.snapshot.value}');
+                                    return CustomNameBar(
+                                      userName: event.data.snapshot.value.values
+                                          .toList()[i]['name'],
+                                      roomController: roomLogicController,
+                                      userID: event.data.snapshot.value.values
+                                          .toList()[i]['id'],
+                                      event: event,
+                                      index: i,
+                                      widthRatio: widthRatio,
+                                      heightRatio: heightRatio,
+                                      controller: funLogic,
+                                      imageSize: 50,
+                                      textSize: 25,
+                                    );
+                                  },
+                                  itemCount: event.data.snapshot.value.values
+                                      .toList()
+                                      .length,
+                                ),
+                              );
+                            } else if (event.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(
+                                      themeController.drawerHead.value),
+                                ),
+                              );
+                            } else {
+                              return Center(
+                                  child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    themeController.drawerHead.value),
+                              ));
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ],
