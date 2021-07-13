@@ -57,37 +57,41 @@ class _WebShowState extends State<WebShow> {
       ),
       // We're using a Builder here so we have a context that is below the Scaffold
       // to allow calling Scaffold.of(context) so we can show a snackbar.
-      body: Builder(builder: (BuildContext context) {
-        return WebView(
-          initialUrl: 'https://www.youtube.com/',
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-          onProgress: (int progress) {
-            print("WebView is loading (progress : $progress%)");
-          },
-          javascriptChannels: <JavascriptChannel>{
-            _toasterJavascriptChannel(context),
-          },
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              print('blocking navigation to $request}');
-              return NavigationDecision.prevent;
-            }
-            print('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-          onPageStarted: (String url) {
-            print('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
-          },
-          gestureNavigationEnabled: true,
-        );
-      }),
+      body: Container(
+        height: MediaQuery.of(context).size.height - 40,
+        child: Builder(builder: (BuildContext context) {
+          return WebView(
+            initialUrl: 'https://www.youtube.com/',
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+            onProgress: (int progress) {
+              print("WebView is loading (progress : $progress%)");
+            },
+            javascriptChannels: <JavascriptChannel>{
+              _toasterJavascriptChannel(context),
+            },
+            navigationDelegate: (NavigationRequest request) {
+              if (request.url.startsWith('https://www.youtube.com/')) {
+                print('blocking navigation to $request}');
+                return NavigationDecision.prevent;
+              }
+              print('allowing navigation to $request');
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (String url) {
+              print('Page started loading: $url');
+            },
+            onPageFinished: (String url) {
+              print('Page finished loading: $url');
+            },
+            gestureNavigationEnabled: true,
+          );
+        }),
+      ),
       floatingActionButton: favoriteButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
     );
   }
 
@@ -112,7 +116,7 @@ class _WebShowState extends State<WebShow> {
             AsyncSnapshot<WebViewController> controller) {
           if (controller.hasData) {
             return FloatingActionButton(
-              backgroundColor: Color.fromRGBO(10, 10, 10, 1),
+              backgroundColor: Color.fromRGBO(128, 128, 128, 1),
               onPressed: () async {
                 final String url = (await controller.data.currentUrl());
                 // ignore: deprecated_member_use
