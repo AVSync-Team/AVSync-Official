@@ -103,6 +103,8 @@ class _WebShowState extends State<WebShow> {
   }
 
 //todo:
+// ignore: todo
+//TODO: flutter clipborad is where the magic happens
   Widget favoriteButton() {
     return FutureBuilder<WebViewController>(
         future: _controller.future,
