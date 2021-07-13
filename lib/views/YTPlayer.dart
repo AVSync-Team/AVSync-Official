@@ -212,9 +212,9 @@ class _YTPlayerState extends State<YTPlayer> {
   void dispose() {
     controller.dispose();
     chatTextController.dispose();
-    // roomLogicController.dispose();
-    // // rishabhController.dispose();
-    // ytStateController.dispose();
+    roomLogicController.dispose();
+    rishabhController.dispose();
+    ytStateController.dispose();
     super.dispose();
   }
 
