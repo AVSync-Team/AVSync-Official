@@ -407,18 +407,22 @@ class _YTPlayerState extends State<YTPlayer> {
                                           2 ||
                                       ytStateController.isYtUrlValid.value ==
                                           1) {
-                                    setState(() {
-                                      roomLogicController.ytURL.value =
-                                          yturl.text;
-                                    });
+                                    roomLogicController.ytURL.value =
+                                        yturl.text;
 
                                     Navigator.pop(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print(ytStateController.isYtUrlValid.value);
                                     // ytStateController.update()
-                                    print(roomLogicController.ytURL.value);
-                                    Get.off(YTPlayerOne());
-                                    print('hi');
+                                    roomLogicController.sendYtLink(
+                                        ytlink:
+                                            roomLogicController.ytURL.value);
+                                    roomLogicController.sendYtStatus(
+                                        status: true);
+
+                                    controller.load(
+                                        YoutubePlayer.convertUrlToId(
+                                            roomLogicController.ytURL.value));
                                   }
 
                                   // Navigator.pop(
