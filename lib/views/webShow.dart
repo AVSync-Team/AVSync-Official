@@ -91,6 +91,7 @@ class _WebShowState extends State<WebShow> {
         }),
       ),
       floatingActionButton: favoriteButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
     );
   }
 
@@ -115,7 +116,7 @@ class _WebShowState extends State<WebShow> {
             AsyncSnapshot<WebViewController> controller) {
           if (controller.hasData) {
             return FloatingActionButton(
-              backgroundColor: Color.fromRGBO(10, 10, 10, 1),
+              backgroundColor: Color.fromRGBO(128, 128, 128, 1),
               onPressed: () async {
                 final String url = (await controller.data.currentUrl());
                 // ignore: deprecated_member_use
