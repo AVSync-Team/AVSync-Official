@@ -606,22 +606,70 @@ class _YTPlayerState extends State<YTPlayer> {
                 actions: [
                   Container(
                     padding: EdgeInsets.only(right: 13),
-                    child: GestureDetector(
-                      child: buttonPressed == 0
-                          ? Icon(Icons.message)
-                          : Icon(Icons.fullscreen),
-                      onTap: () {
-                        if (buttonPressed == 1)
-                          setState(() {
-                            //Need comments here Manav
-                            //what happens when it's zero and what happens when it's 1
-                            buttonPressed = 0;
-                          });
-                        else
-                          setState(() {
-                            buttonPressed = 1;
-                          });
-                      },
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          child: Icon(Icons.link),
+                          onTap: () {
+                            Get.snackbar(
+                              '',
+                              '',
+                              snackPosition: SnackPosition.BOTTOM,
+                              snackStyle: SnackStyle.GROUNDED,
+                              duration: Duration(seconds: 4),
+                              messageText: Text(
+                                'Do you want to watch another video?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              titleText: Container(),
+                              margin: const EdgeInsets.only(
+                                  bottom: kBottomNavigationBarHeight,
+                                  left: 8,
+                                  right: 8),
+                              padding: const EdgeInsets.only(
+                                  top: 8, bottom: 10, left: 16, right: 16),
+                              borderRadius: 20,
+                              backgroundColor: Color.fromRGBO(20, 20, 20, 1),
+                              colorText: Colors.white10,
+                              mainButton: FlatButton(
+                                child: Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  getDialogBox();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        GestureDetector(
+                          child: buttonPressed == 0
+                              ? Icon(Icons.message)
+                              : Icon(Icons.fullscreen),
+                          onTap: () {
+                            if (buttonPressed == 1)
+                              setState(() {
+                                //Need comments here Manav
+                                //what happens when it's zero and what happens when it's 1
+                                buttonPressed = 0;
+                              });
+                            else
+                              setState(() {
+                                buttonPressed = 1;
+                              });
+                          },
+                        ),
+                      ],
                     ),
                   )
                 ],
@@ -1311,48 +1359,50 @@ class _YTPlayerState extends State<YTPlayer> {
                                                           roomLogicController
                                                               .roomFireBaseId);
                                               controller.pause();
-                                              Get.snackbar(
-                                                '',
-                                                '',
-                                                snackPosition:
-                                                    SnackPosition.BOTTOM,
-                                                snackStyle: SnackStyle.GROUNDED,
-                                                duration: Duration(seconds: 4),
-                                                messageText: Text(
-                                                  'Do you want to watch another video?',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                                titleText: Container(),
-                                                margin: const EdgeInsets.only(
-                                                    bottom:
-                                                        kBottomNavigationBarHeight,
-                                                    left: 8,
-                                                    right: 8),
-                                                padding: const EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 10,
-                                                    left: 16,
-                                                    right: 16),
-                                                borderRadius: 20,
-                                                backgroundColor: Color.fromRGBO(
-                                                    20, 20, 20, 1),
-                                                colorText: Colors.white10,
-                                                mainButton: FlatButton(
-                                                  child: Text(
-                                                    'Yes',
-                                                    style: TextStyle(
-                                                      color: Colors.blue,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    getDialogBox();
-                                                  },
-                                                ),
-                                              );
+                                              /////////////////////////////////////////////////////////
+                                              // Get.snackbar(
+                                              //   '',
+                                              //   '',
+                                              //   snackPosition:
+                                              //       SnackPosition.BOTTOM,
+                                              //   snackStyle: SnackStyle.GROUNDED,
+                                              //   duration: Duration(seconds: 4),
+                                              //   messageText: Text(
+                                              //     'Do you want to watch another video?',
+                                              //     style: TextStyle(
+                                              //       color: Colors.white,
+                                              //       fontSize: 15,
+                                              //       fontWeight: FontWeight.w400,
+                                              //     ),
+                                              //   ),
+                                              //   titleText: Container(),
+                                              //   margin: const EdgeInsets.only(
+                                              //       bottom:
+                                              //           kBottomNavigationBarHeight,
+                                              //       left: 8,
+                                              //       right: 8),
+                                              //   padding: const EdgeInsets.only(
+                                              //       top: 8,
+                                              //       bottom: 10,
+                                              //       left: 16,
+                                              //       right: 16),
+                                              //   borderRadius: 20,
+                                              //   backgroundColor: Color.fromRGBO(
+                                              //       20, 20, 20, 1),
+                                              //   colorText: Colors.white10,
+                                              //   mainButton: FlatButton(
+                                              //     child: Text(
+                                              //       'Yes',
+                                              //       style: TextStyle(
+                                              //         color: Colors.blue,
+                                              //       ),
+                                              //     ),
+                                              //     onPressed: () {
+                                              //       getDialogBox();
+                                              //     },
+                                              //   ),
+                                              // );
+                                              ////////////////////////////////////////////////////////////
                                               // _scaffoldKey.currentState
                                               //     .removeCurrentSnackBar();
                                               // _scaffoldKey.currentState
