@@ -20,6 +20,7 @@ import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:VideoSync/widgets/web_view_widget.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -592,30 +593,33 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           onTap: () {
                                             //////////////////////////////asking for opening webview or link bottom sheet directly///////////////////////
                                             Get.defaultDialog(
-                                                title: 'YouTube Link',
-                                                middleText: "What's up Mumbai",
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      youTubeBottomSheet();
-                                                    },
-                                                    child: Text('Enter link'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      youTubeBottomSheet();
-                                                      await Get.to(WebShow());
-                                                      FlutterClipboard.paste()
-                                                          .then((value) => yturl
-                                                              .text = value);
-                                                    },
-                                                    child: Text('Get the link'),
-                                                  ),
-                                                ]);
+                                              title: 'YouTube Link',
+                                              middleText: "What's up Mumbai",
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                    youTubeBottomSheet();
+                                                  },
+                                                  child: Text('Enter link'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
+                                                    youTubeBottomSheet();
+                                                    await Get.to(WebShow());
+                                                    // await Get.to(WebViewWidget(
+                                                    //   initialUrl:
+                                                    //       "https://www.youtube.com/",
+                                                    // ));
+                                                    FlutterClipboard.paste()
+                                                        .then((value) =>
+                                                            yturl.text = value);
+                                                  },
+                                                  child: Text('Get the link'),
+                                                ),
+                                              ],
+                                            );
                                             // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
                                             ///////////////webview try/////////////////////////////////////////
                                             //try {

@@ -14,6 +14,7 @@ import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/chat_widget.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:VideoSync/widgets/web_view_widget.dart';
 import 'webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -30,6 +31,9 @@ import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'chat.dart';
+
+enum VisiBility { visile, hide }
+enum UIToDisplay { chat, browser }
 
 class YTPlayer extends StatefulWidget {
   @override
@@ -54,13 +58,15 @@ int buttonPressed = 1;
 // int position = 0;
 
 class _YTPlayerState extends State<YTPlayer> {
+  UIToDisplay uiToDisplay = UIToDisplay.chat;
+  VisiBility showBottomUiVisibility = VisiBility.visile;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController yturl = TextEditingController();
   YoutubePlayerController controller = YoutubePlayerController(
     initialVideoId:
         YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value),
     flags: YoutubePlayerFlags(
-        autoPlay: false,
+        autoPlay: true,
         // hideControls: !(roomLogicController.adminKaNaam.obs.value ==
         //         roomLogicController.userName.obs.value)
         //     ? true
@@ -607,19 +613,21 @@ class _YTPlayerState extends State<YTPlayer> {
                   Container(
                     padding: EdgeInsets.only(right: 13),
                     child: GestureDetector(
-                      child: buttonPressed == 0
+                      child: showBottomUiVisibility != VisiBility.visile
                           ? Icon(Icons.message)
                           : Icon(Icons.fullscreen),
                       onTap: () {
-                        if (buttonPressed == 1)
+                        if (showBottomUiVisibility == VisiBility.visile)
                           setState(() {
                             //Need comments here Manav
                             //what happens when it's zero and what happens when it's 1
-                            buttonPressed = 0;
+                            // buttonPressed = 0;
+                            showBottomUiVisibility = VisiBility.hide;
                           });
                         else
                           setState(() {
-                            buttonPressed = 1;
+                            // buttonPressed = 1;
+                            showBottomUiVisibility = VisiBility.visile;
                           });
                       },
                     ),
@@ -634,13 +642,23 @@ class _YTPlayerState extends State<YTPlayer> {
         //   ),
         // ),
         backgroundColor: Color(0xff292727),
+
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     controller.load(
+        //       YoutubePlayer.convertUrlToId(
+        //           "https://www.youtube.com/watch?v=9A35CTN4dq8"),
+        //     );
+        //   },
+        //   child: Icon(Icons.video_call),
+        // ),
         body: Container(
           //padding: EdgeInsets.only(top: size.height * 0.02),
           child: Column(
             children: [
               SizedBox(
                   height: phoneOrientation == Orientation.portrait &&
-                          buttonPressed == 0
+                          showBottomUiVisibility == VisiBility.hide
                       ? 200
                       : 0),
               Container(
@@ -1534,7 +1552,8 @@ class _YTPlayerState extends State<YTPlayer> {
               //this is the chat display part of code
               //so if the buttonPressed == 1 then thos these UIs ok got it Manav
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  showBottomUiVisibility == VisiBility.visile &&
+                  uiToDisplay == UIToDisplay.chat)
                 Expanded(
                   child: ChatListViewWidget(
                       // chatWidth: 200,
@@ -1544,11 +1563,53 @@ class _YTPlayerState extends State<YTPlayer> {
               //send button
               //and textinput widget
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  showBottomUiVisibility == VisiBility.visile &&
+                  uiToDisplay == UIToDisplay.chat)
                 ChatSend(
                     chatHeight: 50,
                     chatTextController: chatTextController,
-                    currenFocus: currenFocus)
+                    currenFocus: currenFocus),
+
+              if (uiToDisplay == UIToDisplay.browser &&
+                  showBottomUiVisibility == VisiBility.visile)
+                Expanded(
+                    child: WebViewWidget(
+                  initialUrl: "https://www.youtube.com/",
+                )),
+              if (showBottomUiVisibility == VisiBility.hide) Spacer(),
+              if (phoneOrientation == Orientation.portrait)
+                Container(
+                  height: size.height * 0.06,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            //shot chat UI
+                            uiToDisplay = UIToDisplay.chat;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.chat,
+                          color: Colors.white,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            //shot browser UI
+                            uiToDisplay = UIToDisplay.browser;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.online_prediction,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                )
             ],
           ),
         ),
