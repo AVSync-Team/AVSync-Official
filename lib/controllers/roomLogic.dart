@@ -69,6 +69,8 @@ class RoomLogicController extends GetxController {
           "timeStamp": 0,
           "adminName": adminName,
           "adminId": this.userId,
+          'ytLink': "",
+          "ytstatus": "",
           "playBackSpeed": 1.0,
           "isDragging": false,
           "users": {
@@ -183,6 +185,20 @@ class RoomLogicController extends GetxController {
         .onValue;
   }
 
+  Stream<Event> status({String firebaseId}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    return firebase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('ytstatus')
+        .onValue;
+  }
+
+  Stream<Event> ytlink({String firebaseId}) {
+    final firebase = FirebaseDatabase.instance.reference();
+    return firebase.child('Rooms').child('$firebaseId').child('ytLink').onValue;
+  }
+
   List<dynamic> getUsersList() {
     return users;
   }
@@ -288,6 +304,25 @@ class RoomLogicController extends GetxController {
         .child(roomFireBaseId)
         .child('playBackSpeed')
         .set(speed);
+  }
+
+  void sendYtLink({String ytlink}) {
+    var firebase = FirebaseDatabase.instance.reference();
+    firebase.child('Rooms').child(roomFireBaseId).child('ytLink').set(ytlink);
+  }
+
+  void sendYtStatus({bool status}) {
+    var firebase = FirebaseDatabase.instance.reference();
+    firebase.child('Rooms').child(roomFireBaseId).child('ytstatus').set(status);
+  }
+
+  Future<dynamic> getLink(String firebaseId) async {
+    var firebase = FirebaseDatabase.instance.reference();
+    return await firebase
+        .child('Rooms')
+        .child(roomFireBaseId)
+        .child('ytLink')
+        .once();
   }
 
   // Stream<List<dynamic>> getusersInRoom() async* {

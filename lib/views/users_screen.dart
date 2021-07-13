@@ -103,6 +103,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
     //checks the room status if status = 0 , then room is kicked
     // status = 1,then room is fine
+
+    roomLogicController
+        .ytlink(firebaseId: roomLogicController.roomFireBaseId)
+        .listen((event) {
+      roomLogicController.ytURL.value = event.snapshot.value;
+      Get.snackbar("lode", "Gandu video changed");
+    });
+
     roomLogicController
         .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -284,8 +292,11 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           1) {
                                     roomLogicController.ytURL.value =
                                         yturl.text;
-                                    print(ytStateController.isYtUrlValid.value);
-                                    print(roomLogicController.ytURL.value);
+                                    roomLogicController.sendYtLink(
+                                        ytlink:
+                                            roomLogicController.ytURL.value);
+                                    roomLogicController.sendYtStatus(
+                                        status: true);
                                     Navigator.pop(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     Get.to(YTPlayer());
