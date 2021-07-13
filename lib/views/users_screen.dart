@@ -108,6 +108,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
         .ytlink(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
       roomLogicController.ytURL.value = event.snapshot.value;
+      yturl.text = roomLogicController.ytURL.value;
       Get.snackbar("lode", "Gandu video changed");
     });
 

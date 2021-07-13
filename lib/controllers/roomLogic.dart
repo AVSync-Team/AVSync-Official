@@ -316,14 +316,14 @@ class RoomLogicController extends GetxController {
     firebase.child('Rooms').child(roomFireBaseId).child('ytstatus').set(status);
   }
 
-  Future<dynamic> getLink(String firebaseId) async {
-    var firebase = FirebaseDatabase.instance.reference();
-    return await firebase
-        .child('Rooms')
-        .child(roomFireBaseId)
-        .child('ytLink')
-        .once();
-  }
+  // Future<DataSnapshot> getLink(String firebaseId)  {
+  //   var firebase = FirebaseDatabase.instance.reference();
+  //   return  firebase
+  //       .child('Rooms')
+  //       .child(roomFireBaseId)
+  //       .child('ytLink')
+  //       .once();
+  // }
 
   // Stream<List<dynamic>> getusersInRoom() async* {
   //   print("heellool");

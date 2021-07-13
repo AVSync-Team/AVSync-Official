@@ -132,6 +132,14 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
+    roomLogicController
+        .ytlink(firebaseId: roomLogicController.roomFireBaseId)
+        .listen((event) {
+      roomLogicController.ytURL.value = event.snapshot.value;
+      controller
+          .load(YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value));
+    });
+
     firebaseDatabase
         .child('Rooms')
         .child(roomLogicController.roomFireBaseId.obs.value)
@@ -146,6 +154,19 @@ class _YTPlayerState extends State<YTPlayer> {
         controller.play();
       }
     });
+
+    // firebaseDatabase
+    //     .child('Rooms')
+    //     .child(roomLogicController.roomFireBaseId.obs.value)
+    //     .child('yturl')
+    //     .onValue
+    //     .listen((event) {
+    //   if (event.snapshot.value) {
+    //   // print(event.snapshot.value);
+    //   } else {
+    //     controller.play();
+    //   }
+    // });
 
     // chatController
     //     .message(firebaseId: roomLogicController.roomFireBaseId)
@@ -212,9 +233,9 @@ class _YTPlayerState extends State<YTPlayer> {
   void dispose() {
     controller.dispose();
     chatTextController.dispose();
-    roomLogicController.dispose();
-    rishabhController.dispose();
-    ytStateController.dispose();
+    // roomLogicController.dispose();
+    // // rishabhController.dispose();
+    // ytStateController.dispose();
     super.dispose();
   }
 
@@ -376,6 +397,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                     Navigator.pop(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print(ytStateController.isYtUrlValid.value);
+                                    // ytStateController.update()
                                     print(roomLogicController.ytURL.value);
                                     Get.off(YTPlayerOne());
                                     print('hi');
