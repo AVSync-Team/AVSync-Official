@@ -262,6 +262,24 @@ class _YTPlayerState extends State<YTPlayer> {
     );
   }
 
+  youWebShe() {
+    Get.bottomSheet(
+      SingleChildScrollView(
+        child: Container(
+          height: 800,
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            child: Container(
+              height: 800,
+              width: MediaQuery.of(context).size.width,
+              child: WebShow(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   youBotShe() {
     Get.bottomSheet(
       Container(
@@ -420,7 +438,8 @@ class _YTPlayerState extends State<YTPlayer> {
             onPressed: () async {
               Navigator.of(context).pop();
               youBotShe();
-              await Get.to(WebShow());
+              //await Get.to(WebShow());
+              youWebShe();
               FlutterClipboard.paste().then((value) => yturl.text = value);
             },
             child: Text('Get the link'),
