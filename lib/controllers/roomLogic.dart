@@ -197,7 +197,11 @@ class RoomLogicController extends GetxController {
   Stream<Event> ytlink({String firebaseId}) {
     final firebase = FirebaseDatabase.instance.reference();
     //send the status to everyone
-    firebase.child('Rooms').child('$firebaseId').child('ytLink').set("loaded");
+    firebase
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('ytstatus')
+        .set("loaded");
     return firebase.child('Rooms').child('$firebaseId').child('ytLink').onValue;
   }
 

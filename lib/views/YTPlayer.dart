@@ -419,8 +419,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                     roomLogicController.sendYtLink(
                                         ytlink:
                                             roomLogicController.ytURL.value);
-                                    roomLogicController.sendYtStatus(
-                                        status: true);
+                                    // roomLogicController.sendYtStatus(
+                                    //     status: 'loaded');
 
                                     controller.load(
                                         YoutubePlayer.convertUrlToId(
