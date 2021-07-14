@@ -11,7 +11,7 @@ class CustomNameBar extends StatefulWidget {
   final double heightRatio;
   final double widthRatio;
   final String userID;
-  final FunLogic controller;
+  // final FunLogic controller;
   final RoomLogicController roomController;
   final double textSize;
   final double imageSize;
@@ -22,7 +22,7 @@ class CustomNameBar extends StatefulWidget {
       this.index,
       this.heightRatio,
       this.widthRatio,
-      this.controller,
+      // this.controller,
       Key key,
       this.userID,
       this.roomController,
@@ -108,20 +108,19 @@ class _CustomNameBarState extends State<CustomNameBar> {
                     'https://i.picsum.photos/id/56/200/200.jpg?hmac=rRTTTvbR4tHiWX7-kXoRxkV7ix62g9Re_xUvh4o47jA'),
               ),
             ),
-            SizedBox(width: 5 * widget.heightRatio),
+            SizedBox(width: 10 * widget.heightRatio),
             Container(
               // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
               child: Text(
                 '${widget.event.data.snapshot.value.values.toList()[widget.index]['name']}',
                 style: TextStyle(
                   fontSize: widget.textSize,
-                  color: widget.controller.randomColorPick,
+                  color: Colors.blueAccent,
                   // color: Colors.greenAccent,
                 ),
               ),
             ),
             Spacer(),
-
             //kick UI
             (widget.roomController.userId != widget.userID &&
                     widget.roomController.userId ==

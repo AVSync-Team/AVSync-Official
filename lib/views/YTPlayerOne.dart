@@ -43,7 +43,6 @@ ChatController chatController = Get.put(ChatController());
 TextEditingController yturl = TextEditingController();
 YTStateController ytStateController = Get.put(YTStateController());
 RishabhController rishabhController = Get.put(RishabhController());
-FunLogic funLogic = Get.put(FunLogic());
 CustomThemeData themeController = Get.put(CustomThemeData());
 ScrollController chatScrollController = ScrollController();
 AnimationController animationController;
@@ -542,7 +541,7 @@ class _YTPlayerOneState extends State<YTPlayerOne> {
                                                     index: i,
                                                     widthRatio: widthRatio,
                                                     heightRatio: heightRatio,
-                                                    controller: funLogic,
+                                                    // controller: funLogic,
                                                     imageSize: 35,
                                                     textSize: 17,
                                                   ),

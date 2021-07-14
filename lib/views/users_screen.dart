@@ -45,7 +45,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
-  FunLogic funLogic = Get.put(FunLogic());
+  // FunLogic funLogic = Get.put(FunLogic());
   CustomThemeData themeController = Get.put(CustomThemeData());
   YTStateController ytStateController = Get.put(YTStateController());
   WebViewController _controller;
@@ -862,7 +862,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                       index: i,
                                       widthRatio: widthRatio,
                                       heightRatio: heightRatio,
-                                      controller: funLogic,
+                                      // controller: funLogic,
                                       imageSize: 50,
                                       textSize: 25,
                                     );
