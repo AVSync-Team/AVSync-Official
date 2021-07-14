@@ -70,7 +70,7 @@ class RoomLogicController extends GetxController {
           "adminName": adminName,
           "adminId": this.userId,
           'ytLink': "",
-          "ytstatus": "",
+          "ytstatus": "not_loaded",
           "playBackSpeed": 1.0,
           "isDragging": false,
           "users": {
@@ -185,7 +185,7 @@ class RoomLogicController extends GetxController {
         .onValue;
   }
 
-  Stream<Event> status({String firebaseId}) {
+  Stream<Event> ytVideoLoadedStatus({String firebaseId}) {
     final firebase = FirebaseDatabase.instance.reference();
     return firebase
         .child('Rooms')
@@ -196,6 +196,8 @@ class RoomLogicController extends GetxController {
 
   Stream<Event> ytlink({String firebaseId}) {
     final firebase = FirebaseDatabase.instance.reference();
+    //send the status to everyone
+    firebase.child('Rooms').child('$firebaseId').child('ytLink').set("loaded");
     return firebase.child('Rooms').child('$firebaseId').child('ytLink').onValue;
   }
 

@@ -20,7 +20,9 @@ import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:VideoSync/widgets/video_started_widget.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -81,26 +83,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
       roomLogicController.adminId.value = event.snapshot.value;
       setState(() {});
     });
-
-    // chatController
-    //     .message(firebaseId: roomLogicController.roomFireBaseId)
-    //     .listen((event) {
-    //   List<M> check = [];
-
-    //   event.snapshot.value.forEach((key, value) {
-    //     check.add(M(
-    //         id: DateTime.parse(value["messageId"]),
-    //         mesage: value["message"],
-    //         userId: value["userId"],
-    //         username: value["username"]));
-    //   });
-
-    //   check.sort((a, b) => (a.id).compareTo(b.id));
-    //   if (check[check.length - 1].userId != roomLogicController.userId)
-    //     Get.snackbar(
-    //         check[check.length - 1].username, check[check.length - 1].mesage);
-    // });
-
     //checks the room status if status = 0 , then room is kicked
     // status = 1,then room is fine
 
@@ -291,6 +273,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                           2 ||
                                       ytStateController.isYtUrlValid.value ==
                                           1) {
+                                    //load the YT URL
                                     roomLogicController.ytURL.value =
                                         yturl.text;
                                     roomLogicController.sendYtLink(
@@ -567,6 +550,24 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   children: [
                     SizedBox(
                       height: 10 * heightRatio,
+                    ),
+                    StreamBuilder(
+                      stream: roomLogicController.ytVideoLoadedStatus(
+                          firebaseId: roomLogicController.roomFireBaseId),
+                      builder:
+                          (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
+                        if (snapshot.hasData) {
+                          //now if video not loaded then don't show anything
+                          if (snapshot.data.snapshot.value == "loaded") {
+                            //TODO: @manav UI implementation just giving a basic right now
+                            return VideoStartedWidgetDisplay();
+                          } else {
+                            //if video not loaded then don't show anything
+                            return SizedBox();
+                          }
+                        }
+                        return Container();
+                      },
                     ),
                     Hero(
                       tag: 'Rishabh',

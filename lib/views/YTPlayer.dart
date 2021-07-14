@@ -451,7 +451,7 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   getDialogBox() {
-    Get.defaultDialog(
+    Get.defaultDialog(      
         title: 'Youtube',
         middleText: 'What is up Mumbai',
         actions: [
