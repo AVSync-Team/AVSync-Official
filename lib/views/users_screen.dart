@@ -91,7 +91,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
         .listen((event) {
       roomLogicController.ytURL.value = event.snapshot.value;
       yturl.text = roomLogicController.ytURL.value;
-      Get.snackbar("lode", "Gandu video changed");
+      // Get.snackbar("lode", "Gandu video changed");
     });
 
     roomLogicController
@@ -280,7 +280,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         ytlink:
                                             roomLogicController.ytURL.value);
                                     roomLogicController.sendYtStatus(
-                                        status: true);
+                                        status: 'loaded');
                                     Navigator.pop(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     Get.to(YTPlayer());
