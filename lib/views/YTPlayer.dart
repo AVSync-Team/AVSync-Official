@@ -1,11 +1,11 @@
-// import 'dart:async';
-
 import 'dart:async';
 import 'dart:ui';
+import 'dart:io';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
+import 'dart:convert';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/YTPlayerOne.dart';
@@ -23,6 +23,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -50,6 +51,7 @@ AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
 int buttonPressed = 1;
+int webPressed = 0;
 
 // int position = 0;
 
@@ -284,20 +286,20 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   youWebShe() {
-    Get.bottomSheet(
-      SingleChildScrollView(
-        child: Container(
-          height: 800,
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            child: Container(
-              height: 800,
-              width: MediaQuery.of(context).size.width,
-              child: WebShow(),
-            ),
+    //Get.bottomSheet(
+    SingleChildScrollView(
+      child: Container(
+        //height: 800,
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          child: Container(
+            //height: 800,
+            width: MediaQuery.of(context).size.width,
+            child: WebShow(),
           ),
         ),
       ),
+      //),
     );
   }
 
@@ -457,16 +459,22 @@ class _YTPlayerState extends State<YTPlayer> {
             onPressed: () {
               Navigator.of(context).pop();
               youBotShe();
+              FlutterClipboard.paste().then((value) => yturl.text = value);
             },
             child: Text('Link input'),
           ),
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              youBotShe();
-              //await Get.to(WebShow());
-              youWebShe();
-              FlutterClipboard.paste().then((value) => yturl.text = value);
+              if (webPressed == 0) {
+                setState(() {
+                  webPressed = 1;
+                });
+              } else {}
+              // youBotShe();
+              // //await Get.to(WebShow());
+              // youWebShe();
+              //FlutterClipboard.paste().then((value) => yturl.text = value);
             },
             child: Text('Get the link'),
           ),
@@ -653,65 +661,90 @@ class _YTPlayerState extends State<YTPlayer> {
                     padding: EdgeInsets.only(right: 13),
                     child: Row(
                       children: [
-                        GestureDetector(
-                          child: Icon(Icons.link),
-                          onTap: () {
-                            Get.snackbar(
-                              '',
-                              '',
-                              snackPosition: SnackPosition.BOTTOM,
-                              snackStyle: SnackStyle.GROUNDED,
-                              duration: Duration(seconds: 4),
-                              messageText: Text(
-                                'Do you want to watch another video?',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              titleText: Container(),
-                              margin: const EdgeInsets.only(
-                                  bottom: kBottomNavigationBarHeight,
-                                  left: 8,
-                                  right: 8),
-                              padding: const EdgeInsets.only(
-                                  top: 8, bottom: 10, left: 16, right: 16),
-                              borderRadius: 20,
-                              backgroundColor: Color.fromRGBO(20, 20, 20, 1),
-                              colorText: Colors.white10,
-                              mainButton: FlatButton(
-                                child: Text(
-                                  'Yes',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  getDialogBox();
+                        webPressed == 0
+                            ? GestureDetector(
+                                child: Icon(Icons.link),
+                                onTap: () {
+                                  Get.snackbar(
+                                    '',
+                                    '',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    snackStyle: SnackStyle.GROUNDED,
+                                    duration: Duration(seconds: 4),
+                                    messageText: Text(
+                                      'Do you want to watch another video?',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    titleText: Container(),
+                                    margin: const EdgeInsets.only(
+                                        bottom: kBottomNavigationBarHeight,
+                                        left: 8,
+                                        right: 8),
+                                    padding: const EdgeInsets.only(
+                                        top: 8,
+                                        bottom: 10,
+                                        left: 16,
+                                        right: 16),
+                                    borderRadius: 20,
+                                    backgroundColor:
+                                        Color.fromRGBO(20, 20, 20, 1),
+                                    colorText: Colors.white10,
+                                    mainButton: FlatButton(
+                                      child: Text(
+                                        'Yes',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        getDialogBox();
+                                        FlutterClipboard.paste().then(
+                                            (value) => yturl.text = value);
+                                      },
+                                    ),
+                                  );
+                                },
+                              )
+                            : GestureDetector(
+                                child: Icon(Icons.link_off),
+                                onTap: () {
+                                  if (webPressed == 1) {
+                                    setState(() {
+                                      webPressed = 0;
+                                    });
+                                  }
                                 },
                               ),
-                            );
-                          },
-                        ),
                         SizedBox(
                           width: 15,
                         ),
                         GestureDetector(
-                          child: buttonPressed == 0
-                              ? Icon(Icons.message)
-                              : Icon(Icons.fullscreen),
+                          child: webPressed == 1
+                              ? Icon(Icons.chat)
+                              : buttonPressed == 0
+                                  ? Icon(Icons.message)
+                                  : Icon(Icons.fullscreen),
                           onTap: () {
-                            if (buttonPressed == 1)
+                            if (webPressed == 1) {
                               setState(() {
-                                //Need comments here Manav
-                                //what happens when it's zero and what happens when it's 1
-                                buttonPressed = 0;
+                                webPressed = 0;
                               });
-                            else
-                              setState(() {
-                                buttonPressed = 1;
-                              });
+                            } else {
+                              if (buttonPressed == 1)
+                                setState(() {
+                                  //Need comments here Manav
+                                  //what happens when it's zero and what happens when it's 1
+                                  buttonPressed = 0;
+                                });
+                              else
+                                setState(() {
+                                  buttonPressed = 1;
+                                });
+                            }
                           },
                         ),
                       ],
@@ -733,7 +766,8 @@ class _YTPlayerState extends State<YTPlayer> {
             children: [
               SizedBox(
                   height: phoneOrientation == Orientation.portrait &&
-                          buttonPressed == 0
+                          buttonPressed == 0 &&
+                          webPressed == 0
                       ? 200
                       : 0),
               Container(
@@ -1628,8 +1662,35 @@ class _YTPlayerState extends State<YTPlayer> {
                 SizedBox(height: 10),
               //this is the chat display part of code
               //so if the buttonPressed == 1 then thos these UIs ok got it Manav
+              if (phoneOrientation == Orientation.portrait && webPressed == 1)
+                Container(
+                  //height: 10,
+                  color: Color.fromRGBO(20, 20, 20, 1),
+                  child: Center(
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.grey,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        if (webPressed == 1) {
+                          setState(() {
+                            webPressed = 0;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              if (phoneOrientation == Orientation.portrait && webPressed == 1)
+                Expanded(
+                  child: WebShowInMe(),
+                ),
+
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  buttonPressed == 1 &&
+                  webPressed == 0)
                 Expanded(
                   child: ChatListViewWidget(
                       // chatWidth: 200,
@@ -1639,7 +1700,8 @@ class _YTPlayerState extends State<YTPlayer> {
               //send button
               //and textinput widget
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  buttonPressed == 1 &&
+                  webPressed == 0)
                 ChatSend(
                     chatHeight: 50,
                     chatTextController: chatTextController,
@@ -1649,5 +1711,245 @@ class _YTPlayerState extends State<YTPlayer> {
         ),
       ),
     );
+  }
+}
+
+class WebShowInMe extends StatefulWidget {
+  @override
+  _WebShowInMeState createState() => _WebShowInMeState();
+}
+
+class _WebShowInMeState extends State<WebShowInMe> {
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+  }
+
+  youBotShe() {
+    Get.bottomSheet(
+      Container(
+        // color:
+        //     Colors.white.withOpacity(0.1),
+        width: double.infinity,
+        height: heightRatio * 250,
+        child: Container(
+          color: Colors.white,
+          // decoration: BoxDecoration(
+          //   color: Colors.purple
+          //       .withOpacity(0.1),
+          //   borderRadius: BorderRadius.only(
+          //     topLeft:
+          //         Radius.circular(30.0),
+          //     topRight:
+          //         Radius.circular(30.0),
+          //   ),
+          // ),
+
+          //child: Card(
+          // shape: RoundedRectangleBorder(
+          //     borderRadius:
+          //         BorderRadius.only(
+          //             topLeft:
+          //                 Radius.circular(
+          //                     30.0),
+          //             topRight:
+          //                 Radius.circular(
+          //                     30.0))),
+          // elevation: 10,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 20),
+              Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
+              Container(
+                margin: EdgeInsets.only(top: heightRatio * 20),
+                height: heightRatio * 80,
+                width: widthRatio * 300,
+                child: TextField(
+                  controller: yturl,
+                  onChanged: (String value) {
+                    setState(() {
+                      ytStateController.checkYotutTubeUrl(ytURl: value);
+                    });
+                  },
+                  cursorColor: Colors.red,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: new BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: heightRatio * 10),
+                child:
+                    // ytStateController.
+                    //     ? Container(
+                    //         child: Text(
+                    //           "No link provided",
+                    //           style: TextStyle(
+                    //               color: Colors
+                    //                   .red),
+                    //         ),
+                    //       )
+                    //     :
+                    Obx(() =>
+                        ///////////////////////////////////////////////////
+                        // ytStateController
+                        //             .isYtUrlValid
+                        //             .value ==
+                        //         1
+                        //     ? Container(
+                        //         child:
+                        //             Text(
+                        //           "No link provided",
+                        //           style: TextStyle(
+                        //               color:
+                        //                   Colors.red),
+                        //         ),
+                        //       )
+                        //:
+                        ytStateController.isYtUrlValid.value == 2 ||
+                                ytStateController.isYtUrlValid.value == 1
+                            ?
+                            ////////////////////////////////////
+                            //   Container(
+                            // height: 30,
+                            // child:
+                            //Obx(() =>
+                            RaisedButton(
+                                color: Colors.green,
+                                shape: StadiumBorder(),
+                                onPressed: () async {
+                                  if (ytStateController.isYtUrlValid.value ==
+                                          2 ||
+                                      ytStateController.isYtUrlValid.value ==
+                                          1) {
+                                    setState(() {
+                                      roomLogicController.ytURL.value =
+                                          yturl.text;
+                                    });
+
+                                    Navigator.pop(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print(ytStateController.isYtUrlValid.value);
+                                    print(roomLogicController.ytURL.value);
+                                    Get.off(YTPlayerOne());
+                                    print('hi');
+                                  }
+
+                                  // Navigator.pop(
+                                  //     context);
+                                },
+                                child: Text(
+                                  'Play',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            : Container(
+                                child: Text(
+                                  "Link not Valid !",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              )),
+              )
+            ],
+          ),
+        ),
+        //),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // We're using a Builder here so we have a context that is below the Scaffold
+      // to allow calling Scaffold.of(context) so we can show a snackbar.
+      body: Container(
+        height: MediaQuery.of(context).size.height - 40,
+        child: Builder(builder: (BuildContext context) {
+          return WebView(
+            initialUrl: 'https://www.youtube.com/',
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+            onProgress: (int progress) {
+              print("WebView is loading (progress : $progress%)");
+            },
+            javascriptChannels: <JavascriptChannel>{
+              _toasterJavascriptChannel(context),
+            },
+            navigationDelegate: (NavigationRequest request) {
+              if (request.url.startsWith('https://www.youtube.com/')) {
+                print('blocking navigation to $request}');
+                return NavigationDecision.prevent;
+              }
+              print('allowing navigation to $request');
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (String url) {
+              print('Page started loading: $url');
+            },
+            onPageFinished: (String url) {
+              print('Page finished loading: $url');
+            },
+            gestureNavigationEnabled: true,
+          );
+        }),
+      ),
+      floatingActionButton: favoriteButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+        name: 'Toaster',
+        onMessageReceived: (JavascriptMessage message) {
+          // ignore: deprecated_member_use
+          Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        });
+  }
+
+//todo:
+// ignore: todo
+//TODO: flutter clipborad is where the magic happens
+  Widget favoriteButton() {
+    return FutureBuilder<WebViewController>(
+        future: _controller.future,
+        builder: (BuildContext context,
+            AsyncSnapshot<WebViewController> controller) {
+          if (controller.hasData) {
+            return FloatingActionButton(
+              backgroundColor: Color.fromRGBO(128, 128, 128, 1),
+              onPressed: () async {
+                final String url = (await controller.data.currentUrl());
+                // ignore: deprecated_member_use
+                await FlutterClipboard.copy(url);
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(content: Text('Copied $url')),
+                );
+                FlutterClipboard.paste().then((value) => yturl.text = value);
+                youBotShe();
+              },
+              child: const Icon(Icons.copy),
+            );
+          }
+          return Container();
+        });
   }
 }
