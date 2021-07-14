@@ -349,6 +349,7 @@ class RoomLogicController extends GetxController {
 
     userMap.forEach((key, value) async {
       if (value['id'] == idofUser && key != 'admin') {
+        //set the status zero - then the user will be kicked
         firebaseDB
             .child('Rooms')
             .child(firebaseId)
@@ -358,6 +359,14 @@ class RoomLogicController extends GetxController {
             .set(0);
 
         // await Future.delayed(Duration(seconds: 2));
+        chatController.sendMessageCloudFireStore(
+          message: "${value['name']} has been kicked from the room ",
+          roomId: roomFireBaseId,
+          sentBy: "User Kicked",
+          tag: "alert",
+          userId: "696969",
+          status: "joined",
+        );
 
         firebaseDB
             .child('Rooms')
