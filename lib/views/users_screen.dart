@@ -560,6 +560,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                           //now if video not loaded then don't show anything
                           if (snapshot.data.snapshot.value == "loaded") {
                             //TODO: @manav UI implementation just giving a basic right now
+                            //look into it
                             return VideoStartedWidgetDisplay();
                           } else {
                             //if video not loaded then don't show anything
