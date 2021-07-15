@@ -1,4 +1,4 @@
-import 'package:VideoSync/controllers/funLogic.dart';
+// import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:flutter/material.dart';
 import 'custom_button.dart';

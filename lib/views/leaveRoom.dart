@@ -1,16 +1,18 @@
 import 'dart:async';
 
 import 'package:VideoSync/controllers/betterController.dart';
-import 'package:VideoSync/controllers/chat.dart';
-import 'package:VideoSync/controllers/funLogic.dart';
+// import 'package:VideoSync/controllers/chat.dart';
+// import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
-import 'package:VideoSync/views/homePage.dart';
+import 'package:VideoSync/views/createRoom.dart';
+// import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/waitingPage.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:http/http.dart' as http;
+// import 'package:firebase_database/firebase_database.dart';
+// import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/platform_interface.dart';
 
 class LeaveRoom extends StatefulWidget {
   @override
@@ -114,7 +116,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
                       size: 25,
                     ),
                     label: Text(
-                      'NO',
+                      'Yes',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Raleway',
@@ -153,7 +155,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
                       size: 25,
                     ),
                     label: Text(
-                      'Yes',
+                      'No',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Raleway',
@@ -171,7 +173,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
                         roomLogicController.adminDeleteRoom(
                             firebaseId: roomLogicController.roomFireBaseId);
                       }
-                      Get.offAll(HomePage());
+                      Get.offAll(CreateRoomScreen());
                       // Get.off(CreateRoomScreen());
                     }),
               ),

@@ -4,21 +4,21 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
-import 'package:VideoSync/controllers/funLogic.dart';
+// import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
-import 'package:VideoSync/views/YTPlayerOne.dart';
+// import 'package:VideoSync/views/YTPlayerOne.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
-import 'package:VideoSync/widgets/chat_widget.dart';
-import 'package:VideoSync/widgets/custom_button.dart';
+// import 'package:VideoSync/widgets/chat_widget.dart';
+// import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/custom_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import 'chat.dart';
+// import 'chat.dart';
 
 class YTPlayer extends StatefulWidget {
   @override

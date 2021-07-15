@@ -5,14 +5,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
-import 'package:VideoSync/controllers/funLogic.dart';
+// import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/YTPlayer.dart';
-import 'package:VideoSync/views/chat.dart';
+// import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
-import 'package:VideoSync/views/homePage.dart';
+// import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/videoPlayer.dart';
 
 import 'package:VideoSync/views/webShow.dart';
@@ -103,7 +103,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               roomLogicController.userId.obs.value)) {
         if (Get.context.orientation == Orientation.landscape)
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        Get.offAll(HomePage());
+        Get.offAll(CreateRoomScreen());
         buildShowDialog(context,
             title: "Room Deleted",
             content: "The admin has deleted the room :(");
@@ -128,7 +128,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
           if (Get.context.orientation == Orientation.landscape)
             SystemChrome.setPreferredOrientations(
                 [DeviceOrientation.portraitUp]);
-          Get.offAll(HomePage());
+          Get.offAll(CreateRoomScreen());
           buildShowDialog(context,
               title: "Kicked from room",
               content: "The admin has kicked you from the room :(");
@@ -401,7 +401,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               firebaseId: roomLogicController.roomFireBaseId,
               adminId: roomLogicController.adminId.value,
               userId: roomLogicController.userId);
-          Get.offAll(HomePage());
+          Get.offAll(CreateRoomScreen());
           //Navigator.of(context, rootNavigator: true).pop();
         });
         return leaveRoom;

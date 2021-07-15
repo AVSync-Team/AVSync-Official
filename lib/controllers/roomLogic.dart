@@ -55,9 +55,7 @@ class RoomLogicController extends GetxController {
   }
 
   Future<void> makeRoom({String adminName}) async {
-    // isLoading.value = true;
     this.roomId.value = randomGenerator().toString();
-    // userName.value = adminKaNaam;
 
     print("RoomLogicController: ${userName.value}");
     this.userId = randomGenerator().toString();
@@ -77,25 +75,11 @@ class RoomLogicController extends GetxController {
           "users": {
             "admin": {"name": adminName, "id": this.userId},
           },
-          "chat": {
-            "341241": {
-              "message": "Welcome to AvSync !!",
-              "userId": "696969",
-              "messageId": DateTime.now().toIso8601String(),
-              "username": "AVSync"
-            }
-          }
         }));
     adminId.value = userId;
-    // print(userId);
-    // print("admin Id");
-    // print(adminId);
-    // userName = randomGenerator().toString();
 
     roomFireBaseId = json.decode(response.body)["name"];
     print(roomFireBaseId);
-
-    // isLoading.value = false;
   }
 
   String get getUserId {
@@ -147,8 +131,6 @@ class RoomLogicController extends GetxController {
               .once()
               .then((value) {
             adminId.value = value.value;
-            // print("adminId");
-            // print(adminId);
           });
           flag = true;
           //send alert dialog message to Chat for new user joined
@@ -197,7 +179,6 @@ class RoomLogicController extends GetxController {
 
   Stream<Event> ytlink({String firebaseId}) {
     final firebase = FirebaseDatabase.instance.reference();
-    //send the status to everyone
 
     return firebase.child('Rooms').child('$firebaseId').child('ytLink').onValue;
   }
@@ -206,56 +187,11 @@ class RoomLogicController extends GetxController {
     return users;
   }
 
-  Future<List<dynamic>> loadDetails() async {
-    final response = await http.get(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/users.json');
-    print('loda: ${response.body}');
-    final decoded = json.decode(response.body);
-    print(decoded);
-    return decoded;
-  }
-
-  Future<void> changeTimeStamp({int timestamp}) async {
-    final response = await http.patch(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        body: json.encode({"timeStamp": timestamp}));
-  }
-
-  Future<int> getTimeStamp() async {
-    final response = await http.get(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/timeStamp.json');
-    return json.decode(response.body);
-  }
-
-  Future<bool> isDraggingStatus() async {
-    var response = await http.get(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isDragging.json');
-    return json.decode(response.body);
-  }
-
-  Future<bool> isPlayerPaused() async {
-    var response = await http.get(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId/isPlayerPaused.json');
-
-    print('player_status: ${response.body}');
-    return json.decode(response.body);
-  }
-
-  Future<void> sendPlayerStatus({bool status}) async {
-    final response = await http.patch(
-        'https://avsync-9ce10-default-rtdb.firebaseio.com/Rooms/$roomFireBaseId.json',
-        body: json.encode({"isPlayerPaused": status}));
-    print('status sent: ${response.statusCode}');
-  }
-
   Future<bool> userLeaveRoom(
       {String firebaseId, String userId, String adminId}) async {
     final firebaseDatabase = FirebaseDatabase.instance.reference();
     final userRef =
         firebaseDatabase.child('Rooms').child('$firebaseId').child('users');
-
-    // var usersList = [];
-    // var index = 0;
 
     int flag = 0;
     await userRef.once().then((value) {
@@ -290,12 +226,8 @@ class RoomLogicController extends GetxController {
                 .set(value['name']);
           }
         }
-
-        // index++;
       });
     });
-
-    // index++;
 
     return true;
   }
@@ -319,25 +251,6 @@ class RoomLogicController extends GetxController {
     firebase.child('Rooms').child(roomFireBaseId).child('ytstatus').set(status);
   }
 
-  // Future<DataSnapshot> getLink(String firebaseId)  {
-  //   var firebase = FirebaseDatabase.instance.reference();
-  //   return  firebase
-  //       .child('Rooms')
-  //       .child(roomFireBaseId)
-  //       .child('ytLink')
-  //       .once();
-  // }
-
-  // Stream<List<dynamic>> getusersInRoom() async* {
-  //   print("heellool");
-  //   Future.delayed(Duration(seconds: 1));
-  //    Timer.periodic(Duration(seconds: 1), (_) => loadDetails());
-
-  //   print('fid: $roomFireBaseId');
-  // }
-  //
-  //
-  //
   Future<void> kickUser({String firebaseId, String idofUser}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
     Event bhosda = await firebaseDB
@@ -359,7 +272,6 @@ class RoomLogicController extends GetxController {
             .child('status')
             .set(0);
 
-        // await Future.delayed(Duration(seconds: 2));
         chatController.sendMessageCloudFireStore(
           message: "${value['name']} has been kicked from the room ",
           roomId: roomFireBaseId,
@@ -377,28 +289,9 @@ class RoomLogicController extends GetxController {
             .remove();
       }
     });
-
-    // firebaseDB
-    //     .child('Rooms')
-    //     .child(firebaseId)
-    //     .child('users')
-    //     .child(idofUser)
-    //     .child('status')
-    //     .set(0);
   }
 
-  // Stream<Event>  usersInRoom({String firebaseId}){
-  //   final firebaseDB = FirebaseDatabase.instance.reference();
-  // return firebaseDB
-  //   .child('Rooms')
-  //   .child(firebaseId)
-  //   .child('users')
-  //   .
-  // }
-
   Stream<Event> userStatus({String firebaseId}) {
-    // print("Userid : $idOfUser  ,            firebaseid: $firebaseId");
-    //
     print(" firebaseid: $firebaseId");
     print('userFireBase :  $userFireBase');
 
@@ -414,9 +307,6 @@ class RoomLogicController extends GetxController {
 
   Future<void> adminDeleteRoom({String firebaseId}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
-
-    //status - 0 - room delete
-    //status -1 - room exist
 
     firebaseDB.child('Rooms').child('$firebaseId').child('status').set(0);
     await Future.delayed(Duration(seconds: 20));
