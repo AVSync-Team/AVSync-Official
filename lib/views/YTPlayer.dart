@@ -22,7 +22,7 @@ import 'package:VideoSync/widgets/custom_text.dart';
 // import 'package:VideoSync/views/welcome_Screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -60,7 +60,7 @@ class _YTPlayerState extends State<YTPlayer> {
     initialVideoId:
         YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value),
     flags: YoutubePlayerFlags(
-        autoPlay: false,
+        autoPlay: true,
         // hideControls: !(roomLogicController.adminKaNaam.obs.value ==
         //         roomLogicController.userName.obs.value)
         //     ? true
