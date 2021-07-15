@@ -132,8 +132,10 @@ class ChatSend extends StatelessWidget {
                         //scroll the listview down
                         Timer(
                           Duration(milliseconds: 300),
-                          () => chatScrollController.jumpTo(
-                              chatScrollController.position.maxScrollExtent),
+                          () => chatScrollController.animateTo(
+                              chatScrollController.position.maxScrollExtent,
+                              duration: Duration(seconds: 2),
+                              curve: Curves.decelerate),
                         );
                         //clear the text from textfield
                         print(
