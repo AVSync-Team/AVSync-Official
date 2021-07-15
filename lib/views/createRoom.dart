@@ -3,6 +3,7 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/waitingPage.dart';
+import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -91,6 +92,27 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   //   );
   // }
 
+  // void _createCustomAlertDialog() {
+  //   Get.defaultDialog(
+  //     title: 'Join The Room',
+  //     actions: [
+  //       CustomButton(
+  //         buttonColor: Colors.white,
+  //         cornerRadius: 10,
+  //         content: 'Join',
+  //         height: 50,
+  //         width: 100,
+  //         contentSize: 16,
+  //         function: () {},
+  //         textColor: Colors.blueAccent,
+  //       )
+  //     ],
+  //     content: Column(
+  //       children: [Text('')],
+  //     ),
+  //   );
+  // }
+
   void _createCustomBottomSheet(
       {double heightRatio, double widthRatio, Size size}) async {
     // shape: RoundedRectangleBorder(
@@ -99,6 +121,176 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
     //     topRight: Radius.circular(23.0),
     //   ),
     // ),
+    Get.defaultDialog(
+      title: '',
+      content: Container(
+        // height: heightRatio * 200,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(5),
+              //height: 30,
+              child: Text(
+                'Enter Room Id',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Container(
+              //color: Colors.grey.withOpacity(0.6),
+              margin: EdgeInsets.only(top: 16 * heightRatio),
+              width: 270 * widthRatio,
+              height: 70 * heightRatio,
+              child: TextField(
+                style: TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.normal),
+                controller: roomId,
+                onChanged: (value) {
+                  roomLogicController.roomText(value);
+                },
+                keyboardType: TextInputType.number,
+                maxLength: 5,
+                textAlign: TextAlign.center,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: InputDecoration(
+                  // enabledBorder: OutlineInputBorder(
+                  //   borderSide: const BorderSide(
+                  //       color: Colors.white, width: 2.0),
+                  //   borderRadius: BorderRadius.circular(25.0),
+                  // ),
+                  filled: true,
+                  counterStyle: TextStyle(fontSize: 10),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(
+                      color: Color.fromRGBO(41, 39, 39, 1),
+                      width: 1,
+                    ),
+                    borderRadius: new BorderRadius.circular(25),
+                  ),
+                  //focusedBorder: Color.fromRGBO(41, 39, 39, 1),
+                  fillColor: Colors.grey.withOpacity(0.4),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  hintText: "Room ID",
+                  hintStyle: TextStyle(color: Color(0xff7B7171)),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30 * heightRatio,
+            ),
+            Container(
+                height: 50 * heightRatio,
+                width: 150 * widthRatio,
+                child:
+                    //roomId.text.isNotEmpty
+                    //?
+                    // !isLoading
+                    //     ?
+                    Obx(() => roomLogicController
+                                .joinButtonLoadingState.value !=
+                            true
+                        ? RaisedButton(
+                            // color: roomId.text.isEmpty
+                            //     ? Colors.grey
+                            //     : Colors.green,
+                            // color: commonRoom(roomId.text)
+                            //     ? Colors.grey
+                            //     : Colors.green,
+                            color: !isLoading ? Colors.green : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            onPressed: () async {
+                              if (roomId.text.isEmpty) {
+                                return Get.showSnackbar(GetBar(
+                                  //title: 'Room ID Error',
+                                  message: 'Enter room name',
+                                  duration: Duration(seconds: 2),
+                                  borderRadius: 20,
+                                ));
+                              }
+                              // _controller.setState(() {
+                              //   isLoading = true;
+                              // });
+                              /////////////////////////////////////////////////////////
+                              //loadMeUp();
+                              //////////////////////////////////////////////////////////
+                              // setState(() {
+                              //   isLoading = true;
+                              // });
+
+                              roomLogicController.joinButtonLoadingState.value =
+                                  true; //set to login
+                              bool value = await roomLogicController.joinRoom(
+                                  roomId: roomId.text, name: nameController);
+                              // await Future.delayed(Duration(seconds: 1));
+                              roomLogicController.joinButtonLoadingState.value =
+                                  false;
+                              if (value) {
+                                Get.to(WaitingPage());
+                              } else {
+                                // Get.snackbar('Wrong Room Id',
+                                //     'The room id you entered is wrong');
+                                return Get.showSnackbar(
+                                  GetBar(
+                                    //title: 'Room ID Error',
+                                    message: 'The Room does not exists',
+                                    duration: Duration(seconds: 2),
+                                    borderRadius: 20,
+                                  ),
+                                );
+                              }
+                              // _controller.setState(() {
+                              //   isLoading = false;
+                              // });
+                              // setState(() {
+                              //   isLoading = false;
+                              // });
+                              //set to login
+                            },
+                            child: Text(
+                              'Join',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ))
+                        : Center(child: CircularProgressIndicator()))
+                // : Center(
+                //     child: SizedBox(
+                //         height: 50,
+                //         width: 50,
+                //         child: CircularProgressIndicator(
+                //           valueColor: new AlwaysStoppedAnimation<Color>(
+                //               Color.fromRGBO(41, 39, 39, 1)),
+                //         ))),
+                // : RaisedButton(
+                //     color: Colors.grey,
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(25)),
+                //     onPressed: () async {
+                //       Get.showSnackbar(GetBar(
+                //         //title: 'Room ID Error',
+
+                //         message: 'Enter a room Id',
+                //         duration: Duration(seconds: 2),
+                //         borderRadius: 20,
+                //       ));
+                //     }
+                //     // _controller.setState(() {
+                //     //   isLoading = false;
+                //     // });
+                //     ,
+                //     child: Text(
+                //       'Join',
+                //       style: TextStyle(
+                //           fontSize: 20, color: Colors.white),
+                //     ),
+                ),
+          ],
+        ),
+      ),
+    );
 
     //   _controller = await Get.bottomSheet(GestureDetector(
     //     onTap: () {},
@@ -109,59 +301,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
     //       child: Center(
     //         child: Column(
     //           children: [
-    //             Container(
-    //               padding: EdgeInsets.all(5),
-    //               //height: 30,
-    //               child: Text(
-    //                 'Enter Room Id',
-    //                 style: TextStyle(fontSize: 20),
-    //               ),
-    //             ),
-    //             Container(
-    //               //color: Colors.grey.withOpacity(0.6),
-    //               margin: EdgeInsets.only(top: 16 * heightRatio),
-    //               width: 270 * widthRatio,
-    //               height: 70 * heightRatio,
-    //               child: TextField(
-    //                 style: TextStyle(
-    //                     color: Colors.black, fontWeight: FontWeight.normal),
-    //                 controller: roomId,
-    //                 onChanged: (value) {
-    //                   roomLogicController.roomText(value);
-    //                 },
-    //                 keyboardType: TextInputType.number,
-    //                 maxLength: 5,
-    //                 textAlign: TextAlign.center,
-    //                 inputFormatters: <TextInputFormatter>[
-    //                   FilteringTextInputFormatter.digitsOnly
-    //                 ],
-    //                 decoration: InputDecoration(
-    //                   // enabledBorder: OutlineInputBorder(
-    //                   //   borderSide: const BorderSide(
-    //                   //       color: Colors.white, width: 2.0),
-    //                   //   borderRadius: BorderRadius.circular(25.0),
-    //                   // ),
-    //                   filled: true,
-    //                   counterStyle: TextStyle(fontSize: 7),
-    //                   focusedBorder: OutlineInputBorder(
-    //                     borderSide: new BorderSide(
-    //                       color: Color.fromRGBO(41, 39, 39, 1),
-    //                       width: 1,
-    //                     ),
-    //                     borderRadius: new BorderRadius.circular(25),
-    //                   ),
-    //                   //focusedBorder: Color.fromRGBO(41, 39, 39, 1),
-    //                   fillColor: Colors.grey.withOpacity(0.4),
-    //                   border: OutlineInputBorder(
-    //                       borderRadius: BorderRadius.circular(25)),
-    //                   hintText: "Room ID",
-    //                   hintStyle: TextStyle(color: Color(0xff7B7171)),
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(
-    //               height: 30 * heightRatio,
-    //             ),
+    //
+    //
+    //
     //             Container(
     //                 height: 50 * heightRatio,
     //                 width: 150 * widthRatio,

@@ -20,6 +20,7 @@ class RoomLogicController extends GetxController {
   List<dynamic> users = [];
   String adminKaNaam;
 
+  var joinButtonLoadingState = false.obs;
   var ytURL = ''.obs;
   var localUrl = ''.obs;
   String userId;
