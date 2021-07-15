@@ -548,9 +548,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 10 * heightRatio,
-                    ),
+                    // SizedBox(
+                    //   height: 10 * heightRatio,
+                    // ),
                     StreamBuilder(
                       stream: roomLogicController.ytVideoLoadedStatus(
                           firebaseId: roomLogicController.roomFireBaseId),
@@ -564,7 +564,10 @@ class _WelcomScreenState extends State<WelcomScreen> {
                             return VideoStartedWidgetDisplay();
                           } else {
                             //if video not loaded then don't show anything
-                            return SizedBox();
+                            // return VideoStartedWidgetDisplay();
+                            return SizedBox(
+                              height: 10 * heightRatio,
+                            );
                           }
                         }
                         return Container();
@@ -585,7 +588,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                               child: Container(
                                 // color: Colors.yellow.withOpacity(0.1),
                                 height: 260 * heightRatio,
-                                width: 250 * widthRatio,
+                                width: 270 * widthRatio,
                                 child: Card(
                                   color: Color.fromARGB(200, 60, 60, 60),
                                   elevation: 8,
