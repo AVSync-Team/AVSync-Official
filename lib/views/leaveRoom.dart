@@ -123,7 +123,17 @@ class _LeaveRoomState extends State<LeaveRoom> {
                       ),
                     ),
                     onPressed: () {
-                      Get.off(WaitingPage());
+                      if (!(roomLogicController.adminKaNaam.obs.value ==
+                          roomLogicController.userName.obs.value)) {
+                        roomLogicController.userLeaveRoom(
+                          firebaseId: roomLogicController.roomFireBaseId,
+                          userId: roomLogicController.userId,
+                        );
+                      } else {
+                        roomLogicController.adminDeleteRoom(
+                            firebaseId: roomLogicController.roomFireBaseId);
+                      }
+                      Get.offAll(CreateRoomScreen());
                     }),
               ),
               SizedBox(
@@ -163,17 +173,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
                     ),
                     onPressed: () {
                       // ignore: unrelated_type_equality_checks
-                      if (!(roomLogicController.adminKaNaam.obs.value ==
-                          roomLogicController.userName.obs.value)) {
-                        roomLogicController.userLeaveRoom(
-                          firebaseId: roomLogicController.roomFireBaseId,
-                          userId: roomLogicController.userId,
-                        );
-                      } else {
-                        roomLogicController.adminDeleteRoom(
-                            firebaseId: roomLogicController.roomFireBaseId);
-                      }
-                      Get.offAll(CreateRoomScreen());
+                      Get.off(WaitingPage());
                       // Get.off(CreateRoomScreen());
                     }),
               ),
