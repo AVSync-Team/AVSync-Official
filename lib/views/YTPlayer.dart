@@ -60,7 +60,7 @@ class _YTPlayerState extends State<YTPlayer> {
     initialVideoId:
         YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value),
     flags: YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         // hideControls: !(roomLogicController.adminKaNaam.obs.value ==
         //         roomLogicController.userName.obs.value)
         //     ? true
@@ -1038,7 +1038,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                                                   (value) {
                                                                 roomLogicController
                                                                     .sendPlayBackSpeed(
-                                                                        speed: 1.0
+                                                                        speed: 1.00
                                                                             .toDouble());
                                                                 controller
                                                                     .setPlaybackRate(

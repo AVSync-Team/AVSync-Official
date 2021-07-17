@@ -63,7 +63,7 @@ class RoomLogicController extends GetxController {
         body: json.encode({
           "status": 1,
           "admin": userName,
-          "isPlayerPaused": true,
+          "isPlayerPaused": false,
           "roomId": this.roomId,
           "timeStamp": 0,
           "adminName": adminName,
@@ -238,7 +238,7 @@ class RoomLogicController extends GetxController {
         .child('Rooms')
         .child(roomFireBaseId)
         .child('playBackSpeed')
-        .set(speed);
+        .set(speed.toDouble());
   }
 
   void sendYtLink({String ytlink}) {

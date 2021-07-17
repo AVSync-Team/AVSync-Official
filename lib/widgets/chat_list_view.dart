@@ -26,7 +26,7 @@ class _ChatListViewWidgetState extends State<ChatListViewWidget> {
 
         chatScrollController.animateTo(
             chatScrollController.position.maxScrollExtent,
-            duration: Duration(seconds: 2),
+            duration: Duration(milliseconds:500),
             curve: Curves.decelerate);
       });
     });
