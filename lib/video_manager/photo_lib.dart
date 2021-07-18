@@ -88,48 +88,51 @@ class _SubDirState extends State<SubDir> {
             future: widget.list,
             builder: (context, AsyncSnapshot<List<AssetEntity>> snapshot) {
               if (snapshot.hasData) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) {
-                      return ListTile(
-                        title: Text("${snapshot.data[index].title}"),
-                        leading: SizedBox(
-                          height: 100,
-                          width: 100,
-                          child: FutureBuilder<Uint8List>(
-                              future: snapshot.data[index].thumbData,
-                              builder: (context, thumbSnapshot) {
-                                if (thumbSnapshot.hasData) {
-                                  return Image.memory(thumbSnapshot.data);
-                                }
-                                return SizedBox(
-                                  width: 50,
-                                  height: 50,
+                return ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    return ListTile(
+                      title: Text("${snapshot.data[index].title}"),
+                      leading: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: FutureBuilder<Uint8List>(
+                            future: snapshot.data[index].thumbData,
+                            builder: (context, thumbSnapshot) {
+                              if (thumbSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
                                 );
-                              }),
-                        ),
-                        onTap: () async {
-                          // snapshot.data[index]
-                          //     .getMediaUrl()
-                          //     .then((value) => print("pyar $value"));
-                          //set the url
-                          // await snapshot.data[index]
-                          //     .getMediaUrl()
-                          //     .then((value) {
-                          //   print("val $value");
-                          //   roomLogicController.localUrl.value = value;
-                          // });
+                              }
+                              if (thumbSnapshot.hasData) {
+                                return Image.memory(thumbSnapshot.data);
+                              }
+                              return SizedBox(
+                                width: 50,
+                                height: 50,
+                              );
+                            }),
+                      ),
+                      onTap: () async {
+                        // snapshot.data[index]
+                        //     .getMediaUrl()
+                        //     .then((value) => print("pyar $value"));
+                        //set the url
+                        // await snapshot.data[index]
+                        //     .getMediaUrl()
+                        //     .then((value) {
+                        //   print("val $value");
+                        //   roomLogicController.localUrl.value = value;
+                        // });
 
-                          //set the local media url
-                          final File res =
-                              await snapshot.data[index].originFile;
-                          roomLogicController.localUrl.value = res.path;
-                          Get.to(NiceVideoPlayer());
-                        },
-                      );
-                    },
-                    itemCount: snapshot.data.length,
-                  ),
+                        //set the local media url
+                        final File res = await snapshot.data[index].originFile;
+                        roomLogicController.localUrl.value = res.path;
+                        Get.to(NiceVideoPlayer());
+                      },
+                    );
+                  },
+                  itemCount: snapshot.data.length,
                 );
               }
               return Container();
