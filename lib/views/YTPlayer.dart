@@ -1026,7 +1026,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                                               toggleable: true,
                                                               title: CustomText(
                                                                   '1'),
-                                                              value: 1,
+                                                              value: 1.0,
                                                               groupValue:
                                                                   controllerGetx
                                                                       .radioValue,
