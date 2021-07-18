@@ -76,14 +76,14 @@ class SubDir extends StatefulWidget {
 class _SubDirState extends State<SubDir> {
   @override
   Widget build(BuildContext context) {
-    // final Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Sub Dir"),
       ),
       body: Container(
-        height: 400,
-        width: 200,
+        height: size.height,
+        width: size.width,
         child: FutureBuilder<List<AssetEntity>>(
             future: widget.list,
             builder: (context, AsyncSnapshot<List<AssetEntity>> snapshot) {
