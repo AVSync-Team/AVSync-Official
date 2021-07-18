@@ -198,6 +198,8 @@ class _YTPlayerState extends State<YTPlayer> {
           roomLogicController.userId.obs.value)) {
         if (event.snapshot.value == 0.23)
           controller.setPlaybackRate(1.0);
+        else if (event.snapshot.value == 2.45)
+          controller.setPlaybackRate(2);
         else
           controller.setPlaybackRate(event.snapshot.value);
       }
@@ -1134,7 +1136,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                                               // print('value: $value');
                                                               roomLogicController
                                                                   .sendPlayBackSpeed(
-                                                                      speed: 2.0
+                                                                      speed: 2.45
                                                                           .toDouble());
                                                               controller
                                                                   .setPlaybackRate(
