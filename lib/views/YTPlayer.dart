@@ -880,6 +880,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                                     overlayRadius: 10.0),
                                             tickMarkShape:
                                                 RoundSliderTickMarkShape(),
+                                            
                                             activeTickMarkColor: Colors.indigo,
                                             inactiveTickMarkColor:
                                                 Colors.indigo,
@@ -894,14 +895,22 @@ class _YTPlayerState extends State<YTPlayer> {
                                             value: roomLogicController
                                                 .videoPosition.value.inSeconds
                                                 .toDouble(),
-                                            onChanged: (value) {
-                                              roomLogicController
-                                                      .videoPosition.value =
-                                                  Duration(
-                                                      seconds: value.toInt());
-                                              controller.seekTo(Duration(
-                                                  seconds: value.toInt()));
-                                            },
+                                            onChanged: (roomLogicController
+                                                        .adminId.value ==
+                                                    roomLogicController
+                                                        .userId.obs.value)
+                                                ? (value) {
+                                                    roomLogicController
+                                                            .videoPosition
+                                                            .value =
+                                                        Duration(
+                                                            seconds:
+                                                                value.toInt());
+                                                    controller.seekTo(Duration(
+                                                        seconds:
+                                                            value.toInt()));
+                                                  }
+                                                : null,
                                             min: 0.0,
                                             max: controller
                                                     .metadata.duration.inSeconds
