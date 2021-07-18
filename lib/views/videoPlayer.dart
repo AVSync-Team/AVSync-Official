@@ -80,8 +80,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         .child('timeStamp')
         .onValue
         .listen((event) {
-      if (!(roomLogicController.adminKaNaam.obs.value ==
-          roomLogicController.userName.obs.value)) {
+      if (!(roomLogicController.adminId.obs.value ==
+          roomLogicController.userId.obs.value)) {
         if ((controller.value.position.inSeconds - event.snapshot.value)
                 .abs() >=
             5) {
@@ -114,13 +114,13 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
     //         id: DateTime.parse(value["messageId"]),
     //         mesage: value["message"],
     //         userId: value["userId"],
-    //         username: value["username"]));
+    //         userId: value["userId"]));
     //   });
 
     //   check.sort((a, b) => (a.id).compareTo(b.id));
     //   if (check[check.length - 1].userId != roomLogicController.userId)
     //     Get.snackbar(
-    //         check[check.length - 1].username, check[check.length - 1].mesage);
+    //         check[check.length - 1].userId, check[check.length - 1].mesage);
     // });
 
     firebaseDatabase
@@ -129,8 +129,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         .child('playBackSpeed')
         .onValue
         .listen((event) {
-      if (!(roomLogicController.adminKaNaam.obs.value ==
-          roomLogicController.userName.obs.value)) {
+      if (!(roomLogicController.adminId.obs.value ==
+          roomLogicController.userId.obs.value)) {
         // controller.setPlaybackRate(event.snapshot.value);
         controller.setPlaybackSpeed(event.snapshot.value);
       }
@@ -153,8 +153,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
       //admin
       //will send timestamp and control video playback
-      if (roomLogicController.adminKaNaam.obs.value ==
-          roomLogicController.userName.obs.value) {
+      if (roomLogicController.adminId.obs.value ==
+          roomLogicController.userId.obs.value) {
         rishabhController.sendTimeStamp(
             firebaseId: roomLogicController.roomFireBaseId,
             timeStamp: controller.value.position.inSeconds);
@@ -422,8 +422,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                   //seek backward 10
                                   SizedBox(width: 10),
                                   if (roomLogicController
-                                          .adminKaNaam.obs.value ==
-                                      roomLogicController.userName.obs.value)
+                                          .adminId.obs.value ==
+                                      roomLogicController.userId.obs.value)
                                     IconButton(
                                       icon: Icon(Icons.speed),
                                       color: Colors.white,
@@ -603,8 +603,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                     ),
 
                                   if (roomLogicController
-                                          .adminKaNaam.obs.value ==
-                                      roomLogicController.userName.obs.value)
+                                          .adminId.obs.value ==
+                                      roomLogicController.userId.obs.value)
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () {
@@ -665,8 +665,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
                                   //seek forward 10
                                   if (roomLogicController
-                                          .adminKaNaam.obs.value ==
-                                      roomLogicController.userName.obs.value)
+                                          .adminId.obs.value ==
+                                      roomLogicController.userId.obs.value)
                                     Expanded(
                                       // width: Get.width * 0.3,
                                       // color: Colors.yellow.shade100,
