@@ -59,15 +59,15 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
     ///`Video Player Controller`
 
-    controller =
-        VideoPlayerController.file(File(roomLogicController.localUrl.value),
-            // closedCaptionFile: _loadCaptions(),
-            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
-          ..initialize().then((_) {
-            setState(() {
-              videoLength = controller.value.duration;
-            });
-          });
+    controller = VideoPlayerController.file(
+        File(roomLogicController.localUrl.value),
+        // closedCaptionFile: _loadCaptions(),
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
+      ..initialize().then((_) {
+        setState(() {
+          videoLength = controller.value.duration;
+        });
+      });
 
     //closed captions
     // initializeSubs();
@@ -142,12 +142,9 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
     //video controller listeners
     addListener();
-
-    
   }
 
   void addListener() {
-    
     return controller.addListener(() {
       roomLogicController.videoPosition.value = controller.value.position;
       roomLogicController.playingStatus.value = controller.value.isPlaying;

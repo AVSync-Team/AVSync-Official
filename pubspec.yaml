@@ -28,7 +28,7 @@ dependencies:
   video_player: ^1.0.1
   youtube_player_flutter: ^8.0.0
   better_player: ^0.0.65
-  
+  photo_manager: ^1.2.5
 
   # State management 
   get: ^3.24.0
