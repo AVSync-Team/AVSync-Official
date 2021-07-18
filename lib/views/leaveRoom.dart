@@ -189,7 +189,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
 //                           // buttonColor: Colors.green.withOpacity(0.1),
 //                           title: !(roomLogicController.adminKaNaam.obs.value ==
 //                                   roomLogicController.userName.obs.value)
-//                               ? 'Leave Room'
+//                                ? 'Leave Room'
 //                               : 'Delete Room',
 //                           confirm: RaisedButton(
 //                               color: Colors.green,
