@@ -196,7 +196,10 @@ class _YTPlayerState extends State<YTPlayer> {
       print('Speed ${event.snapshot.value}');
       if (!(roomLogicController.adminId.value ==
           roomLogicController.userId.obs.value)) {
-        controller.setPlaybackRate(event.snapshot.value);
+        if (event.snapshot.value == 0.23)
+          controller.setPlaybackRate(1.0);
+        else
+          controller.setPlaybackRate(event.snapshot.value);
       }
     });
 
@@ -1023,7 +1026,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                                               toggleable: true,
                                                               title: CustomText(
                                                                   '1'),
-                                                              value: 1.0,
+                                                              value: 1,
                                                               groupValue:
                                                                   controllerGetx
                                                                       .radioValue,
@@ -1031,8 +1034,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                                                   (value) {
                                                                 roomLogicController
                                                                     .sendPlayBackSpeed(
-                                                                        speed: 1.00
-                                                                            .toDouble());
+                                                                        speed:
+                                                                            0.23);
                                                                 controller
                                                                     .setPlaybackRate(
                                                                         1.0.toDouble());

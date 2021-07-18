@@ -234,11 +234,12 @@ class RoomLogicController extends GetxController {
 
   void sendPlayBackSpeed({double speed}) {
     var firebase = FirebaseDatabase.instance.reference();
+
     firebase
         .child('Rooms')
         .child(roomFireBaseId)
         .child('playBackSpeed')
-        .set(speed.toDouble());
+        .set(speed);
   }
 
   void sendYtLink({String ytlink}) {
