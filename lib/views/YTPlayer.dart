@@ -284,21 +284,14 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   youWebShe() {
-    Get.bottomSheet(
-      SingleChildScrollView(
-        child: Container(
-          height: 800,
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            child: Container(
-              height: 800,
-              width: MediaQuery.of(context).size.width,
-              child: WebShow(),
-            ),
-          ),
-        ),
-      ),
-    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)), //this right here
+              child: WebShow());
+        });
   }
 
   youBotShe() {
@@ -1228,8 +1221,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                                             onChanged: (value) {
                                                               roomLogicController
                                                                   .sendPlayBackSpeed(
-                                                                      speed:
-                                                                          1.0);
+                                                                      speed: 1.0
+                                                                          .toDouble());
                                                               controller
                                                                   .setPlaybackRate(
                                                                       1.0);

@@ -44,6 +44,8 @@ class _WebShowState extends State<WebShow> {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
+  bool loaded = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

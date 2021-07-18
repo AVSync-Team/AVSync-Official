@@ -45,8 +45,8 @@ class _LeaveRoomState extends State<LeaveRoom> {
               // SizedBox(
               //   height: 50,
               // ),
-              !(roomLogicController.adminKaNaam.obs.value ==
-                      roomLogicController.userName.obs.value)
+              !(roomLogicController.adminId.obs.value ==
+                      roomLogicController.userId.obs.value)
                   ? Container(
                       padding: EdgeInsets.only(
                         left: 12,
@@ -123,8 +123,8 @@ class _LeaveRoomState extends State<LeaveRoom> {
                       ),
                     ),
                     onPressed: () {
-                      if (!(roomLogicController.adminKaNaam.obs.value ==
-                          roomLogicController.userName.obs.value)) {
+                      if (!(roomLogicController.adminId.obs.value ==
+                          roomLogicController.userId.obs.value)) {
                         roomLogicController.userLeaveRoom(
                           firebaseId: roomLogicController.roomFireBaseId,
                           userId: roomLogicController.userId,
