@@ -310,6 +310,28 @@ class _WelcomScreenState extends State<WelcomScreen> {
     );
   }
 
+  void localOpen() {
+    Get.defaultDialog(
+        title: 'Local Media',
+        middleText: "Do you want to dig deep?",
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('No'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+
+              Get.to(PhotoMypher());
+            },
+            child: Text('Get the video'),
+          ),
+        ]);
+  }
+
   void bottomSheet() {
     Get.bottomSheet(Container(
       color: Colors.white,
@@ -676,7 +698,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                                 .adminId.value);
                                             // filePick();
                                             // bottomSheet();
-                                            Get.to(PhotoMypher());
+                                            localOpen();
                                           },
                                           child: Row(
                                             children: [
