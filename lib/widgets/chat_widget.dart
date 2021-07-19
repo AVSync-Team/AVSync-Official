@@ -78,9 +78,14 @@ class ChatWidget extends StatelessWidget {
                     ),
                   if (userIdofOtherUsers != usersOwnUserId) SizedBox(height: 5),
                   GestureDetector(
-                    onTap: () {
-                      FlutterClipboard.copy(messageText).then(
-                          (value) => Get.snackbar("Done!", "Message Copied"));
+                    onLongPress: () {
+                      FlutterClipboard.copy(messageText).then((value) =>
+                          Get.snackbar(
+                              "URL Copied", "The video URL has been copied",
+                              backgroundColor: Colors.black38,
+                              snackPosition: SnackPosition.TOP,
+                              colorText: Colors.white,
+                              snackStyle: SnackStyle.FLOATING));
                     },
                     child: Text(
                       "${messageText}",

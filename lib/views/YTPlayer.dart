@@ -887,6 +887,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                             valueIndicatorShape:
                                                 PaddleSliderValueIndicatorShape(),
                                             valueIndicatorColor: Colors.indigo,
+                                            
                                           ),
                                           child: Slider(
                                             // activeColor:

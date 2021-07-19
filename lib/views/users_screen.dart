@@ -310,7 +310,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
     );
   }
 
-  void localOpen() {
+  //opens the local player
+  void localMediaPlayerFileSelectionBottomSheet() {
     Get.defaultDialog(
         title: 'Local Media',
         middleText: "Do you want to dig deep?",
@@ -525,8 +526,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 ),
               )
             ],
+            centerTitle: true,
+            // title:
           ),
-          // appBar: AppBar(),
 
           endDrawer: Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
@@ -561,365 +563,270 @@ class _WelcomScreenState extends State<WelcomScreen> {
               ),
             ),
           ),
-
-          body: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: Get.height,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // SizedBox(
-                    //   height: 10 * heightRatio,
-                    // ),
-                    StreamBuilder(
-                      stream: roomLogicController.ytVideoLoadedStatus(
-                          firebaseId: roomLogicController.roomFireBaseId),
-                      builder:
-                          (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
-                        if (snapshot.hasData) {
-                          //now if video not loaded then don't show anything
-                          if (snapshot.data.snapshot.value == "loaded") {
-                            //TODO: @manav UI implementation just giving a basic right now
-                            //look into it
-                            return VideoStartedWidgetDisplay();
-                          } else {
-                            //if video not loaded then don't show anything
-                            // return VideoStartedWidgetDisplay();
-                            return SizedBox(
-                              height: 10 * heightRatio,
-                            );
-                          }
+          body: Center(
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: Get.height,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // SizedBox(
+                  //   height: 10 * heightRatio,
+                  Text('Room Code',
+                      style: TextStyle(fontSize: 15, color: Colors.white)),
+                  SizedBox(height: 10),
+                  GetX<RoomLogicController>(builder: (controller) {
+                    return Container(
+                      width: widthRatio * 150,
+                      height: heightRatio * 50,
+                      // padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.amber,
+                            width: 2,
+                          )),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Text(' ${controller.roomId.obs.value} ',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
+                          IconButton(
+                            // iconSize: 10,
+                            onPressed: () {
+                              //copy the room code
+                              FlutterClipboard.copy(
+                                      "Hey !\nI have downloaded this awesome app where you can watch videos with friends and chat with them online !! \nJoin my room here : ${controller.roomId.obs.value}")
+                                  .then((value) => Get.snackbar(
+                                      "Room Id Copied",
+                                      "Share your room id with friend !!",
+                                      backgroundColor: Colors.black38,
+                                      snackPosition: SnackPosition.TOP,
+                                      colorText: Colors.white,
+                                      snackStyle: SnackStyle.FLOATING));
+                            },
+                            icon: Icon(
+                              Icons.copy,
+                              color: Colors.white,
+                              // size: 10,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+                  StreamBuilder(
+                    stream: roomLogicController.ytVideoLoadedStatus(
+                        firebaseId: roomLogicController.roomFireBaseId),
+                    builder: (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
+                      if (snapshot.hasData) {
+                        //now if video not loaded then don't show anything
+                        if (snapshot.data.snapshot.value == "loaded") {
+                          //TODO: @manav UI implementation just giving a basic right now
+                          //look into it
+                          return VideoStartedWidgetDisplay();
+                        } else {
+                          //if video not loaded then don't show anything
+                          // return VideoStartedWidgetDisplay();
+                          return SizedBox(
+                            height: 10 * heightRatio,
+                          );
                         }
-                        return Container();
-                      },
-                    ),
-                    Hero(
-                      tag: 'Rishabh',
-                      child: Container(
-                        // color: Colors.green.withOpacity(0.1),
-                        height: 350 * heightRatio,
-                        width: 330 * widthRatio,
-                        // decoration:
-                        //     BoxDecoration(border: Border.all(color: Colors.black)),
-                        child: Stack(
+                      }
+                      return Container();
+                    },
+                  ),
+                  Hero(
+                    tag: 'Rishabh',
+                    child: Container(
+                      // color: Colors.yellow.withOpacity(0.1),
+                      height: 250 * heightRatio,
+                      width: 270 * widthRatio,
+                      child: Card(
+                        color: Color.fromARGB(200, 60, 60, 60),
+                        elevation: 8,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25 * widthRatio),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                // color: Colors.yellow.withOpacity(0.1),
-                                height: 260 * heightRatio,
-                                width: 270 * widthRatio,
-                                child: Card(
-                                  color: Color.fromARGB(200, 60, 60, 60),
-                                  elevation: 8,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(25 * widthRatio),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        // color: Colors.red.withOpacity(0.1),
-                                        padding: const EdgeInsets.only(
-                                            top: 20, left: 24),
-                                        child: InkWell(
-                                          onTap: () {
-                                            //////////////////////////////asking for opening webview or link bottom sheet directly///////////////////////
-                                            Get.defaultDialog(
-                                                title: 'YouTube Link',
-                                                middleText: "What's up Mumbai",
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      youTubeBottomSheet();
-                                                    },
-                                                    child: Text('Enter link'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      youTubeBottomSheet();
-                                                      await Get.to(WebShow());
-                                                      FlutterClipboard.paste()
-                                                          .then((value) => yturl
-                                                              .text = value);
-                                                    },
-                                                    child: Text('Get the link'),
-                                                  ),
-                                                ]);
-                                            // Get.defaultDialog(title: 'Rishabn',content: Text('Enter '));
-                                            ///////////////webview try/////////////////////////////////////////
-                                            //try {
-                                            //buildWebView();
-
-                                            // } catch (e) {
-                                            //   print(e);
-                                            // }
-
-                                            /////////////////////////////////////////////////////////////////
-
-                                            ////////////////////////////////////////////////////////////////////
+                            Container(
+                              // color: Colors.red.withOpacity(0.1),
+                              padding: const EdgeInsets.only(top: 25),
+                              child: CustomButton(
+                                buttonColor: Colors.redAccent,
+                                content: 'Browse Online',
+                                contentSize: 20,
+                                cornerRadius: 10,
+                                height: heightRatio * 40,
+                                textColor: Colors.white,
+                                function: () {
+                                  //////////////////////////////asking for opening webview or link bottom sheet directly///////////////////////
+                                  Get.defaultDialog(
+                                      title: 'Browse Video',
+                                      middleText:
+                                          "Search the video you are looking for or if you have the link then enter it :)",
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            youTubeBottomSheet();
                                           },
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                'lib/assets/svgs/youtubeplayer.svg',
-                                                width: 70 * heightRatio,
-                                                height: 70 * widthRatio,
-                                              ),
-                                              SizedBox(width: 10 * widthRatio),
-                                              Text(
-                                                'Youtube',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.red),
-                                              )
-                                            ],
-                                          ),
+                                          child: Text('Enter link'),
                                         ),
-                                      ),
-                                      Container(
-                                        // color: Colors.orange.withOpacity(0.1),
-                                        padding:
-                                            const EdgeInsets.only(left: 36),
-                                        child: InkWell(
-                                          onTap: () {
-                                            print("adminId");
-                                            print(roomLogicController
-                                                .adminId.value);
-                                            // filePick();
-                                            // bottomSheet();
-                                            localOpen();
+                                        TextButton(
+                                          onPressed: () async {
+                                            Navigator.of(context).pop();
+                                            youTubeBottomSheet();
+                                            await Get.to(WebShow());
+                                            FlutterClipboard.paste().then(
+                                                (value) => yturl.text = value);
                                           },
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                'lib/assets/svgs/localplayer.svg',
-                                                width: 40 * widthRatio,
-                                                height: 40 * heightRatio,
-                                                //color: Colors.white,
-                                              ),
-                                              SizedBox(width: 10 * widthRatio),
-                                              Text(
-                                                'Local Media',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  //color: Colors.white
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                          child: Text('Browse for link'),
                                         ),
-                                      ),
-                                      SizedBox(height: 20 * heightRatio),
-                                      Container(
-                                        // color: Colors.white.withOpacity(0.1),
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Row(
-                                          // mainAxisAlignment:
-                                          //     MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            StreamBuilder(
-                                                stream: roomLogicController
-                                                    .adminBsdkKaNaam(
-                                                        firebaseId:
-                                                            roomLogicController
-                                                                .roomFireBaseId),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    return Text(
-                                                      '${snapshot.data.snapshot.value}',
-                                                      style: TextStyle(
-                                                          fontSize: 30),
-                                                    );
-                                                  } else if (snapshot
-                                                      .hasError) {
-                                                    return Text('Error');
-                                                  }
-                                                  return Text('');
-                                                }),
-                                            // FutureBuilder(
-                                            //     future: Future.delayed(
-                                            //         Duration(seconds: 1)),
-                                            //     builder: (cts, snapshot) {
-                                            //       if (snapshot
-                                            //               .connectionState ==
-                                            //           ConnectionState.waiting) {
-                                            //         return Center(
-                                            //           child: Container(
-                                            //             height: 2,
-                                            //             width: 100,
-                                            //             color: Color.fromARGB(
-                                            //                 200, 60, 60, 60),
-                                            //             child:
-                                            //                 LinearProgressIndicator(
-                                            //               backgroundColor:
-                                            //                   Color.fromARGB(
-                                            //                       200,
-                                            //                       60,
-                                            //                       60,
-                                            //                       60),
-                                            //               valueColor:
-                                            //                   new AlwaysStoppedAnimation<
-                                            //                           Color>(
-                                            //                       themeController
-                                            //                           .drawerHead
-                                            //                           .value),
-                                            //             ),
-                                            //           ),
-                                            //         );
-                                            //       }
-                                            //       if (snapshot
-                                            //               .connectionState ==
-                                            //           ConnectionState.done) {
-                                            //         return StreamBuilder(
-                                            //             stream: roomLogicController
-                                            //                 .adminBsdkKaNaam(
-                                            //                     firebaseId:
-                                            //                         roomLogicController
-                                            //                             .roomFireBaseId),
-                                            //             builder: (context,
-                                            //                 snapshot) {
-                                            //               if (snapshot
-                                            //                   .hasData) {
-                                            //                 return Text(
-                                            //                   '${snapshot.data.snapshot.value}',
-                                            //                   style: TextStyle(
-                                            //                       fontSize: 30),
-                                            //                 );
-                                            //               } else if (snapshot
-                                            //                   .hasError) {
-                                            //                 return Text(
-                                            //                     'Error');
-                                            //               }
-                                            //               return Text('');
-                                            //             });
-                                            //       }
-                                            //       return Container();
-                                            //     }),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, bottom: 0),
-                                              child: SvgPicture.asset(
-                                                'lib/assets/svgs/crown.svg',
-                                                height: 27 * heightRatio,
-                                                width: 27 * widthRatio,
-                                                color: Colors.orange,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 10 * heightRatio),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: GetX<RoomLogicController>(
-                                            builder: (controller) {
-                                          return Text(
-                                              'Room no: ${controller.roomId.obs.value} ',
-                                              style: TextStyle(fontSize: 15));
-                                        }),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                      ]);
+                                },
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: SvgPicture.asset(
-                                  'lib/assets/svgs/movie.svg',
-                                  width: 120 * widthRatio,
-                                  height: 120 * heightRatio),
-                            )
+                            SizedBox(height: 20),
+                            Container(
+                              child: CustomButton(
+                                buttonColor: Colors.blueAccent,
+                                content: 'Local Media',
+                                contentSize: 20,
+                                cornerRadius: 10,
+                                height: heightRatio * 40,
+                                textColor: Colors.white,
+                                function: () {
+                                  print("adminId");
+                                  print(roomLogicController.adminId.value);
+                                  // filePick();
+                                  // bottomSheet();
+                                  localMediaPlayerFileSelectionBottomSheet();
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 40 * heightRatio),
+                            Container(
+                              // color: Colors.white.withOpacity(0.1),
+                              // padding:
+                              //     const EdgeInsets.only(left: 20),
+                              child: Row(
+                                // mainAxisAlignment:
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.ideographic,
+                                children: [
+                                  Spacer(),
+                                  StreamBuilder(
+                                      stream:
+                                          roomLogicController.adminBsdkKaNaam(
+                                              firebaseId: roomLogicController
+                                                  .roomFireBaseId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                            child: Text(
+                                              '${snapshot.data.snapshot.value}',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25),
+                                            ),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Text('Error');
+                                        }
+                                        return Text('');
+                                      }),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, bottom: 0),
+                                    child: SvgPicture.asset(
+                                      'lib/assets/svgs/crown.svg',
+                                      height: 27 * heightRatio,
+                                      width: 27 * widthRatio,
+                                      color: Colors.orange,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10 * heightRatio),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 40 * heightRatio),
-                    Expanded(
-                      // margin: EdgeInsets.only(left: 20),
-                      // color: Colors.blue.withOpacity(0.1),
-                      // height: heightRatio * 300,
-                      // width: widthRatio * 200,
-                      // height: 500,
-                      child: Container(
-                        width: 300 * widthRatio,
-                        // color: Colors.red,
-                        child: StreamBuilder(
-                          stream: rishabhController.tester(
-                              firebaseId: roomLogicController.roomFireBaseId),
-                          builder: (ctx, event) {
-                            if (event.hasData) {
-                              return NotificationListener<
-                                  OverscrollIndicatorNotification>(
-                                onNotification: (overscroll) {
-                                  overscroll.disallowGlow();
-                                  return null;
+                  ),
+                  SizedBox(height: 40 * heightRatio),
+                  Expanded(
+                    child: Container(
+                      width: 300 * widthRatio,
+                      // color: Colors.red,
+                      child: StreamBuilder(
+                        stream: rishabhController.tester(
+                            firebaseId: roomLogicController.roomFireBaseId),
+                        builder: (ctx, event) {
+                          if (event.hasData) {
+                            return NotificationListener<
+                                OverscrollIndicatorNotification>(
+                              onNotification: (overscroll) {
+                                overscroll.disallowGlow();
+                                return null;
+                              },
+                              child: ListView.separated(
+                                scrollDirection: Axis.vertical,
+                                separatorBuilder: (ctx, i) {
+                                  return SizedBox(
+                                    width: 5,
+                                  );
                                 },
-                                child: ListView.separated(
-                                  scrollDirection: Axis.vertical,
-                                  separatorBuilder: (ctx, i) {
-                                    return SizedBox(
-                                      width: 5,
-                                    );
-                                  },
-                                  itemBuilder: (ctx, i) {
-                                    print('chut: ${event.data.snapshot.value}');
-                                    return CustomNameBar(
-                                      userName: event.data.snapshot.value.values
-                                          .toList()[i]['name'],
-                                      roomController: roomLogicController,
-                                      userID: event.data.snapshot.value.values
-                                          .toList()[i]['id'],
-                                      event: event,
-                                      index: i,
-                                      widthRatio: widthRatio,
-                                      heightRatio: heightRatio,
-                                      // controller: funLogic,
-                                      imageSize: 50,
-                                      textSize: 25,
-                                    );
-                                  },
-                                  itemCount: event.data.snapshot.value.values
-                                      .toList()
-                                      .length,
-                                ),
-                              );
-                            } else if (event.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(
-                                      themeController.drawerHead.value),
-                                ),
-                              );
-                            } else {
-                              return Center(
-                                  child: CircularProgressIndicator(
+                                itemBuilder: (ctx, i) {
+                                  print('chut: ${event.data.snapshot.value}');
+                                  return CustomNameBar(
+                                    userName: event.data.snapshot.value.values
+                                        .toList()[i]['name'],
+                                    roomController: roomLogicController,
+                                    userID: event.data.snapshot.value.values
+                                        .toList()[i]['id'],
+                                    event: event,
+                                    index: i,
+                                    widthRatio: widthRatio,
+                                    heightRatio: heightRatio,
+                                    // controller: funLogic,
+                                    imageSize: 50,
+                                    textSize: 25,
+                                  );
+                                },
+                                itemCount: event.data.snapshot.value.values
+                                    .toList()
+                                    .length,
+                              ),
+                            );
+                          } else if (event.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(
                                 valueColor: new AlwaysStoppedAnimation<Color>(
                                     themeController.drawerHead.value),
-                              ));
-                            }
-                          },
-                        ),
+                              ),
+                            );
+                          } else {
+                            return Center(
+                                child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  themeController.drawerHead.value),
+                            ));
+                          }
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

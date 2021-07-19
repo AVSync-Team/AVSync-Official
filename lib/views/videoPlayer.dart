@@ -59,15 +59,15 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
 
     ///`Video Player Controller`
 
-    controller = VideoPlayerController.file(
-        File(roomLogicController.localUrl.value),
-        // closedCaptionFile: _loadCaptions(),
-        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
-      ..initialize().then((_) {
-        setState(() {
-          videoLength = controller.value.duration;
-        });
-      });
+    controller =
+        VideoPlayerController.file(File(roomLogicController.localUrl.value),
+            // closedCaptionFile: _loadCaptions(),
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
+          ..initialize().then((_) {
+            setState(() {
+              videoLength = controller.value.duration;
+            });
+          });
 
     //closed captions
     // initializeSubs();
@@ -421,8 +421,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                 children: [
                                   //seek backward 10
                                   SizedBox(width: 10),
-                                  if (roomLogicController
-                                          .adminId.obs.value ==
+                                  if (roomLogicController.adminId.obs.value ==
                                       roomLogicController.userId.obs.value)
                                     IconButton(
                                       icon: Icon(Icons.speed),
@@ -602,8 +601,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                       },
                                     ),
 
-                                  if (roomLogicController
-                                          .adminId.obs.value ==
+                                  if (roomLogicController.adminId.obs.value ==
                                       roomLogicController.userId.obs.value)
                                     Expanded(
                                       child: GestureDetector(
@@ -664,8 +662,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                   ),
 
                                   //seek forward 10
-                                  if (roomLogicController
-                                          .adminId.obs.value ==
+                                  if (roomLogicController.adminId.obs.value ==
                                       roomLogicController.userId.obs.value)
                                     Expanded(
                                       // width: Get.width * 0.3,
