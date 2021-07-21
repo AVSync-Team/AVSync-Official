@@ -10,11 +10,11 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/video_manager/photo_lib.dart';
-import 'package:VideoSync/views/YTPlayer.dart';
+import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 // import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
 // import 'package:VideoSync/views/homePage.dart';
-import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 
 import 'package:VideoSync/views/webShow.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:VideoSync/controllers/themeData.dart';
-import 'package:VideoSync/views/YTPlayer.dart';
+import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -14,7 +14,7 @@ import 'package:VideoSync/widgets/chat_send_.dart';
 // import 'package:VideoSync/widgets/chat_widget.dart';
 // import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
-import 'webShow.dart';
+import '../webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/custom_text.dart';
@@ -880,14 +880,12 @@ class _YTPlayerState extends State<YTPlayer> {
                                                     overlayRadius: 10.0),
                                             tickMarkShape:
                                                 RoundSliderTickMarkShape(),
-                                            
                                             activeTickMarkColor: Colors.indigo,
                                             inactiveTickMarkColor:
                                                 Colors.indigo,
                                             valueIndicatorShape:
                                                 PaddleSliderValueIndicatorShape(),
                                             valueIndicatorColor: Colors.indigo,
-                                            
                                           ),
                                           child: Slider(
                                             // activeColor:
@@ -1659,6 +1657,18 @@ class _YTPlayerState extends State<YTPlayer> {
             ],
           ),
         ),
+
+        //only show in landscape mode
+
+        // floatingActionButton: phoneOrientation != Orientation.portrait
+        //     ? FloatingActionButton(
+        //         child: Icon(
+        //           Icons.chat_bubble,
+        //         ),
+        //         onPressed: () {
+        //           //show the chat UI in landscape mode
+        //         },
+        //       )
       ),
     );
   }

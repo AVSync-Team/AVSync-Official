@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:VideoSync/views/YTPlayer.dart';
+import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

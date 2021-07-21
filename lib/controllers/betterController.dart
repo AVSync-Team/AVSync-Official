@@ -1,4 +1,4 @@
-import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 

@@ -708,25 +708,26 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                   ),
                 ),
                 // if (subsController != null)
-                Positioned(
-                  bottom: 100,
-                  child: Container(
-                    height: 100,
-                    width: size.width,
-                    child: ClosedCaption(
-                        text: controller.value.caption.text,
-                        textStyle: TextStyle(
-                            fontSize: 14,
-                            backgroundColor: Colors.white,
-                            color: Colors.pink)),
-                  ),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      // controller.dispose();
-                      initializeSubs();
-                    },
-                    child: Text('Test'))
+                // Positioned(
+                //   bottom: 100,
+                //   child: Container(
+                //     height: 100,
+                //     width: size.width,
+                //     child: ClosedCaption(
+                //         text: controller.value.caption.text,
+                //         textStyle: TextStyle(
+                //             fontSize: 14,
+                //             backgroundColor: Colors.white,
+                //             color: Colors.pink)),
+                //   ),
+                // ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     // controller.dispose();
+                //     initializeSubs();
+                //   },
+                //   child: Text('Test'),
+                // )
               ],
             ),
           ),

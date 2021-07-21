@@ -1,4 +1,4 @@
-import 'package:VideoSync/views/YTPlayer.dart';
+import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

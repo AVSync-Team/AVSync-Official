@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:VideoSync/controllers/chat.dart';
-import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

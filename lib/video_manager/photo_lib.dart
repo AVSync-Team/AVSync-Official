@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:VideoSync/controllers/roomLogic.dart';
 // import 'package:VideoSync/views/YTPlayer.dart';
-import 'package:VideoSync/views/videoPlayer.dart';
+import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:get/get.dart';
