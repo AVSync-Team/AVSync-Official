@@ -424,385 +424,334 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
       //   ),
       // ),
       backgroundColor: themeData.primaryColor.value,
-      body: Center(
-        child: Container(
-          // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
-          child: AspectRatio(
-            aspectRatio: controller.value.aspectRatio,
-            child: Stack(
-              children: [
-                //The youtube player
-                Align(
-                  alignment: Alignment.center,
-                  child: AspectRatio(
-                    aspectRatio: controller.value.aspectRatio,
-                    // width: double.infinity,
-                    child: VideoPlayer(controller),
-                    // ClosedCaption(),
-                  ),
-                ),
+      body: Container(
+        // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+              child: Container(
+                height: phoneOrientation == Orientation.portrait
+                    ? size.height * 0.3
+                    : size.height * .98,
+                // aspectRatio: controller.value.aspectRatio,
+                child: Stack(
+                  children: [
+                    //The youtube player
+                    Align(
+                      alignment: Alignment.center,
+                      child: AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        // width: double.infinity,
+                        child: VideoPlayer(controller),
+                        // ClosedCaption(),
+                      ),
+                    ),
 
-                //Control UIs
-                //seek back 10
-                Container(
-                  // decoration:
-                  //     BoxDecoration(border: Border.all(color: Colors.cyan)),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      // width: size.width,
-                      // height: MediaQuery.of(context).orientation ==
-                      //         Orientation.landscape
-                      //     ? size.height * 0.8
-                      //     : size.height * 0.3,
+                    //Control UIs
+                    //seek back 10
+                    Container(
                       // decoration:
-                      //     BoxDecoration(border: Border.all(color: Colors.yellow)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //For hiding or displaying UI
-                          Expanded(
-                            child: Container(
-                              // decoration: BoxDecoration(
-                              //   border: Border.all(color: Colors.yellow),
-                              // ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    hideUI = !hideUI;
-                                    shoSpeedWidget = false;
-                                    // animatedHeight = 0;
-                                  });
-                                },
+                      //     BoxDecoration(border: Border.all(color: Colors.cyan)),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: AspectRatio(
+                          aspectRatio: 16 / 9,
+                          // width: size.width,
+                          // height: MediaQuery.of(context).orientation ==
+                          //         Orientation.landscape
+                          //     ? size.height * 0.8
+                          //     : size.height * 0.3,
+                          // decoration:
+                          //     BoxDecoration(border: Border.all(color: Colors.yellow)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //For hiding or displaying UI
+                              Expanded(
+                                child: Container(
+                                  // decoration: BoxDecoration(
+                                  //   border: Border.all(color: Colors.yellow),
+                                  // ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        hideUI = !hideUI;
+                                        shoSpeedWidget = false;
+                                        // animatedHeight = 0;
+                                      });
+                                    },
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          // Spacer(
-                          if (controller != null)
-                            Obx(
-                              () => Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        // margin: EdgeInsets.only(left: 5),
-                                        child: Text(
-                                            '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                      ),
-                                      Expanded(
-                                        child: SliderTheme(
-                                          data: SliderThemeData(
-                                            activeTrackColor: Colors.indigo,
-                                            inactiveTrackColor:
-                                                Colors.indigo.shade200,
-                                            trackShape:
-                                                RoundedRectSliderTrackShape(),
-                                            trackHeight: 2.0,
-                                            thumbShape: RoundSliderThumbShape(
-                                                enabledThumbRadius: 8.0),
-                                            thumbColor: Colors.indigoAccent,
-                                            overlayColor: Colors.indigo,
-                                            overlayShape:
-                                                RoundSliderOverlayShape(
-                                                    overlayRadius: 10.0),
-                                            tickMarkShape:
-                                                RoundSliderTickMarkShape(),
-                                            activeTickMarkColor: Colors.indigo,
-                                            inactiveTickMarkColor:
-                                                Colors.indigo,
-                                            valueIndicatorShape:
-                                                PaddleSliderValueIndicatorShape(),
-                                            valueIndicatorColor: Colors.indigo,
+                              // Spacer(
+                              if (controller != null)
+                                Obx(
+                                  () => Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            // margin: EdgeInsets.only(left: 5),
+                                            child: Text(
+                                                '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                )),
                                           ),
-                                          child: Slider(
-                                            // activeColor:
-                                            //     Color.fromRGBO(50, 60, 120, 0.5),
-                                            value: roomLogicController
-                                                .videoPosition.value.inSeconds
-                                                .toDouble(),
-                                            onChanged: (value) {
-                                              roomLogicController
-                                                      .videoPosition.value =
-                                                  Duration(
-                                                      seconds: value.toInt());
+                                          Expanded(
+                                            child: SliderTheme(
+                                              data: SliderThemeData(
+                                                activeTrackColor: Colors.indigo,
+                                                inactiveTrackColor:
+                                                    Colors.indigo.shade200,
+                                                trackShape:
+                                                    RoundedRectSliderTrackShape(),
+                                                trackHeight: 2.0,
+                                                thumbShape:
+                                                    RoundSliderThumbShape(
+                                                        enabledThumbRadius:
+                                                            8.0),
+                                                thumbColor: Colors.indigoAccent,
+                                                overlayColor: Colors.indigo,
+                                                overlayShape:
+                                                    RoundSliderOverlayShape(
+                                                        overlayRadius: 10.0),
+                                                tickMarkShape:
+                                                    RoundSliderTickMarkShape(),
+                                                activeTickMarkColor:
+                                                    Colors.indigo,
+                                                inactiveTickMarkColor:
+                                                    Colors.indigo,
+                                                valueIndicatorShape:
+                                                    PaddleSliderValueIndicatorShape(),
+                                                valueIndicatorColor:
+                                                    Colors.indigo,
+                                              ),
+                                              child: Slider(
+                                                // activeColor:
+                                                //     Color.fromRGBO(50, 60, 120, 0.5),
+                                                value: roomLogicController
+                                                    .videoPosition
+                                                    .value
+                                                    .inSeconds
+                                                    .toDouble(),
+                                                onChanged: (value) {
+                                                  roomLogicController
+                                                          .videoPosition.value =
+                                                      Duration(
+                                                          seconds:
+                                                              value.toInt());
+                                                  controller.seekTo(Duration(
+                                                      seconds: value.toInt()));
+                                                },
+                                                min: 0.0,
+                                                max: controller
+                                                    .value.duration.inSeconds
+                                                    .toDouble(),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            // margin: EdgeInsets.only(right: 5),
+                                            child: Text(
+                                                '${controller.value.duration.toString().substring(0, 7)}',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          )
+                                        ],
+                                      )),
+                                ),
+
+                              //For all the controls
+                              AnimatedContainer(
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(25, 25, 25, 0.66),
+                                  // border: Border.all(color: Colors.cyan)
+                                ),
+                                // color: Color.fromRGBO(25, 25, 25, 0.66),
+                                // decoration: BoxDecoration(
+                                //     color: Colors.grey,
+                                //     border: Border.all(color: Colors.cyan)),
+                                // padding: EdgeInsets.only(bottom: 20),
+                                duration: Duration(milliseconds: 500),
+                                height: hideUI ? 40 : 0,
+                                // width: hideUI ? 0 : size.width,
+                                // height: 0,
+                                child: AnimatedOpacity(
+                                  duration: Duration(milliseconds: 200),
+                                  opacity: hideUI ? 1 : 0,
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      //seek backward 10
+                                      SizedBox(width: 10),
+                                      if (roomLogicController
+                                              .adminId.obs.value ==
+                                          roomLogicController.userId.obs.value)
+                                        IconButton(
+                                          icon: Icon(Icons.speed),
+                                          color: Colors.white,
+                                          onPressed: () {
+                                            // setState(() {
+                                            //   shoSpeedWidget = !shoSpeedWidget;
+                                            // });
+
+                                            //Show speed UI
+                                            // Get.dialog(Container(
+                                            //     height: 200,
+                                            //     width: 400,
+                                            //     child: Card()));
+                                            showSpeedAlertDialog();
+                                          },
+                                        ),
+
+                                      if (roomLogicController
+                                              .adminId.obs.value ==
+                                          roomLogicController.userId.obs.value)
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: value.toInt()));
+                                                  seconds: controller.value
+                                                          .position.inSeconds -
+                                                      10));
                                             },
-                                            min: 0.0,
-                                            max: controller
-                                                .value.duration.inSeconds
-                                                .toDouble(),
+                                            child: SvgPicture.asset(
+                                                'lib/assets/svgs/back10.svg',
+                                                width: 30 * widthRatio,
+                                                height: 30 * heightRatio),
+                                          ),
+                                        ),
+
+                                      //play pause icon
+                                      Expanded(
+                                        // width: Get.width * 0.4,
+                                        // color: Colors.blue.shade100,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            // hideControls();
+                                            if (controller.value.isPlaying) {
+                                              rishabhController
+                                                  .sendPlayerStatus(
+                                                      status: true,
+                                                      firebaseId:
+                                                          roomLogicController
+                                                              .roomFireBaseId);
+                                              controller.pause();
+                                            } else {
+                                              rishabhController
+                                                  .sendPlayerStatus(
+                                                      status: false,
+                                                      firebaseId:
+                                                          roomLogicController
+                                                              .roomFireBaseId);
+                                              controller.pause();
+                                              controller.play();
+                                            }
+                                          },
+                                          child: Obx(
+                                            () => roomLogicController
+                                                    .playingStatus.value
+                                                ? Icon(
+                                                    Icons.pause,
+                                                    size: 40,
+                                                    color: Colors.white,
+                                                  )
+                                                : Icon(
+                                                    Icons.play_arrow,
+                                                    size: 40,
+                                                    color: Colors.white,
+                                                  ),
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        // margin: EdgeInsets.only(right: 5),
-                                        child: Text(
-                                            '${controller.value.duration.toString().substring(0, 7)}',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      )
+
+                                      //seek forward 10
+                                      if (roomLogicController
+                                              .adminId.obs.value ==
+                                          roomLogicController.userId.obs.value)
+                                        Expanded(
+                                          // width: Get.width * 0.3,
+                                          // color: Colors.yellow.shade100,
+                                          child: GestureDetector(
+                                            child: SvgPicture.asset(
+                                                'lib/assets/svgs/go10.svg',
+                                                width: 30 * widthRatio,
+                                                height: 30 * heightRatio),
+                                            onTap: () {
+                                              controller.seekTo(Duration(
+                                                  seconds: controller.value
+                                                          .position.inSeconds +
+                                                      10));
+                                            },
+                                          ),
+                                        ),
+
+                                      //Toggle fullscreen
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.fullscreen,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          if (Get.context.isPortrait) {
+                                            SystemChrome
+                                                .setPreferredOrientations([
+                                              DeviceOrientation.landscapeRight
+                                            ]);
+                                          } else if (Get.context.isLandscape) {
+                                            SystemChrome
+                                                .setPreferredOrientations([
+                                              DeviceOrientation.portraitUp
+                                            ]);
+                                          }
+                                        },
+                                      ),
                                     ],
-                                  )),
-                            ),
-
-                          //For all the controls
-                          AnimatedContainer(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(25, 25, 25, 0.66),
-                              // border: Border.all(color: Colors.cyan)
-                            ),
-                            // color: Color.fromRGBO(25, 25, 25, 0.66),
-                            // decoration: BoxDecoration(
-                            //     color: Colors.grey,
-                            //     border: Border.all(color: Colors.cyan)),
-                            // padding: EdgeInsets.only(bottom: 20),
-                            duration: Duration(milliseconds: 500),
-                            height: hideUI ? 40 : 0,
-                            // width: hideUI ? 0 : size.width,
-                            // height: 0,
-                            child: AnimatedOpacity(
-                              duration: Duration(milliseconds: 200),
-                              opacity: hideUI ? 1 : 0,
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  //seek backward 10
-                                  SizedBox(width: 10),
-                                  if (roomLogicController.adminId.obs.value ==
-                                      roomLogicController.userId.obs.value)
-                                    IconButton(
-                                      icon: Icon(Icons.speed),
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        // setState(() {
-                                        //   shoSpeedWidget = !shoSpeedWidget;
-                                        // });
-
-                                        //Show speed UI
-                                        // Get.dialog(Container(
-                                        //     height: 200,
-                                        //     width: 400,
-                                        //     child: Card()));
-                                        showSpeedAlertDialog();
-                                      },
-                                    ),
-
-                                  if (roomLogicController.adminId.obs.value ==
-                                      roomLogicController.userId.obs.value)
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          controller.seekTo(Duration(
-                                              seconds: controller.value.position
-                                                      .inSeconds -
-                                                  10));
-                                        },
-                                        child: SvgPicture.asset(
-                                            'lib/assets/svgs/back10.svg',
-                                            width: 30 * widthRatio,
-                                            height: 30 * heightRatio),
-                                      ),
-                                    ),
-
-                                  //play pause icon
-                                  Expanded(
-                                    // width: Get.width * 0.4,
-                                    // color: Colors.blue.shade100,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        // hideControls();
-                                        if (controller.value.isPlaying) {
-                                          rishabhController.sendPlayerStatus(
-                                              status: true,
-                                              firebaseId: roomLogicController
-                                                  .roomFireBaseId);
-                                          controller.pause();
-                                          /////////////////////////////////////////////////////////
-                                          // Get.snackbar(
-                                          //   '',
-                                          //   '',
-                                          //   snackPosition:
-                                          //       SnackPosition.BOTTOM,
-                                          //   snackStyle: SnackStyle.GROUNDED,
-                                          //   duration: Duration(seconds: 4),
-                                          //   messageText: Text(
-                                          //     'Do you want to watch another video?',
-                                          //     style: TextStyle(
-                                          //       color: Colors.white,
-                                          //       fontSize: 15,
-                                          //       fontWeight: FontWeight.w400,
-                                          //     ),
-                                          //   ),
-                                          //   titleText: Container(),
-                                          //   margin: const EdgeInsets.only(
-                                          //       bottom:
-                                          //           kBottomNavigationBarHeight,
-                                          //       left: 8,
-                                          //       right: 8),
-                                          //   padding: const EdgeInsets.only(
-                                          //       top: 8,
-                                          //       bottom: 10,
-                                          //       left: 16,
-                                          //       right: 16),
-                                          //   borderRadius: 20,
-                                          //   backgroundColor: Color.fromRGBO(
-                                          //       20, 20, 20, 1),
-                                          //   colorText: Colors.white10,
-                                          //   mainButton: FlatButton(
-                                          //     child: Text(
-                                          //       'Yes',
-                                          //       style: TextStyle(
-                                          //         color: Colors.blue,
-                                          //       ),
-                                          //     ),
-                                          //     onPressed: () {
-                                          //       getDialogBox();
-                                          //     },
-                                          //   ),
-                                          // );
-                                          ////////////////////////////////////////////////////////////
-                                          // _scaffoldKey.currentState
-                                          //     .removeCurrentSnackBar();
-                                          // _scaffoldKey.currentState
-                                          //     .showSnackBar(
-                                          //   SnackBar(
-                                          //     content:
-                                          //         Text('Yay! A SnackBar!'),
-                                          //         duration: Duration(seconds: 2),
-                                          //         animation: ,
-                                          //     action: SnackBarAction(
-                                          //       label: 'Undo',
-                                          //       onPressed: () {
-                                          //         // Some code to undo the change.
-                                          //       },
-                                          //     ),
-                                          //   ),
-                                          // );
-                                          // ScaffoldMessenger.of(context)
-                                          //     .showSnackBar(SnackBar(
-                                          //   content:
-                                          //       Text('Yay! A SnackBar!'),
-                                          //   action: SnackBarAction(
-                                          //     label: 'Undo',
-                                          //     onPressed: () {
-                                          //       // Some code to undo the change.
-                                          //     },
-                                          //   ),
-                                          // ));
-                                          // Get.showSnackbar(
-                                          //   GetBar(
-                                          //     title:
-                                          //         'Want to get a new video?',
-                                          //     message: '',
-
-                                          //     duration:
-                                          //         Duration(seconds: 2),
-                                          //   ),
-                                          // );
-                                        } else {
-                                          rishabhController.sendPlayerStatus(
-                                              status: false,
-                                              firebaseId: roomLogicController
-                                                  .roomFireBaseId);
-                                          controller.pause();
-                                          controller.play();
-                                        }
-                                      },
-                                      child: Obx(
-                                        () => roomLogicController
-                                                .playingStatus.value
-                                            ? Icon(
-                                                Icons.pause,
-                                                size: 40,
-                                                color: Colors.white,
-                                              )
-                                            : Icon(
-                                                Icons.play_arrow,
-                                                size: 40,
-                                                color: Colors.white,
-                                              ),
-                                      ),
-                                    ),
                                   ),
-
-                                  //seek forward 10
-                                  if (roomLogicController.adminId.obs.value ==
-                                      roomLogicController.userId.obs.value)
-                                    Expanded(
-                                      // width: Get.width * 0.3,
-                                      // color: Colors.yellow.shade100,
-                                      child: GestureDetector(
-                                        child: SvgPicture.asset(
-                                            'lib/assets/svgs/go10.svg',
-                                            width: 30 * widthRatio,
-                                            height: 30 * heightRatio),
-                                        onTap: () {
-                                          controller.seekTo(Duration(
-                                              seconds: controller.value.position
-                                                      .inSeconds +
-                                                  10));
-                                        },
-                                      ),
-                                    ),
-
-                                  //Toggle fullscreen
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.fullscreen,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                    onPressed: () {
-                                      if (Get.context.isPortrait) {
-                                        SystemChrome.setPreferredOrientations(
-                                            [DeviceOrientation.landscapeRight]);
-                                      } else if (Get.context.isLandscape) {
-                                        SystemChrome.setPreferredOrientations(
-                                            [DeviceOrientation.portraitUp]);
-                                      }
-                                    },
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    // if (subsController != null)
+                    // Positioned(
+                    //   bottom: 100,
+                    //   child: Container(
+                    //     height: 100,
+                    //     width: size.width,
+                    //     child: ClosedCaption(
+                    //         text: controller.value.caption.text,
+                    //         textStyle: TextStyle(
+                    //             fontSize: 14,
+                    //             backgroundColor: Colors.white,
+                    //             color: Colors.pink)),
+                    //   ),
+                    // ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     // controller.dispose();
+                    //     initializeSubs();
+                    //   },
+                    //   child: Text('Test'),
+                    // )
+                  ],
                 ),
-                // if (subsController != null)
-                // Positioned(
-                //   bottom: 100,
-                //   child: Container(
-                //     height: 100,
-                //     width: size.width,
-                //     child: ClosedCaption(
-                //         text: controller.value.caption.text,
-                //         textStyle: TextStyle(
-                //             fontSize: 14,
-                //             backgroundColor: Colors.white,
-                //             color: Colors.pink)),
-                //   ),
-                // ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     // controller.dispose();
-                //     initializeSubs();
-                //   },
-                //   child: Text('Test'),
-                // )
-              ],
+              ),
             ),
-          ),
+            if (phoneOrientation == Orientation.portrait) SizedBox(height: 10),
+            //this is the chat display part of code
+            //so if the buttonPressed == 1 then thos these UIs ok got it Manav
+            
+          ],
         ),
       ),
     );
