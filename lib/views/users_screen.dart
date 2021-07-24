@@ -14,6 +14,7 @@ import 'package:VideoSync/video_manager/photo_lib.dart';
 import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 // import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
+import 'package:VideoSync/views/video%20players/anyPlayer.dart';
 // import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 
@@ -708,6 +709,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                   print(roomLogicController.adminId.value);
                                   // filePick();
                                   // bottomSheet();
+                                  // Get.to(AnyPlayer());
                                   localMediaPlayerFileSelectionBottomSheet();
                                 },
                               ),
