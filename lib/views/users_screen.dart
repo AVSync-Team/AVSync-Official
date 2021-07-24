@@ -9,6 +9,7 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
+import 'package:VideoSync/video_manager/photoLibMain.dart';
 import 'package:VideoSync/video_manager/photo_lib.dart';
 import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 // import 'package:VideoSync/views/chat.dart';
@@ -326,7 +327,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             onPressed: () async {
               Navigator.of(context).pop();
 
-              Get.to(PhotoMypher());
+              Get.to(PhotoLibMain());
             },
             child: Text('Search'),
           ),
@@ -579,7 +580,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   SizedBox(height: 10),
                   GetX<RoomLogicController>(builder: (controller) {
                     return Container(
-                      width: widthRatio * 150,
+                      width: widthRatio * 165,
                       height: heightRatio * 50,
                       // padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
