@@ -6,6 +6,7 @@ class RishabhController extends GetxController {
   var timeStamp = 0.obs;
   var isDragging = false.obs;
   var radioValue = 1.0.obs;
+  var playBackSpeedValue = 1.0.obs;
 
   void timestampFromDB({String roomFireBaseID}) {
     print('called');
@@ -89,5 +90,10 @@ class RishabhController extends GetxController {
         .child('users')
         .onValue
         .first;
+  }
+
+  Future<void> changePlayBackSpeed(String roomFirebaseId, double speed) async {
+    var ref = FirebaseDatabase.instance.reference();
+    ref.child('Rooms').child(roomFirebaseId).child('playBackSpeed').set(speed);
   }
 }
