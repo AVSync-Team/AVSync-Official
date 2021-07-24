@@ -5,6 +5,8 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/video_manager/photo_lib.dart';
+import 'package:VideoSync/widgets/chat_list_view.dart';
+import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
 // import 'package:VideoSync/views/chat.dart';
@@ -53,6 +55,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   bool isLoading = false;
   bool picking = false;
   String path = "";
+  TextEditingController chatTextController = TextEditingController();
 
   @override
   void initState() {
@@ -108,26 +111,6 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         controller.play();
       }
     });
-
-    // chatController
-    //     .message(firebaseId: roomLogicController.roomFireBaseId)
-    //     .listen((event) {
-    //   List<M> check = [];
-
-    //   event.snapshot.value.forEach((key, value) {
-    //     check.add(M(
-    //         id: DateTime.parse(value["messageId"]),
-    //         mesage: value["message"],
-    //         userId: value["userId"],
-    //         userId: value["userId"]));
-    //   });
-
-    //   check.sort((a, b) => (a.id).compareTo(b.id));
-    //   if (check[check.length - 1].userId != roomLogicController.userId)
-    //     Get.snackbar(
-    //         check[check.length - 1].userId, check[check.length - 1].mesage);
-    // });
-
     firebaseDatabase
         .child('Rooms')
         .child(roomLogicController.roomFireBaseId.obs.value)
@@ -140,13 +123,9 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         controller.setPlaybackSpeed(event.snapshot.value);
       }
     });
-
-    // hideControls();
-
-    selectedRadio = 1;
-
     //video controller listeners
     addListener();
+    listenToTextInputStateChanges();
   }
 
   void addListener() {
@@ -192,6 +171,18 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
   //   print('fileContents : $fileContents');
   //   return SubRipCaptionFile(fileContents);
   // }
+
+  void listenToTextInputStateChanges() {
+    chatTextController.addListener(() {
+      print("TextState: ${chatTextController.text}");
+      if (chatTextController.text == "") {
+        chatController.isTextEmpty.value = true;
+      } else {
+        chatController.isTextEmpty.value = false;
+      }
+      print('TextState: ${chatController.isTextEmpty}');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -429,7 +420,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+              // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
               child: Container(
                 height: phoneOrientation == Orientation.portrait
                     ? size.height * 0.3
@@ -748,9 +739,21 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
               ),
             ),
             if (phoneOrientation == Orientation.portrait) SizedBox(height: 10),
+
             //this is the chat display part of code
             //so if the buttonPressed == 1 then thos these UIs ok got it Manav
-            
+
+            if (phoneOrientation == Orientation.portrait && buttonPressed == 1)
+              Expanded(
+                child: ChatListViewWidget(
+                    // chatWidth: 200,
+                    ),
+              ),
+            if (phoneOrientation == Orientation.portrait && buttonPressed == 1)
+              ChatSend(
+                  chatHeight: 50,
+                  chatTextController: chatTextController,
+                  currenFocus: currenFocus)
           ],
         ),
       ),
