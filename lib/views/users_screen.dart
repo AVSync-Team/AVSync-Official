@@ -175,39 +175,15 @@ class _WelcomScreenState extends State<WelcomScreen> {
   void youTubeBottomSheet() {
     Get.bottomSheet(
       Container(
-        // color:
-        //     Colors.white.withOpacity(0.1),
         width: double.infinity,
         height: heightRatio * 250,
         child: Container(
           color: Colors.white,
-          // decoration: BoxDecoration(
-          //   color: Colors.purple
-          //       .withOpacity(0.1),
-          //   borderRadius: BorderRadius.only(
-          //     topLeft:
-          //         Radius.circular(30.0),
-          //     topRight:
-          //         Radius.circular(30.0),
-          //   ),
-          // ),
-
-          //child: Card(
-          // shape: RoundedRectangleBorder(
-          //     borderRadius:
-          //         BorderRadius.only(
-          //             topLeft:
-          //                 Radius.circular(
-          //                     30.0),
-          //             topRight:
-          //                 Radius.circular(
-          //                     30.0))),
-          // elevation: 10,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20),
-              Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
+              Text('Enter the Link', style: TextStyle(fontSize: 20)),
               Container(
                 margin: EdgeInsets.only(top: heightRatio * 20),
                 height: heightRatio * 80,
@@ -215,7 +191,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 child: TextField(
                   controller: yturl,
                   onChanged: (String value) {
-                    ytStateController.checkYotutTubeUrl(ytURl: value);
+                    ytStateController.checkLinkValidty(value);
                   },
                   cursorColor: Colors.red,
                   decoration: InputDecoration(
@@ -231,78 +207,52 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: heightRatio * 10),
-                child:
-                    // ytStateController.
-                    //     ? Container(
-                    //         child: Text(
-                    //           "No link provided",
-                    //           style: TextStyle(
-                    //               color: Colors
-                    //                   .red),
-                    //         ),
-                    //       )
-                    //     :
-                    Obx(() =>
-                        ///////////////////////////////////////////////////
-                        // ytStateController
-                        //             .isYtUrlValid
-                        //             .value ==
-                        //         1
-                        //     ? Container(
-                        //         child:
-                        //             Text(
-                        //           "No link provided",
-                        //           style: TextStyle(
-                        //               color:
-                        //                   Colors.red),
-                        //         ),
-                        //       )
-                        //:
-                        ytStateController.isYtUrlValid.value == 2 ||
-                                ytStateController.isYtUrlValid.value == 1
-                            ?
-                            ////////////////////////////////////
-                            //   Container(
-                            // height: 30,
-                            // child:
-                            //Obx(() =>
-                            RaisedButton(
-                                color: Colors.green,
-                                shape: StadiumBorder(),
-                                onPressed: () async {
-                                  if (ytStateController.isYtUrlValid.value ==
-                                          2 ||
-                                      ytStateController.isYtUrlValid.value ==
-                                          1) {
-                                    //load the YT URL
-                                    roomLogicController.ytURL.value =
-                                        yturl.text;
-                                    roomLogicController.sendYtLink(
-                                        ytlink:
-                                            roomLogicController.ytURL.value);
-                                    roomLogicController.sendYtStatus(
-                                        status: 'loaded');
-                                    Navigator.pop(context);
-                                    await Future.delayed(Duration(seconds: 1));
-                                    Get.to(YTPlayer());
-                                  }
-
-                                  // Navigator.pop(
-                                  //     context);
-                                },
-                                child: Text(
-                                  'Play',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            : Container(
-                                child: Text(
-                                  "Link not Valid !",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              )),
+              Obx(
+                () => Container(
+                  margin: EdgeInsets.only(top: heightRatio * 10),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      //mp4 player
+                      if (ytStateController.linkType.value ==
+                              LinkType.BrowserLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToBrowserPlayerPage();
+                          },
+                          buttonColor: Colors.blue,
+                          content: 'MP4 Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          width: 100,
+                        ),
+                      SizedBox(width: 8),
+                      //yt video button
+                      if (ytStateController.linkType.value == LinkType.YTLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToYTPage();
+                          },
+                          buttonColor: Colors.redAccent,
+                          content: 'YouTube Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          // width: ,
+                        ),
+                      Spacer()
+                    ],
+                  ),
+                ),
               )
             ],
           ),
@@ -310,6 +260,24 @@ class _WelcomScreenState extends State<WelcomScreen> {
         //),
       ),
     );
+  }
+
+  Future<void> sendToBrowserPlayerPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(AnyPlayer());
+  }
+
+  Future<void> sendToYTPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(YTPlayer());
   }
 
   //opens the local player
@@ -336,27 +304,29 @@ class _WelcomScreenState extends State<WelcomScreen> {
   }
 
   void bottomSheet() {
-    Get.bottomSheet(Container(
-      color: Colors.white,
-      height: 200,
-      width: 200,
-      child: !isLoading
-          ? RaisedButton(
-              onPressed: () async {
-                await filePick();
-                Get.to(NiceVideoPlayer());
-              },
-              child: Text("Pick Video"),
-            )
-          : Center(
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      themeController.drawerHead.value),
+    Get.bottomSheet(
+      Container(
+        color: Colors.white,
+        height: 200,
+        width: 200,
+        child: !isLoading
+            ? RaisedButton(
+                onPressed: () async {
+                  await filePick();
+                  Get.to(NiceVideoPlayer());
+                },
+                child: Text("Pick Video"),
+              )
+            : Center(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        themeController.drawerHead.value),
+                  ),
                 ),
               ),
-            ),
-    ));
+      ),
+    );
   }
 
   Future<void> filePick() async {
@@ -714,7 +684,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 },
                               ),
                             ),
-                            SizedBox(height: 40 * heightRatio),
+                            SizedBox(height: 20 * heightRatio),
                             Container(
                               // color: Colors.white.withOpacity(0.1),
                               // padding:
@@ -759,7 +729,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10 * heightRatio),
                           ],
                         ),
                       ),

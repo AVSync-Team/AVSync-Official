@@ -389,8 +389,7 @@ class _YTPlayerState extends State<YTPlayer> {
                         //         ),
                         //       )
                         //:
-                        ytStateController.isYtUrlValid.value == 2 ||
-                                ytStateController.isYtUrlValid.value == 1
+                        ytStateController.linkValidity.value == LinkValidity.Valid
                             ?
                             ////////////////////////////////////
                             //   Container(
@@ -401,27 +400,22 @@ class _YTPlayerState extends State<YTPlayer> {
                                 color: Colors.green,
                                 shape: StadiumBorder(),
                                 onPressed: () async {
-                                  if (ytStateController.isYtUrlValid.value ==
-                                          2 ||
-                                      ytStateController.isYtUrlValid.value ==
-                                          1) {
-                                    yturl.text =
-                                        roomLogicController.ytURL.value;
+                                  yturl.text = roomLogicController.ytURL.value;
 
-                                    Navigator.pop(context);
-                                    await Future.delayed(Duration(seconds: 1));
-                                    print(ytStateController.isYtUrlValid.value);
-                                    // ytStateController.update()
-                                    roomLogicController.sendYtLink(
-                                        ytlink:
-                                            roomLogicController.ytURL.value);
-                                    roomLogicController.sendYtStatus(
-                                        status: 'loaded');
+                                  Navigator.pop(context);
+                                  await Future.delayed(Duration(seconds: 1));
+                                  // print(ytStateController.isYtUrlValid.value);
 
-                                    controller.load(
-                                        YoutubePlayer.convertUrlToId(
-                                            roomLogicController.ytURL.value));
-                                  }
+                                  // ytStateController.update()
+
+                                  //send the ytlink to the db
+                                  roomLogicController.sendYtLink(
+                                      ytlink: roomLogicController.ytURL.value);
+                                  roomLogicController.sendYtStatus(
+                                      status: 'loaded');
+
+                                  controller.load(YoutubePlayer.convertUrlToId(
+                                      roomLogicController.ytURL.value));
 
                                   // Navigator.pop(
                                   //     context);
