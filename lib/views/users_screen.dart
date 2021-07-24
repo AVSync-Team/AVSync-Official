@@ -314,21 +314,21 @@ class _WelcomScreenState extends State<WelcomScreen> {
   void localMediaPlayerFileSelectionBottomSheet() {
     Get.defaultDialog(
         title: 'Local Media',
-        middleText: "Do you want to dig deep?",
+        middleText: "Search for a video in your local storage",
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('No'),
-          ),
+          // TextButton(
+          //   onPressed: () {
+          //     Navigator.of(context).pop();
+          //   },
+          //   child: Text('No'),
+          // ),
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
 
               Get.to(PhotoMypher());
             },
-            child: Text('Get the video'),
+            child: Text('Search'),
           ),
         ]);
   }
