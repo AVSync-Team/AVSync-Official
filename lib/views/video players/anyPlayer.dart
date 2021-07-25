@@ -5,11 +5,13 @@ import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/views/video%20players/YTPlayer.dart';
+import 'package:VideoSync/views/webShow.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
 import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/custom_text.dart';
+import 'package:clipboard/clipboard.dart';
 // import 'package:VideoSync/views/chat.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -163,6 +165,154 @@ class _AnyPlayerState extends State<AnyPlayer>
       }
       setState(() {});
     });
+  }
+
+  youWebShe() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)), //this right here
+              child: WebShow());
+        });
+  }
+
+  youBotShe() {
+    Get.bottomSheet(
+      Container(
+        width: double.infinity,
+        height: heightRatio * 250,
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 20),
+              Text('Enter the Link', style: TextStyle(fontSize: 20)),
+              Container(
+                margin: EdgeInsets.only(top: heightRatio * 20),
+                height: heightRatio * 80,
+                width: widthRatio * 300,
+                child: TextField(
+                  controller: yturl,
+                  onChanged: (String value) {
+                    ytStateController.checkLinkValidty(value);
+                  },
+                  cursorColor: Colors.red,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: new BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                  ),
+                ),
+              ),
+              Obx(
+                () => Container(
+                  margin: EdgeInsets.only(top: heightRatio * 10),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      //mp4 player
+                      if (ytStateController.linkType.value ==
+                              LinkType.BrowserLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToBrowserPlayerPage();
+                          },
+                          buttonColor: Colors.blue,
+                          content: 'MP4 Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          width: 100,
+                        ),
+                      SizedBox(width: 8),
+                      //yt video button
+                      if (ytStateController.linkType.value == LinkType.YTLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToYTPage();
+                          },
+                          buttonColor: Colors.redAccent,
+                          content: 'YouTube Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          // width: ,
+                        ),
+                      Spacer()
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        //),
+      ),
+    );
+  }
+
+  Future<void> sendToBrowserPlayerPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(AnyPlayer());
+  }
+
+  Future<void> sendToYTPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(YTPlayer());
+  }
+
+  getDialogBox() {
+    Get.defaultDialog(
+        title: 'Link Input',
+        middleText: 'Select where do you want to input the link',
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              youBotShe();
+            },
+            child: Text('Link'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              youBotShe();
+              //await Get.to(WebShow());
+              youWebShe();
+              yturl.text = roomLogicController.ytURL.value;
+              FlutterClipboard.paste().then((value) {
+                print(value);
+                yturl.text = value;
+              });
+            },
+            child: Text('Browse Web'),
+          ),
+        ]);
   }
 
   @override
@@ -323,7 +473,7 @@ class _AnyPlayerState extends State<AnyPlayer>
                   child: Row(
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.folder),
+                        child: Icon(Icons.link),
                         onTap: () {
                           Get.snackbar(
                             '',
@@ -357,7 +507,7 @@ class _AnyPlayerState extends State<AnyPlayer>
                                 ),
                               ),
                               onPressed: () {
-                                // getDialogBox();
+                                getDialogBox();
                                 // Navigator.of(context).replace(
                                 //     MaterialPageRoute(
                                 //         builder: (ctx) => PhotoMypher()));

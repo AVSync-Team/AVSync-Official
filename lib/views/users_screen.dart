@@ -271,7 +271,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
               adminId: roomLogicController.adminId.value,
               userId: roomLogicController.userId);
           Get.offAll(CreateRoomScreen());
-          
         });
         return leaveRoom;
       },
@@ -284,10 +283,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
           borderRadius: BorderRadius.circular(isDrawerOpen ? 40 : 0),
         ),
         child: Scaffold(
-          
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-          
             backgroundColor: isDrawerOpen
                 ? Colors.transparent
                 : Color.fromRGBO(41, 39, 39, 1),
@@ -320,7 +317,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         scaleFactor = 0.75;
                         isDrawerOpen = true;
                       });
-                     
                     },
                   ),
             actions: [
@@ -336,10 +332,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
             centerTitle: true,
             // title:
           ),
-
           endDrawer: Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-            
             child: Drawer(
               child: Column(
                 children: [
@@ -396,6 +390,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                             width: 2,
                           )),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(width: 5),
                           Text(' ${controller.roomId.obs.value} ',
@@ -432,7 +427,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       if (snapshot.hasData) {
                         //now if video not loaded then don't show anything
                         if (snapshot.data.snapshot.value == "loaded") {
-                          
                           //look into it
                           return VideoStartedWidgetDisplay();
                         } else {
