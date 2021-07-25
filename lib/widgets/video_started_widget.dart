@@ -13,8 +13,6 @@ class _VideoStartedWidgetDisplayState extends State<VideoStartedWidgetDisplay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        //TODO: UI Implementation for this widget look into that
-        //color: Color.fromRGBO(0, 0, 0, 0.5),
         color: Colors.blueAccent,
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.only(top: 5, bottom: 5),

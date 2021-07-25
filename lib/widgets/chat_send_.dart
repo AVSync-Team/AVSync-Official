@@ -29,37 +29,21 @@ class ChatSend extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              // height: 100,
-              //color: Colors.white.withOpacity(0.8),
               constraints: BoxConstraints(
                 minHeight: Get.height * 0.065,
-                //maxWidth: 100,
               ),
-              //height: Get.height * 0.065,
-              // padding: EdgeInsets.only(bottom: 5),
               margin: EdgeInsets.only(left: 10),
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(10),
-              //   color: Color.fromARGB(0, 255, 255, 255),
-              // ),
               decoration: BoxDecoration(
-                // border: Border.all(color: Colors.red),
                 borderRadius: BorderRadius.circular(0),
-                //color: CustomThemeData().darkGrey.value,
                 color: Color.fromRGBO(10, 10, 10, 1),
               ),
-
               child: TextField(
-                //maxLines: null,
-                // maxLength: 35,
-                //expands: true,
                 autofocus: false,
                 controller: chatTextController,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.w100,
-                  // backgroundColor: Colors.red
                 ),
                 textAlign: TextAlign.start,
                 cursorHeight: 20,
@@ -69,23 +53,6 @@ class ChatSend extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.black12,
                   focusColor: Colors.white,
-                  // focusedBorder: OutlineInputBorder(
-                  //   borderSide: new BorderSide(
-                  //     color: Color.fromRGBO(10, 10, 10, 0),
-                  //     width: 1,
-                  //   ),
-                  // ),
-                  // border: OutlineInputBorder(
-                  //   borderSide: const BorderSide(
-                  //     color: Colors.black,
-                  //   ),
-                  //   borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(0),
-                  //     topRight: Radius.circular(0),
-                  //     bottomRight: Radius.circular(0),
-                  //     bottomLeft: Radius.circular(0),
-                  //   ),
-
                   border: InputBorder.none,
                   hintText: 'Message',
                   hintStyle: TextStyle(
@@ -98,10 +65,6 @@ class ChatSend extends StatelessWidget {
             ),
           ),
           Container(
-            // decoration:
-            //     BoxDecoration(border: Border.all(color: Colors.red)),
-            // height: 20,
-            // width: 80,
             child: Obx(
               () => IconButton(
                 icon: Icon(Icons.send,
@@ -110,16 +73,6 @@ class ChatSend extends StatelessWidget {
                         : Colors.blueAccent,
                     size: 30),
                 splashColor: CustomThemeData().primaryColor.value,
-                // style: ElevatedButton.styleFrom(
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.only(
-                //       topLeft: Radius.circular(30),
-                //       bottomLeft: Radius.circular(10),
-                //       bottomRight: Radius.circular(30),
-                //       topRight: Radius.circular(5),
-                //     ),
-                //   ),
-                // ),
                 onPressed: chatController.isTextEmpty.value
                     ? null
                     : () {

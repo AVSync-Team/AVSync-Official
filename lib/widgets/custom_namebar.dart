@@ -89,12 +89,6 @@ class _CustomNameBarState extends State<CustomNameBar> {
         color: const Color.fromARGB(200, 60, 60, 60),
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        // width: 20,
-        // height: 70,
-        // color: Colors.white,
-        // decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(25), color: Colors.white),
-
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -158,34 +152,6 @@ class _CustomNameBarState extends State<CustomNameBar> {
                     ),
                   )
                 : Container()
-
-            // Column(
-            //   children: [
-            //     (widget.roomController.userId != widget.userID &&
-            //             widget.roomController.userId ==
-            //                 widget.roomController.adminId.value)
-            //         ? ClipOval(
-            //             child: GestureDetector(
-            //               onTap: () {
-            //                 // print(
-            //                 //     "roomControllerUserId: ${widget.roomController.userId}");
-
-            //                 // print("UserId: ${widget.userID}");
-
-            //                 buildShowDialog(context, userName: widget.userName);
-            //               },
-            //               child: Container(
-            //                 width: 25,
-            //                 height: 25,
-            //                 color: Colors.red,
-            //                 child: Center(child: Text('X')),
-            //               ),
-            //             ),
-            //           )
-            //         : Container(),
-            //     Spacer()
-            //   ],
-            // )
           ],
         ),
       ),
