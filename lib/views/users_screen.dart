@@ -1,21 +1,14 @@
 import 'dart:async';
-import 'dart:async';
-import 'dart:convert';
-//import 'dart:html';
-import 'dart:io';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
-// import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
-import 'package:VideoSync/video_manager/photo_lib.dart';
+import 'package:VideoSync/video_manager/photoLibMain.dart';
 import 'package:VideoSync/views/video%20players/YTPlayer.dart';
-// import 'package:VideoSync/views/chat.dart';
 import 'package:VideoSync/views/createRoom.dart';
-// import 'package:VideoSync/views/homePage.dart';
+import 'package:VideoSync/views/video%20players/anyPlayer.dart';
 import 'package:VideoSync/views/video%20players/videoPlayer.dart';
-
 import 'package:VideoSync/views/webShow.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
@@ -25,8 +18,6 @@ import 'package:VideoSync/widgets/video_started_widget.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-//import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -39,29 +30,14 @@ class WelcomScreen extends StatefulWidget {
 }
 
 class _WelcomScreenState extends State<WelcomScreen> {
-  // bool ytPlayerclicked = false;
-  // bool localPlayerClicked = false;
-  TextEditingController yturl = TextEditingController();
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
-
   RishabhController rishabhController = Get.put(RishabhController());
   ChatController chatController = Get.put(ChatController());
-  // FunLogic funLogic = Get.put(FunLogic());
-  CustomThemeData themeController = Get.put(CustomThemeData());
   YTStateController ytStateController = Get.put(YTStateController());
-  WebViewController _controller;
   TextEditingController chatTextController = TextEditingController();
-
-  // @override
-  // void initState() {
-
-  // }
-
   final double heightRatio = Get.height / 823;
   final double widthRatio = Get.width / 411;
-
   bool picking;
-
   double xOffset = 0;
   double yOffset = 0;
   double zOffset = 0;
@@ -69,14 +45,11 @@ class _WelcomScreenState extends State<WelcomScreen> {
   bool isDrawerOpen = false;
   bool leaveRoom = false;
   bool isLoading = false;
-  // StreamController<List<dynamic>> _userController;
-  // Timer timer;
 
   @override
   void initState() {
     super.initState();
-    //super.initState();
-    //if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+
     roomLogicController
         .adminIdd(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -92,7 +65,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
         .listen((event) {
       roomLogicController.ytURL.value = event.snapshot.value;
       yturl.text = roomLogicController.ytURL.value;
-      // Get.snackbar("lode", "Gandu video changed");
     });
 
     roomLogicController
@@ -150,62 +122,18 @@ class _WelcomScreenState extends State<WelcomScreen> {
     });
   }
 
-  // buildWebView() {
-  //   return WebView(
-  //     initialUrl: 'https://www.youtube.com/',
-  //     javascriptMode: JavascriptMode.unrestricted,
-  //     onWebViewCreated: (WebViewController webViewController) {
-  //       _controller = webViewController;
-  //     },
-  //   );
-  // }
-
-  // @override
-  // void dispose() {
-  //   // chatController.dispose();
-  //   // roomLogicController.dispose();
-  //   // rishabhController.dispose();
-  //   print(
-  //       "Leaving loda mera bsdk gandu harsh  player nikla lodu gamndu bcbcbcb");
-  //   super.dispose();
-  // }
-
   void youTubeBottomSheet() {
     Get.bottomSheet(
       Container(
-        // color:
-        //     Colors.white.withOpacity(0.1),
         width: double.infinity,
         height: heightRatio * 250,
         child: Container(
           color: Colors.white,
-          // decoration: BoxDecoration(
-          //   color: Colors.purple
-          //       .withOpacity(0.1),
-          //   borderRadius: BorderRadius.only(
-          //     topLeft:
-          //         Radius.circular(30.0),
-          //     topRight:
-          //         Radius.circular(30.0),
-          //   ),
-          // ),
-
-          //child: Card(
-          // shape: RoundedRectangleBorder(
-          //     borderRadius:
-          //         BorderRadius.only(
-          //             topLeft:
-          //                 Radius.circular(
-          //                     30.0),
-          //             topRight:
-          //                 Radius.circular(
-          //                     30.0))),
-          // elevation: 10,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20),
-              Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
+              Text('Enter the Link', style: TextStyle(fontSize: 20)),
               Container(
                 margin: EdgeInsets.only(top: heightRatio * 20),
                 height: heightRatio * 80,
@@ -213,7 +141,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 child: TextField(
                   controller: yturl,
                   onChanged: (String value) {
-                    ytStateController.checkYotutTubeUrl(ytURl: value);
+                    ytStateController.checkLinkValidty(value);
                   },
                   cursorColor: Colors.red,
                   decoration: InputDecoration(
@@ -229,78 +157,52 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: heightRatio * 10),
-                child:
-                    // ytStateController.
-                    //     ? Container(
-                    //         child: Text(
-                    //           "No link provided",
-                    //           style: TextStyle(
-                    //               color: Colors
-                    //                   .red),
-                    //         ),
-                    //       )
-                    //     :
-                    Obx(() =>
-                        ///////////////////////////////////////////////////
-                        // ytStateController
-                        //             .isYtUrlValid
-                        //             .value ==
-                        //         1
-                        //     ? Container(
-                        //         child:
-                        //             Text(
-                        //           "No link provided",
-                        //           style: TextStyle(
-                        //               color:
-                        //                   Colors.red),
-                        //         ),
-                        //       )
-                        //:
-                        ytStateController.isYtUrlValid.value == 2 ||
-                                ytStateController.isYtUrlValid.value == 1
-                            ?
-                            ////////////////////////////////////
-                            //   Container(
-                            // height: 30,
-                            // child:
-                            //Obx(() =>
-                            RaisedButton(
-                                color: Colors.green,
-                                shape: StadiumBorder(),
-                                onPressed: () async {
-                                  if (ytStateController.isYtUrlValid.value ==
-                                          2 ||
-                                      ytStateController.isYtUrlValid.value ==
-                                          1) {
-                                    //load the YT URL
-                                    roomLogicController.ytURL.value =
-                                        yturl.text;
-                                    roomLogicController.sendYtLink(
-                                        ytlink:
-                                            roomLogicController.ytURL.value);
-                                    roomLogicController.sendYtStatus(
-                                        status: 'loaded');
-                                    Navigator.pop(context);
-                                    await Future.delayed(Duration(seconds: 1));
-                                    Get.to(YTPlayer());
-                                  }
-
-                                  // Navigator.pop(
-                                  //     context);
-                                },
-                                child: Text(
-                                  'Play',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            : Container(
-                                child: Text(
-                                  "Link not Valid !",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              )),
+              Obx(
+                () => Container(
+                  margin: EdgeInsets.only(top: heightRatio * 10),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      //mp4 player
+                      if (ytStateController.linkType.value ==
+                              LinkType.BrowserLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToBrowserPlayerPage();
+                          },
+                          buttonColor: Colors.blue,
+                          content: 'MP4 Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          width: 100,
+                        ),
+                      SizedBox(width: 8),
+                      //yt video button
+                      if (ytStateController.linkType.value == LinkType.YTLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToYTPage();
+                          },
+                          buttonColor: Colors.redAccent,
+                          content: 'YouTube Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          // width: ,
+                        ),
+                      Spacer()
+                    ],
+                  ),
+                ),
               )
             ],
           ),
@@ -310,101 +212,44 @@ class _WelcomScreenState extends State<WelcomScreen> {
     );
   }
 
+  Future<void> sendToBrowserPlayerPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(AnyPlayer());
+  }
+
+  Future<void> sendToYTPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(YTPlayer());
+  }
+
   //opens the local player
   void localMediaPlayerFileSelectionBottomSheet() {
     Get.defaultDialog(
         title: 'Local Media',
         middleText: "Search for a video in your local storage",
         actions: [
-          // TextButton(
-          //   onPressed: () {
-          //     Navigator.of(context).pop();
-          //   },
-          //   child: Text('No'),
-          // ),
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
 
-              Get.to(PhotoMypher());
+              Get.to(PhotoLibMain());
             },
             child: Text('Search'),
           ),
         ]);
   }
 
-  void bottomSheet() {
-    Get.bottomSheet(Container(
-      color: Colors.white,
-      height: 200,
-      width: 200,
-      child: !isLoading
-          ? RaisedButton(
-              onPressed: () async {
-                await filePick();
-                Get.to(NiceVideoPlayer());
-              },
-              child: Text("Pick Video"),
-            )
-          : Center(
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                      themeController.drawerHead.value),
-                ),
-              ),
-            ),
-    ));
-  }
-
-  Future<void> filePick() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-        // type: FileType.media,
-        // allowMultiple: false,
-        // allowedExtensions: ['.mp4'],
-        withData: false,
-        // allowCompression: true,
-        withReadStream: true,
-        onFileLoading: (status) {
-          if (status.toString() == "FilePickerStatus.picking") {
-            setState(() {
-              picking = true;
-            });
-          } else {
-            setState(() {
-              picking = false;
-            });
-          }
-        });
-
-    // roomLogicController.bytes.obs.value = result.files[0];
-    roomLogicController.localUrl.value = result.files[0].path;
-
-    // print('testUrl: $testUrl');
-    setState(() {
-      isLoading = false;
-    });
-
-    // Get.to(NiceVideoPlayer());
-  }
-
   void snackbar(String name, String message) {
     Get.snackbar(name, message);
   }
-
-  // Widget open(snackbar) {
-  //   return Theme(
-  //     data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-  //     //width: 380 * widthRatio,
-  //     child: Drawer(
-  //       child: ChattingPlace(snackbar: snackbar),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +271,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
               adminId: roomLogicController.adminId.value,
               userId: roomLogicController.userId);
           Get.offAll(CreateRoomScreen());
-          //Navigator.of(context, rootNavigator: true).pop();
+          
         });
         return leaveRoom;
       },
@@ -439,10 +284,10 @@ class _WelcomScreenState extends State<WelcomScreen> {
           borderRadius: BorderRadius.circular(isDrawerOpen ? 40 : 0),
         ),
         child: Scaffold(
-          //backgroundColor: Color.fromRGBO(0, 250, 0, 0.1),
+          
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            //backgroundColor: Color.fromRGBO(41, 39, 39, 1),
+          
             backgroundColor: isDrawerOpen
                 ? Colors.transparent
                 : Color.fromRGBO(41, 39, 39, 1),
@@ -475,45 +320,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         scaleFactor = 0.75;
                         isDrawerOpen = true;
                       });
-                      //   Get.defaultDialog(
-                      //       // buttonColor: Colors.green.withOpacity(0.1),
-                      //       title: !(roomLogicController.adminKaNaam.obs.value ==
-                      //               roomLogicController.userName.obs.value)
-                      //           ? 'Leave Room'
-                      //           : 'Delete Room',
-                      //       confirm: RaisedButton(
-                      //           color: Colors.green,
-                      //           child: Text('Yes'),
-                      //           onPressed: () {
-                      //             if (!(roomLogicController.adminKaNaam.obs.value ==
-                      //                 roomLogicController.userName.obs.value)) {
-                      //               rishabhController.userLeaveRoom(
-                      //                 firebaseId:
-                      //                     roomLogicController.roomFireBaseId,
-                      //                 userId: roomLogicController.userId,
-                      //               );
-                      //             } else {
-                      //               roomLogicController.adminDeleteRoom(
-                      //                   firebaseId:
-                      //                       roomLogicController.roomFireBaseId);
-                      //             }
-                      //             Get.offAll(CreateRoomScreen());
-                      //             // Get.off(CreateRoomScreen());
-                      //           }),
-                      //       cancel: ElevatedButton(
-                      //           style: ButtonStyle(
-                      //               foregroundColor:
-                      //                   MaterialStateProperty.all<Color>(
-                      //                       Colors.green)),
-                      //           // color: Colors.red,
-                      //           child: Text('No'),
-                      //           onPressed: () {
-                      //             Get.back();
-                      //           }),
-                      //       content: !(roomLogicController.adminKaNaam.obs.value ==
-                      //               roomLogicController.userName.obs.value)
-                      //           ? Text('Do you want to leave the room ? ')
-                      //           : Text('Do you want to delete the room ? '));
+                     
                     },
                   ),
             actions: [
@@ -532,7 +339,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
           endDrawer: Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-            // width: 380 * widthRatio,
+            
             child: Drawer(
               child: Column(
                 children: [
@@ -579,7 +386,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   SizedBox(height: 10),
                   GetX<RoomLogicController>(builder: (controller) {
                     return Container(
-                      width: widthRatio * 150,
+                      width: widthRatio * 165,
                       height: heightRatio * 50,
                       // padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
@@ -625,7 +432,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       if (snapshot.hasData) {
                         //now if video not loaded then don't show anything
                         if (snapshot.data.snapshot.value == "loaded") {
-                          //TODO: @manav UI implementation just giving a basic right now
+                          
                           //look into it
                           return VideoStartedWidgetDisplay();
                         } else {
@@ -703,19 +510,12 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 height: heightRatio * 40,
                                 textColor: Colors.white,
                                 function: () {
-                                  print("adminId");
-                                  print(roomLogicController.adminId.value);
-                                  // filePick();
-                                  // bottomSheet();
                                   localMediaPlayerFileSelectionBottomSheet();
                                 },
                               ),
                             ),
-                            SizedBox(height: 40 * heightRatio),
+                            SizedBox(height: 20 * heightRatio),
                             Container(
-                              // color: Colors.white.withOpacity(0.1),
-                              // padding:
-                              //     const EdgeInsets.only(left: 20),
                               child: Row(
                                 // mainAxisAlignment:
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -756,7 +556,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10 * heightRatio),
                           ],
                         ),
                       ),

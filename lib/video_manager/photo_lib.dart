@@ -21,14 +21,14 @@ class _PhotoMypherState extends State<PhotoMypher> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(51, 49, 49, 1),
+        backgroundColor: Color.fromRGBO(31, 29, 29, 1),
         title: Text(
-          "Mobile Storage",
+          "Select File",
           style: TextStyle(fontWeight: FontWeight.w100, fontSize: 20),
         ),
       ),
       body: Container(
-        color: Color.fromRGBO(41, 39, 39, 1),
+        color: Color.fromRGBO(31, 29, 29, 1),
         height: size.height,
         width: size.width,
         child: Column(
@@ -52,30 +52,55 @@ class _PhotoMypherState extends State<PhotoMypher> {
                     return Expanded(
                         child: ListView.builder(
                       itemBuilder: (ctx, index) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 2.5, horizontal: 5),
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(121, 119, 119, 0.3),
-                              border: Border.all(
-                                  width: 0, color: Colors.transparent),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: ListTile(
-                            title: Text(
-                              '${snap.data[index].name}',
-                              style: TextStyle(color: Colors.white),
+                        if (snap.data[index].name != 'Recent') {
+                          return Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 2.5, horizontal: 5),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(31, 29, 29, 1),
+                                border: Border.all(
+                                    width: 0, color: Colors.transparent),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: ListTile(
+                              leading: Container(
+                                height: 37,
+                                width: 37,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.lightBlue,
+                                ),
+                                child: Center(
+                                  child: ClipOval(
+                                    child: Icon(
+                                      Icons.folder,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              title: Text(
+                                '${snap.data[index].name}',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(100, 0, 220, 1),
+                                ),
+                              ),
+                              onTap: () {
+                                // Get.to(() => SubDir(snap.data[index].assetList);
+                                Get.to(SubDir(
+                                    list: snap.data[index].assetList,
+                                    name: snap.data[index].name));
+                                print(snap.data[index].assetList);
+                              },
+                              subtitle: Text(
+                                '${snap.data[index].assetCount} videos',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 13),
+                              ),
                             ),
-                            onTap: () {
-                              // Get.to(() => SubDir(snap.data[index].assetList);
-                              Get.to(SubDir(snap.data[index].assetList));
-                            },
-                            trailing: Text(
-                              '${snap.data[index].assetCount} videos',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        );
+                          );
+                        }
+                        return Container();
                       },
                       itemCount: snap.data.length,
                     ));
@@ -91,8 +116,9 @@ class _PhotoMypherState extends State<PhotoMypher> {
 
 class SubDir extends StatefulWidget {
   final Future<List<AssetEntity>> list;
+  final String name;
 
-  SubDir(this.list);
+  SubDir({this.list, this.name});
 
   @override
   _SubDirState createState() => _SubDirState();
@@ -104,14 +130,14 @@ class _SubDirState extends State<SubDir> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(51, 49, 49, 1),
+        backgroundColor: Color.fromRGBO(31, 29, 29, 1),
         title: Text(
-          "Sub Dir",
+          '${widget.name}',
           style: TextStyle(fontWeight: FontWeight.w100, fontSize: 20),
         ),
       ),
       body: Container(
-        color: Color.fromRGBO(41, 39, 39, 1),
+        color: Color.fromRGBO(31, 29, 29, 1),
         height: size.height,
         width: size.width,
         padding: EdgeInsets.only(top: 7),
@@ -119,18 +145,26 @@ class _SubDirState extends State<SubDir> {
             future: widget.list,
             builder: (context, AsyncSnapshot<List<AssetEntity>> snapshot) {
               if (snapshot.hasData) {
-                return ListView.separated(
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                  ),
                   itemBuilder: (ctx, index) {
                     return GestureDetector(
-                      child: Card(
-                        color: Color.fromRGBO(41, 39, 39, 1).withOpacity(0.5),
+                      child: GridTile(
+                        //color: Color.fromRGBO(41, 39, 39, 1).withOpacity(0.5),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(0),
                           child: Row(
                             children: [
                               Container(
-                                height: 100,
-                                width: 100,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.11,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.323,
                                 child: FutureBuilder<Uint8List>(
                                   future: snapshot.data[index].thumbData,
                                   builder: (context, thumbSnapshot) {
@@ -143,7 +177,7 @@ class _SubDirState extends State<SubDir> {
                                     if (thumbSnapshot.hasData) {
                                       return Image.memory(
                                         thumbSnapshot.data,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover,
                                       );
                                     }
                                     return SizedBox(
@@ -153,32 +187,32 @@ class _SubDirState extends State<SubDir> {
                                   },
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        "${snapshot.data[index].title}",
-                                        style: TextStyle(
-                                            fontFamily: 'Consolas',
-                                            color: Colors.white60,
-                                            fontSize: 15),
-                                      ),
-                                    ),
-                                    // Text(
-                                    //   '${snapshot.data[index].videoDuration} ',
-                                    //   style: TextStyle(
-                                    //       fontFamily: 'Consolas',
-                                    //       color: Colors.white60,
-                                    //       fontSize: 12),
-                                    // )
-                                  ],
-                                ),
-                              ),
+                              //SizedBox(width: 10),
+                              // Expanded(
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     mainAxisAlignment:
+                              //         MainAxisAlignment.spaceAround,
+                              //     children: [
+                              //       Container(
+                              //         child: Text(
+                              //           "${snapshot.data[index].title}",
+                              //           style: TextStyle(
+                              //               fontFamily: 'Consolas',
+                              //               color: Colors.white60,
+                              //               fontSize: 15),
+                              //         ),
+                              //       ),
+                              //       // Text(
+                              //       //   '${snapshot.data[index].videoDuration} ',
+                              //       //   style: TextStyle(
+                              //       //       fontFamily: 'Consolas',
+                              //       //       color: Colors.white60,
+                              //       //       fontSize: 12),
+                              //       // )
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -192,13 +226,11 @@ class _SubDirState extends State<SubDir> {
                     );
                   },
                   itemCount: snapshot.data.length,
-                  separatorBuilder: (ctx, index) {
-                    return SizedBox(height: 10);
-                  },
                 );
               }
               return Container();
             }),
+        //),
       ),
     );
   }
