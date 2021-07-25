@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/views/video%20players/videoPlayer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -71,7 +72,7 @@ class RoomLogicController extends GetxController {
           'ytLink': "",
           "ytstatus": "not_loaded",
           "playBackSpeed": 1.0,
-          "isDragging": false,
+          "createdOn": FieldValue.serverTimestamp(),
           "users": {
             "admin": {"name": adminName, "id": this.userId},
           },
