@@ -8,6 +8,7 @@ import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
 import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
+import 'package:VideoSync/views/video%20players/anyPlayer.dart';
 // import 'package:VideoSync/views/YTPlayerOne.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
@@ -347,6 +348,93 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   youBotShe() {
+    // Get.bottomSheet(
+    //   Container(
+    //     width: double.infinity,
+    //     height: heightRatio * 250,
+    //     child: Container(
+    //       color: Colors.white,
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           SizedBox(height: 20),
+    //           Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
+    //           Container(
+    //             margin: EdgeInsets.only(top: heightRatio * 20),
+    //             height: heightRatio * 80,
+    //             width: widthRatio * 300,
+    //             child: TextField(
+    //               controller: yturl,
+    //               onChanged: (String value) {
+    //                 setState(() {
+    //                   ytStateController.checkYotutTubeUrl(ytURl: value);
+    //                 });
+    //               },
+    //               cursorColor: Colors.red,
+    //               decoration: InputDecoration(
+    //                 border: OutlineInputBorder(
+    //                   borderRadius: BorderRadius.circular(20),
+    //                 ),
+    //                 focusedBorder: OutlineInputBorder(
+    //                     borderSide: new BorderSide(
+    //                       color: Colors.red,
+    //                       width: 1,
+    //                     ),
+    //                     borderRadius: BorderRadius.all(Radius.circular(20))),
+    //               ),
+    //             ),
+    //           ),
+    //           Container(
+    //             margin: EdgeInsets.only(top: heightRatio * 10),
+    //             child: Obx(() => ytStateController.linkValidity.value ==
+    //                     LinkValidity.Valid
+    //                 ? RaisedButton(
+    //                     color: Colors.green,
+    //                     shape: StadiumBorder(),
+    //                     onPressed: () async {
+    //                       yturl.text = roomLogicController.ytURL.value;
+
+    //                       Navigator.pop(context);
+    //                       await Future.delayed(Duration(seconds: 1));
+    //                       //send the ytlink to the db
+    //                       roomLogicController.sendYtLink(
+    //                           ytlink: roomLogicController.ytURL.value);
+    //                       roomLogicController.sendYtStatus(status: 'loaded');
+
+    //                       controller.load(YoutubePlayer.convertUrlToId(
+    //                           roomLogicController.ytURL.value));
+
+    //                       //send the message of new youtube link added
+    //                       chatController.sendMessageCloudFireStore(
+    //                         message:
+    //                             "${roomLogicController.userName} has started the video\n${roomLogicController.ytURL.value}",
+    //                         roomId: roomLogicController.roomFireBaseId,
+    //                         sentBy: "YT Link",
+    //                         tag: "YTLINK",
+    //                         userId: "696969",
+    //                         status: "joined",
+    //                       );
+    //                       // Navigator.pop(
+    //                       //     context);
+    //                     },
+    //                     child: Text(
+    //                       'Play',
+    //                       style: TextStyle(color: Colors.white),
+    //                     ),
+    //                   )
+    //                 : Container(
+    //                     child: Text(
+    //                       "Link not Valid !",
+    //                       style: TextStyle(color: Colors.red),
+    //                     ),
+    //                   )),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //     //),
+    //   ),
+    // );
     Get.bottomSheet(
       Container(
         width: double.infinity,
@@ -357,7 +445,7 @@ class _YTPlayerState extends State<YTPlayer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20),
-              Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
+              Text('Enter the Link', style: TextStyle(fontSize: 20)),
               Container(
                 margin: EdgeInsets.only(top: heightRatio * 20),
                 height: heightRatio * 80,
@@ -365,9 +453,7 @@ class _YTPlayerState extends State<YTPlayer> {
                 child: TextField(
                   controller: yturl,
                   onChanged: (String value) {
-                    setState(() {
-                      ytStateController.checkYotutTubeUrl(ytURl: value);
-                    });
+                    ytStateController.checkLinkValidty(value);
                   },
                   cursorColor: Colors.red,
                   decoration: InputDecoration(
@@ -383,50 +469,52 @@ class _YTPlayerState extends State<YTPlayer> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: heightRatio * 10),
-                child: Obx(() => ytStateController.linkValidity.value ==
-                        LinkValidity.Valid
-                    ? RaisedButton(
-                        color: Colors.green,
-                        shape: StadiumBorder(),
-                        onPressed: () async {
-                          yturl.text = roomLogicController.ytURL.value;
-
-                          Navigator.pop(context);
-                          await Future.delayed(Duration(seconds: 1));
-                          //send the ytlink to the db
-                          roomLogicController.sendYtLink(
-                              ytlink: roomLogicController.ytURL.value);
-                          roomLogicController.sendYtStatus(status: 'loaded');
-
-                          controller.load(YoutubePlayer.convertUrlToId(
-                              roomLogicController.ytURL.value));
-
-                          //send the message of new youtube link added
-                          chatController.sendMessageCloudFireStore(
-                            message:
-                                "${roomLogicController.userName} has started the video\n${roomLogicController.ytURL.value}",
-                            roomId: roomLogicController.roomFireBaseId,
-                            sentBy: "YT Link",
-                            tag: "YTLINK",
-                            userId: "696969",
-                            status: "joined",
-                          );
-                          // Navigator.pop(
-                          //     context);
-                        },
-                        child: Text(
-                          'Play',
-                          style: TextStyle(color: Colors.white),
+              Obx(
+                () => Container(
+                  margin: EdgeInsets.only(top: heightRatio * 10),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      //mp4 player
+                      if (ytStateController.linkType.value ==
+                              LinkType.BrowserLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToBrowserPlayerPage();
+                          },
+                          buttonColor: Colors.blue,
+                          content: 'MP4 Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          width: 100,
                         ),
-                      )
-                    : Container(
-                        child: Text(
-                          "Link not Valid !",
-                          style: TextStyle(color: Colors.red),
+                      SizedBox(width: 8),
+                      //yt video button
+                      if (ytStateController.linkType.value == LinkType.YTLink &&
+                          ytStateController.linkValidity.value ==
+                              LinkValidity.Valid)
+                        CustomButton(
+                          function: () async {
+                            //load the YT URL
+                            await sendToYTPage();
+                          },
+                          buttonColor: Colors.redAccent,
+                          content: 'YouTube Video',
+                          contentSize: 10,
+                          cornerRadius: 10,
+                          height: 40,
+                          textColor: Colors.white,
+                          // width: ,
                         ),
-                      )),
+                      Spacer()
+                    ],
+                  ),
+                ),
               )
             ],
           ),
@@ -434,6 +522,24 @@ class _YTPlayerState extends State<YTPlayer> {
         //),
       ),
     );
+  }
+
+  Future<void> sendToBrowserPlayerPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(AnyPlayer());
+  }
+
+  Future<void> sendToYTPage() async {
+    roomLogicController.ytURL.value = yturl.text;
+    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
+    roomLogicController.sendYtStatus(status: 'loaded');
+    Navigator.pop(context);
+    await Future.delayed(Duration(seconds: 1));
+    Get.to(YTPlayer());
   }
 
   getDialogBox() {
