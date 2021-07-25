@@ -419,6 +419,11 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
         // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
         child: Column(
           children: [
+            SizedBox(
+                height: phoneOrientation == Orientation.portrait &&
+                        buttonPressed == 0
+                    ? 200
+                    : 0),
             Container(
               // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
               child: Container(
