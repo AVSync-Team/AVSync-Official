@@ -376,7 +376,8 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                 //     MaterialPageRoute(
                                 //         builder: (ctx) => PhotoMypher()));
                                 controller.dispose();
-                                Get.off(PhotoMypher());
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
                               },
                             ),
                           );
@@ -589,14 +590,12 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                                     children: [
                                       //seek backward 10
                                       SizedBox(width: 10),
-                                      if (roomLogicController
-                                              .adminId.value ==
+                                      if (roomLogicController.adminId.value ==
                                           roomLogicController.userId.obs.value)
                                         IconButton(
                                           icon: Icon(Icons.speed),
                                           color: Colors.white,
                                           onPressed: () {
-                                         
                                             showSpeedAlertDialog();
                                           },
                                         ),
