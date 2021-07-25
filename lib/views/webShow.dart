@@ -6,8 +6,6 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-
-
 const String kNavigationExamplePage = '''
 <!DOCTYPE html><html>
 <head><title>Navigation Delegate Example</title></head>
@@ -121,6 +119,7 @@ class _WebShowState extends State<WebShow> {
                 print(url);
                 print("aljfehfiwehufiupewhfwehfoew");
                 FlutterClipboard.copy(url);
+                ytStateController.checkLinkValidty(url); //check the link type
                 roomLogicController.ytURL.value = url;
                 Scaffold.of(context).showSnackBar(
                   SnackBar(content: Text('Copied $url')),
