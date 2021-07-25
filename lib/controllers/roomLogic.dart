@@ -72,7 +72,7 @@ class RoomLogicController extends GetxController {
           'ytLink': "",
           "ytstatus": "not_loaded",
           "playBackSpeed": 1.0,
-          "createdOn": FieldValue.serverTimestamp(),
+          "createdOn": DateTime.now().toIso8601String(),
           "users": {
             "admin": {"name": adminName, "id": this.userId},
           },
@@ -310,9 +310,16 @@ class RoomLogicController extends GetxController {
   Future<void> adminDeleteRoom({String firebaseId}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
 
-    firebaseDB.child('Rooms').child('$firebaseId').child('status').set(0);
-    await Future.delayed(Duration(seconds: 20));
-    firebaseDB.child('Rooms').child('$firebaseId').remove();
+    firebaseDB
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('status')
+        .set(0)
+        .then((value) async {
+      await Future.delayed(Duration(seconds: 5));
+      firebaseDB.child('Rooms').child('$firebaseId').remove();
+    });
+    // await Future.delayed(Duration(seconds: 5));
   }
 
   Stream<Event> roomStatus({String firebaseId}) {
