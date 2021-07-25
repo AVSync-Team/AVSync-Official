@@ -425,6 +425,9 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
                 height: phoneOrientation == Orientation.portrait
                     ? size.height * 0.3
                     : size.height * .98,
+                width: phoneOrientation == Orientation.portrait
+                    ? size.width
+                    : size.width,
                 // aspectRatio: controller.value.aspectRatio,
                 child: Stack(
                   children: [
