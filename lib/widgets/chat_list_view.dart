@@ -21,8 +21,7 @@ class _ChatListViewWidgetState extends State<ChatListViewWidget> {
     chatStream.listen((event) {
       //if an event happens then go down
       Timer(Duration(milliseconds: 300), () {
-        // chatScrollController
-        //     .jumpTo(chatScrollController.position.maxScrollExtent);
+       
 
         chatScrollController.animateTo(
             chatScrollController.position.maxScrollExtent,
@@ -42,8 +41,7 @@ class _ChatListViewWidgetState extends State<ChatListViewWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      // stream: chatController.message(
-      //     firebaseId: roomLogicController.roomFireBaseId),
+     
       stream: chatStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
