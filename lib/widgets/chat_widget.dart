@@ -26,7 +26,7 @@ class ChatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: Key('${timeStamp}'),
+      key: Key('$timeStamp'),
       margin: EdgeInsets.symmetric(horizontal: 8),
       // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
       child: Row(

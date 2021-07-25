@@ -302,34 +302,10 @@ class _YTPlayerState extends State<YTPlayer> {
   youBotShe() {
     Get.bottomSheet(
       Container(
-        // color:
-        //     Colors.white.withOpacity(0.1),
         width: double.infinity,
         height: heightRatio * 250,
         child: Container(
           color: Colors.white,
-          // decoration: BoxDecoration(
-          //   color: Colors.purple
-          //       .withOpacity(0.1),
-          //   borderRadius: BorderRadius.only(
-          //     topLeft:
-          //         Radius.circular(30.0),
-          //     topRight:
-          //         Radius.circular(30.0),
-          //   ),
-          // ),
-
-          //child: Card(
-          // shape: RoundedRectangleBorder(
-          //     borderRadius:
-          //         BorderRadius.only(
-          //             topLeft:
-          //                 Radius.circular(
-          //                     30.0),
-          //             topRight:
-          //                 Radius.circular(
-          //                     30.0))),
-          // elevation: 10,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -362,75 +338,48 @@ class _YTPlayerState extends State<YTPlayer> {
               ),
               Container(
                 margin: EdgeInsets.only(top: heightRatio * 10),
-                child:
-                    // ytStateController.
-                    //     ? Container(
-                    //         child: Text(
-                    //           "No link provided",
-                    //           style: TextStyle(
-                    //               color: Colors
-                    //                   .red),
-                    //         ),
-                    //       )
-                    //     :
-                    Obx(() =>
-                        ///////////////////////////////////////////////////
-                        // ytStateController
-                        //             .isYtUrlValid
-                        //             .value ==
-                        //         1
-                        //     ? Container(
-                        //         child:
-                        //             Text(
-                        //           "No link provided",
-                        //           style: TextStyle(
-                        //               color:
-                        //                   Colors.red),
-                        //         ),
-                        //       )
-                        //:
-                        ytStateController.linkValidity.value == LinkValidity.Valid
-                            ?
-                            ////////////////////////////////////
-                            //   Container(
-                            // height: 30,
-                            // child:
-                            //Obx(() =>
-                            RaisedButton(
-                                color: Colors.green,
-                                shape: StadiumBorder(),
-                                onPressed: () async {
-                                  yturl.text = roomLogicController.ytURL.value;
+                child: Obx(() => ytStateController.linkValidity.value ==
+                        LinkValidity.Valid
+                    ? RaisedButton(
+                        color: Colors.green,
+                        shape: StadiumBorder(),
+                        onPressed: () async {
+                          yturl.text = roomLogicController.ytURL.value;
 
-                                  Navigator.pop(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  // print(ytStateController.isYtUrlValid.value);
+                          Navigator.pop(context);
+                          await Future.delayed(Duration(seconds: 1));
+                          //send the ytlink to the db
+                          roomLogicController.sendYtLink(
+                              ytlink: roomLogicController.ytURL.value);
+                          roomLogicController.sendYtStatus(status: 'loaded');
 
-                                  // ytStateController.update()
+                          controller.load(YoutubePlayer.convertUrlToId(
+                              roomLogicController.ytURL.value));
 
-                                  //send the ytlink to the db
-                                  roomLogicController.sendYtLink(
-                                      ytlink: roomLogicController.ytURL.value);
-                                  roomLogicController.sendYtStatus(
-                                      status: 'loaded');
-
-                                  controller.load(YoutubePlayer.convertUrlToId(
-                                      roomLogicController.ytURL.value));
-
-                                  // Navigator.pop(
-                                  //     context);
-                                },
-                                child: Text(
-                                  'Play',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            : Container(
-                                child: Text(
-                                  "Link not Valid !",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              )),
+                          //send the message of new youtube link added
+                          chatController.sendMessageCloudFireStore(
+                            message:
+                                "${roomLogicController.userName} has started the video\n${roomLogicController.ytURL.value}",
+                            roomId: roomLogicController.roomFireBaseId,
+                            sentBy: "User Joined",
+                            tag: "YTLINK",
+                            userId: "696969",
+                            status: "joined",
+                          );
+                          // Navigator.pop(
+                          //     context);
+                        },
+                        child: Text(
+                          'Play',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : Container(
+                        child: Text(
+                          "Link not Valid !",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      )),
               )
             ],
           ),
