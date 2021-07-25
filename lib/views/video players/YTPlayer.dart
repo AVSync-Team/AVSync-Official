@@ -461,7 +461,6 @@ class _YTPlayerState extends State<YTPlayer> {
               yturl.text = roomLogicController.ytURL.value;
               FlutterClipboard.paste().then((value) {
                 print(value);
-                print("lodaaaa");
                 yturl.text = value;
               });
             },
