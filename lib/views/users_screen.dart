@@ -66,7 +66,6 @@ class _WelcomScreenState extends State<WelcomScreen> {
       roomLogicController.ytURL.value = event.snapshot.value;
       yturl.text = roomLogicController.ytURL.value;
     });
-
     roomLogicController
         .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -441,26 +440,26 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       ),
                     );
                   }),
-                  StreamBuilder(
-                    stream: roomLogicController.ytVideoLoadedStatus(
-                        firebaseId: roomLogicController.roomFireBaseId),
-                    builder: (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
-                      if (snapshot.hasData) {
-                        //now if video not loaded then don't show anything
-                        if (snapshot.data.snapshot.value == "loaded") {
-                          //look into it
-                          return VideoStartedWidgetDisplay();
-                        } else {
-                          //if video not loaded then don't show anything
-                          // return VideoStartedWidgetDisplay();
-                          return SizedBox(
-                            height: 10 * heightRatio,
-                          );
-                        }
-                      }
-                      return Container();
-                    },
-                  ),
+                  // StreamBuilder(
+                  //   stream: roomLogicController.ytVideoLoadedStatus(
+                  //       firebaseId: roomLogicController.roomFireBaseId),
+                  //   builder: (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       //now if video not loaded then don't show anything
+                  //       if (snapshot.data.snapshot.value == "loaded") {
+                  //         //look into it
+                  //         return VideoStartedWidgetDisplay();
+                  //       } else {
+                  //         //if video not loaded then don't show anything
+                  //         // return VideoStartedWidgetDisplay();
+                  //         return SizedBox(
+                  //           height: 10 * heightRatio,
+                  //         );
+                  //       }
+                  //     }
+                  //     return Container();
+                  //   },
+                  // ),
                   Hero(
                     tag: 'Rishabh',
                     child: Container(

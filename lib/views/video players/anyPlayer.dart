@@ -35,8 +35,7 @@ AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
 
-class _AnyPlayerState extends State<AnyPlayer>
-    with SingleTickerProviderStateMixin {
+class _AnyPlayerState extends State<AnyPlayer> {
   ///            `controllers`
   AnimationController _animationController;
   VideoPlayerController controller;
@@ -63,8 +62,6 @@ class _AnyPlayerState extends State<AnyPlayer>
     super.initState();
 
     //animation controller
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
 
     ///`Video Player Controller`
 
@@ -169,13 +166,15 @@ class _AnyPlayerState extends State<AnyPlayer>
 
   youWebShe() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)), //this right here
-              child: WebShow());
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0)), //this right here
+          child: WebShow(),
+        );
+      },
+    );
   }
 
   youBotShe() {
@@ -288,31 +287,32 @@ class _AnyPlayerState extends State<AnyPlayer>
 
   getDialogBox() {
     Get.defaultDialog(
-        title: 'Link Input',
-        middleText: 'Select where do you want to input the link',
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              youBotShe();
-            },
-            child: Text('Link'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              youBotShe();
-              //await Get.to(WebShow());
-              youWebShe();
-              yturl.text = roomLogicController.ytURL.value;
-              FlutterClipboard.paste().then((value) {
-                print(value);
-                yturl.text = value;
-              });
-            },
-            child: Text('Browse Web'),
-          ),
-        ]);
+      title: 'Link Input',
+      middleText: 'Select where do you want to input the link',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            youBotShe();
+          },
+          child: Text('Link'),
+        ),
+        TextButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            youBotShe();
+            //await Get.to(WebShow());
+            youWebShe();
+            yturl.text = roomLogicController.ytURL.value;
+            FlutterClipboard.paste().then((value) {
+              print(value);
+              yturl.text = value;
+            });
+          },
+          child: Text('Browse Web'),
+        ),
+      ],
+    );
   }
 
   @override
@@ -322,6 +322,52 @@ class _AnyPlayerState extends State<AnyPlayer>
     roomLogicController.dispose();
     rishabhController.dispose();
     controller.dispose();
+  }
+
+  Future<dynamic> showSpeedAlertDialog() {
+    return Get.defaultDialog(
+      titleStyle: TextStyle(color: Colors.white, fontSize: 12),
+      backgroundColor: Color(0xff292727),
+      title: 'Speed',
+      content: Obx(
+        () => Container(
+          width: 200,
+          // height: 170,
+          child: SliderTheme(
+            data: SliderThemeData(
+                activeTrackColor: Colors.greenAccent,
+                activeTickMarkColor: Colors.green,
+                showValueIndicator: ShowValueIndicator.always),
+            child: Slider(
+              min: 1.0,
+              max: 2.0,
+              divisions: 10,
+              label: '${rishabhController.playBackSpeedValue.value}',
+              value: rishabhController.playBackSpeedValue.value,
+              onChanged: (value) {
+                rishabhController.playBackSpeedValue.value = value;
+                controller.setPlaybackSpeed(value);
+                rishabhController.changePlayBackSpeed(
+                    roomLogicController.roomFireBaseId,
+                    rishabhController.playBackSpeedValue.value);
+              },
+            ),
+          ),
+        ),
+      ),
+      cancel: CustomButton(
+        function: () {
+          Get.back();
+        },
+        buttonColor: Colors.blueAccent,
+        content: 'Back',
+        contentSize: 10,
+        cornerRadius: 10,
+        height: 30,
+        textColor: Colors.white,
+        width: 100,
+      ),
+    );
   }
 
   @override
@@ -508,12 +554,6 @@ class _AnyPlayerState extends State<AnyPlayer>
                               ),
                               onPressed: () {
                                 getDialogBox();
-                                // Navigator.of(context).replace(
-                                //     MaterialPageRoute(
-                                //         builder: (ctx) => PhotoMypher()));
-                                controller.dispose();
-                                // Get.off(PhotoMypher());
-                                //TODO: insert link
                               },
                             ),
                           );
@@ -577,8 +617,6 @@ class _AnyPlayerState extends State<AnyPlayer>
                   //Control UIs
                   //seek back 10
                   Container(
-                    // decoration:
-                    //     BoxDecoration(border: Border.all(color: Colors.cyan)),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: AspectRatio(
@@ -647,8 +685,6 @@ class _AnyPlayerState extends State<AnyPlayer>
                                                   Colors.indigo,
                                             ),
                                             child: Slider(
-                                              // activeColor:
-                                              //     Color.fromRGBO(50, 60, 120, 0.5),
                                               value: roomLogicController
                                                   .videoPosition.value.inSeconds
                                                   .toDouble(),
@@ -668,7 +704,6 @@ class _AnyPlayerState extends State<AnyPlayer>
                                           ),
                                         ),
                                         Container(
-                                          // margin: EdgeInsets.only(right: 5),
                                           child: Text(
                                               '${controller.value.duration.toString().substring(0, 7)}',
                                               style: TextStyle(
@@ -742,24 +777,20 @@ class _AnyPlayerState extends State<AnyPlayer>
                                             controller.play();
                                           }
                                         },
-                                        child: IconButton(
-                                            icon: AnimatedIcon(
-                                              color: Colors.white,
-                                              size: 28,
-                                              progress: _animationController,
-                                              icon: AnimatedIcons.play_pause,
-                                            ),
-                                            onPressed: () {
-                                              if (roomLogicController
-                                                  .playingStatus.value) {
-                                                controller.pause();
-                                                _animationController.reverse();
-                                              } else if (!roomLogicController
-                                                  .playingStatus.value) {
-                                                controller.play();
-                                                _animationController.forward();
-                                              }
-                                            }),
+                                        child: Obx(
+                                          () => roomLogicController
+                                                  .playingStatus.value
+                                              ? Icon(
+                                                  Icons.pause,
+                                                  size: 40,
+                                                  color: Colors.white,
+                                                )
+                                              : Icon(
+                                                  Icons.play_arrow,
+                                                  size: 40,
+                                                  color: Colors.white,
+                                                ),
+                                        ),
                                       ),
                                     ),
 
@@ -773,10 +804,12 @@ class _AnyPlayerState extends State<AnyPlayer>
                                               width: 30 * widthRatio,
                                               height: 30 * heightRatio),
                                           onTap: () {
-                                            controller.seekTo(Duration(
-                                                seconds: controller.value
-                                                        .position.inSeconds +
-                                                    10));
+                                            controller.seekTo(
+                                              Duration(
+                                                  seconds: controller.value
+                                                          .position.inSeconds +
+                                                      10),
+                                            );
                                           },
                                         ),
                                       ),
@@ -830,51 +863,6 @@ class _AnyPlayerState extends State<AnyPlayer>
                   currenFocus: currenFocus)
           ],
         ),
-      ),
-    );
-  }
-
-  Future<dynamic> showSpeedAlertDialog() {
-    return Get.defaultDialog(
-      titleStyle: TextStyle(color: Colors.white, fontSize: 12),
-      backgroundColor: Color(0xff292727),
-      title: 'Speed',
-      content: Obx(
-        () => Container(
-          width: 200,
-          // height: 170,
-          child: SliderTheme(
-            data: SliderThemeData(
-                activeTrackColor: Colors.greenAccent,
-                activeTickMarkColor: Colors.green,
-                showValueIndicator: ShowValueIndicator.always),
-            child: Slider(
-                min: 1.0,
-                max: 2.0,
-                divisions: 10,
-                label: '${rishabhController.playBackSpeedValue.value}',
-                value: rishabhController.playBackSpeedValue.value,
-                onChanged: (value) {
-                  rishabhController.playBackSpeedValue.value = value;
-                  controller.setPlaybackSpeed(value);
-                  rishabhController.changePlayBackSpeed(
-                      roomLogicController.roomFireBaseId,
-                      rishabhController.playBackSpeedValue.value);
-                }),
-          ),
-        ),
-      ),
-      cancel: CustomButton(
-        function: () {
-          Get.back();
-        },
-        buttonColor: Colors.blueAccent,
-        content: 'Back',
-        contentSize: 10,
-        cornerRadius: 10,
-        height: 30,
-        textColor: Colors.white,
-        width: 100,
       ),
     );
   }
