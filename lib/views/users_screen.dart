@@ -375,6 +375,26 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 children: [
                   // SizedBox(
                   //   height: 10 * heightRatio,
+                  StreamBuilder(
+                    stream: roomLogicController.ytVideoLoadedStatus(
+                        firebaseId: roomLogicController.roomFireBaseId),
+                    builder: (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
+                      if (snapshot.hasData) {
+                        //now if video not loaded then don't show anything
+                        if (snapshot.data.snapshot.value == "loaded") {
+                          //look into it
+                          return VideoStartedWidgetDisplay();
+                        } else {
+                          //if video not loaded then don't show anything
+                          // return VideoStartedWidgetDisplay();
+                          return SizedBox(
+                            height: 10 * heightRatio,
+                          );
+                        }
+                      }
+                      return Container();
+                    },
+                  ),
                   Text('Room Code',
                       style: TextStyle(fontSize: 15, color: Colors.white)),
                   SizedBox(height: 10),
@@ -402,13 +422,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
                               //copy the room code
                               FlutterClipboard.copy(
                                       "Hey !\nI have downloaded this awesome app where you can watch videos with friends and chat with them online !! \nJoin my room here : ${controller.roomId.obs.value}")
-                                  .then((value) => Get.snackbar(
-                                      "Room Id Copied",
-                                      "Share your room id with friend !!",
-                                      backgroundColor: Colors.black38,
-                                      snackPosition: SnackPosition.TOP,
-                                      colorText: Colors.white,
-                                      snackStyle: SnackStyle.FLOATING));
+                                  .then(
+                                (value) => Get.snackbar("Room Id Copied",
+                                    "Share your room id with friend !!",
+                                    backgroundColor: Colors.black38,
+                                    snackPosition: SnackPosition.TOP,
+                                    colorText: Colors.white,
+                                    snackStyle: SnackStyle.FLOATING),
+                              );
                             },
                             icon: Icon(
                               Icons.copy,
