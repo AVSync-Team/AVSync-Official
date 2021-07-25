@@ -1,9 +1,5 @@
 import 'dart:async';
-// import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -28,7 +24,7 @@ class RoomLogicController extends GetxController {
   String userKaId;
   String userFireBase;
   var adminId = ''.obs;
-  Uint8List bytes;
+  // Uint8List bytes;
   var adminKaNameFromDb = ''.obs;
   var roomIdText = "".obs.value;
   var joinLoading = false.obs;
@@ -72,14 +68,14 @@ class RoomLogicController extends GetxController {
           'ytLink': "",
           "ytstatus": "not_loaded",
           "playBackSpeed": 1.0,
-          "createdOn": FieldValue.serverTimestamp(),
+          "createdOn":  FieldValue.serverTimestamp(),
           "users": {
             "admin": {"name": adminName, "id": this.userId},
           },
         }));
-    adminId.value = userId;
 
-    roomFireBaseId = json.decode(response.body)["name"];
+    adminId.value = userId;
+    roomFireBaseId = roomKey;
     print(roomFireBaseId);
   }
 
@@ -310,9 +306,14 @@ class RoomLogicController extends GetxController {
   Future<void> adminDeleteRoom({String firebaseId}) async {
     final firebaseDB = FirebaseDatabase.instance.reference();
 
-    firebaseDB.child('Rooms').child('$firebaseId').child('status').set(0);
-    await Future.delayed(Duration(seconds: 20));
-    firebaseDB.child('Rooms').child('$firebaseId').remove();
+    firebaseDB
+        .child('Rooms')
+        .child('$firebaseId')
+        .child('status')
+        .set(0)
+        .then((value) {
+      firebaseDB.child('Rooms').child('$firebaseId').remove();
+    });
   }
 
   Stream<Event> roomStatus({String firebaseId}) {
