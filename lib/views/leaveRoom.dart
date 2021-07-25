@@ -1,18 +1,9 @@
-import 'dart:async';
-
 import 'package:VideoSync/controllers/betterController.dart';
-// import 'package:VideoSync/controllers/chat.dart';
-// import 'package:VideoSync/controllers/funLogic.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/views/createRoom.dart';
-// import 'package:VideoSync/views/homePage.dart';
 import 'package:VideoSync/views/waitingPage.dart';
-// import 'package:firebase_database/firebase_database.dart';
-// import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/platform_interface.dart';
 
 class LeaveRoom extends StatefulWidget {
   @override
@@ -20,12 +11,6 @@ class LeaveRoom extends StatefulWidget {
 }
 
 class _LeaveRoomState extends State<LeaveRoom> {
-  // RoomLogicController roomLogicController = Get.put(RoomLogicController());
-  // TextEditingController yturl = TextEditingController();
-  RishabhController rishabhController = Get.put(RishabhController());
-  // ChatController chatController = Get.put(ChatController());
-  // FunLogic funLogic = Get.put(FunLogic());
-  // CustomThemeData themeController = Get.put(CustomThemeData());
   RoomLogicController roomLogicController = Get.put(RoomLogicController());
 
   @override
@@ -42,10 +27,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // SizedBox(
-              //   height: 50,
-              // ),
-              !(roomLogicController.adminId.obs.value ==
+              !(roomLogicController.adminId.value ==
                       roomLogicController.userId.obs.value)
                   ? Container(
                       padding: EdgeInsets.only(
@@ -123,7 +105,7 @@ class _LeaveRoomState extends State<LeaveRoom> {
                       ),
                     ),
                     onPressed: () {
-                      if (!(roomLogicController.adminId.obs.value ==
+                      if (!(roomLogicController.adminId.value ==
                           roomLogicController.userId.obs.value)) {
                         roomLogicController.userLeaveRoom(
                           firebaseId: roomLogicController.roomFireBaseId,
@@ -184,43 +166,3 @@ class _LeaveRoomState extends State<LeaveRoom> {
     );
   }
 }
-
-// Get.defaultDialog(
-//                           // buttonColor: Colors.green.withOpacity(0.1),
-//                           title: !(roomLogicController.adminKaNaam.obs.value ==
-//                                   roomLogicController.userName.obs.value)
-//                                ? 'Leave Room'
-//                               : 'Delete Room',
-//                           confirm: RaisedButton(
-//                               color: Colors.green,
-//                               child: Text('Yes'),
-//                               onPressed: () {
-//                                 if (!(roomLogicController.adminKaNaam.obs.value ==
-//                                     roomLogicController.userName.obs.value)) {
-//                                   rishabhController.userLeaveRoom(
-//                                     firebaseId:
-//                                         roomLogicController.roomFireBaseId,
-//                                     userId: roomLogicController.userId,
-//                                   );
-//                                 } else {
-//                                   roomLogicController.adminDeleteRoom(
-//                                       firebaseId:
-//                                           roomLogicController.roomFireBaseId);
-//                                 }
-//                                 Get.offAll(CreateRoomScreen());
-//                                 // Get.off(CreateRoomScreen());
-//                               }),
-//                           cancel: ElevatedButton(
-//                               style: ButtonStyle(
-//                                   foregroundColor:
-//                                       MaterialStateProperty.all<Color>(
-//                                           Colors.green)),
-//                               // color: Colors.red,
-//                               child: Text('No'),
-//                               onPressed: () {
-//                                 Get.back();
-//                               }),
-//                           content: !(roomLogicController.adminKaNaam.obs.value ==
-//                                   roomLogicController.userName.obs.value)
-//                               ? Text('Do you want to leave the room ? ')
-//                               : Text('Do you want to delete the room ? '));),),
