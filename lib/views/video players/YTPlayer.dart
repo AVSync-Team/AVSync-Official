@@ -86,36 +86,15 @@ class _YTPlayerState extends State<YTPlayer> {
   TextEditingController chatTextController = TextEditingController();
   // final GlobalKey globalKey = GlobalKey();
 
-  // void hideControls() async {
-  //   if (controller.value.isPlaying) {
-  //     await Future.delayed(Duration(seconds: 2));
-  //     setState(() {
-  //       dontHideControlsBool = true;
-  //     });
-  //   } else {
-  //     await Future.delayed(Duration(seconds: 2));
-  //     // hideControlsBool = false;
-  //     setState(() {
-  //       dontHideControlsBool = false;
-  //     });
-  //   }
-  //   print('Khushi Love');
-  // }
-
   @override
   void initState() {
+    super.initState();
     roomLogicController
         .adminIdd(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
       print("adminId");
       roomLogicController.adminId.value = event.snapshot.value;
-      // if (Get.context.orientation == Orientation.portrait)
-      //   controller.toggleFullScreenMode();
-
-      // setState(() {});
     });
-
-    print(roomLogicController.adminId.value);
 
     var firebaseDatabase = FirebaseDatabase.instance.reference();
     firebaseDatabase
@@ -156,39 +135,6 @@ class _YTPlayerState extends State<YTPlayer> {
         controller.play();
       }
     });
-
-    // firebaseDatabase
-    //     .child('Rooms')
-    //     .child(roomLogicController.roomFireBaseId.obs.value)
-    //     .child('yturl')
-    //     .onValue
-    //     .listen((event) {
-    //   if (event.snapshot.value) {
-    //   // print(event.snapshot.value);
-    //   } else {
-    //     controller.play();
-    //   }
-    // });
-
-    // chatController
-    //     .message(firebaseId: roomLogicController.roomFireBaseId)
-    //     .listen((event) {
-    //   List<M> check = [];
-
-    //   event.snapshot.value.forEach((key, value) {
-    //     check.add(M(
-    //         id: DateTime.parse(value["messageId"]),
-    //         mesage: value["message"],
-    //         userId: value["userId"],
-    //         username: value["username"]));
-    //   });
-
-    //   check.sort((a, b) => (a.id).compareTo(b.id));
-    //   if (check[check.length - 1].userId != roomLogicController.userId)
-    //     Get.snackbar(
-    //         check[check.length - 1].username, check[check.length - 1].mesage);
-    // });
-
     firebaseDatabase
         .child('Rooms')
         .child(roomLogicController.roomFireBaseId.obs.value)
@@ -207,20 +153,6 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
-    // roomLogicController
-    //     .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
-    //     .listen((event) {
-    //   int x = event.snapshot.value;
-    //   if (x == 0) {
-    //     Get.back();
-    //   }
-    // });
-
-    // hideControls();
-
-    super.initState();
-
-    selectedRadio = 1;
     listenToTextInputStateChanges();
   }
 
@@ -238,18 +170,9 @@ class _YTPlayerState extends State<YTPlayer> {
 
   @override
   void dispose() {
+    super.dispose();
     controller.dispose();
     chatTextController.dispose();
-    // roomLogicController.dispose();
-    // // rishabhController.dispose();
-    // ytStateController.dispose();
-    super.dispose();
-  }
-
-  changeRadioValue(int value) {
-    setState(() {
-      selectedRadio = value;
-    });
   }
 
   showAlertDialog(BuildContext context) {
@@ -454,6 +377,7 @@ class _YTPlayerState extends State<YTPlayer> {
                   controller: yturl,
                   onChanged: (String value) {
                     ytStateController.checkLinkValidty(value);
+                    roomLogicController.ytURL.value = value;
                   },
                   cursorColor: Colors.red,
                   decoration: InputDecoration(
@@ -483,6 +407,7 @@ class _YTPlayerState extends State<YTPlayer> {
                         CustomButton(
                           function: () async {
                             //load the YT URL
+                            controller.dispose();
                             await sendToBrowserPlayerPage();
                           },
                           buttonColor: Colors.blue,
@@ -501,7 +426,12 @@ class _YTPlayerState extends State<YTPlayer> {
                         CustomButton(
                           function: () async {
                             //load the YT URL
-                            await sendToYTPage();
+                            controller.load(roomLogicController.ytURL.value);
+                            roomLogicController.sendYtLink(
+                                ytlink: roomLogicController.ytURL.value);
+                            roomLogicController.sendYtStatus(status: 'loaded');
+
+                            Navigator.pop(context);
                           },
                           buttonColor: Colors.redAccent,
                           content: 'YouTube Video',
@@ -530,16 +460,7 @@ class _YTPlayerState extends State<YTPlayer> {
     roomLogicController.sendYtStatus(status: 'loaded');
     Navigator.pop(context);
     await Future.delayed(Duration(seconds: 1));
-    Get.to(AnyPlayer());
-  }
-
-  Future<void> sendToYTPage() async {
-    roomLogicController.ytURL.value = yturl.text;
-    roomLogicController.sendYtLink(ytlink: roomLogicController.ytURL.value);
-    roomLogicController.sendYtStatus(status: 'loaded');
-    Navigator.pop(context);
-    await Future.delayed(Duration(seconds: 1));
-    Get.to(YTPlayer());
+    Get.off(AnyPlayer());
   }
 
   getDialogBox() {
