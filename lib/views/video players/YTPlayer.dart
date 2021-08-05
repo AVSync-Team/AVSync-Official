@@ -86,6 +86,7 @@ class _YTPlayerState extends State<YTPlayer> {
   TextEditingController chatTextController = TextEditingController();
   // final GlobalKey globalKey = GlobalKey();
 
+  //receiver side , the user is getting the sync info from the cloud
   @override
   void initState() {
     super.initState();
@@ -113,6 +114,8 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
+
+  //updtaes the ytlink to be played
     roomLogicController
         .ytlink(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -121,6 +124,8 @@ class _YTPlayerState extends State<YTPlayer> {
           .load(YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value));
     });
 
+
+    //checks play/pause state and according plays and pauses the host's video
     firebaseDatabase
         .child('Rooms')
         .child(roomLogicController.roomFireBaseId.obs.value)
@@ -135,6 +140,8 @@ class _YTPlayerState extends State<YTPlayer> {
         controller.play();
       }
     });
+
+    //checks the playbackspeed from the server and changes for the host if changed on the server
     firebaseDatabase
         .child('Rooms')
         .child(roomLogicController.roomFireBaseId.obs.value)
@@ -153,6 +160,8 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
+
+    //for chat ui updation 
     listenToTextInputStateChanges();
   }
 
