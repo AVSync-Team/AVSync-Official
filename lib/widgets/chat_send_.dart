@@ -57,7 +57,7 @@ class ChatSend extends StatelessWidget {
                   hintText: 'Message',
                   hintStyle: TextStyle(
                     color: Colors.grey,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.normal,
                     fontSize: 16,
                   ),
                 ),
