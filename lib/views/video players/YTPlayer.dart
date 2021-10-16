@@ -14,6 +14,7 @@ import 'package:VideoSync/widgets/chat_send_.dart';
 // import 'package:VideoSync/widgets/chat_widget.dart';
 // import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:flutter/services.dart';
 import '../webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -255,10 +256,12 @@ class _YTPlayerState extends State<YTPlayer> {
     Widget okButton = FlatButton(
       child: Text("Yes"),
       onPressed: () {
+        
         controller.pause();
         Navigator.pop(context);
         // controller.seekTo(Duration(seconds: 0));
         Navigator.pop(context);
+        SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         return true;
       },
     );
@@ -1546,6 +1549,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                         ),
                                         onPressed: () {
                                           setState(() {
+
                                             controller.toggleFullScreenMode();
                                           });
                                         },
