@@ -41,7 +41,6 @@ class YTPlayer extends StatefulWidget {
 
 // String url;
 
-
 enum ButtonEnumState { Message, Full_Screen }
 
 ButtonEnumState buttonEnumState = ButtonEnumState.Message;
@@ -389,32 +388,29 @@ class _YTPlayerState extends State<YTPlayer> {
   }
 
   getDialogBox() {
-    Get.defaultDialog(
-        title: 'Youtube',
-        middleText: 'What is up Mumbai',
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              youtubeBottomSheetDialog();
-            },
-            child: Text('Link input'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              youtubeBottomSheetDialog();
-              //await Get.to(WebShow());
-              youtubeWebShowDialog();
-              yturl.text = roomLogicController.ytURL.value;
-              FlutterClipboard.paste().then((value) {
-                print(value);
-                yturl.text = value;
-              });
-            },
-            child: Text('Get the link'),
-          ),
-        ]);
+    Get.defaultDialog(title: '', middleText: 'Watch another video', actions: [
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          youtubeBottomSheetDialog();
+        },
+        child: Text('Enter link'),
+      ),
+      TextButton(
+        onPressed: () async {
+          Navigator.of(context).pop();
+          youtubeBottomSheetDialog();
+          //await Get.to(WebShow());
+          youtubeWebShowDialog();
+          yturl.text = roomLogicController.ytURL.value;
+          FlutterClipboard.paste().then((value) {
+            print(value);
+            yturl.text = value;
+          });
+        },
+        child: Text('Get the link'),
+      ),
+    ]);
   }
 
   allUsersUIDisplayMiniWidget() {
@@ -581,42 +577,43 @@ class _YTPlayerState extends State<YTPlayer> {
                         GestureDetector(
                           child: Icon(Icons.link),
                           onTap: () {
-                            Get.snackbar(
-                              '',
-                              '',
-                              snackPosition: SnackPosition.BOTTOM,
-                              snackStyle: SnackStyle.GROUNDED,
-                              duration: Duration(seconds: 4),
-                              messageText: Text(
-                                'Do you want to watch another video?',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              titleText: Container(),
-                              margin: const EdgeInsets.only(
-                                  bottom: kBottomNavigationBarHeight,
-                                  left: 8,
-                                  right: 8),
-                              padding: const EdgeInsets.only(
-                                  top: 8, bottom: 10, left: 16, right: 16),
-                              borderRadius: 20,
-                              backgroundColor: Color.fromRGBO(20, 20, 20, 1),
-                              colorText: Colors.white10,
-                              mainButton: FlatButton(
-                                child: Text(
-                                  'Yes',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  getDialogBox();
-                                },
-                              ),
-                            );
+                            getDialogBox();
+                            // Get.snackbar(
+                            //   '',
+                            //   '',
+                            //   snackPosition: SnackPosition.BOTTOM,
+                            //   snackStyle: SnackStyle.GROUNDED,
+                            //   duration: Duration(seconds: 4),
+                            //   messageText: Text(
+                            //     'Do you want to watch another video?',
+                            //     style: TextStyle(
+                            //       color: Colors.white,
+                            //       fontSize: 15,
+                            //       fontWeight: FontWeight.w400,
+                            //     ),
+                            //   ),
+                            //   titleText: Container(),
+                            //   margin: const EdgeInsets.only(
+                            //       bottom: kBottomNavigationBarHeight,
+                            //       left: 8,
+                            //       right: 8),
+                            //   padding: const EdgeInsets.only(
+                            //       top: 8, bottom: 10, left: 16, right: 16),
+                            //   borderRadius: 20,
+                            //   backgroundColor: Color.fromRGBO(20, 20, 20, 1),
+                            //   colorText: Colors.white10,
+                            //   mainButton: FlatButton(
+                            //     child: Text(
+                            //       'Yes',
+                            //       style: TextStyle(
+                            //         color: Colors.blue,
+                            //       ),
+                            //     ),
+                            //     onPressed: () {
+                            //       getDialogBox();
+                            //     },
+                            //   ),
+                            // );
                           },
                         ),
                         SizedBox(
@@ -742,7 +739,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                         () {
                                           hideUI = !hideUI;
                                           shoSpeedWidget = false;
-                                         
+
                                           // animatedHeight = 0;
                                         },
                                       );
@@ -756,7 +753,7 @@ class _YTPlayerState extends State<YTPlayer> {
                               Obx(
                                 () => Visibility(
                                   maintainAnimation: true,
-                                  maintainState:true,
+                                  maintainState: true,
                                   visible: hideUI,
                                   child: Container(
                                     margin:
@@ -850,17 +847,12 @@ class _YTPlayerState extends State<YTPlayer> {
                               ),
 
                               //For all the controls
-                              AnimatedContainer(
+                              Container(
                                 decoration: BoxDecoration(
                                   color: Color.fromRGBO(25, 25, 25, 0.66),
                                   // border: Border.all(color: Colors.cyan)
                                 ),
-                                // color: Color.fromRGBO(25, 25, 25, 0.66),
-                                // decoration: BoxDecoration(
-                                //     color: Colors.grey,
-                                //     border: Border.all(color: Colors.cyan)),
-                                // padding: EdgeInsets.only(bottom: 20),
-                                duration: Duration(milliseconds: 500),
+                                // duration: Duration(milliseconds: 500),
                                 height: hideUI ? 40 : 0,
                                 // width: hideUI ? 0 : size.width,
                                 // height: 0,
@@ -884,16 +876,13 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                       //seek -10 seconds
                                       if (roomLogicController.adminId.value ==
-                                          roomLogicController
-                                              .userId.obs.value)
+                                          roomLogicController.userId.obs.value)
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: controller
-                                                          .value
-                                                          .position
-                                                          .inSeconds -
+                                                  seconds: controller.value
+                                                          .position.inSeconds -
                                                       10));
                                             },
                                             child: SvgPicture.asset(
@@ -948,8 +937,7 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                       //seek forward 10
                                       if (roomLogicController.adminId.value ==
-                                          roomLogicController
-                                              .userId.obs.value)
+                                          roomLogicController.userId.obs.value)
                                         Expanded(
                                           // width: Get.width * 0.3,
                                           // color: Colors.yellow.shade100,
@@ -960,10 +948,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                                 height: 30 * heightRatio),
                                             onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: controller
-                                                          .value
-                                                          .position
-                                                          .inSeconds +
+                                                  seconds: controller.value
+                                                          .position.inSeconds +
                                                       10));
                                             },
                                           ),
@@ -979,8 +965,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                         onPressed: () {
                                           setState(
                                             () {
-                                              controller
-                                                  .toggleFullScreenMode();
+                                              controller.toggleFullScreenMode();
                                               SystemChrome
                                                   .setEnabledSystemUIOverlays(
                                                       []);
