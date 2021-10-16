@@ -16,6 +16,7 @@ import 'package:VideoSync/widgets/custom_button.dart';
 // import 'package:VideoSync/widgets/chat_widget.dart';
 // import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:flutter/services.dart';
 import '../webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -114,8 +115,7 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
-
-  //updtaes the ytlink to be played
+    //updtaes the ytlink to be played
     roomLogicController
         .ytlink(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -123,7 +123,6 @@ class _YTPlayerState extends State<YTPlayer> {
       controller
           .load(YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value));
     });
-
 
     //checks play/pause state and according plays and pauses the host's video
     firebaseDatabase
@@ -160,8 +159,7 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
-
-    //for chat ui updation 
+    //for chat ui updation
     listenToTextInputStateChanges();
   }
 
@@ -1064,6 +1062,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                         onPressed: () {
                                           setState(() {
                                             controller.toggleFullScreenMode();
+                                            SystemChrome
+                                                .setEnabledSystemUIOverlays([]);
                                           });
                                         },
                                       ),
