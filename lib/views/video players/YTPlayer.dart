@@ -267,7 +267,7 @@ class _YTPlayerState extends State<YTPlayer> {
     );
   }
 
-  youWebShe() {
+  youtubeWebShowDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -278,94 +278,7 @@ class _YTPlayerState extends State<YTPlayer> {
         });
   }
 
-  youBotShe() {
-    // Get.bottomSheet(
-    //   Container(
-    //     width: double.infinity,
-    //     height: heightRatio * 250,
-    //     child: Container(
-    //       color: Colors.white,
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //           SizedBox(height: 20),
-    //           Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
-    //           Container(
-    //             margin: EdgeInsets.only(top: heightRatio * 20),
-    //             height: heightRatio * 80,
-    //             width: widthRatio * 300,
-    //             child: TextField(
-    //               controller: yturl,
-    //               onChanged: (String value) {
-    //                 setState(() {
-    //                   ytStateController.checkYotutTubeUrl(ytURl: value);
-    //                 });
-    //               },
-    //               cursorColor: Colors.red,
-    //               decoration: InputDecoration(
-    //                 border: OutlineInputBorder(
-    //                   borderRadius: BorderRadius.circular(20),
-    //                 ),
-    //                 focusedBorder: OutlineInputBorder(
-    //                     borderSide: new BorderSide(
-    //                       color: Colors.red,
-    //                       width: 1,
-    //                     ),
-    //                     borderRadius: BorderRadius.all(Radius.circular(20))),
-    //               ),
-    //             ),
-    //           ),
-    //           Container(
-    //             margin: EdgeInsets.only(top: heightRatio * 10),
-    //             child: Obx(() => ytStateController.linkValidity.value ==
-    //                     LinkValidity.Valid
-    //                 ? RaisedButton(
-    //                     color: Colors.green,
-    //                     shape: StadiumBorder(),
-    //                     onPressed: () async {
-    //                       yturl.text = roomLogicController.ytURL.value;
-
-    //                       Navigator.pop(context);
-    //                       await Future.delayed(Duration(seconds: 1));
-    //                       //send the ytlink to the db
-    //                       roomLogicController.sendYtLink(
-    //                           ytlink: roomLogicController.ytURL.value);
-    //                       roomLogicController.sendYtStatus(status: 'loaded');
-
-    //                       controller.load(YoutubePlayer.convertUrlToId(
-    //                           roomLogicController.ytURL.value));
-
-    //                       //send the message of new youtube link added
-    //                       chatController.sendMessageCloudFireStore(
-    //                         message:
-    //                             "${roomLogicController.userName} has started the video\n${roomLogicController.ytURL.value}",
-    //                         roomId: roomLogicController.roomFireBaseId,
-    //                         sentBy: "YT Link",
-    //                         tag: "YTLINK",
-    //                         userId: "696969",
-    //                         status: "joined",
-    //                       );
-    //                       // Navigator.pop(
-    //                       //     context);
-    //                     },
-    //                     child: Text(
-    //                       'Play',
-    //                       style: TextStyle(color: Colors.white),
-    //                     ),
-    //                   )
-    //                 : Container(
-    //                     child: Text(
-    //                       "Link not Valid !",
-    //                       style: TextStyle(color: Colors.red),
-    //                     ),
-    //                   )),
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //     //),
-    //   ),
-    // );
+  youtubeBottomSheetDialog() {
     Get.bottomSheet(
       Container(
         width: double.infinity,
@@ -479,16 +392,16 @@ class _YTPlayerState extends State<YTPlayer> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              youBotShe();
+              youtubeBottomSheetDialog();
             },
             child: Text('Link input'),
           ),
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              youBotShe();
+              youtubeBottomSheetDialog();
               //await Get.to(WebShow());
-              youWebShe();
+              youtubeWebShowDialog();
               yturl.text = roomLogicController.ytURL.value;
               FlutterClipboard.paste().then((value) {
                 print(value);
@@ -498,6 +411,109 @@ class _YTPlayerState extends State<YTPlayer> {
             child: Text('Get the link'),
           ),
         ]);
+  }
+
+  allUsersUIDisplayMiniWidget() {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.only(left: 20, right: 20),
+        color: Color.fromRGBO(10, 10, 10, 0.9),
+        width: double.infinity,
+        height: 300,
+        // color: Colors.red,
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                height: 40,
+                width: double.infinity,
+                child: Text(
+                  'All Users',
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.8),
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 250,
+              child: FutureBuilder(
+                future: Future.delayed(Duration(seconds: 1)),
+                builder: (ctx, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return StreamBuilder(
+                      stream: rishabhController.tester(
+                          firebaseId: roomLogicController.roomFireBaseId),
+                      builder: (ctx, event) {
+                        if (event.hasData) {
+                          return NotificationListener<
+                              OverscrollIndicatorNotification>(
+                            onNotification: (overscroll) {
+                              overscroll.disallowGlow();
+                              return null;
+                            },
+                            child: ListView.separated(
+                              scrollDirection: Axis.vertical,
+                              separatorBuilder: (ctx, i) {
+                                return SizedBox(
+                                  width: 5,
+                                );
+                              },
+                              itemBuilder: (ctx, i) {
+                                print('chut: ${event.data.snapshot.value}');
+                                return Container(
+                                  width: 80,
+                                  height: 60,
+                                  child: CustomNameBar(
+                                    userName: event.data.snapshot.value.values
+                                        .toList()[i]['name'],
+                                    roomController: roomLogicController,
+                                    userID: event.data.snapshot.value.values
+                                        .toList()[i]['id'],
+                                    event: event,
+                                    index: i,
+                                    widthRatio: widthRatio,
+                                    heightRatio: heightRatio,
+                                    imageSize: 35,
+                                    textSize: 17,
+                                  ),
+                                );
+                              },
+                              itemCount: event.data.snapshot.value.values
+                                  .toList()
+                                  .length,
+                            ),
+                          );
+                        } else if (event.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  themeController.drawerHead.value),
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  themeController.drawerHead.value),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      //),
+    );
   }
 
   // final snackBar = SnackBar(
@@ -525,8 +541,6 @@ class _YTPlayerState extends State<YTPlayer> {
         if (phoneOrientation == Orientation.landscape)
           controller.toggleFullScreenMode();
 
-        // rishabhController.sendPlayerStatus(
-        //     status: false, firebaseId: roomLogicController.roomFireBaseId);
         return showAlertDialog(context);
       },
       child: Scaffold(
@@ -537,126 +551,7 @@ class _YTPlayerState extends State<YTPlayer> {
                 elevation: 0,
                 leading: GestureDetector(
                   onTap: () {
-                    Get.bottomSheet(
-                      //Expanded(
-                      // margin: EdgeInsets.only(left: 20),
-                      // color: Colors.blue.withOpacity(0.1),
-                      // height: heightRatio * 300,
-                      // width: widthRatio * 200,
-                      // height: 500,
-
-                      Container(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        color: Color.fromRGBO(10, 10, 10, 0.9),
-                        width: double.infinity,
-                        height: 300,
-                        // color: Colors.red,
-                        child: Column(
-                          children: <Widget>[
-                            Center(
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40,
-                                width: double.infinity,
-                                child: Text(
-                                  'All Users',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 0.8),
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 250,
-                              child: FutureBuilder(
-                                future: Future.delayed(Duration(seconds: 1)),
-                                builder: (ctx, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    return StreamBuilder(
-                                      stream: rishabhController.tester(
-                                          firebaseId: roomLogicController
-                                              .roomFireBaseId),
-                                      builder: (ctx, event) {
-                                        if (event.hasData) {
-                                          return NotificationListener<
-                                              OverscrollIndicatorNotification>(
-                                            onNotification: (overscroll) {
-                                              overscroll.disallowGlow();
-                                              return null;
-                                            },
-                                            child: ListView.separated(
-                                              scrollDirection: Axis.vertical,
-                                              separatorBuilder: (ctx, i) {
-                                                return SizedBox(
-                                                  width: 5,
-                                                );
-                                              },
-                                              itemBuilder: (ctx, i) {
-                                                print(
-                                                    'chut: ${event.data.snapshot.value}');
-                                                return Container(
-                                                  width: 80,
-                                                  height: 60,
-                                                  child: CustomNameBar(
-                                                    userName: event.data
-                                                        .snapshot.value.values
-                                                        .toList()[i]['name'],
-                                                    roomController:
-                                                        roomLogicController,
-                                                    userID: event.data.snapshot
-                                                        .value.values
-                                                        .toList()[i]['id'],
-                                                    event: event,
-                                                    index: i,
-                                                    widthRatio: widthRatio,
-                                                    heightRatio: heightRatio,
-                                                    imageSize: 35,
-                                                    textSize: 17,
-                                                  ),
-                                                );
-                                              },
-                                              itemCount: event
-                                                  .data.snapshot.value.values
-                                                  .toList()
-                                                  .length,
-                                            ),
-                                          );
-                                        } else if (event.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                          Color>(
-                                                      themeController
-                                                          .drawerHead.value),
-                                            ),
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                          Color>(
-                                                      themeController
-                                                          .drawerHead.value),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    );
-                                  }
-                                  return Container();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //),
-                    );
+                    allUsersUIDisplayMiniWidget();
                   },
                   child: Icon(Icons.people),
                 ),
@@ -1061,11 +956,14 @@ class _YTPlayerState extends State<YTPlayer> {
                                           size: 20,
                                         ),
                                         onPressed: () {
-                                          setState(() {
-                                            controller.toggleFullScreenMode();
-                                            SystemChrome
-                                                .setEnabledSystemUIOverlays([]);
-                                          });
+                                          setState(
+                                            () {
+                                              controller.toggleFullScreenMode();
+                                              SystemChrome
+                                                  .setEnabledSystemUIOverlays(
+                                                      []);
+                                            },
+                                          );
                                         },
                                       ),
                                     ],
