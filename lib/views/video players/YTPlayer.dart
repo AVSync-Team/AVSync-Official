@@ -41,7 +41,6 @@ class YTPlayer extends StatefulWidget {
 
 // String url;
 
-
 enum ButtonEnumState { Message, Full_Screen }
 
 ButtonEnumState buttonEnumState = ButtonEnumState.Message;
@@ -81,6 +80,8 @@ class _YTPlayerState extends State<YTPlayer> {
   );
   int timestamp = 0;
   // bool dontHideControlsBool = true;
+
+  bool visible = false;
   bool hideUI = false;
   double animatedHeight = 30;
   bool shoSpeedWidget = false;
@@ -735,14 +736,14 @@ class _YTPlayerState extends State<YTPlayer> {
                                 // flex: 2,
                                 child: Container(
                                   // decoration: BoxDecoration(
-                                  //     border: Border.all(color: Colors.red)),
+                                  //     borderorder.all(color: Colors.red)),
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(
                                         () {
                                           hideUI = !hideUI;
                                           shoSpeedWidget = false;
-                                         
+                                        
                                           // animatedHeight = 0;
                                         },
                                       );
@@ -756,7 +757,7 @@ class _YTPlayerState extends State<YTPlayer> {
                               Obx(
                                 () => Visibility(
                                   maintainAnimation: true,
-                                  maintainState:true,
+                                  maintainState: true,
                                   visible: hideUI,
                                   child: Container(
                                     margin:
@@ -884,16 +885,13 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                       //seek -10 seconds
                                       if (roomLogicController.adminId.value ==
-                                          roomLogicController
-                                              .userId.obs.value)
+                                          roomLogicController.userId.obs.value)
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: controller
-                                                          .value
-                                                          .position
-                                                          .inSeconds -
+                                                  seconds: controller.value
+                                                          .position.inSeconds -
                                                       10));
                                             },
                                             child: SvgPicture.asset(
@@ -948,8 +946,7 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                       //seek forward 10
                                       if (roomLogicController.adminId.value ==
-                                          roomLogicController
-                                              .userId.obs.value)
+                                          roomLogicController.userId.obs.value)
                                         Expanded(
                                           // width: Get.width * 0.3,
                                           // color: Colors.yellow.shade100,
@@ -960,10 +957,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                                 height: 30 * heightRatio),
                                             onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: controller
-                                                          .value
-                                                          .position
-                                                          .inSeconds +
+                                                  seconds: controller.value
+                                                          .position.inSeconds +
                                                       10));
                                             },
                                           ),
@@ -979,8 +974,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                         onPressed: () {
                                           setState(
                                             () {
-                                              controller
-                                                  .toggleFullScreenMode();
+                                              controller.toggleFullScreenMode();
                                               SystemChrome
                                                   .setEnabledSystemUIOverlays(
                                                       []);
