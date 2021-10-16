@@ -6,8 +6,6 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-
-
 const String kNavigationExamplePage = '''
 <!DOCTYPE html><html>
 <head><title>Navigation Delegate Example</title></head>
@@ -45,7 +43,7 @@ class _WebShowState extends State<WebShow> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(10, 10, 10, 1),
-        title: const Text('youtube'),
+        title: const Text('Web View'),
         // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
         actions: <Widget>[
           NavigationControls(_controller.future),
@@ -58,7 +56,7 @@ class _WebShowState extends State<WebShow> {
         height: MediaQuery.of(context).size.height - 40,
         child: Builder(builder: (BuildContext context) {
           return WebView(
-            initialUrl: 'https://www.youtube.com/',
+            initialUrl: 'https://www.google.com/',
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) {
               _controller.complete(webViewController);
@@ -350,8 +348,8 @@ class NavigationControls extends StatelessWidget {
                       }
                     },
             ),
-            IconButton(
-              icon: const Icon(Icons.replay),
+              IconButton(
+                icon: const Icon(Icons.replay),
               onPressed: !webViewReady
                   ? null
                   : () {
