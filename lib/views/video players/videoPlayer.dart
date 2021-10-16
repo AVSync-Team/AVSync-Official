@@ -178,6 +178,7 @@ class _NiceVideoPlayerState extends State<NiceVideoPlayer>
       if (chatTextController.text == "") {
         chatController.isTextEmpty.value = true;
       } else {
+        
         chatController.isTextEmpty.value = false;
       }
       print('TextState: ${chatController.isTextEmpty}');

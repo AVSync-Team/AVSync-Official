@@ -41,6 +41,7 @@ class YTPlayer extends StatefulWidget {
 
 // String url;
 
+
 enum ButtonEnumState { Message, Full_Screen }
 
 ButtonEnumState buttonEnumState = ButtonEnumState.Message;
@@ -741,6 +742,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                         () {
                                           hideUI = !hideUI;
                                           shoSpeedWidget = false;
+                                         
                                           // animatedHeight = 0;
                                         },
                                       );
@@ -752,88 +754,97 @@ class _YTPlayerState extends State<YTPlayer> {
 
                               //seekbar and time stamp UI
                               Obx(
-                                () => Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        // margin: EdgeInsets.only(left: 5),
-                                        child: Text(
-                                          '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: "Consolas"),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SliderTheme(
-                                          data: SliderThemeData(
-                                            activeTrackColor: Colors.indigo,
-                                            inactiveTrackColor:
-                                                Colors.indigo.shade200,
-                                            trackShape:
-                                                RoundedRectSliderTrackShape(),
-                                            trackHeight: 2.0,
-                                            thumbShape: RoundSliderThumbShape(
-                                                enabledThumbRadius: 8.0),
-                                            thumbColor: Colors.indigoAccent,
-                                            overlayColor: Colors.indigo,
-                                            overlayShape:
-                                                RoundSliderOverlayShape(
-                                                    overlayRadius: 10.0),
-                                            tickMarkShape:
-                                                RoundSliderTickMarkShape(),
-                                            activeTickMarkColor: Colors.indigo,
-                                            inactiveTickMarkColor:
-                                                Colors.indigo,
-                                            valueIndicatorShape:
-                                                PaddleSliderValueIndicatorShape(),
-                                            valueIndicatorColor: Colors.indigo,
+                                () => Visibility(
+                                  maintainAnimation: true,
+                                  maintainState:true,
+                                  visible: hideUI,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          // margin: EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: "Consolas"),
                                           ),
-                                          child: Slider(
-                                            // activeColor:
-                                            //     Color.fromRGBO(50, 60, 120, 0.5),
+                                        ),
+                                        Expanded(
+                                          child: SliderTheme(
+                                            data: SliderThemeData(
+                                              activeTrackColor: Colors.indigo,
+                                              inactiveTrackColor:
+                                                  Colors.indigo.shade200,
+                                              trackShape:
+                                                  RoundedRectSliderTrackShape(),
+                                              trackHeight: 2.0,
+                                              thumbShape: RoundSliderThumbShape(
+                                                  enabledThumbRadius: 8.0),
+                                              thumbColor: Colors.indigoAccent,
+                                              overlayColor: Colors.indigo,
+                                              overlayShape:
+                                                  RoundSliderOverlayShape(
+                                                      overlayRadius: 10.0),
+                                              tickMarkShape:
+                                                  RoundSliderTickMarkShape(),
+                                              activeTickMarkColor:
+                                                  Colors.indigo,
+                                              inactiveTickMarkColor:
+                                                  Colors.indigo,
+                                              valueIndicatorShape:
+                                                  PaddleSliderValueIndicatorShape(),
+                                              valueIndicatorColor:
+                                                  Colors.indigo,
+                                            ),
+                                            child: Slider(
+                                              // activeColor:
+                                              //     Color.fromRGBO(50, 60, 120, 0.5),
 
-                                            value: roomLogicController
-                                                .videoPosition.value.inSeconds
-                                                .toDouble(),
-                                            onChanged: (roomLogicController
-                                                        .adminId.value ==
-                                                    roomLogicController
-                                                        .userId.obs.value)
-                                                ? (value) {
-                                                    roomLogicController
-                                                            .videoPosition
-                                                            .value =
-                                                        Duration(
-                                                            seconds:
-                                                                value.toInt());
-                                                    controller.seekTo(Duration(
-                                                        seconds:
-                                                            value.toInt()));
-                                                  }
-                                                : null,
-                                            min: 0.0,
-                                            max: controller
-                                                    .metadata.duration.inSeconds
-                                                    .toDouble() +
-                                                5.0,
+                                              value: roomLogicController
+                                                  .videoPosition.value.inSeconds
+                                                  .toDouble(),
+                                              onChanged: (roomLogicController
+                                                          .adminId.value ==
+                                                      roomLogicController
+                                                          .userId.obs.value)
+                                                  ? (value) {
+                                                      roomLogicController
+                                                              .videoPosition
+                                                              .value =
+                                                          Duration(
+                                                              seconds: value
+                                                                  .toInt());
+                                                      controller.seekTo(
+                                                          Duration(
+                                                              seconds: value
+                                                                  .toInt()));
+                                                    }
+                                                  : null,
+                                              min: 0.0,
+                                              max: controller.metadata.duration
+                                                      .inSeconds
+                                                      .toDouble() +
+                                                  5.0,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Container(
-                                        // margin: EdgeInsets.only(right: 5),
-                                        child: Text(
-                                          '${controller.metadata.duration.toString().substring(0, 7)}',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: "Consolas",
+                                        Container(
+                                          // margin: EdgeInsets.only(right: 5),
+                                          child: Text(
+                                            '${controller.metadata.duration.toString().substring(0, 7)}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: "Consolas",
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -873,13 +884,16 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                       //seek -10 seconds
                                       if (roomLogicController.adminId.value ==
-                                          roomLogicController.userId.obs.value)
+                                          roomLogicController
+                                              .userId.obs.value)
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: controller.value
-                                                          .position.inSeconds -
+                                                  seconds: controller
+                                                          .value
+                                                          .position
+                                                          .inSeconds -
                                                       10));
                                             },
                                             child: SvgPicture.asset(
@@ -934,7 +948,8 @@ class _YTPlayerState extends State<YTPlayer> {
 
                                       //seek forward 10
                                       if (roomLogicController.adminId.value ==
-                                          roomLogicController.userId.obs.value)
+                                          roomLogicController
+                                              .userId.obs.value)
                                         Expanded(
                                           // width: Get.width * 0.3,
                                           // color: Colors.yellow.shade100,
@@ -945,8 +960,10 @@ class _YTPlayerState extends State<YTPlayer> {
                                                 height: 30 * heightRatio),
                                             onTap: () {
                                               controller.seekTo(Duration(
-                                                  seconds: controller.value
-                                                          .position.inSeconds +
+                                                  seconds: controller
+                                                          .value
+                                                          .position
+                                                          .inSeconds +
                                                       10));
                                             },
                                           ),
@@ -962,7 +979,8 @@ class _YTPlayerState extends State<YTPlayer> {
                                         onPressed: () {
                                           setState(
                                             () {
-                                              controller.toggleFullScreenMode();
+                                              controller
+                                                  .toggleFullScreenMode();
                                               SystemChrome
                                                   .setEnabledSystemUIOverlays(
                                                       []);
