@@ -191,6 +191,7 @@ class _YTPlayerState extends State<YTPlayer> {
         Navigator.pop(context);
         // controller.seekTo(Duration(seconds: 0));
         Navigator.pop(context);
+        
         return true;
       },
     );
