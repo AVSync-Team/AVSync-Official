@@ -41,6 +41,10 @@ class YTPlayer extends StatefulWidget {
 
 // String url;
 
+enum ButtonEnumState { Message, Full_Screen }
+
+ButtonEnumState buttonEnumState = ButtonEnumState.Message;
+
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 ChatController chatController = Get.put(ChatController());
 TextEditingController yturl = TextEditingController();
@@ -52,7 +56,6 @@ ScrollController chatScrollController = ScrollController();
 AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
-int buttonPressed = 1;
 
 // int position = 0;
 
@@ -619,19 +622,20 @@ class _YTPlayerState extends State<YTPlayer> {
                           width: 15,
                         ),
                         GestureDetector(
-                          child: buttonPressed == 0
+                          child: buttonEnumState == ButtonEnumState.Message
                               ? Icon(Icons.message)
                               : Icon(Icons.fullscreen),
                           onTap: () {
-                            if (buttonPressed == 1)
+                            if (buttonEnumState == ButtonEnumState.Full_Screen)
                               setState(() {
                                 //Need comments here Manav
                                 //what happens when it's zero and what happens when it's 1
-                                buttonPressed = 0;
+
+                                buttonEnumState = ButtonEnumState.Message;
                               });
                             else
                               setState(() {
-                                buttonPressed = 1;
+                                buttonEnumState = ButtonEnumState.Full_Screen;
                               });
                           },
                         ),
@@ -654,7 +658,7 @@ class _YTPlayerState extends State<YTPlayer> {
             children: [
               SizedBox(
                   height: phoneOrientation == Orientation.portrait &&
-                          buttonPressed == 0
+                          buttonEnumState == ButtonEnumState.Message
                       ? 200
                       : 0),
               Container(
@@ -983,7 +987,7 @@ class _YTPlayerState extends State<YTPlayer> {
               //this is the chat display part of code
               //so if the buttonPressed == 1 then thos these UIs ok got it Manav
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  buttonEnumState == ButtonEnumState.Full_Screen)
                 Expanded(
                   child: ChatListViewWidget(
                       // chatWidth: 200,
@@ -993,7 +997,7 @@ class _YTPlayerState extends State<YTPlayer> {
               //send button
               //and textinput widget
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  buttonEnumState == ButtonEnumState.Full_Screen)
                 ChatSend(
                     chatHeight: 50,
                     chatTextController: chatTextController,
