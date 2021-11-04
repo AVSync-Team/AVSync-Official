@@ -2,13 +2,11 @@ import 'dart:async';
 import 'package:VideoSync/controllers/betterController.dart';
 import 'package:VideoSync/controllers/chat.dart';
 import 'package:VideoSync/controllers/roomLogic.dart';
-import 'package:VideoSync/controllers/themeData.dart';
 import 'package:VideoSync/controllers/ytPlayercontroller.dart';
 import 'package:VideoSync/video_manager/photoLibMain.dart';
 import 'package:VideoSync/views/video%20players/YTPlayer.dart';
 import 'package:VideoSync/views/createRoom.dart';
 import 'package:VideoSync/views/video%20players/anyPlayer.dart';
-import 'package:VideoSync/views/video%20players/videoPlayer.dart';
 import 'package:VideoSync/views/webShow.dart';
 import 'package:VideoSync/widgets/chat_list_view.dart';
 import 'package:VideoSync/widgets/chat_send_.dart';
@@ -17,8 +15,6 @@ import 'package:VideoSync/widgets/custom_namebar.dart';
 import 'package:VideoSync/widgets/video_started_widget.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,9 +46,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
   void initState() {
     super.initState();
 
-    roomLogicController
-        .adminIdd(firebaseId: roomLogicController.roomFireBaseId)
-        .listen((event) {
+    roomLogicController.adminIdd(firebaseId: roomLogicController.roomFireBaseId).listen((event) {
       print("adminId");
       roomLogicController.adminId.value = event.snapshot.value;
       setState(() {});
@@ -60,32 +54,23 @@ class _WelcomScreenState extends State<WelcomScreen> {
     //checks the room status if status = 0 , then room is kicked
     // status = 1,then room is fine
 
-    roomLogicController
-        .ytlink(firebaseId: roomLogicController.roomFireBaseId)
-        .listen((event) {
+    roomLogicController.ytlink(firebaseId: roomLogicController.roomFireBaseId).listen((event) {
       roomLogicController.ytURL.value = event.snapshot.value;
       yturl.text = roomLogicController.ytURL.value;
     });
-    roomLogicController
-        .roomStatus(firebaseId: roomLogicController.roomFireBaseId)
-        .listen((event) {
+    roomLogicController.roomStatus(firebaseId: roomLogicController.roomFireBaseId).listen((event) {
       int x = event.snapshot.value;
-      if (x == 0 &&
-          !(roomLogicController.adminId.value ==
-              roomLogicController.userId.obs.value)) {
+      if (x == 0 && !(roomLogicController.adminId.value == roomLogicController.userId.obs.value)) {
         if (Get.context.orientation == Orientation.landscape)
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
         Get.offAll(CreateRoomScreen());
-        buildShowDialog(context,
-            title: "Room Deleted",
-            content: "The admin has deleted the room :(");
+        buildShowDialog(context, title: "Room Deleted", content: "The admin has deleted the room :(");
       }
     });
 
     //checks the status status if status = 0 , then user is kicked
     // status = 1,then user is fine
-    if (!(roomLogicController.adminId.value ==
-        roomLogicController.userId.obs.value))
+    if (!(roomLogicController.adminId.value == roomLogicController.userId.obs.value))
       roomLogicController
           .userStatus(
         firebaseId: roomLogicController.roomFireBaseId,
@@ -94,16 +79,11 @@ class _WelcomScreenState extends State<WelcomScreen> {
           .listen((event) {
         int x = event.snapshot.value;
 
-        if (x == 0 &&
-            !(roomLogicController.adminId.value ==
-                roomLogicController.userId.obs.value)) {
+        if (x == 0 && !(roomLogicController.adminId.value == roomLogicController.userId.obs.value)) {
           if (Get.context.orientation == Orientation.landscape)
-            SystemChrome.setPreferredOrientations(
-                [DeviceOrientation.portraitUp]);
+            SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
           Get.offAll(CreateRoomScreen());
-          buildShowDialog(context,
-              title: "Kicked from room",
-              content: "The admin has kicked you from the room :(");
+          buildShowDialog(context, title: "Kicked from room", content: "The admin has kicked you from the room :(");
         }
       });
     listenToTextInputStateChanges();
@@ -132,7 +112,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20),
-              Text('Enter the Link', style: TextStyle(fontSize: 20)),
+              Text('Video Link', style: TextStyle(fontSize: 20)),
               Container(
                 margin: EdgeInsets.only(top: heightRatio * 20),
                 height: heightRatio * 80,
@@ -148,7 +128,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: new BorderSide(
+                        borderSide: BorderSide(
                           color: Colors.red,
                           width: 1,
                         ),
@@ -163,10 +143,8 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     children: [
                       Spacer(),
                       //mp4 player
-                      if (ytStateController.linkType.value ==
-                              LinkType.BrowserLink &&
-                          ytStateController.linkValidity.value ==
-                              LinkValidity.Valid)
+                      if (ytStateController.linkType.value == LinkType.BrowserLink &&
+                          ytStateController.linkValidity.value == LinkValidity.Valid)
                         CustomButton(
                           function: () async {
                             //load the YT URL
@@ -183,8 +161,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       SizedBox(width: 8),
                       //yt video button
                       if (ytStateController.linkType.value == LinkType.YTLink &&
-                          ytStateController.linkValidity.value ==
-                              LinkValidity.Valid)
+                          ytStateController.linkValidity.value == LinkValidity.Valid)
                         CustomButton(
                           function: () async {
                             //load the YT URL
@@ -192,7 +169,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                           },
                           buttonColor: Colors.redAccent,
                           content: 'YouTube Video',
-                          contentSize: 10,
+                          contentSize: 20,
                           cornerRadius: 10,
                           height: 40,
                           textColor: Colors.white,
@@ -231,19 +208,16 @@ class _WelcomScreenState extends State<WelcomScreen> {
 
   //opens the local player
   void localMediaPlayerFileSelectionBottomSheet() {
-    Get.defaultDialog(
-        title: 'Local Media',
-        middleText: "Search for a video in your local storage",
-        actions: [
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
+    Get.defaultDialog(title: 'Local Media', middleText: "Search for a video in your local storage", actions: [
+      TextButton(
+        onPressed: () async {
+          Navigator.of(context).pop();
 
-              Get.to(PhotoLibMain());
-            },
-            child: Text('Search'),
-          ),
-        ]);
+          Get.to(PhotoLibMain());
+        },
+        child: Text('Search'),
+      ),
+    ]);
   }
 
   void snackbar(String name, String message) {
@@ -259,9 +233,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
     FocusNode currenFocus = FocusScope.of(context);
     return WillPopScope(
       onWillPop: () async {
-        await buildShowDialog(context,
-            content: "Do you wish to go back ",
-            title: "Leaving room", customFunction: () {
+        await buildShowDialog(context, content: "Do you wish to go back ", title: "Leaving room", customFunction: () {
           setState(() {
             leaveRoom = true;
           });
@@ -274,8 +246,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
         return leaveRoom;
       },
       child: AnimatedContainer(
-        transform: Matrix4.translationValues(xOffset, yOffset, zOffset)
-          ..scale(scaleFactor),
+        transform: Matrix4.translationValues(xOffset, yOffset, zOffset)..scale(scaleFactor),
         duration: Duration(milliseconds: 350),
         decoration: BoxDecoration(
           color: themeController.primaryColor.value,
@@ -284,9 +255,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor: isDrawerOpen
-                ? Colors.transparent
-                : Color.fromRGBO(41, 39, 39, 1),
+            backgroundColor: isDrawerOpen ? Colors.transparent : Color.fromRGBO(41, 39, 39, 1),
             elevation: 0,
             leading: isDrawerOpen
                 ? IconButton(
@@ -304,8 +273,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       });
                     })
                 : IconButton(
-                    icon: !(roomLogicController.adminId.value ==
-                            roomLogicController.userId.obs.value)
+                    icon: !(roomLogicController.adminId.value == roomLogicController.userId.obs.value)
                         ? Icon(Icons.exit_to_app_rounded)
                         : Icon(Icons.delete),
                     onPressed: () {
@@ -323,8 +291,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                 builder: (context) => IconButton(
                   icon: Icon(Icons.chat_bubble),
                   onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                 ),
               )
             ],
@@ -355,10 +322,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                     ),
                   ),
                   Expanded(child: ChatListViewWidget()),
-                  ChatSend(
-                      chatHeight: 50,
-                      chatTextController: chatTextController,
-                      currenFocus: currenFocus)
+                  ChatSend(chatHeight: 50, chatTextController: chatTextController, currenFocus: currenFocus)
                 ],
               ),
             ),
@@ -375,8 +339,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                   // SizedBox(
                   //   height: 10 * heightRatio,
                   StreamBuilder(
-                    stream: roomLogicController.ytVideoLoadedStatus(
-                        firebaseId: roomLogicController.roomFireBaseId),
+                    stream: roomLogicController.ytVideoLoadedStatus(firebaseId: roomLogicController.roomFireBaseId),
                     builder: (BuildContext ctx, AsyncSnapshot<Event> snapshot) {
                       if (snapshot.hasData) {
                         //now if video not loaded then don't show anything
@@ -394,8 +357,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       return Container();
                     },
                   ),
-                  Text('Room Code',
-                      style: TextStyle(fontSize: 15, color: Colors.white)),
+                  Text('Room Code', style: TextStyle(fontSize: 15, color: Colors.white)),
                   SizedBox(height: 10),
                   GetX<RoomLogicController>(builder: (controller) {
                     return Container(
@@ -412,9 +374,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(width: 5),
-                          Text(' ${controller.roomId.obs.value} ',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
+                          Text(' ${controller.roomId.obs.value} ', style: TextStyle(fontSize: 20, color: Colors.white)),
                           IconButton(
                             // iconSize: 10,
                             onPressed: () {
@@ -422,8 +382,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                               FlutterClipboard.copy(
                                       "Hey !\nI have downloaded this awesome app where you can watch videos with friends and chat with them online !! \nJoin my room here : ${controller.roomId.obs.value}")
                                   .then(
-                                (value) => Get.snackbar("Room Id Copied",
-                                    "Share your room id with friend !!",
+                                (value) => Get.snackbar("Room Id Copied", "Share your room id with friend !!",
                                     backgroundColor: Colors.black38,
                                     snackPosition: SnackPosition.TOP,
                                     colorText: Colors.white,
@@ -505,8 +464,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                             Navigator.of(context).pop();
                                             youTubeBottomSheet();
                                             await Get.to(WebShow());
-                                            FlutterClipboard.paste().then(
-                                                (value) => yturl.text = value);
+                                            FlutterClipboard.paste().then((value) => yturl.text = value);
                                           },
                                           child: Text('Browse for link'),
                                         ),
@@ -537,18 +495,14 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 children: [
                                   Spacer(),
                                   StreamBuilder(
-                                      stream:
-                                          roomLogicController.adminBsdkKaNaam(
-                                              firebaseId: roomLogicController
-                                                  .roomFireBaseId),
+                                      stream: roomLogicController.adminBsdkKaNaam(
+                                          firebaseId: roomLogicController.roomFireBaseId),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Container(
                                             child: Text(
                                               '${snapshot.data.snapshot.value}',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25),
+                                              style: TextStyle(color: Colors.white, fontSize: 25),
                                             ),
                                           );
                                         } else if (snapshot.hasError) {
@@ -557,8 +511,7 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                         return Text('');
                                       }),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, bottom: 0),
+                                    padding: const EdgeInsets.only(left: 10, bottom: 0),
                                     child: SvgPicture.asset(
                                       'lib/assets/svgs/crown.svg',
                                       height: 27 * heightRatio,
@@ -581,12 +534,10 @@ class _WelcomScreenState extends State<WelcomScreen> {
                       width: 300 * widthRatio,
                       // color: Colors.red,
                       child: StreamBuilder(
-                        stream: rishabhController.tester(
-                            firebaseId: roomLogicController.roomFireBaseId),
+                        stream: rishabhController.tester(firebaseId: roomLogicController.roomFireBaseId),
                         builder: (ctx, event) {
                           if (event.hasData) {
-                            return NotificationListener<
-                                OverscrollIndicatorNotification>(
+                            return NotificationListener<OverscrollIndicatorNotification>(
                               onNotification: (overscroll) {
                                 overscroll.disallowGlow();
                                 return null;
@@ -601,11 +552,9 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                 itemBuilder: (ctx, i) {
                                   print('chut: ${event.data.snapshot.value}');
                                   return CustomNameBar(
-                                    userName: event.data.snapshot.value.values
-                                        .toList()[i]['name'],
+                                    userName: event.data.snapshot.value.values.toList()[i]['name'],
                                     roomController: roomLogicController,
-                                    userID: event.data.snapshot.value.values
-                                        .toList()[i]['id'],
+                                    userID: event.data.snapshot.value.values.toList()[i]['id'],
                                     event: event,
                                     index: i,
                                     widthRatio: widthRatio,
@@ -615,24 +564,19 @@ class _WelcomScreenState extends State<WelcomScreen> {
                                     textSize: 25,
                                   );
                                 },
-                                itemCount: event.data.snapshot.value.values
-                                    .toList()
-                                    .length,
+                                itemCount: event.data.snapshot.value.values.toList().length,
                               ),
                             );
-                          } else if (event.connectionState ==
-                              ConnectionState.waiting) {
+                          } else if (event.connectionState == ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color>(
-                                    themeController.drawerHead.value),
+                                valueColor: AlwaysStoppedAnimation<Color>(themeController.drawerHead.value),
                               ),
                             );
                           } else {
                             return Center(
                                 child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  themeController.drawerHead.value),
+                              valueColor: AlwaysStoppedAnimation<Color>(themeController.drawerHead.value),
                             ));
                           }
                         },
@@ -649,17 +593,13 @@ class _WelcomScreenState extends State<WelcomScreen> {
   }
 
   Future buildShowDialog(BuildContext context,
-      {String userName,
-      String title,
-      String content,
-      Function customFunction}) {
+      {String userName, String title, String content, Function customFunction}) {
     return showDialog(
       context: context,
       builder: (context) => Container(
-        child: new AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: new Text('$title', style: TextStyle(color: Colors.blueAccent)),
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text('$title', style: TextStyle(color: Colors.blueAccent)),
           content: Text("$content"),
           actions: <Widget>[
             CustomButton(
