@@ -743,7 +743,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                         () {
                                           hideUI = !hideUI;
                                           shoSpeedWidget = false;
-
+                                        
                                           // animatedHeight = 0;
                                         },
                                       );
@@ -851,7 +851,7 @@ class _YTPlayerState extends State<YTPlayer> {
                               ),
 
                               //For all the controls
-                              Container(
+                              AnimatedContainer(
                                 decoration: BoxDecoration(
                                   color: Color.fromRGBO(25, 25, 25, 0.66),
                                   // border: Border.all(color: Colors.cyan)
@@ -861,7 +861,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                 //     color: Colors.grey,
                                 //     border: Border.all(color: Colors.cyan)),
                                 // padding: EdgeInsets.only(bottom: 20),
-                                // duration: Duration(milliseconds: 500),
+                                duration: Duration(milliseconds: 500),
                                 height: hideUI ? 40 : 0,
                                 // width: hideUI ? 0 : size.width,
                                 // height: 0,

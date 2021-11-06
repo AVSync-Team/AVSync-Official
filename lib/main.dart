@@ -11,6 +11,8 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
+
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -32,6 +34,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.detached) {
+      print("appp is inactive aur in background aur dead");
       if (roomLogicController.roomFireBaseId != null) {
         roomLogicController.userLeaveRoom(
             firebaseId: roomLogicController.roomFireBaseId,
