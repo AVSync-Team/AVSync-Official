@@ -16,6 +16,7 @@ import 'package:VideoSync/widgets/custom_button.dart';
 // import 'package:VideoSync/widgets/chat_widget.dart';
 // import 'package:VideoSync/widgets/custom_button.dart';
 import 'package:VideoSync/widgets/custom_namebar.dart';
+import 'package:flutter/services.dart';
 import '../webShow.dart';
 import 'package:clipboard/clipboard.dart';
 //import 'package:VideoSync/widgets/custom_namebar.dart';
@@ -40,6 +41,10 @@ class YTPlayer extends StatefulWidget {
 
 // String url;
 
+enum ButtonEnumState { Message, Full_Screen }
+
+ButtonEnumState buttonEnumState = ButtonEnumState.Message;
+
 RoomLogicController roomLogicController = Get.put(RoomLogicController());
 ChatController chatController = Get.put(ChatController());
 TextEditingController yturl = TextEditingController();
@@ -51,7 +56,6 @@ ScrollController chatScrollController = ScrollController();
 AnimationController animationController;
 final double heightRatio = Get.height / 823;
 final double widthRatio = Get.width / 411;
-int buttonPressed = 1;
 
 // int position = 0;
 
@@ -76,6 +80,8 @@ class _YTPlayerState extends State<YTPlayer> {
   );
   int timestamp = 0;
   // bool dontHideControlsBool = true;
+
+  bool visible = false;
   bool hideUI = false;
   double animatedHeight = 30;
   bool shoSpeedWidget = false;
@@ -114,8 +120,7 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
-
-  //updtaes the ytlink to be played
+    //updtaes the ytlink to be played
     roomLogicController
         .ytlink(firebaseId: roomLogicController.roomFireBaseId)
         .listen((event) {
@@ -123,7 +128,6 @@ class _YTPlayerState extends State<YTPlayer> {
       controller
           .load(YoutubePlayer.convertUrlToId(roomLogicController.ytURL.value));
     });
-
 
     //checks play/pause state and according plays and pauses the host's video
     firebaseDatabase
@@ -160,8 +164,7 @@ class _YTPlayerState extends State<YTPlayer> {
       }
     });
 
-
-    //for chat ui updation 
+    //for chat ui updation
     listenToTextInputStateChanges();
   }
 
@@ -193,6 +196,7 @@ class _YTPlayerState extends State<YTPlayer> {
         Navigator.pop(context);
         // controller.seekTo(Duration(seconds: 0));
         Navigator.pop(context);
+        SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         return true;
       },
     );
@@ -268,7 +272,7 @@ class _YTPlayerState extends State<YTPlayer> {
     );
   }
 
-  youWebShe() {
+  youtubeWebShowDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -279,94 +283,7 @@ class _YTPlayerState extends State<YTPlayer> {
         });
   }
 
-  youBotShe() {
-    // Get.bottomSheet(
-    //   Container(
-    //     width: double.infinity,
-    //     height: heightRatio * 250,
-    //     child: Container(
-    //       color: Colors.white,
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //           SizedBox(height: 20),
-    //           Text('Enter the Youtube Link', style: TextStyle(fontSize: 20)),
-    //           Container(
-    //             margin: EdgeInsets.only(top: heightRatio * 20),
-    //             height: heightRatio * 80,
-    //             width: widthRatio * 300,
-    //             child: TextField(
-    //               controller: yturl,
-    //               onChanged: (String value) {
-    //                 setState(() {
-    //                   ytStateController.checkYotutTubeUrl(ytURl: value);
-    //                 });
-    //               },
-    //               cursorColor: Colors.red,
-    //               decoration: InputDecoration(
-    //                 border: OutlineInputBorder(
-    //                   borderRadius: BorderRadius.circular(20),
-    //                 ),
-    //                 focusedBorder: OutlineInputBorder(
-    //                     borderSide: new BorderSide(
-    //                       color: Colors.red,
-    //                       width: 1,
-    //                     ),
-    //                     borderRadius: BorderRadius.all(Radius.circular(20))),
-    //               ),
-    //             ),
-    //           ),
-    //           Container(
-    //             margin: EdgeInsets.only(top: heightRatio * 10),
-    //             child: Obx(() => ytStateController.linkValidity.value ==
-    //                     LinkValidity.Valid
-    //                 ? RaisedButton(
-    //                     color: Colors.green,
-    //                     shape: StadiumBorder(),
-    //                     onPressed: () async {
-    //                       yturl.text = roomLogicController.ytURL.value;
-
-    //                       Navigator.pop(context);
-    //                       await Future.delayed(Duration(seconds: 1));
-    //                       //send the ytlink to the db
-    //                       roomLogicController.sendYtLink(
-    //                           ytlink: roomLogicController.ytURL.value);
-    //                       roomLogicController.sendYtStatus(status: 'loaded');
-
-    //                       controller.load(YoutubePlayer.convertUrlToId(
-    //                           roomLogicController.ytURL.value));
-
-    //                       //send the message of new youtube link added
-    //                       chatController.sendMessageCloudFireStore(
-    //                         message:
-    //                             "${roomLogicController.userName} has started the video\n${roomLogicController.ytURL.value}",
-    //                         roomId: roomLogicController.roomFireBaseId,
-    //                         sentBy: "YT Link",
-    //                         tag: "YTLINK",
-    //                         userId: "696969",
-    //                         status: "joined",
-    //                       );
-    //                       // Navigator.pop(
-    //                       //     context);
-    //                     },
-    //                     child: Text(
-    //                       'Play',
-    //                       style: TextStyle(color: Colors.white),
-    //                     ),
-    //                   )
-    //                 : Container(
-    //                     child: Text(
-    //                       "Link not Valid !",
-    //                       style: TextStyle(color: Colors.red),
-    //                     ),
-    //                   )),
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //     //),
-    //   ),
-    // );
+  youtubeBottomSheetDialog() {
     Get.bottomSheet(
       Container(
         width: double.infinity,
@@ -480,16 +397,16 @@ class _YTPlayerState extends State<YTPlayer> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              youBotShe();
+              youtubeBottomSheetDialog();
             },
             child: Text('Link input'),
           ),
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              youBotShe();
+              youtubeBottomSheetDialog();
               //await Get.to(WebShow());
-              youWebShe();
+              youtubeWebShowDialog();
               yturl.text = roomLogicController.ytURL.value;
               FlutterClipboard.paste().then((value) {
                 print(value);
@@ -499,6 +416,109 @@ class _YTPlayerState extends State<YTPlayer> {
             child: Text('Get the link'),
           ),
         ]);
+  }
+
+  allUsersUIDisplayMiniWidget() {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.only(left: 20, right: 20),
+        color: Color.fromRGBO(10, 10, 10, 0.9),
+        width: double.infinity,
+        height: 300,
+        // color: Colors.red,
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                height: 40,
+                width: double.infinity,
+                child: Text(
+                  'All Users',
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.8),
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 250,
+              child: FutureBuilder(
+                future: Future.delayed(Duration(seconds: 1)),
+                builder: (ctx, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return StreamBuilder(
+                      stream: rishabhController.tester(
+                          firebaseId: roomLogicController.roomFireBaseId),
+                      builder: (ctx, event) {
+                        if (event.hasData) {
+                          return NotificationListener<
+                              OverscrollIndicatorNotification>(
+                            onNotification: (overscroll) {
+                              overscroll.disallowGlow();
+                              return null;
+                            },
+                            child: ListView.separated(
+                              scrollDirection: Axis.vertical,
+                              separatorBuilder: (ctx, i) {
+                                return SizedBox(
+                                  width: 5,
+                                );
+                              },
+                              itemBuilder: (ctx, i) {
+                                print('chut: ${event.data.snapshot.value}');
+                                return Container(
+                                  width: 80,
+                                  height: 60,
+                                  child: CustomNameBar(
+                                    userName: event.data.snapshot.value.values
+                                        .toList()[i]['name'],
+                                    roomController: roomLogicController,
+                                    userID: event.data.snapshot.value.values
+                                        .toList()[i]['id'],
+                                    event: event,
+                                    index: i,
+                                    widthRatio: widthRatio,
+                                    heightRatio: heightRatio,
+                                    imageSize: 35,
+                                    textSize: 17,
+                                  ),
+                                );
+                              },
+                              itemCount: event.data.snapshot.value.values
+                                  .toList()
+                                  .length,
+                            ),
+                          );
+                        } else if (event.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  themeController.drawerHead.value),
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  themeController.drawerHead.value),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      //),
+    );
   }
 
   // final snackBar = SnackBar(
@@ -526,8 +546,6 @@ class _YTPlayerState extends State<YTPlayer> {
         if (phoneOrientation == Orientation.landscape)
           controller.toggleFullScreenMode();
 
-        // rishabhController.sendPlayerStatus(
-        //     status: false, firebaseId: roomLogicController.roomFireBaseId);
         return showAlertDialog(context);
       },
       child: Scaffold(
@@ -538,126 +556,7 @@ class _YTPlayerState extends State<YTPlayer> {
                 elevation: 0,
                 leading: GestureDetector(
                   onTap: () {
-                    Get.bottomSheet(
-                      //Expanded(
-                      // margin: EdgeInsets.only(left: 20),
-                      // color: Colors.blue.withOpacity(0.1),
-                      // height: heightRatio * 300,
-                      // width: widthRatio * 200,
-                      // height: 500,
-
-                      Container(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        color: Color.fromRGBO(10, 10, 10, 0.9),
-                        width: double.infinity,
-                        height: 300,
-                        // color: Colors.red,
-                        child: Column(
-                          children: <Widget>[
-                            Center(
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 40,
-                                width: double.infinity,
-                                child: Text(
-                                  'All Users',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 0.8),
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 250,
-                              child: FutureBuilder(
-                                future: Future.delayed(Duration(seconds: 1)),
-                                builder: (ctx, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    return StreamBuilder(
-                                      stream: rishabhController.tester(
-                                          firebaseId: roomLogicController
-                                              .roomFireBaseId),
-                                      builder: (ctx, event) {
-                                        if (event.hasData) {
-                                          return NotificationListener<
-                                              OverscrollIndicatorNotification>(
-                                            onNotification: (overscroll) {
-                                              overscroll.disallowGlow();
-                                              return null;
-                                            },
-                                            child: ListView.separated(
-                                              scrollDirection: Axis.vertical,
-                                              separatorBuilder: (ctx, i) {
-                                                return SizedBox(
-                                                  width: 5,
-                                                );
-                                              },
-                                              itemBuilder: (ctx, i) {
-                                                print(
-                                                    'chut: ${event.data.snapshot.value}');
-                                                return Container(
-                                                  width: 80,
-                                                  height: 60,
-                                                  child: CustomNameBar(
-                                                    userName: event.data
-                                                        .snapshot.value.values
-                                                        .toList()[i]['name'],
-                                                    roomController:
-                                                        roomLogicController,
-                                                    userID: event.data.snapshot
-                                                        .value.values
-                                                        .toList()[i]['id'],
-                                                    event: event,
-                                                    index: i,
-                                                    widthRatio: widthRatio,
-                                                    heightRatio: heightRatio,
-                                                    imageSize: 35,
-                                                    textSize: 17,
-                                                  ),
-                                                );
-                                              },
-                                              itemCount: event
-                                                  .data.snapshot.value.values
-                                                  .toList()
-                                                  .length,
-                                            ),
-                                          );
-                                        } else if (event.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                          Color>(
-                                                      themeController
-                                                          .drawerHead.value),
-                                            ),
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                          Color>(
-                                                      themeController
-                                                          .drawerHead.value),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    );
-                                  }
-                                  return Container();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //),
-                    );
+                    allUsersUIDisplayMiniWidget();
                   },
                   child: Icon(Icons.people),
                 ),
@@ -725,19 +624,20 @@ class _YTPlayerState extends State<YTPlayer> {
                           width: 15,
                         ),
                         GestureDetector(
-                          child: buttonPressed == 0
+                          child: buttonEnumState == ButtonEnumState.Message
                               ? Icon(Icons.message)
                               : Icon(Icons.fullscreen),
                           onTap: () {
-                            if (buttonPressed == 1)
+                            if (buttonEnumState == ButtonEnumState.Full_Screen)
                               setState(() {
                                 //Need comments here Manav
                                 //what happens when it's zero and what happens when it's 1
-                                buttonPressed = 0;
+
+                                buttonEnumState = ButtonEnumState.Message;
                               });
                             else
                               setState(() {
-                                buttonPressed = 1;
+                                buttonEnumState = ButtonEnumState.Full_Screen;
                               });
                           },
                         ),
@@ -760,7 +660,7 @@ class _YTPlayerState extends State<YTPlayer> {
             children: [
               SizedBox(
                   height: phoneOrientation == Orientation.portrait &&
-                          buttonPressed == 0
+                          buttonEnumState == ButtonEnumState.Message
                       ? 200
                       : 0),
               Container(
@@ -836,13 +736,14 @@ class _YTPlayerState extends State<YTPlayer> {
                                 // flex: 2,
                                 child: Container(
                                   // decoration: BoxDecoration(
-                                  //     border: Border.all(color: Colors.red)),
+                                  //     borderorder.all(color: Colors.red)),
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(
                                         () {
                                           hideUI = !hideUI;
                                           shoSpeedWidget = false;
+
                                           // animatedHeight = 0;
                                         },
                                       );
@@ -854,94 +755,103 @@ class _YTPlayerState extends State<YTPlayer> {
 
                               //seekbar and time stamp UI
                               Obx(
-                                () => Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        // margin: EdgeInsets.only(left: 5),
-                                        child: Text(
-                                          '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: "Consolas"),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SliderTheme(
-                                          data: SliderThemeData(
-                                            activeTrackColor: Colors.indigo,
-                                            inactiveTrackColor:
-                                                Colors.indigo.shade200,
-                                            trackShape:
-                                                RoundedRectSliderTrackShape(),
-                                            trackHeight: 2.0,
-                                            thumbShape: RoundSliderThumbShape(
-                                                enabledThumbRadius: 8.0),
-                                            thumbColor: Colors.indigoAccent,
-                                            overlayColor: Colors.indigo,
-                                            overlayShape:
-                                                RoundSliderOverlayShape(
-                                                    overlayRadius: 10.0),
-                                            tickMarkShape:
-                                                RoundSliderTickMarkShape(),
-                                            activeTickMarkColor: Colors.indigo,
-                                            inactiveTickMarkColor:
-                                                Colors.indigo,
-                                            valueIndicatorShape:
-                                                PaddleSliderValueIndicatorShape(),
-                                            valueIndicatorColor: Colors.indigo,
+                                () => Visibility(
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  visible: hideUI,
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          // margin: EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            '${roomLogicController.videoPosition.value.toString().substring(0, 7)}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: "Consolas"),
                                           ),
-                                          child: Slider(
-                                            // activeColor:
-                                            //     Color.fromRGBO(50, 60, 120, 0.5),
+                                        ),
+                                        Expanded(
+                                          child: SliderTheme(
+                                            data: SliderThemeData(
+                                              activeTrackColor: Colors.indigo,
+                                              inactiveTrackColor:
+                                                  Colors.indigo.shade200,
+                                              trackShape:
+                                                  RoundedRectSliderTrackShape(),
+                                              trackHeight: 2.0,
+                                              thumbShape: RoundSliderThumbShape(
+                                                  enabledThumbRadius: 8.0),
+                                              thumbColor: Colors.indigoAccent,
+                                              overlayColor: Colors.indigo,
+                                              overlayShape:
+                                                  RoundSliderOverlayShape(
+                                                      overlayRadius: 10.0),
+                                              tickMarkShape:
+                                                  RoundSliderTickMarkShape(),
+                                              activeTickMarkColor:
+                                                  Colors.indigo,
+                                              inactiveTickMarkColor:
+                                                  Colors.indigo,
+                                              valueIndicatorShape:
+                                                  PaddleSliderValueIndicatorShape(),
+                                              valueIndicatorColor:
+                                                  Colors.indigo,
+                                            ),
+                                            child: Slider(
+                                              // activeColor:
+                                              //     Color.fromRGBO(50, 60, 120, 0.5),
 
-                                            value: roomLogicController
-                                                .videoPosition.value.inSeconds
-                                                .toDouble(),
-                                            onChanged: (roomLogicController
-                                                        .adminId.value ==
-                                                    roomLogicController
-                                                        .userId.obs.value)
-                                                ? (value) {
-                                                    roomLogicController
-                                                            .videoPosition
-                                                            .value =
-                                                        Duration(
-                                                            seconds:
-                                                                value.toInt());
-                                                    controller.seekTo(Duration(
-                                                        seconds:
-                                                            value.toInt()));
-                                                  }
-                                                : null,
-                                            min: 0.0,
-                                            max: controller
-                                                    .metadata.duration.inSeconds
-                                                    .toDouble() +
-                                                5.0,
+                                              value: roomLogicController
+                                                  .videoPosition.value.inSeconds
+                                                  .toDouble(),
+                                              onChanged: (roomLogicController
+                                                          .adminId.value ==
+                                                      roomLogicController
+                                                          .userId.obs.value)
+                                                  ? (value) {
+                                                      roomLogicController
+                                                              .videoPosition
+                                                              .value =
+                                                          Duration(
+                                                              seconds: value
+                                                                  .toInt());
+                                                      controller.seekTo(
+                                                          Duration(
+                                                              seconds: value
+                                                                  .toInt()));
+                                                    }
+                                                  : null,
+                                              min: 0.0,
+                                              max: controller.metadata.duration
+                                                      .inSeconds
+                                                      .toDouble() +
+                                                  5.0,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Container(
-                                        // margin: EdgeInsets.only(right: 5),
-                                        child: Text(
-                                          '${controller.metadata.duration.toString().substring(0, 7)}',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: "Consolas",
+                                        Container(
+                                          // margin: EdgeInsets.only(right: 5),
+                                          child: Text(
+                                            '${controller.metadata.duration.toString().substring(0, 7)}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: "Consolas",
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
 
                               //For all the controls
-                              AnimatedContainer(
+                              Container(
                                 decoration: BoxDecoration(
                                   color: Color.fromRGBO(25, 25, 25, 0.66),
                                   // border: Border.all(color: Colors.cyan)
@@ -951,7 +861,7 @@ class _YTPlayerState extends State<YTPlayer> {
                                 //     color: Colors.grey,
                                 //     border: Border.all(color: Colors.cyan)),
                                 // padding: EdgeInsets.only(bottom: 20),
-                                duration: Duration(milliseconds: 500),
+                                // duration: Duration(milliseconds: 500),
                                 height: hideUI ? 40 : 0,
                                 // width: hideUI ? 0 : size.width,
                                 // height: 0,
@@ -1062,9 +972,14 @@ class _YTPlayerState extends State<YTPlayer> {
                                           size: 20,
                                         ),
                                         onPressed: () {
-                                          setState(() {
-                                            controller.toggleFullScreenMode();
-                                          });
+                                          setState(
+                                            () {
+                                              controller.toggleFullScreenMode();
+                                              SystemChrome
+                                                  .setEnabledSystemUIOverlays(
+                                                      []);
+                                            },
+                                          );
                                         },
                                       ),
                                     ],
@@ -1084,7 +999,7 @@ class _YTPlayerState extends State<YTPlayer> {
               //this is the chat display part of code
               //so if the buttonPressed == 1 then thos these UIs ok got it Manav
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  buttonEnumState == ButtonEnumState.Full_Screen)
                 Expanded(
                   child: ChatListViewWidget(
                       // chatWidth: 200,
@@ -1094,7 +1009,7 @@ class _YTPlayerState extends State<YTPlayer> {
               //send button
               //and textinput widget
               if (phoneOrientation == Orientation.portrait &&
-                  buttonPressed == 1)
+                  buttonEnumState == ButtonEnumState.Full_Screen)
                 ChatSend(
                     chatHeight: 50,
                     chatTextController: chatTextController,

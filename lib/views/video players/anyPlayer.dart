@@ -563,19 +563,20 @@ class _AnyPlayerState extends State<AnyPlayer> {
                         width: 15,
                       ),
                       GestureDetector(
-                        child: buttonPressed == 0
+                        child: buttonEnumState == ButtonEnumState.Message
                             ? Icon(Icons.message)
                             : Icon(Icons.fullscreen),
                         onTap: () {
-                          if (buttonPressed == 1)
+                          if (buttonEnumState == ButtonEnumState.Full_Screen)
                             setState(() {
                               //Need comments here Manav
                               //what happens when it's zero and what happens when it's 1
-                              buttonPressed = 0;
+
+                              buttonEnumState = ButtonEnumState.Message;
                             });
                           else
                             setState(() {
-                              buttonPressed = 1;
+                              buttonEnumState = ButtonEnumState.Full_Screen;
                             });
                         },
                       ),
@@ -591,7 +592,7 @@ class _AnyPlayerState extends State<AnyPlayer> {
           children: [
             SizedBox(
                 height: phoneOrientation == Orientation.portrait &&
-                        buttonPressed == 0
+                        buttonEnumState == ButtonEnumState.Message
                     ? 200
                     : 0),
             Container(
@@ -850,13 +851,13 @@ class _AnyPlayerState extends State<AnyPlayer> {
             //this is the chat display part of code
             //so if the buttonPressed == 1 then thos these UIs ok got it Manav
 
-            if (phoneOrientation == Orientation.portrait && buttonPressed == 1)
+            if (phoneOrientation == Orientation.portrait && buttonEnumState == ButtonEnumState.Full_Screen)
               Expanded(
                 child: ChatListViewWidget(
                     // chatWidth: 200,
                     ),
               ),
-            if (phoneOrientation == Orientation.portrait && buttonPressed == 1)
+            if (phoneOrientation == Orientation.portrait && buttonEnumState == ButtonEnumState.Full_Screen)
               ChatSend(
                   chatHeight: 50,
                   chatTextController: chatTextController,
